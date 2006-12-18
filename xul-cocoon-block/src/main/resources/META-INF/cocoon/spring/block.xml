@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans
+  http://www.springframework.org/schema/beans/spring-beans.xsd">
+  <bean id="net.lojjic.xul.xul-cocoon-block.block" class="org.apache.cocoon.blocks.BlockServlet">
+    <property name="mountPath" value="/xul-cocoon-block"/>
+    <property name="servletClass" value="org.apache.cocoon.sitemap.SitemapServlet"/>
+    <property name="blockContextURL" value="blockcontext:/xul-cocoon-block/"/>
+  </bean>
+</beans>
