@@ -12,246 +12,220 @@ import org.w3c.dom.NodeList;
 import org.w3c.dom.css.CSSStyleDeclaration;
 
 public class XULElementImpl extends ScriptableElementImpl implements XULElement {
-
-	private String id;
-	private String className;
-	private String align;
-	private String dir;
-	private String flex;
-	private String flexGroup;
-	private String ordinal;
-	private String orient;
-	private String pack;
-	private boolean hidden;
-	private boolean collapsed;
-	private String observes;
-	private String width;
-	private String height;
-	private String minWidth;
-	private String minHeight;
-	private String maxWidth;
-	private String maxHeight;
-	private String persist;
-	private String left;
-	private String top;
-	private String datasources;
-	private String ref;
-	private String tooltipText;
-	private String statusText;
-	private boolean allowEvents;
-	private CSSStyleDeclaration style;
 	
+	public static final String XUL_NAMESPACE = "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
+
 	public String getId() {
-		return id;
+		return getAttribute("id");
 	}
 
 	public void setId(String id) {
-		this.id = id;
+		setAttribute("id", id);
 	}
 	
 	// FIXME - this method clashes with ScriptableObject.getClassName()
 	public String getClassName() {
-		return className;
+		return getAttribute("class");
 	}
 
 	public void setClassName(String className) {
-		this.className = className;
+		setAttribute("class", className);
 	}
 
 	public String getAlign() {
-		return align;
+		return getAttribute("align");
 	}
 
 	public void setAlign(String align) {
-		this.align = align;
+		setAttribute("align", align);
 	}
 
 	public String getDir() {
-		return dir;
+		return getAttribute("dir");
 	}
 
 	public void setDir(String dir) {
-		this.dir = dir;
+		setAttribute("dir", dir);
 	}
 
 	public String getFlex() {
-		return flex;
+		return getAttribute("flex");
 	}
 
 	public void setFlex(String flex) {
-		this.flex = flex;
+		setAttribute("flex", flex);
 	}
 
 	public String getFlexGroup() {
-		return flexGroup;
+		return getAttribute("flexgroup");
 	}
 
 	public void setFlexGroup(String flexGroup) {
-		this.flexGroup = flexGroup;
+		setAttribute("flexgroup", flexGroup);
 	}
 
 	public String getOrdinal() {
-		return ordinal;
+		return getAttribute("ordinal");
 	}
 
 	public void setOrdinal(String ordinal) {
-		this.ordinal = ordinal;
+		setAttribute("ordinal", ordinal);
 	}
 
 	public String getOrient() {
-		return orient;
+		return getAttribute("orient");
 	}
 
 	public void setOrient(String orient) {
-		this.orient = orient;
+		setAttribute("orient", orient);
 	}
 
 	public String getPack() {
-		return pack;
+		return getAttribute("pack");
 	}
 
 	public void setPack(String pack) {
-		this.pack = pack;
+		setAttribute("pack",  pack);
 	}
 
 	public boolean isHidden() {
-		return hidden;
+		return Boolean.parseBoolean(getAttribute("hidden"));
 	}
 
 	public void setHidden(boolean hidden) {
-		this.hidden = hidden;
+		setAttribute("hidden", String.valueOf(hidden));
 	}
 
 	public boolean isCollapsed() {
-		return collapsed;
+		return Boolean.parseBoolean(getAttribute("collapsed"));
 	}
 
 	public void setCollapsed(boolean collapsed) {
-		this.collapsed = collapsed;
+		setAttribute("collapsed", String.valueOf(collapsed));
 	}
 
 	public String getObserves() {
-		return observes;
+		return getAttribute("observes");
 	}
 
 	public void setObserves(String observes) {
-		this.observes = observes;
+		setAttribute("observes", observes);
 	}
 
 	public String getWidth() {
-		return width;
+		return getAttribute("width");
 	}
 
 	public void setWidth(String width) {
-		this.width = width;
+		setAttribute("width", width);
 	}
 
 	public String getHeight() {
-		return height;
+		return getAttribute("height");
 	}
 
 	public void setHeight(String height) {
-		this.height = height;
+		setAttribute("height", height);
 	}
 
 	public String getMinWidth() {
-		return minWidth;
+		return getAttribute("minWidth");
 	}
 
 	public void setMinWidth(String minWidth) {
-		this.minWidth = minWidth;
+		setAttribute("minWidth", minWidth);
 	}
 
 	public String getMinHeight() {
-		return minHeight;
+		return getAttribute("minHeight");
 	}
 
 	public void setMinHeight(String minHeight) {
-		this.minHeight = minHeight;
+		setAttribute("minHeight", minHeight);
 	}
 
 	public String getMaxWidth() {
-		return maxWidth;
+		return getAttribute("maxWidth");
 	}
 
 	public void setMaxWidth(String maxWidth) {
-		this.maxWidth = maxWidth;
+		setAttribute("maxWidth", maxWidth);
 	}
 
 	public String getMaxHeight() {
-		return maxHeight;
+		return getAttribute("maxHeight");
 	}
 
 	public void setMaxHeight(String maxHeight) {
-		this.maxHeight = maxHeight;
+		setAttribute("maxHeight", maxHeight);
 	}
 
 	public String getPersist() {
-		return persist;
+		return getAttribute("persist");
 	}
 
 	public void setPersist(String persist) {
-		this.persist = persist;
+		setAttribute("persist", persist);
 	}
 
 	public String getLeft() {
-		return left;
+		return getAttribute("left");
 	}
 
 	public void setLeft(String left) {
-		this.left = left;
+		setAttribute("left", left);
 	}
 
 	public String getTop() {
-		return top;
+		return getAttribute("top");
 	}
 
 	public void setTop(String top) {
-		this.top = top;
+		setAttribute("top", top);
 	}
 
 	public String getDatasources() {
-		return datasources;
+		return getAttribute("datasources");
 	}
 
 	public void setDatasources(String datasources) {
-		this.datasources = datasources;
+		setAttribute("datasources", datasources);
 	}
 
 	public String getRef() {
-		return ref;
+		return getAttribute("ref");
 	}
 
 	public void setRef(String ref) {
-		this.ref = ref;
+		setAttribute("ref", ref);
 	}
 
 	public String getTooltipText() {
-		return tooltipText;
+		return getAttribute("tooltipText");
 	}
 
 	public void setTooltipText(String tooltipText) {
-		this.tooltipText = tooltipText;
+		setAttribute("tooltipText", tooltipText);
 	}
 
 	public String getStatusText() {
-		return statusText;
+		return getAttribute("statusText");
 	}
 
 	public void setStatusText(String statusText) {
-		this.statusText = statusText;
+		setAttribute("statusText", statusText);
 	}
 
 	public boolean isAllowEvents() {
-		return allowEvents;
+		return Boolean.parseBoolean(getAttribute("allowEvents"));
 	}
 
 	public void setAllowEvents(boolean allowEvents) {
-		this.allowEvents = allowEvents;
+		setAttribute("allowEvents", String.valueOf(allowEvents));
 	}
 
 	public CSSStyleDeclaration getStyle() {
-		return style;
+		return getAttribute("style");
 	}
 
 	public void focus() {
@@ -272,7 +246,7 @@ public class XULElementImpl extends ScriptableElementImpl implements XULElement 
 
 	public NodeList getElementsByAttribute(String name, String value) {
 		// TODO find a more efficient way to perform this search
-		NodeList all = getElementsByTagName("*");
+		NodeList all = getElementsByTagNameNS(XUL_NAMESPACE, "*");
 		List<Node> matching = new ArrayList<Node>();
 		for(int i=0; i<all.getLength(); i++) {
 			Element elt = (Element)all.item(i);
