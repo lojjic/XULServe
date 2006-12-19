@@ -2,6 +2,7 @@ package net.lojjic.xul.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import net.lojjic.xul.XULElement;
 
@@ -15,217 +16,261 @@ public class XULElementImpl extends ScriptableElementImpl implements XULElement 
 	
 	public static final String XUL_NAMESPACE = "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
 
+	private static enum Align { stretch, start, center, end, baseline };
+	private static enum Orient { vertical, horizontal };
+	private static enum Pack { start, center, end };
+	
+	private String id;
+	private String className;
+	private Align align = Align.stretch;
+	private String dir;
+	private String flex;
+	private String flexGroup;
+	private String ordinal;
+	private Orient orient;
+	private Pack pack;
+	private boolean hidden;
+	private boolean collapsed;
+	private String observes;
+	private String width;
+	private String height;
+	private String minWidth;
+	private String minHeight;
+	private String maxWidth;
+	private String maxHeight;
+	private String persist;
+	private String left;
+	private String top;
+	private String datasources;
+	private String ref;
+	private String tooltipText;
+	private String statusText;
+	private boolean allowEvents;
+	private CSSStyleDeclaration style;
+	
+	
+	
+	
+	
+	
+	
+	
 	public String getId() {
-		return getAttribute("id");
+		return id;
 	}
 
 	public void setId(String id) {
-		setAttribute("id", id);
+		this.id = id;
 	}
 	
 	// FIXME - this method clashes with ScriptableObject.getClassName()
 	public String getClassName() {
-		return getAttribute("class");
+		return className;
 	}
 
 	public void setClassName(String className) {
-		setAttribute("class", className);
+		this.className = className;
 	}
 
 	public String getAlign() {
-		return getAttribute("align");
+		return align.toString();
 	}
 
 	public void setAlign(String align) {
-		setAttribute("align", align);
+		this.align = Align.valueOf(align);
 	}
 
 	public String getDir() {
-		return getAttribute("dir");
+		return dir;
 	}
 
 	public void setDir(String dir) {
-		setAttribute("dir", dir);
+		this.dir = dir;
 	}
 
 	public String getFlex() {
-		return getAttribute("flex");
+		return flex;
 	}
 
 	public void setFlex(String flex) {
-		setAttribute("flex", flex);
+		this.flex = flex;
 	}
 
 	public String getFlexGroup() {
-		return getAttribute("flexgroup");
+		return flexGroup;
 	}
 
 	public void setFlexGroup(String flexGroup) {
-		setAttribute("flexgroup", flexGroup);
+		this.flexGroup = flexGroup;
 	}
 
 	public String getOrdinal() {
-		return getAttribute("ordinal");
+		return ordinal;
 	}
 
 	public void setOrdinal(String ordinal) {
-		setAttribute("ordinal", ordinal);
+		this.ordinal = ordinal;
 	}
 
 	public String getOrient() {
-		return getAttribute("orient");
+		return orient.toString();
 	}
 
 	public void setOrient(String orient) {
-		setAttribute("orient", orient);
+		this.orient = Orient.valueOf(orient);
 	}
 
 	public String getPack() {
-		return getAttribute("pack");
+		return pack.toString();
 	}
 
 	public void setPack(String pack) {
-		setAttribute("pack",  pack);
+		this.pack = Pack.valueOf(pack);
 	}
 
 	public boolean isHidden() {
-		return Boolean.parseBoolean(getAttribute("hidden"));
+		return hidden;
 	}
 
 	public void setHidden(boolean hidden) {
-		setAttribute("hidden", String.valueOf(hidden));
+		this.hidden = hidden;
 	}
 
 	public boolean isCollapsed() {
-		return Boolean.parseBoolean(getAttribute("collapsed"));
+		return collapsed;
 	}
 
 	public void setCollapsed(boolean collapsed) {
-		setAttribute("collapsed", String.valueOf(collapsed));
+		this.collapsed = collapsed;
 	}
 
 	public String getObserves() {
-		return getAttribute("observes");
+		return observes;
 	}
 
 	public void setObserves(String observes) {
-		setAttribute("observes", observes);
+		this.observes = observes;
 	}
 
 	public String getWidth() {
-		return getAttribute("width");
+		return width;
 	}
 
 	public void setWidth(String width) {
-		setAttribute("width", width);
+		this.width = width;
 	}
 
 	public String getHeight() {
-		return getAttribute("height");
+		return height;
 	}
 
 	public void setHeight(String height) {
-		setAttribute("height", height);
+		this.height = height;
 	}
 
 	public String getMinWidth() {
-		return getAttribute("minWidth");
+		return minWidth;
 	}
 
 	public void setMinWidth(String minWidth) {
-		setAttribute("minWidth", minWidth);
+		this.minWidth = minWidth;
 	}
 
 	public String getMinHeight() {
-		return getAttribute("minHeight");
+		return minHeight;
 	}
 
 	public void setMinHeight(String minHeight) {
-		setAttribute("minHeight", minHeight);
+		this.minHeight = minHeight;
 	}
 
 	public String getMaxWidth() {
-		return getAttribute("maxWidth");
+		return maxWidth;
 	}
 
 	public void setMaxWidth(String maxWidth) {
-		setAttribute("maxWidth", maxWidth);
+		this.maxWidth = maxWidth;
 	}
 
 	public String getMaxHeight() {
-		return getAttribute("maxHeight");
+		return maxHeight;
 	}
 
 	public void setMaxHeight(String maxHeight) {
-		setAttribute("maxHeight", maxHeight);
+		this.maxHeight = maxHeight;
 	}
 
 	public String getPersist() {
-		return getAttribute("persist");
+		return persist;
 	}
 
 	public void setPersist(String persist) {
-		setAttribute("persist", persist);
+		this.persist = persist;
 	}
 
 	public String getLeft() {
-		return getAttribute("left");
+		return left;
 	}
 
 	public void setLeft(String left) {
-		setAttribute("left", left);
+		this.left = left;
 	}
 
 	public String getTop() {
-		return getAttribute("top");
+		return top;
 	}
 
 	public void setTop(String top) {
-		setAttribute("top", top);
+		this.top = top;
 	}
 
 	public String getDatasources() {
-		return getAttribute("datasources");
+		return datasources;
 	}
 
 	public void setDatasources(String datasources) {
-		setAttribute("datasources", datasources);
+		this.datasources = datasources;
 	}
 
 	public String getRef() {
-		return getAttribute("ref");
+		return ref;
 	}
 
 	public void setRef(String ref) {
-		setAttribute("ref", ref);
+		this.ref = ref;
 	}
 
 	public String getTooltipText() {
-		return getAttribute("tooltipText");
+		return tooltipText;
 	}
 
 	public void setTooltipText(String tooltipText) {
-		setAttribute("tooltipText", tooltipText);
+		this.tooltipText = tooltipText;
 	}
 
 	public String getStatusText() {
-		return getAttribute("statusText");
+		return statusText;
 	}
 
 	public void setStatusText(String statusText) {
-		setAttribute("statusText", statusText);
+		this.statusText = statusText;
 	}
 
 	public boolean isAllowEvents() {
-		return Boolean.parseBoolean(getAttribute("allowEvents"));
+		return allowEvents;
 	}
 
 	public void setAllowEvents(boolean allowEvents) {
-		setAttribute("allowEvents", String.valueOf(allowEvents));
+		this.allowEvents = allowEvents;
 	}
 
 	public CSSStyleDeclaration getStyle() {
-		return getAttribute("style");
+		return style;
+	}
+	
+	public void setStyle(String style)
+	{
+		// TODO parse into declaration
 	}
 
 	public void focus() {
@@ -258,4 +303,276 @@ public class XULElementImpl extends ScriptableElementImpl implements XULElement 
 		return new NodeListImpl(matching.toArray(new Node[0]));
 	}
 
+	
+	
+	
+	
+	
+	protected static Map<String, AttributeHandler<XULElementImpl>> attributeHandlers;
+	
+	public void setAttribute(String name, String value) {
+		AttributeHandler<XULElementImpl> handler = attributeHandlers.get(name);
+		if(handler != null)
+		{
+			handler.set(this, value);
+		}
+		super.setAttribute(name, value);
+	}
+	
+	public String getAttribute(String name) {
+		AttributeHandler<XULElementImpl> handler = attributeHandlers.get(name);
+		if(handler != null)
+		{
+			return handler.get(this);
+		}
+		return super.getAttribute(name);
+	}
+
+	static {
+		
+		attributeHandlers.put("id", new AttributeHandler<XULElementImpl>() {
+			public String get(XULElementImpl target) {
+				return target.getId();
+			}
+			public void set(XULElementImpl target, String value) {
+				target.setId(value);
+			}
+		});
+		
+		attributeHandlers.put("class", new AttributeHandler<XULElementImpl>() {
+			public String get(XULElementImpl target) {
+				return target.getClassName();
+			}
+			public void set(XULElementImpl target, String value) {
+				target.setClassName(value);
+			}
+		});
+		
+		attributeHandlers.put("align", new AttributeHandler<XULElementImpl>() {
+			public String get(XULElementImpl target) {
+				return target.getAlign();
+			}
+			public void set(XULElementImpl target, String value) {
+				target.setAlign(value);
+			}
+		});
+		
+		attributeHandlers.put("dir", new AttributeHandler<XULElementImpl>() {
+			public String get(XULElementImpl target) {
+				return target.getDir();
+			}
+			public void set(XULElementImpl target, String value) {
+				target.setDir(value);
+			}
+		});
+		
+		attributeHandlers.put("flex", new AttributeHandler<XULElementImpl>() {
+			public String get(XULElementImpl target) {
+				return target.getFlex();
+			}
+			public void set(XULElementImpl target, String value) {
+				target.setFlex(value);
+			}
+		});
+		
+		attributeHandlers.put("flexgroup", new AttributeHandler<XULElementImpl>() {
+			public String get(XULElementImpl target) {
+				return target.getFlexGroup();
+			}
+			public void set(XULElementImpl target, String value) {
+				target.setFlexGroup(value);
+			}
+		});
+		
+		attributeHandlers.put("ordinal", new AttributeHandler<XULElementImpl>() {
+			public String get(XULElementImpl target) {
+				return target.getOrdinal();
+			}
+			public void set(XULElementImpl target, String value) {
+				target.setOrdinal(value);
+			}
+		});
+		
+		attributeHandlers.put("orient", new AttributeHandler<XULElementImpl>() {
+			public String get(XULElementImpl target) {
+				return target.getOrient();
+			}
+			public void set(XULElementImpl target, String value) {
+				target.setOrient(value);
+			}
+		});
+		
+		attributeHandlers.put("pack", new AttributeHandler<XULElementImpl>() {
+			public String get(XULElementImpl target) {
+				return target.getPack();
+			}
+			public void set(XULElementImpl target, String value) {
+				target.setPack(value);
+			}
+		});
+		
+		attributeHandlers.put("hidden", new AttributeHandler<XULElementImpl>() {
+			public String get(XULElementImpl target) {
+				return String.valueOf(target.isHidden());
+			}
+			public void set(XULElementImpl target, String value) {
+				target.setHidden(Boolean.parseBoolean(value));
+			}
+		});
+		
+		attributeHandlers.put("collapsed", new AttributeHandler<XULElementImpl>() {
+			public String get(XULElementImpl target) {
+				return String.valueOf(target.isCollapsed());
+			}
+			public void set(XULElementImpl target, String value) {
+				target.setCollapsed(Boolean.parseBoolean(value));
+			}
+		});
+		
+		attributeHandlers.put("observes", new AttributeHandler<XULElementImpl>() {
+			public String get(XULElementImpl target) {
+				return target.getObserves();
+			}
+			public void set(XULElementImpl target, String value) {
+				target.setObserves(value);
+			}
+		});
+		
+		attributeHandlers.put("width", new AttributeHandler<XULElementImpl>() {
+			public String get(XULElementImpl target) {
+				return target.getWidth();
+			}
+			public void set(XULElementImpl target, String value) {
+				target.setWidth(value);
+			}
+		});
+		
+		attributeHandlers.put("height", new AttributeHandler<XULElementImpl>() {
+			public String get(XULElementImpl target) {
+				return target.getHeight();
+			}
+			public void set(XULElementImpl target, String value) {
+				target.setHeight(value);
+			}
+		});
+		
+		attributeHandlers.put("minwidth", new AttributeHandler<XULElementImpl>() {
+			public String get(XULElementImpl target) {
+				return target.getMinWidth();
+			}
+			public void set(XULElementImpl target, String value) {
+				target.setMinWidth(value);
+			}
+		});
+		
+		attributeHandlers.put("minheight", new AttributeHandler<XULElementImpl>() {
+			public String get(XULElementImpl target) {
+				return target.getMinHeight();
+			}
+			public void set(XULElementImpl target, String value) {
+				target.setMinHeight(value);
+			}
+		});
+		
+		attributeHandlers.put("maxwidth", new AttributeHandler<XULElementImpl>() {
+			public String get(XULElementImpl target) {
+				return target.getMaxWidth();
+			}
+			public void set(XULElementImpl target, String value) {
+				target.setMaxWidth(value);
+			}
+		});
+		
+		attributeHandlers.put("maxheight", new AttributeHandler<XULElementImpl>() {
+			public String get(XULElementImpl target) {
+				return target.getMaxHeight();
+			}
+			public void set(XULElementImpl target, String value) {
+				target.setMaxHeight(value);
+			}
+		});
+		
+		attributeHandlers.put("persist", new AttributeHandler<XULElementImpl>() {
+			public String get(XULElementImpl target) {
+				return target.getPersist();
+			}
+			public void set(XULElementImpl target, String value) {
+				target.setPersist(value);
+			}
+		});
+		
+		attributeHandlers.put("left", new AttributeHandler<XULElementImpl>() {
+			public String get(XULElementImpl target) {
+				return target.getLeft();
+			}
+			public void set(XULElementImpl target, String value) {
+				target.setLeft(value);
+			}
+		});
+		
+		attributeHandlers.put("top", new AttributeHandler<XULElementImpl>() {
+			public String get(XULElementImpl target) {
+				return target.getTop();
+			}
+			public void set(XULElementImpl target, String value) {
+				target.setTop(value);
+			}
+		});
+		
+		attributeHandlers.put("datasources", new AttributeHandler<XULElementImpl>() {
+			public String get(XULElementImpl target) {
+				return target.getDatasources();
+			}
+			public void set(XULElementImpl target, String value) {
+				target.setDatasources(value);
+			}
+		});
+		
+		attributeHandlers.put("ref", new AttributeHandler<XULElementImpl>() {
+			public String get(XULElementImpl target) {
+				return target.getRef();
+			}
+			public void set(XULElementImpl target, String value) {
+				target.setRef(value);
+			}
+		});
+		
+		attributeHandlers.put("tooltiptext", new AttributeHandler<XULElementImpl>() {
+			public String get(XULElementImpl target) {
+				return target.getTooltipText();
+			}
+			public void set(XULElementImpl target, String value) {
+				target.setTooltipText(value);
+			}
+		});
+		
+		attributeHandlers.put("statustext", new AttributeHandler<XULElementImpl>() {
+			public String get(XULElementImpl target) {
+				return target.getStatusText();
+			}
+			public void set(XULElementImpl target, String value) {
+				target.setStatusText(value);
+			}
+		});
+		
+		attributeHandlers.put("allowevents", new AttributeHandler<XULElementImpl>() {
+			public String get(XULElementImpl target) {
+				return String.valueOf(target.isAllowEvents());
+			}
+			public void set(XULElementImpl target, String value) {
+				target.setAllowEvents(Boolean.parseBoolean(value));
+			}
+		});
+		
+		attributeHandlers.put("style", new AttributeHandler<XULElementImpl>() {
+			public String get(XULElementImpl target) {
+				return target.getStyle().getCssText();
+			}
+			public void set(XULElementImpl target, String value) {
+				target.setStyle(value);
+			}
+		});
+		
+	}
+	
 }
