@@ -5,6 +5,10 @@ import net.lojjic.xul.XULDescriptionElement;
 public class XULDescriptionElementImpl extends XULElementImpl 
        implements XULDescriptionElement {
 	
+	public XULDescriptionElementImpl(XULDocumentImpl ownerDocument, String localName) {
+		super(ownerDocument, localName);
+	}
+
 	public boolean isCrop() {
 		return Boolean.parseBoolean(getAttribute("crop"));
 	}

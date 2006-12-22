@@ -51,8 +51,12 @@ public interface XULDocument extends Document, DocumentEvent {
 	void removeBroadcastListenerFor(Element broadcaster, Element observer, String attr);
 		
 	void persist(String id, String attr);
-		
-	void loadOverlay(String url, Observer observer);
+	
+	/**
+	 * Load the overlay from the given URL. When the overlay is successfully
+	 * loaded and merged into the document, a XULOverlayMergedEvent is fired.
+	 */
+	void loadOverlay(String url);
 	
 	
 	

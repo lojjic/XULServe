@@ -20,6 +20,11 @@ public class XULButtonElementImpl extends XULElementImpl implements XULButtonEle
 	private long tabIndex;
 	
 	
+	public XULButtonElementImpl(XULDocumentImpl ownerDocument, String localName) {
+		super(ownerDocument, localName);
+	}
+
+	
 	public String getAccessKey() {
 		return accessKey;
 	}

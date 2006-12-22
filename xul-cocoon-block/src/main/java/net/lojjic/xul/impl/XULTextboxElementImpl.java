@@ -16,6 +16,11 @@ public class XULTextboxElementImpl extends XULElementImpl implements XULTextBoxE
 	private long tabIndex;
 	
 	
+	public XULTextboxElementImpl(XULDocumentImpl ownerDocument, String localName) {
+		super(ownerDocument, localName);
+	}
+	
+
 	public Node getInputField() {
 		return inputField;
 	}

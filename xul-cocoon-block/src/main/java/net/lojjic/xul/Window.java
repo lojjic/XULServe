@@ -22,7 +22,8 @@ public interface Window {
 	 * of different type (i.e. this does not cross chrome-content
 	 * boundaries).
 	 *
-	 * This property is "replaceable" in JavaScript */
+	 * This property is "replaceable" in JavaScript
+	 */
 	Window getTop(); //readonly
 	
 	/**
@@ -54,6 +55,7 @@ public interface Window {
 	 * i.e. no zoom.
 	 */
 	float getTextZoom();
+	void setTextZoom(float textZoom);
 	
 	/**
 	 * Accessor for the current x scroll position in this window in

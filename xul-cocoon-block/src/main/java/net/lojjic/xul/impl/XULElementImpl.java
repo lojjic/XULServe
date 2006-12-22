@@ -4,18 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import net.lojjic.xul.Constants;
 import net.lojjic.xul.XULElement;
 
 import org.apache.excalibur.xml.xpath.NodeListImpl;
+import org.apache.xerces.dom.ElementNSImpl;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.css.CSSStyleDeclaration;
 
-public class XULElementImpl extends ScriptableElementImpl implements XULElement {
+public class XULElementImpl extends ElementNSImpl implements XULElement {
 	
-	public static final String XUL_NAMESPACE = "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
-
 	private static enum Align { stretch, start, center, end, baseline };
 	private static enum Orient { vertical, horizontal };
 	private static enum Pack { start, center, end };
@@ -48,10 +48,18 @@ public class XULElementImpl extends ScriptableElementImpl implements XULElement 
 	private boolean allowEvents;
 	private CSSStyleDeclaration style;
 	
+	protected XULDocumentImpl ownerXULDocument;
 	
 	
-	
-	
+	/**
+	 * Constructor.
+	 * @param ownerDocument
+	 * @param name
+	 */
+	public XULElementImpl(XULDocumentImpl ownerXULDocument, String name) {
+		super(ownerXULDocument, Constants.XUL_NAMESPACE, name);
+		this.ownerXULDocument = ownerXULDocument;
+	}
 	
 	
 	
@@ -61,9 +69,9 @@ public class XULElementImpl extends ScriptableElementImpl implements XULElement 
 
 	public void setId(String id) {
 		this.id = id;
+		ownerDocument.putIdentifier(id, this);
 	}
 	
-	// FIXME - this method clashes with ScriptableObject.getClassName()
 	public String getClassName() {
 		return className;
 	}

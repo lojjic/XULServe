@@ -10,6 +10,12 @@ public class XULLabelElementImpl extends XULElementImpl implements XULLabelEleme
 	private boolean crop;
 	private String value;
 	
+	
+	public XULLabelElementImpl(XULDocumentImpl ownerDocument, String localName) {
+		super(ownerDocument, localName);
+	}
+	
+	
 	public String getAccessKey() {
 		return accessKey;
 	}
