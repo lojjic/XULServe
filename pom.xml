@@ -12,6 +12,8 @@
 		<module>xul-test-webapp</module>
 		<module>xul-dom-api</module>
     <module>xul-dom-impl</module>
+    <module>xul-dom-javascript</module>
+    <module>dom-core-javascript</module>
   </modules>
 
 </project>
