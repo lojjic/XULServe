@@ -58,7 +58,13 @@
 			</plugin>
 		</plugins>
 	</build>
+	
 	<dependencies>
+		<dependency>
+			<groupId>net.lojjic.xul</groupId>
+			<artifactId>xul-dom-api</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>org.apache.cocoon</groupId>
 			<artifactId>cocoon-core</artifactId>
@@ -75,6 +81,7 @@
 			<version>1.0.0-M2</version>
 		</dependency>
 	</dependencies>
+	
 	<repositories>
 		<repository>
 			<id>cocoon.staging</id>
