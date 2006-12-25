@@ -1,21 +1,19 @@
 package net.lojjic.xul.javascript;
 
+import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 import org.w3c.dom.Node;
 
-public class ScriptableNode extends ScriptableObject {
+public class ScriptableNode extends ScriptableDOMObject {
+	
+	public static String JS_CLASS = "Node";
 
 	protected Node delegateNode;
 	
-	public ScriptableNode(Node node) {
+	public ScriptableNode(Scriptable scope, Node node) {
+		super(scope);
 		this.delegateNode = node;
-	}
-	
-	@Override
-	public String getClassName() {
-		return "Node";
-	}
-	
+	}	
 	
 	public String jsGet_nodeName() {
 		return delegateNode.getNodeName();
@@ -34,27 +32,27 @@ public class ScriptableNode extends ScriptableObject {
 	}
 	
 	public ScriptableNode jsGet_parentNode() {
-		return new ScriptableNode(delegateNode.getParentNode());
+		return new ScriptableNode(getParentScope(), delegateNode.getParentNode());
 	}
 	
 	public ScriptableNodeList jsGet_childNodes() {
-		return new ScriptableNodeList(delegateNode.getChildNodes());
+		return new ScriptableNodeList(getParentScope(), delegateNode.getChildNodes());
 	}
 	
 	public ScriptableNode jsGet_firstChild() {
-		return new ScriptableNode(delegateNode.getFirstChild());
+		return new ScriptableNode(getParentScope(), delegateNode.getFirstChild());
 	}
 	
 	public ScriptableNode jsGet_lastChild() {
-		return new ScriptableNode(delegateNode.getLastChild());
+		return new ScriptableNode(getParentScope(), delegateNode.getLastChild());
 	}
 	
 	public ScriptableNode jsGet_previousSibling() {
-		return new ScriptableNode(delegateNode.getPreviousSibling());
+		return new ScriptableNode(getParentScope(), delegateNode.getPreviousSibling());
 	}
 	
 	public ScriptableNode jsGet_nextSibling() {
-		return new ScriptableNode(delegateNode.getNextSibling());
+		return new ScriptableNode(getParentScope(), delegateNode.getNextSibling());
 	}
 	
 	public Object jsGet_attributes() {
@@ -89,7 +87,7 @@ public class ScriptableNode extends ScriptableObject {
 	}
 	
 	public ScriptableNode jsFunction_cloneNode(boolean deep) {
-		return new ScriptableNode(delegateNode.cloneNode(deep));
+		return new ScriptableNode(getParentScope(), delegateNode.cloneNode(deep));
 	}
 	
 	public void jsFunction_normalize() {

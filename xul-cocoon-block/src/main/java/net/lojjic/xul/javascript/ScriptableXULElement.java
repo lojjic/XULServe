@@ -2,6 +2,7 @@ package net.lojjic.xul.javascript;
 
 import net.lojjic.xul.XULElement;
 
+import org.mozilla.javascript.Scriptable;
 import org.w3c.dom.css.CSSStyleDeclaration;
 
 /**
@@ -12,8 +13,8 @@ public class ScriptableXULElement extends ScriptableElement {
 
 	protected XULElement delegateXULElement;
 	
-	public ScriptableXULElement(XULElement element) {
-		super(element);
+	public ScriptableXULElement(Scriptable scope, XULElement element) {
+		super(scope, element);
 		this.delegateXULElement = element;
 	}
 	

@@ -5,21 +5,17 @@ import org.mozilla.javascript.ScriptableObject;import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 ;
 
-public class ScriptableNodeList extends ScriptableObject {
+public class ScriptableNodeList extends ScriptableDOMObject {
+	
+	public static String JS_CLASS = "NodeList";
 
 	NodeList delegateNodeList;
 	
 	
-	public ScriptableNodeList(NodeList nodeList) {
+	public ScriptableNodeList(Scriptable scope, NodeList nodeList) {
+		super(scope);
 		this.delegateNodeList = nodeList;
 	}
-	
-	
-	@Override
-	public String getClassName() {
-		return "NodeList";
-	}
-
 	
 	/**
 	 * {@link NodeList#getLength()}
@@ -36,7 +32,7 @@ public class ScriptableNodeList extends ScriptableObject {
 		if(null == node) {
 			return NOT_FOUND;
 		}
-		return new ScriptableNode(node);
+		return new ScriptableNode(getParentScope(), node);
 	}
 	
 	/**

@@ -1,13 +1,14 @@
 package net.lojjic.xul.javascript;
 
+import org.mozilla.javascript.Scriptable;
 import org.w3c.dom.Element;
 
 public class ScriptableElement extends ScriptableNode {
 
 	protected Element delegateElement;
 	
-	public ScriptableElement(Element element) {
-		super(element);
+	public ScriptableElement(Scriptable scope, Element element) {
+		super(scope, element);
 		this.delegateElement = element;
 	}
 
@@ -48,11 +49,11 @@ public class ScriptableElement extends ScriptableNode {
 	}
 	
 	public ScriptableNodeList jsFunction_getElementsByTagName(String name) {
-		return new ScriptableNodeList(delegateElement.getElementsByTagName(name));
+		return new ScriptableNodeList(getParentScope(), delegateElement.getElementsByTagName(name));
 	}
 	
 	public ScriptableNodeList jsFunction_getElementsByTagNameNS(String ns, String name) {
-		return new ScriptableNodeList(delegateElement.getElementsByTagNameNS(ns, name));
+		return new ScriptableNodeList(getParentScope(), delegateElement.getElementsByTagNameNS(ns, name));
 	}
 	
 	public String jsFunction_getAttributeNS(String ns, String name) {
