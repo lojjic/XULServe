@@ -11,6 +11,7 @@
 		<module>xul-cocoon-block</module>
 		<module>xul-test-webapp</module>
 		<module>xul-dom-api</module>
+    <module>xul-dom-impl</module>
   </modules>
 
 </project>
