@@ -1,4 +1,4 @@
-package net.lojjic.xul.javascript;
+package net.lojjic.xml.javascript;
 
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;

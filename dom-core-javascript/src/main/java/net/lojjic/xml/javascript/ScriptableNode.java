@@ -1,7 +1,6 @@
-package net.lojjic.xul.javascript;
+package net.lojjic.xml.javascript;
 
 import org.mozilla.javascript.Scriptable;
-import org.mozilla.javascript.ScriptableObject;
 import org.w3c.dom.Node;
 
 public class ScriptableNode extends ScriptableDOMObject {
@@ -60,7 +59,7 @@ public class ScriptableNode extends ScriptableDOMObject {
 	}
 	
 	public ScriptableDocument jsGet_ownerDocument() {
-		return new ScriptableDocument(delegateNode.getOwnerDocument());
+		return new ScriptableDocument(getParentScope(), delegateNode.getOwnerDocument());
 	}
 	
 	public ScriptableNode jsFunction_insertBefore(ScriptableNode newNode, ScriptableNode refNode) {

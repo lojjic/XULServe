@@ -1,7 +1,8 @@
-package net.lojjic.xul.javascript;
+package net.lojjic.xml.javascript;
 
 
 import net.lojjic.xul.XULElement;
+import net.lojjic.xul.javascript.ScriptableXULElement;
 
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;

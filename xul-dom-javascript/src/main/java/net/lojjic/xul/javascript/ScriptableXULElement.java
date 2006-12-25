@@ -1,5 +1,7 @@
 package net.lojjic.xul.javascript;
 
+import net.lojjic.xml.javascript.ScriptableElement;
+import net.lojjic.xml.javascript.ScriptableNodeList;
 import net.lojjic.xul.XULElement;
 
 import org.mozilla.javascript.Scriptable;
@@ -276,7 +278,7 @@ public class ScriptableXULElement extends ScriptableElement {
 	 * @return A NodeList of matching Elements
 	 */
 	public ScriptableNodeList jsFunction_getElementsByAttribute(String name, String value) {
-		return new ScriptableNodeList(delegateXULElement.getElementsByAttribute(name, value));
+		return new ScriptableNodeList(getParentScope(), delegateXULElement.getElementsByAttribute(name, value));
 	}
 
 }

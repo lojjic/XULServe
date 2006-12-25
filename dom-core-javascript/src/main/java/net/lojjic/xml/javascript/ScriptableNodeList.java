@@ -1,9 +1,8 @@
-package net.lojjic.xul.javascript;
+package net.lojjic.xml.javascript;
 
 import org.mozilla.javascript.Scriptable;
-import org.mozilla.javascript.ScriptableObject;import org.w3c.dom.Node;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-;
 
 public class ScriptableNodeList extends ScriptableDOMObject {
 	

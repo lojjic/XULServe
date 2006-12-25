@@ -1,4 +1,4 @@
-package net.lojjic.xul.javascript;
+package net.lojjic.xml.javascript;
 
 import org.mozilla.javascript.Scriptable;
 import org.w3c.dom.Element;
@@ -35,7 +35,7 @@ public class ScriptableElement extends ScriptableNode {
 	}
 	
 	public ScriptableAttr jsFunction_getAttributeNode(String name) {
-		return new ScriptableAttr(delegateElement.getAttributeNode(name));
+		return new ScriptableAttr(getParentScope(), delegateElement.getAttributeNode(name));
 	}
 	
 	public ScriptableAttr jsFunction_setAttributeNode(ScriptableAttr attr) {
@@ -69,7 +69,7 @@ public class ScriptableElement extends ScriptableNode {
 	}
 	
 	public ScriptableAttr jsFunction_getAttributeNodeNS(String ns, String name) {
-		return new ScriptableAttr(delegateElement.getAttributeNodeNS(ns, name));
+		return new ScriptableAttr(getParentScope(), delegateElement.getAttributeNodeNS(ns, name));
 	}
 	
 	public ScriptableAttr jsFunction_setAttributeNodeNS(ScriptableAttr attr) {
