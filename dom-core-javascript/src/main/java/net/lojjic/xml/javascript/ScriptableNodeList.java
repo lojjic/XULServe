@@ -6,7 +6,7 @@ import org.w3c.dom.NodeList;
 
 public class ScriptableNodeList extends ScriptableDOMObject {
 	
-	public static String JS_CLASS = "NodeList";
+	public static String JS_CLASS_NAME = "NodeList";
 
 	NodeList delegateNodeList;
 	
@@ -35,7 +35,7 @@ public class ScriptableNodeList extends ScriptableDOMObject {
 	}
 	
 	/**
-	 * Get an indexed member; returns the node at the given indexed
+	 * Get an indexed member; returns the node at the given index
 	 */
 	@Override
 	public Object get(int index, Scriptable start) {

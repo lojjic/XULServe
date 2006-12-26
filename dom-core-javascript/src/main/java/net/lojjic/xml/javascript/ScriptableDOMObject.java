@@ -1,5 +1,6 @@
 package net.lojjic.xml.javascript;
 
+import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 
@@ -16,4 +17,9 @@ public abstract class ScriptableDOMObject extends ScriptableObject {
 		return JS_CLASS_NAME;
 	}
 
+	
+	protected Object wrap(Object javaObject) {
+		return Context.javaToJS(javaObject, getTopLevelScope(this));
+	}
+	
 }

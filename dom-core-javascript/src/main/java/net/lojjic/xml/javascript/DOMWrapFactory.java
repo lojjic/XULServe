@@ -7,6 +7,7 @@ import net.lojjic.xul.javascript.ScriptableXULElement;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.WrapFactory;
+import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -34,6 +35,9 @@ public class DOMWrapFactory extends WrapFactory {
 		}
 		if(javaObject instanceof Element) {
 			return new ScriptableElement(scope, (Element)javaObject);
+		}
+		if(javaObject instanceof Attr) {
+			return new ScriptableAttr(scope, (Attr)javaObject);
 		}
 		if(javaObject instanceof Document) {
 			return new ScriptableDocument(scope, (Document)javaObject);

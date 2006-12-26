@@ -6,7 +6,7 @@ import org.w3c.dom.Document;
 
 public class ScriptableDocument extends ScriptableNode {
 	
-	
+	public static String JS_CLASS_NAME = "Document";
 
 	protected Document delegateDocument;
 	
@@ -16,10 +16,5 @@ public class ScriptableDocument extends ScriptableNode {
 		this.delegateDocument = document;
 	}
 	
-	
-	@Override
-	public String getClassName() {
-		return "Document";
-	}
 
 }

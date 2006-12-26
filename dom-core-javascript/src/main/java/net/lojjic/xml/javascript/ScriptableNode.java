@@ -5,7 +5,7 @@ import org.w3c.dom.Node;
 
 public class ScriptableNode extends ScriptableDOMObject {
 	
-	public static String JS_CLASS = "Node";
+	public static String JS_CLASS_NAME = "Node";
 
 	protected Node delegateNode;
 	
@@ -30,54 +30,54 @@ public class ScriptableNode extends ScriptableDOMObject {
 		return delegateNode.getNodeType();
 	}
 	
-	public ScriptableNode jsGet_parentNode() {
-		return new ScriptableNode(getParentScope(), delegateNode.getParentNode());
+	public Object jsGet_parentNode() {
+		return wrap(delegateNode.getParentNode());
 	}
 	
-	public ScriptableNodeList jsGet_childNodes() {
+	public Object jsGet_childNodes() {
 		return new ScriptableNodeList(getParentScope(), delegateNode.getChildNodes());
 	}
 	
-	public ScriptableNode jsGet_firstChild() {
-		return new ScriptableNode(getParentScope(), delegateNode.getFirstChild());
+	public Object jsGet_firstChild() {
+		return wrap(delegateNode.getFirstChild());
 	}
 	
-	public ScriptableNode jsGet_lastChild() {
-		return new ScriptableNode(getParentScope(), delegateNode.getLastChild());
+	public Object jsGet_lastChild() {
+		return wrap(delegateNode.getLastChild());
 	}
 	
-	public ScriptableNode jsGet_previousSibling() {
-		return new ScriptableNode(getParentScope(), delegateNode.getPreviousSibling());
+	public Object jsGet_previousSibling() {
+		return wrap(delegateNode.getPreviousSibling());
 	}
 	
-	public ScriptableNode jsGet_nextSibling() {
-		return new ScriptableNode(getParentScope(), delegateNode.getNextSibling());
+	public Object jsGet_nextSibling() {
+		return wrap(delegateNode.getNextSibling());
 	}
 	
 	public Object jsGet_attributes() {
 		return null; //TODO need NamedNodeMap wrapper
 	}
 	
-	public ScriptableDocument jsGet_ownerDocument() {
+	public Object jsGet_ownerDocument() {
 		return new ScriptableDocument(getParentScope(), delegateNode.getOwnerDocument());
 	}
 	
-	public ScriptableNode jsFunction_insertBefore(ScriptableNode newNode, ScriptableNode refNode) {
+	public Object jsFunction_insertBefore(ScriptableNode newNode, ScriptableNode refNode) {
 		delegateNode.insertBefore(newNode.delegateNode, (refNode == null ? null : refNode.delegateNode));
 		return newNode;
 	}
 
-	public ScriptableNode jsFunction_replaceChild(ScriptableNode newNode, ScriptableNode refNode) {
+	public Object jsFunction_replaceChild(ScriptableNode newNode, ScriptableNode refNode) {
 		delegateNode.replaceChild(newNode.delegateNode, refNode.delegateNode);
 		return newNode;
 	}
 
-	public ScriptableNode jsFunction_removeChild(ScriptableNode node) {
+	public Object jsFunction_removeChild(ScriptableNode node) {
 		delegateNode.removeChild(node.delegateNode);
 		return node;
 	}
 
-	public ScriptableNode jsFunction_appendChild(ScriptableNode node) {
+	public Object jsFunction_appendChild(ScriptableNode node) {
 		return jsFunction_insertBefore(node, null);
 	}
 	
@@ -85,8 +85,8 @@ public class ScriptableNode extends ScriptableDOMObject {
 		return delegateNode.hasChildNodes();
 	}
 	
-	public ScriptableNode jsFunction_cloneNode(boolean deep) {
-		return new ScriptableNode(getParentScope(), delegateNode.cloneNode(deep));
+	public Object jsFunction_cloneNode(boolean deep) {
+		return wrap(delegateNode.cloneNode(deep));
 	}
 	
 	public void jsFunction_normalize() {

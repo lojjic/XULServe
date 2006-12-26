@@ -5,16 +5,13 @@ import org.w3c.dom.Element;
 
 public class ScriptableElement extends ScriptableNode {
 
+	public static String JS_CLASS_NAME = "Element";
+		
 	protected Element delegateElement;
 	
 	public ScriptableElement(Scriptable scope, Element element) {
 		super(scope, element);
 		this.delegateElement = element;
-	}
-
-	@Override
-	public String getClassName() {
-		return "Element";
 	}
 	
 	
@@ -34,26 +31,26 @@ public class ScriptableElement extends ScriptableNode {
 		delegateElement.removeAttribute(name);
 	}
 	
-	public ScriptableAttr jsFunction_getAttributeNode(String name) {
-		return new ScriptableAttr(getParentScope(), delegateElement.getAttributeNode(name));
+	public Object jsFunction_getAttributeNode(String name) {
+		return wrap(delegateElement.getAttributeNode(name));
 	}
 	
-	public ScriptableAttr jsFunction_setAttributeNode(ScriptableAttr attr) {
+	public Object jsFunction_setAttributeNode(ScriptableAttr attr) {
 		delegateElement.setAttributeNode(attr.delegateAttr);
 		return attr;
 	}
 	
-	public ScriptableAttr jsFunction_removeAttributeNode(ScriptableAttr attr) {
+	public Object jsFunction_removeAttributeNode(ScriptableAttr attr) {
 		delegateElement.removeAttributeNode(attr.delegateAttr);
 		return attr;
 	}
 	
-	public ScriptableNodeList jsFunction_getElementsByTagName(String name) {
-		return new ScriptableNodeList(getParentScope(), delegateElement.getElementsByTagName(name));
+	public Object jsFunction_getElementsByTagName(String name) {
+		return wrap(delegateElement.getElementsByTagName(name));
 	}
 	
-	public ScriptableNodeList jsFunction_getElementsByTagNameNS(String ns, String name) {
-		return new ScriptableNodeList(getParentScope(), delegateElement.getElementsByTagNameNS(ns, name));
+	public Object jsFunction_getElementsByTagNameNS(String ns, String name) {
+		return wrap(delegateElement.getElementsByTagNameNS(ns, name));
 	}
 	
 	public String jsFunction_getAttributeNS(String ns, String name) {
@@ -68,11 +65,11 @@ public class ScriptableElement extends ScriptableNode {
 		delegateElement.removeAttributeNS(ns, name);
 	}
 	
-	public ScriptableAttr jsFunction_getAttributeNodeNS(String ns, String name) {
-		return new ScriptableAttr(getParentScope(), delegateElement.getAttributeNodeNS(ns, name));
+	public Object jsFunction_getAttributeNodeNS(String ns, String name) {
+		return wrap(delegateElement.getAttributeNodeNS(ns, name));
 	}
 	
-	public ScriptableAttr jsFunction_setAttributeNodeNS(ScriptableAttr attr) {
+	public Object jsFunction_setAttributeNodeNS(ScriptableAttr attr) {
 		delegateElement.setAttributeNodeNS(attr.delegateAttr);
 		return attr;
 	}
