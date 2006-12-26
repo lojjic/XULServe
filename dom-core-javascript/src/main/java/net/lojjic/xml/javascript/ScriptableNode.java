@@ -1,7 +1,15 @@
 package net.lojjic.xml.javascript;
 
+import net.lojjic.xml.javascript.events.ScriptableEventListener;
+
+import org.mozilla.javascript.Context;
+import org.mozilla.javascript.Function;
 import org.mozilla.javascript.Scriptable;
+import org.w3c.dom.DOMException;
 import org.w3c.dom.Node;
+import org.w3c.dom.events.Event;
+import org.w3c.dom.events.EventListener;
+import org.w3c.dom.events.EventTarget;
 
 public class ScriptableNode extends ScriptableDOMObject {
 	
@@ -158,5 +166,60 @@ public class ScriptableNode extends ScriptableDOMObject {
 		return delegateNode.getUserData(key);
 	}
 	*/
+	
+	
+	
+	///// EventTarget interface: /////
+	
+	public void jsFunction_addEventListener(String type, Object listener, boolean useCapture) {
+		checkEventsSupported();
+		if(listener instanceof Function) {
+			listener = new JSFunctionEventListener(this, (Function)listener);
+		}
+		if(listener instanceof ScriptableEventListener) {
+			listener = ((ScriptableEventListener)listener).getDelegateEventListener();
+		}
+		if(!(listener instanceof EventListener)) {
+			throw new DOMException(DOMException.TYPE_MISMATCH_ERR, "Must supply an EventListener or JavaScript function object.");
+		}
+		((EventTarget)delegateNode).addEventListener(type, (EventListener)listener, useCapture);
+	}
+	
+	public boolean jsFunction_dispatchEvent(Object event) {
+		checkEventsSupported();
+		return ((EventTarget)delegateNode).dispatchEvent((Event)event);
+	}
+	
+	public void jsFunction_removeEventListener(String type, Object listener, boolean useCapture) {
+		checkEventsSupported();
+		if(listener instanceof ScriptableEventListener) {
+			listener = ((ScriptableEventListener)listener).getDelegateEventListener();
+		}
+		if(!(listener instanceof EventListener)) {
+			throw new DOMException(DOMException.TYPE_MISMATCH_ERR, "Must supply an EventListener or JavaScript function object.");
+		}
+		((EventTarget)delegateNode).removeEventListener(type, (EventListener)listener, useCapture);
+	}
+	
+	private void checkEventsSupported() {
+		if(!(delegateNode instanceof EventTarget)) {
+			throw new DOMException(DOMException.NOT_SUPPORTED_ERR, 
+					"This DOM node does not support EventTarget interface methods.");
+		}
+	}
+	
+	private class JSFunctionEventListener implements EventListener {
+		private ScriptableNode node;
+		private Function function;
+		
+		public JSFunctionEventListener(ScriptableNode node, Function function) {
+			this.node = node;
+			this.function = function;
+		}
+
+		public void handleEvent(Event event) {
+			function.call(Context.getCurrentContext(), getParentScope(), node, new Object[] {event});
+		}
+	}
 
 }
