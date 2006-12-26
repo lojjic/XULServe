@@ -8,13 +8,20 @@ import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.WrapFactory;
 import org.w3c.dom.Attr;
+import org.w3c.dom.CharacterData;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.w3c.dom.Text;
 
 public class DOMWrapFactory extends WrapFactory {
 	
+	
+	
+	public void add(Class domClass, Class scriptableClass) {
+		
+	}
 
 	/**
 	 * Override the base functionality to handle our special DOM object
@@ -35,6 +42,12 @@ public class DOMWrapFactory extends WrapFactory {
 		}
 		if(javaObject instanceof Element) {
 			return new ScriptableElement(scope, (Element)javaObject);
+		}
+		if(javaObject instanceof Text) {
+			return new ScriptableText(scope, (Text)javaObject);
+		}
+		if(javaObject instanceof CharacterData) {
+			return new ScriptableCharacterData(scope, (CharacterData)javaObject);
 		}
 		if(javaObject instanceof Attr) {
 			return new ScriptableAttr(scope, (Attr)javaObject);
