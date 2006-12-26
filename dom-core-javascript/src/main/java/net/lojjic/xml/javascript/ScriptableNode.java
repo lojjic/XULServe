@@ -17,6 +17,10 @@ public class ScriptableNode extends ScriptableDOMObject {
 
 	protected Node delegateNode;
 	
+	public Node getDelegateNode() {
+		return delegateNode;
+	}
+
 	public ScriptableNode(Scriptable scope, Node node) {
 		super(scope);
 		this.delegateNode = node;

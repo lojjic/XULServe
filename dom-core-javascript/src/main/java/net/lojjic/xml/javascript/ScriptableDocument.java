@@ -6,6 +6,8 @@ import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.events.DocumentEvent;
 import org.w3c.dom.events.Event;
+import org.w3c.dom.views.AbstractView;
+import org.w3c.dom.views.DocumentView;
 
 public class ScriptableDocument extends ScriptableNode {
 	
@@ -35,6 +37,18 @@ public class ScriptableDocument extends ScriptableNode {
 		}
 		Event event = ((DocumentEvent)delegateDocument).createEvent(type);
 		return wrap(event);
+	}
+	
+	
+	///// DocumentView interface: /////
+	
+	public Object jsGet_defaultView() {
+		if(!(delegateDocument instanceof DocumentView)) {
+			throw new DOMException(DOMException.NOT_SUPPORTED_ERR,
+					"This Document object does not support DocumentView interface methods.");
+		}
+		AbstractView view = ((DocumentView)delegateDocument).getDefaultView();
+		return wrap(view);
 	}
 
 }
