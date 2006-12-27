@@ -3,9 +3,15 @@ package net.lojjic.xml.javascript;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.WrapFactory;
+import org.w3c.dom.*;
+import org.w3c.dom.events.*;
+import org.w3c.dom.views.*;
 
 import java.util.HashMap;
 import java.lang.reflect.Constructor;
+
+import net.lojjic.xml.javascript.events.*;
+import net.lojjic.xml.javascript.views.*;
 
 public class DOMWrapFactory extends WrapFactory {
 	
@@ -78,6 +84,31 @@ public class DOMWrapFactory extends WrapFactory {
 			clazz = clazz.getSuperclass();
 		}
 		return null;
+	}
+
+
+	/**
+	 * Add a default set of mappings for the core DOM interfaces.
+	 */
+	public void addDefaultWrapMappings() {
+		// Core:
+		addWrapMapping(Attr.class, ScriptableAttr.class);
+		addWrapMapping(CharacterData.class, ScriptableCharacterData.class);
+		addWrapMapping(Document.class, ScriptableDocument.class);
+		addWrapMapping(Element.class, ScriptableElement.class);
+		addWrapMapping(Node.class, ScriptableNode.class);
+		addWrapMapping(NodeList.class, ScriptableNodeList.class);
+		addWrapMapping(Text.class, ScriptableText.class);
+
+		// Events:
+		addWrapMapping(Event.class, ScriptableEvent.class);
+		addWrapMapping(EventListener.class, ScriptableEventListener.class);
+		addWrapMapping(MouseEvent.class, ScriptableMouseEvent.class);
+		addWrapMapping(MutationEvent.class, ScriptableMutationEvent.class);
+		addWrapMapping(UIEvent.class, ScriptableUIEvent.class);
+
+		// Views:
+		addWrapMapping(AbstractView.class, ScriptableAbstractView.class);
 	}
 
 }
