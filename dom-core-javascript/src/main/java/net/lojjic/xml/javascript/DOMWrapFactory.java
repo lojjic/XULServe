@@ -1,9 +1,5 @@
 package net.lojjic.xml.javascript;
 
-
-import net.lojjic.xul.XULElement;
-import net.lojjic.xul.javascript.ScriptableXULElement;
-
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.WrapFactory;
@@ -37,9 +33,9 @@ public class DOMWrapFactory extends WrapFactory {
 	@Override
 	public Scriptable wrapAsJavaObject(Context cx, Scriptable scope, Object javaObject, Class staticType) {
 		
-		if(javaObject instanceof XULElement) {
-			return new ScriptableXULElement(scope, (XULElement)javaObject);
-		}
+		//if(javaObject instanceof XULElement) {
+		//	return new ScriptableXULElement(scope, (XULElement)javaObject);
+		//}
 		if(javaObject instanceof Element) {
 			return new ScriptableElement(scope, (Element)javaObject);
 		}

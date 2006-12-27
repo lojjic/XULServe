@@ -7,8 +7,8 @@ public interface XULCommandDispatcher {
 	Element getFocusedElement();
 	void setFocusedElement(Element element);
 	
-	Window getFocusedWindow();
-	void setFocusedWindow(Window window);
+	//TODO Window getFocusedWindow();
+	//TODO void setFocusedWindow(Window window);
 	
 	void addCommandUpdater(Element updater, String events, String targets);
 	
@@ -16,8 +16,8 @@ public interface XULCommandDispatcher {
 	
 	void updateCommands(String eventName);
 	
-	Controller getControllerForCommand(String command);
-	Controllers getControllers();
+	//TODO Controller getControllerForCommand(String command);
+	//TODO Controllers getControllers();
 	
 	void advanceFocus();
 	void rewindFocus();

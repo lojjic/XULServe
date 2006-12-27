@@ -32,12 +32,12 @@ public interface Window {
 	 *
 	 * This attribute is "replaceable" in JavaScript
 	 */
-	nsIDOMBarProp getScrollbars(); //readonly
+	//TODO nsIDOMBarProp getScrollbars(); //readonly
 	
 	/**
 	 * Accessor for the child windows in this window.
 	 */
-	WindowCollection getFrames(); //readonly
+	//TODO WindowCollection getFrames(); //readonly
 	
 	/**
 	 * Set/Get the name of this window.
@@ -87,7 +87,7 @@ public interface Window {
 	/**
 	 * Method for accessing this window's selection object.
 	 */
-	Selection getSelection();
+	//TODO Selection getSelection();
 	
 	/**
 	 * Method for scrolling this window by a number of lines.

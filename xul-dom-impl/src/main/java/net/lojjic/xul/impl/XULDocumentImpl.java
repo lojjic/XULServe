@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.excalibur.xml.xpath.NodeListImpl;
 import org.apache.xerces.dom.DocumentImpl;
 import org.w3c.dom.Attr;
 import org.w3c.dom.CDATASection;
@@ -96,7 +95,7 @@ public class XULDocumentImpl extends DocumentImpl implements XULDocument {
 	public NodeList getElementsByAttribute(String name, String value) {
 		// TODO find a more efficient way to perform this search
 		NodeList all = getElementsByTagNameNS(Constants.XUL_NAMESPACE, "*");
-		List<Node> matching = new ArrayList<Node>();
+		final List<Node> matching = new ArrayList<Node>();
 		for(int i=0; i<all.getLength(); i++) {
 			Element elt = (Element)all.item(i);
 			String attrVal = elt.getAttribute(name);
@@ -104,7 +103,14 @@ public class XULDocumentImpl extends DocumentImpl implements XULDocument {
 				matching.add(elt);
 			}
 		}
-		return new NodeListImpl(matching.toArray(new Node[0]));
+		return new NodeList() {
+			public Node item(int index) {
+				return matching.get(index);
+			}
+			public int getLength() {
+				return matching.size();
+			}
+		};
 	}
 
 	public void addBroadcastListenerFor(Element broadcaster, Element observer, String attr) {

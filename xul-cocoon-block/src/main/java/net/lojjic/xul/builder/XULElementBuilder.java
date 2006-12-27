@@ -7,9 +7,7 @@ import net.lojjic.xul.XULElement;
 public class XULElementBuilder {
 
 	public XULElement buildXULElement(Attributes attributes) {
-		
-		
-		
+		return null;
 	}
 	
 }
