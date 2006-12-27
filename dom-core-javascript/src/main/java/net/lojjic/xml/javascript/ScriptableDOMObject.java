@@ -17,9 +17,14 @@ public abstract class ScriptableDOMObject extends ScriptableObject {
 		return JS_CLASS_NAME;
 	}
 
-	
+
 	protected Object wrap(Object javaObject) {
 		return Context.javaToJS(javaObject, getTopLevelScope(this));
 	}
-	
+
+
+	public void jsConstructor() {
+		throw new IllegalStateException(getClassName() + " cannot be instantiated directly; " +
+				"use document.createElement(tagName) or document.createElementNS(namespace, tagName) instead.");
+	}
 }
