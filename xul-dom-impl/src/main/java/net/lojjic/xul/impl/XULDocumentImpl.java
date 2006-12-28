@@ -1,9 +1,8 @@
 package net.lojjic.xul.impl;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 
 import org.apache.xerces.dom.DocumentImpl;
 import org.w3c.dom.Attr;
@@ -30,22 +29,7 @@ import net.lojjic.xul.XULCommandDispatcher;
 import net.lojjic.xul.XULDocument;
 
 public class XULDocumentImpl extends DocumentImpl implements XULDocument {
-	
-	
-	
-	private Set<XULElementImpl> modifiedElements = new HashSet<XULElementImpl>();
-	
-	// TODO maybe make this an event listener instead of calling it manually?
-	public void elementModified(XULElementImpl element) {
-		modifiedElements.add(element);
-	}
-	
-	public void clearUpdatedElements() {
-		modifiedElements.clear();
-	}
-	
-	
-	
+
 	private Node popupNode;
 	private Node popupRangeParent;
 	private long popupRangeOffset;
@@ -53,8 +37,42 @@ public class XULDocumentImpl extends DocumentImpl implements XULDocument {
 	private XULCommandDispatcher commandDispatcher;
 	private long width;
 	private long height;
-	
-	
+
+
+	private static HashMap<String, Class> elementImplMap = new HashMap<String, Class>();
+	static {
+		elementImplMap.put("button", XULButtonElementImpl.class);
+		elementImplMap.put("description", XULDescriptionElementImpl.class);
+		elementImplMap.put("label", XULLabelElementImpl.class);
+		elementImplMap.put("textbox", XULTextboxElementImpl.class);
+	}
+
+
+	@Override
+	public Element createElementNS(String namespaceURI, String qualifiedName) {
+		if(Constants.XUL_NAMESPACE.equals(namespaceURI)) {
+			// Parse out the prefix:
+			String localName = qualifiedName;
+			int colon = localName.indexOf(":");
+			if(colon != -1) {
+				localName = localName.substring(colon + 1);
+			}
+			Class implCls = elementImplMap.get(localName);
+			if(implCls != null) {
+				try {
+					Constructor cons = implCls.getConstructor(XULDocumentImpl.class, String.class);
+					return (Element)cons.newInstance(this, qualifiedName);
+				}
+				catch (Exception e) {
+					// TODO log a warning
+				}
+			}
+			return new XULElementImpl(this, qualifiedName);
+		}
+
+		return super.createElementNS(namespaceURI, qualifiedName);
+	}
+
 
 	public Node getPopupNode() {
 		return popupNode;
