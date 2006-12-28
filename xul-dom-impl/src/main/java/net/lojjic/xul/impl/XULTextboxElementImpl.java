@@ -4,6 +4,9 @@ import org.w3c.dom.Node;
 
 import net.lojjic.xul.XULTextBoxElement;
 
+/**
+ * {@link net.lojjic.xul.XULTextBoxElement} implementation
+ */
 public class XULTextboxElementImpl extends XULElementImpl implements XULTextBoxElement {
 
 	private Node inputField;
@@ -16,8 +19,8 @@ public class XULTextboxElementImpl extends XULElementImpl implements XULTextBoxE
 	private long tabIndex;
 	
 	
-	public XULTextboxElementImpl(XULDocumentImpl ownerDocument, String localName) {
-		super(ownerDocument, localName);
+	public XULTextboxElementImpl(XULDocumentImpl ownerDocument, String qualifiedName) {
+		super(ownerDocument, qualifiedName);
 	}
 	
 

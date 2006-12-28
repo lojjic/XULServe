@@ -13,6 +13,9 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.css.CSSStyleDeclaration;
 
+/**
+ * {@link net.lojjic.xul.XULElement} implementation
+ */
 public class XULElementImpl extends ElementNSImpl implements XULElement {
 	
 	private static enum Align { stretch, start, center, end, baseline }
@@ -53,10 +56,10 @@ public class XULElementImpl extends ElementNSImpl implements XULElement {
 	/**
 	 * Constructor.
 	 * @param ownerXULDocument
-	 * @param name
+	 * @param qualifiedName
 	 */
-	public XULElementImpl(XULDocumentImpl ownerXULDocument, String name) {
-		super(ownerXULDocument, Constants.XUL_NAMESPACE, name);
+	public XULElementImpl(XULDocumentImpl ownerXULDocument, String qualifiedName) {
+		super(ownerXULDocument, Constants.XUL_NAMESPACE, qualifiedName);
 		this.ownerXULDocument = ownerXULDocument;
 	}
 	

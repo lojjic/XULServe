@@ -2,6 +2,9 @@ package net.lojjic.xul.impl;
 
 import net.lojjic.xul.XULLabelElement;
 
+/**
+ * {@link net.lojjic.xul.XULLabelElement} implementation
+ */
 public class XULLabelElementImpl extends XULElementImpl implements XULLabelElement {
 
 	private String accessKey;
@@ -11,8 +14,8 @@ public class XULLabelElementImpl extends XULElementImpl implements XULLabelEleme
 	private String value;
 	
 	
-	public XULLabelElementImpl(XULDocumentImpl ownerDocument, String localName) {
-		super(ownerDocument, localName);
+	public XULLabelElementImpl(XULDocumentImpl ownerDocument, String qualifiedName) {
+		super(ownerDocument, qualifiedName);
 	}
 	
 	

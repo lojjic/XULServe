@@ -2,11 +2,14 @@ package net.lojjic.xul.impl;
 
 import net.lojjic.xul.XULDescriptionElement;
 
-public class XULDescriptionElementImpl extends XULElementImpl 
+/**
+ * {@link net.lojjic.xul.XULDescriptionElement} implementation
+ */
+public class XULDescriptionElementImpl extends XULElementImpl
        implements XULDescriptionElement {
 	
-	public XULDescriptionElementImpl(XULDocumentImpl ownerDocument, String localName) {
-		super(ownerDocument, localName);
+	public XULDescriptionElementImpl(XULDocumentImpl ownerDocument, String qualifiedName) {
+		super(ownerDocument, qualifiedName);
 	}
 
 	public boolean isCrop() {

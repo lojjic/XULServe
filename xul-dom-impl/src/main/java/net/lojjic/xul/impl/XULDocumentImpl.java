@@ -28,6 +28,9 @@ import net.lojjic.xul.Constants;
 import net.lojjic.xul.XULCommandDispatcher;
 import net.lojjic.xul.XULDocument;
 
+/**
+ * {@link net.lojjic.xul.XULDocument} implementation
+ */
 public class XULDocumentImpl extends DocumentImpl implements XULDocument {
 
 	private Node popupNode;

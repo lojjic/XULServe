@@ -2,6 +2,9 @@ package net.lojjic.xul.impl;
 
 import net.lojjic.xul.XULButtonElement;
 
+/**
+ * {@link net.lojjic.xul.XULButtonElement} implementation
+ */
 public class XULButtonElementImpl extends XULElementImpl implements XULButtonElement {
 
 	private String type;
@@ -20,8 +23,8 @@ public class XULButtonElementImpl extends XULElementImpl implements XULButtonEle
 	private long tabIndex;
 	
 	
-	public XULButtonElementImpl(XULDocumentImpl ownerDocument, String localName) {
-		super(ownerDocument, localName);
+	public XULButtonElementImpl(XULDocumentImpl ownerDocument, String qualifiedName) {
+		super(ownerDocument, qualifiedName);
 	}
 
 	
