@@ -11,9 +11,10 @@ import java.util.ArrayList;
  */
 public class XULSelectControlElementImpl extends XULControlElementImpl implements XULSelectControlElement {
 
-	private int selectedIndex;
-	private String value;
-	private List<XULSelectControlItemElement> items = new ArrayList<XULSelectControlItemElement>();
+	protected String value;
+	protected List<XULSelectControlItemElement> items = new ArrayList<XULSelectControlItemElement>();
+	protected List<XULSelectControlItemElement> selectedItems = new ArrayList<XULSelectControlItemElement>();
+
 
 	/**
 	 * Constructor.
@@ -27,19 +28,27 @@ public class XULSelectControlElementImpl extends XULControlElementImpl implement
 
 
 	public XULSelectControlItemElement getSelectedItem() {
-		return items.get(selectedIndex);
+		if(selectedItems.size() == 0) {
+			return null;
+		}
+		return selectedItems.get(0);
 	}
 
-	public void setSelectedItem(XULSelectControlItemElement selectedItem) {
-		selectedIndex = items.indexOf(selectedItem);
+	public void setSelectedItem(XULSelectControlItemElement item) {
+		selectedItems.clear();
+		selectedItems.add(item);
 	}
 
 	public int getSelectedIndex() {
-		return selectedIndex;
+		if(selectedItems.size() == 0) {
+			return -1;
+		}
+		return items.indexOf(selectedItems.get(0));
 	}
 
-	public void setSelectedIndex(int selectedIndex) {
-		this.selectedIndex = selectedIndex;
+	public void setSelectedIndex(int index) {
+		selectedItems.clear();
+		selectedItems.add(items.get(index));
 	}
 
 	public String getValue() {
@@ -63,6 +72,8 @@ public class XULSelectControlElementImpl extends XULControlElementImpl implement
 	}
 
 	public XULSelectControlItemElement removeItemAt(int index) {
-		return items.remove(index);
+		XULSelectControlItemElement element = items.remove(index);
+		selectedItems.remove(element);
+		return element;
 	}
 }

@@ -4,14 +4,16 @@ import org.w3c.dom.NodeList;
 
 public interface XULMultiSelectControlElement extends XULSelectControlElement {
 
+	static enum SelType { single, multiple }
+
 	String getSelType();
 	void setSelType(String selType);
 	
 	XULSelectControlItemElement getCurrentItem();
 	void setCurrentItem(XULSelectControlItemElement currentItem);
 	
-	long getCurrentIndex();
-	void setCurrentIndex(long currentIndex);
+	int getCurrentIndex();
+	void setCurrentIndex(int currentIndex);
 	
 	NodeList getSelectedItems(); //readonly
 	
@@ -28,7 +30,7 @@ public interface XULMultiSelectControlElement extends XULSelectControlElement {
 	
 	// XXX - temporary, pending implementation of scriptable, 
 	//       mutable nsIDOMNodeList for selectedItems
-	long getSelectedCount(); //readonly
-	XULSelectControlItemElement getSelectedItem(long index);
+	int getSelectedCount(); //readonly
+	XULSelectControlItemElement getSelectedItem(int index);
 	
 }
