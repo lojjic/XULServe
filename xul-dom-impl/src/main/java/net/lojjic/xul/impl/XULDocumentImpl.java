@@ -45,9 +45,20 @@ public class XULDocumentImpl extends DocumentImpl implements XULDocument {
 	private static HashMap<String, Class> elementImplMap = new HashMap<String, Class>();
 	static {
 		elementImplMap.put("button", XULButtonElementImpl.class);
+		elementImplMap.put("checkbox", XULCheckboxElementImpl.class);
 		elementImplMap.put("description", XULDescriptionElementImpl.class);
+		elementImplMap.put("image", XULImageElementImpl.class);
 		elementImplMap.put("label", XULLabelElementImpl.class);
+		elementImplMap.put("listbox", XULMultiSelectControlElementImpl.class);
+		elementImplMap.put("listitem", XULSelectControlItemElementImpl.class);
+		elementImplMap.put("menu", XULSelectControlItemElementImpl.class);
+		elementImplMap.put("menulist", XULMenuListElementImpl.class);
+		elementImplMap.put("menuitem", XULSelectControlItemElementImpl.class);
+		elementImplMap.put("menupopup", XULPopupElementImpl.class);
+		elementImplMap.put("menuseparator", XULSelectControlItemElementImpl.class);
+		elementImplMap.put("popup", XULPopupElementImpl.class);
 		elementImplMap.put("textbox", XULTextboxElementImpl.class);
+		elementImplMap.put("tree", XULTreeElementImpl.class);
 	}
 
 

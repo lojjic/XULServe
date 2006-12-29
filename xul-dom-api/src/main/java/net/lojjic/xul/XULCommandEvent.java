@@ -16,7 +16,7 @@ public interface XULCommandEvent extends UIEvent {
 			boolean canBubbleArg,
 			boolean cancelableArg,
 			AbstractView viewArg,
-			long detailArg,
+			int detailArg,
 			boolean ctrlKeyArg,
 			boolean altKeyArg,
 			boolean shiftKeyArg,
