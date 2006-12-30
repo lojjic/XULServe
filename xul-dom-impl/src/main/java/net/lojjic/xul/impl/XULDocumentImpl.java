@@ -2,26 +2,11 @@ package net.lojjic.xul.impl;
 
 import java.util.*;
 import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 
 import org.apache.xerces.dom.DocumentImpl;
-import org.w3c.dom.Attr;
-import org.w3c.dom.CDATASection;
-import org.w3c.dom.Comment;
-import org.w3c.dom.DOMConfiguration;
-import org.w3c.dom.DOMException;
-import org.w3c.dom.DOMImplementation;
-import org.w3c.dom.Document;
-import org.w3c.dom.DocumentFragment;
-import org.w3c.dom.DocumentType;
 import org.w3c.dom.Element;
-import org.w3c.dom.EntityReference;
-import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.w3c.dom.ProcessingInstruction;
-import org.w3c.dom.Text;
-import org.w3c.dom.UserDataHandler;
 import org.w3c.dom.events.Event;
 
 import net.lojjic.xul.Constants;
@@ -57,7 +42,7 @@ public class XULDocumentImpl extends DocumentImpl implements XULDocument {
 		elementImplMap.put("menupopup", XULPopupElementImpl.class);
 		elementImplMap.put("menuseparator", XULSelectControlItemElementImpl.class);
 		elementImplMap.put("popup", XULPopupElementImpl.class);
-		elementImplMap.put("textbox", XULTextboxElementImpl.class);
+		elementImplMap.put("textbox", XULTextBoxElementImpl.class);
 		elementImplMap.put("tree", XULTreeElementImpl.class);
 	}
 

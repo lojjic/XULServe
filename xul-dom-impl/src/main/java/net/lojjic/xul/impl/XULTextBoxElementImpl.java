@@ -7,7 +7,7 @@ import net.lojjic.xul.XULTextBoxElement;
 /**
  * {@link net.lojjic.xul.XULTextBoxElement} implementation
  */
-public class XULTextboxElementImpl extends XULElementImpl implements XULTextBoxElement {
+public class XULTextBoxElementImpl extends XULElementImpl implements XULTextBoxElement {
 
 	private Node inputField;
 	private long maxLength;
@@ -19,7 +19,7 @@ public class XULTextboxElementImpl extends XULElementImpl implements XULTextBoxE
 	private long tabIndex;
 	
 	
-	public XULTextboxElementImpl(XULDocumentImpl ownerDocument, String qualifiedName) {
+	public XULTextBoxElementImpl(XULDocumentImpl ownerDocument, String qualifiedName) {
 		super(ownerDocument, qualifiedName);
 	}
 	
