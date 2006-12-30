@@ -6,8 +6,8 @@ import java.util.Map;
 
 import net.lojjic.xul.Constants;
 import net.lojjic.xul.XULElement;
+import net.lojjic.xul.xbl.impl.ElementXBLImpl;
 
-import org.apache.xerces.dom.ElementNSImpl;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -16,7 +16,7 @@ import org.w3c.dom.css.CSSStyleDeclaration;
 /**
  * {@link net.lojjic.xul.XULElement} implementation
  */
-public class XULElementImpl extends ElementNSImpl implements XULElement {
+public class XULElementImpl extends ElementXBLImpl implements XULElement {
 	
 	private static enum Align { stretch, start, center, end, baseline }
 	private static enum Orient { vertical, horizontal }

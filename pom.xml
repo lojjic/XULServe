@@ -15,13 +15,14 @@
 
 	<modules>
 		<module>xbl-api</module>
+		<module>xbl-impl</module>
 		<module>xul-dom-api</module>
 		<module>xul-dom-impl</module>
 		<module>dom-core-javascript</module>
 		<module>xul-dom-javascript</module>
 		<module>xul-cocoon-block</module>
 		<module>xul-test-webapp</module>
-	</modules>
+  </modules>
 
 	<build>
 		<plugins>

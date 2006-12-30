@@ -3,7 +3,6 @@ package net.lojjic.xul.impl;
 import java.util.*;
 import java.lang.reflect.Constructor;
 
-import org.apache.xerces.dom.DocumentImpl;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -12,11 +11,12 @@ import org.w3c.dom.events.Event;
 import net.lojjic.xul.Constants;
 import net.lojjic.xul.XULCommandDispatcher;
 import net.lojjic.xul.XULDocument;
+import net.lojjic.xul.xbl.impl.DocumentXBLImpl;
 
 /**
  * {@link net.lojjic.xul.XULDocument} implementation
  */
-public class XULDocumentImpl extends DocumentImpl implements XULDocument {
+public class XULDocumentImpl extends DocumentXBLImpl implements XULDocument {
 
 	private Node popupNode;
 	private Node popupRangeParent;
