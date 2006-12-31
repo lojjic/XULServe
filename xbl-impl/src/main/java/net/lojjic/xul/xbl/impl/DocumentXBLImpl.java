@@ -10,6 +10,9 @@ import org.apache.xerces.dom.DocumentImpl;
  */
 public class DocumentXBLImpl extends DocumentImpl implements DocumentXBL {
 
+	protected BindingManager xblBindingManager = new BindingManager();
+
+
 	/**
 	 * The loadBindingDocument method can be used to synchronously obtain the specified
 	 * binding document for use within a particular document (the one on which the

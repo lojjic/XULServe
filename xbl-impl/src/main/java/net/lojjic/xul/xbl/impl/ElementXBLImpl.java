@@ -11,11 +11,14 @@ import org.apache.xerces.dom.ElementNSImpl;
  */
 public class ElementXBLImpl extends ElementNSImpl implements ElementXBL {
 
+	protected DocumentXBLImpl ownerDocumentXBL;
+
 	/**
 	 * Constructor.
 	 */
-	public ElementXBLImpl(DocumentXBLImpl document, String namespaceURI, String qualifiedName) throws DOMException {
-		super(document, namespaceURI, qualifiedName);
+	public ElementXBLImpl(DocumentXBLImpl documentXBL, String namespaceURI, String qualifiedName) throws DOMException {
+		super(documentXBL, namespaceURI, qualifiedName);
+		this.ownerDocumentXBL = documentXBL;
 	}
 
 	/**
@@ -60,7 +63,8 @@ public class ElementXBLImpl extends ElementNSImpl implements ElementXBL {
 	 * @param bindingURL A URI that specifies the location of a specific binding to attach.
 	 */
 	public void addBinding(String bindingURL) {
-		//To change body of implemented methods use File | Settings | File Templates.
+		Binding binding = ownerDocumentXBL.xblBindingManager.getBindingForURL(bindingURL);
+		// TODO
 	}
 
 	/**
