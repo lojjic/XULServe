@@ -2,6 +2,7 @@ package net.lojjic.xul.xbl.impl;
 
 import org.w3c.dom.events.EventListener;
 import org.w3c.dom.events.Event;
+import org.w3c.dom.events.MouseEvent;
 
 /**
  * XBL event handler
@@ -13,7 +14,7 @@ public class XBLHandler implements EventListener {
 
 	private String eventType;
 	private Object action; //TODO make JS function object
-	private Phase phase;
+	private Phase phase = Phase.bubbling;
 	private Integer button;
 	private Modifier[] modifiers;
 	private String keyCode;
@@ -30,8 +31,56 @@ public class XBLHandler implements EventListener {
 	 * @param evt The {@link Event} object
 	 */
 	public void handleEvent(Event evt) {
-		
+		if(applyFilters(evt)) {
+			// TODO execute action
+
+			if(preventDefault) {
+				evt.preventDefault();
+			}
+		}
 	}
+
+	/**
+	 * Apply this handler's filters to the given event.
+	 *
+	 * @param evt The {@link Event} to test
+	 * @return true if all the filters passed, false if one failed.
+	 */
+	private boolean applyFilters(Event evt) {
+		// Event phase filter:
+		if((phase == Phase.capturing && evt.getEventPhase() == Event.CAPTURING_PHASE) ||
+		   (phase == Phase.target && evt.getEventPhase() == Event.AT_TARGET) ||
+		   (phase == Phase.bubbling && evt.getEventPhase() == Event.BUBBLING_PHASE)) {
+			return false;
+		}
+
+		if(evt instanceof MouseEvent) {
+			// Mouse button filter:
+			if(button != null && button.equals(((MouseEvent)evt).getButton())) {
+				return false;
+			}
+
+			// Mouse click count filter:
+			if(clickCount != null && clickCount.equals(((MouseEvent)evt).getDetail())) {
+				return false;
+			}
+		}
+
+		// Key code filter:
+		// TODO need KeyEvent interface to get key detail
+
+		// Character code filter:
+		// TODO need KeyEvent interface to get key detail
+
+		// Modifiers:
+		for(Modifier mod : modifiers) {
+			// TODO need KeyEvent interface to get key detail
+		}
+
+		return true;
+	}
+
+
 
 	public String getEventType() {
 		return eventType;
