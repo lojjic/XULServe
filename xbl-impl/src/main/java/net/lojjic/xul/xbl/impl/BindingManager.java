@@ -166,6 +166,12 @@ public class BindingManager {
 			binding.setParentBinding(getBindingForURL(bindingElement.getAttribute("extends")));
 		}
 
+		// Constructor:
+		buildConstructor(binding, bindingElement);
+
+		// Destructor:
+		buildDestructor(binding, bindingElement);
+
 		// Fields:
 		buildFields(binding, bindingElement);
 
@@ -184,6 +190,34 @@ public class BindingManager {
 		return binding;
 	}
 
+
+	/**
+	 * Build the binding's constructor from a &lt;xbl:constructor/&gt; element
+	 * @param binding
+	 * @param bindingElement
+	 */
+	private void buildConstructor(XBLBinding binding, Element bindingElement) {
+		NodeList constructorElements = bindingElement.getElementsByTagNameNS(XBL_NAMESPACE, "constructor");
+		if(constructorElements.getLength() > 0) {
+			XBLConstructor constructor = new XBLConstructor();
+			constructor.setBody(constructorElements.item(0).getTextContent());
+			binding.setConstructor(constructor);
+		}
+	}
+
+	/**
+	 * Build the binding's destructor from a &lt;xbl:destructor/&gt; element
+	 * @param binding
+	 * @param bindingElement
+	 */
+	private void buildDestructor(XBLBinding binding, Element bindingElement) {
+		NodeList destructorElements = bindingElement.getElementsByTagNameNS(XBL_NAMESPACE, "destructor");
+		if(destructorElements.getLength() > 0) {
+			XBLDestructor destructor = new XBLDestructor();
+			destructor.setBody(destructorElements.item(0).getTextContent());
+			binding.setDestructor(destructor);
+		}
+	}
 
 	/**
 	 * Build the binding's fields from &lt;xbl:field/&gt; elements

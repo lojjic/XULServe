@@ -12,7 +12,8 @@ import java.util.ArrayList;
 public class XBLBinding {
 
 	private XBLBinding parentBinding;
-	private Object constructor;
+	private XBLConstructor constructor;
+	private XBLDestructor destructor;
 	private HashMap<String, XBLField> fields = new HashMap<String, XBLField>();
 	private HashMap<String, XBLProperty> properties = new HashMap<String, XBLProperty>();
 	private HashMap<String, XBLMethod> methods = new HashMap<String, XBLMethod>();
@@ -28,12 +29,20 @@ public class XBLBinding {
 		this.parentBinding = parentBinding;
 	}
 
-	public Object getConstructor() {
+	public XBLConstructor getConstructor() {
 		return constructor;
 	}
 
-	public void setConstructor(Object constructor) {
+	public void setConstructor(XBLConstructor constructor) {
 		this.constructor = constructor;
+	}
+
+	public XBLDestructor getDestructor() {
+		return destructor;
+	}
+
+	public void setDestructor(XBLDestructor destructor) {
+		this.destructor = destructor;
 	}
 
 	public void addField(XBLField field) {
