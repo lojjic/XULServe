@@ -6,12 +6,16 @@ import org.w3c.dom.Element;
 import org.w3c.dom.DOMException;
 import org.apache.xerces.dom.ElementNSImpl;
 
+import java.util.HashMap;
+
 /**
  * {@link net.lojjic.xul.xbl.ElementXBL} implementation
  */
 public class ElementXBLImpl extends ElementNSImpl implements ElementXBL {
 
 	protected DocumentXBLImpl ownerDocumentXBL;
+
+	private HashMap<String, XBLBinding> appliedBindings;
 
 	/**
 	 * Constructor.
@@ -63,8 +67,24 @@ public class ElementXBLImpl extends ElementNSImpl implements ElementXBL {
 	 * @param bindingURL A URI that specifies the location of a specific binding to attach.
 	 */
 	public void addBinding(String bindingURL) {
-		Binding binding = ownerDocumentXBL.xblBindingManager.getBindingForURL(bindingURL);
-		// TODO
+		// Remove the binding if already applied:
+		removeBinding(bindingURL);
+
+		XBLBinding binding = null;
+		try {
+			binding = ownerDocumentXBL.xblBindingManager.getBindingForURL(bindingURL);
+		}
+		catch (XBLException e) {
+			e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+		}
+		appliedBindings.put(bindingURL, binding);
+
+		// TODO fields, properties, methods
+
+		// Add handlers as event listeners:
+		for(XBLHandler handler : binding.getHandlers()) {
+			addEventListener(handler.getEventType(), handler, (handler.getPhase() == XBLHandler.Phase.capturing));
+		}
 	}
 
 	/**
@@ -75,6 +95,16 @@ public class ElementXBLImpl extends ElementNSImpl implements ElementXBL {
 	 * @param bindingURL A URL that specifies the location of a specific binding to detach.
 	 */
 	public void removeBinding(String bindingURL) {
-		//To change body of implemented methods use File | Settings | File Templates.
+		XBLBinding binding = appliedBindings.get(bindingURL);
+		if(binding == null) {
+			return;
+		}
+
+		// TODO fields, properties, methods
+
+		// Remove handler event listeners:
+		for(XBLHandler handler : binding.getHandlers()) {
+			removeEventListener(handler.getEventType(), handler, (handler.getPhase() == XBLHandler.Phase.capturing));
+		}
 	}
 }
