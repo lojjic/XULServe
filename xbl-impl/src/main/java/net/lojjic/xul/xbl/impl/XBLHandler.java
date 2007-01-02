@@ -9,18 +9,18 @@ import org.w3c.dom.events.Event;
 public class XBLHandler implements EventListener {
 
 	public static enum Phase { capturing, bubbling, target }
-	public static enum AttachTo { element, document, window }
-	public static enum Modifier { shift, alt, control, meta, accel, access }
+	public static enum Modifier { shift, alt, control, meta, accel, accesskey }
 
 	private String eventType;
 	private Object action; //TODO make JS function object
 	private Phase phase;
-	private AttachTo attachTo;
 	private Integer button;
 	private Modifier[] modifiers;
 	private String keyCode;
 	private String charCode;
-	private String type = "javascript";
+	private Integer clickCount;
+	private boolean preventDefault;
+	private String command;
 
 
 	/**
@@ -59,18 +59,6 @@ public class XBLHandler implements EventListener {
 
 	public void setPhase(String phase) {
 		this.phase = Phase.valueOf(phase);
-	}
-
-	public AttachTo getAttachTo() {
-		return attachTo;
-	}
-
-	public void setAttachTo(AttachTo attachTo) {
-		this.attachTo = attachTo;
-	}
-
-	public void setAttachTo(String attachTo) {
-		this.attachTo = AttachTo.valueOf(attachTo);
 	}
 
 	public Integer getButton() {
@@ -114,11 +102,27 @@ public class XBLHandler implements EventListener {
 		this.charCode = charCode;
 	}
 
-	public String getType() {
-		return type;
+	public int getClickCount() {
+		return clickCount;
 	}
 
-	public void setType(String type) {
-		this.type = type;
+	public void setClickCount(int clickCount) {
+		this.clickCount = clickCount;
+	}
+
+	public boolean isPreventDefault() {
+		return preventDefault;
+	}
+
+	public void setPreventDefault(boolean preventDefault) {
+		this.preventDefault = preventDefault;
+	}
+
+	public String getCommand() {
+		return command;
+	}
+
+	public void setCommand(String command) {
+		this.command = command;
 	}
 }

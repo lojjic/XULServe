@@ -182,12 +182,29 @@ public class BindingBuilder {
 			XBLHandler handler = new XBLHandler();
 			handler.setEventType(element.getAttribute("event"));
 			handler.setPhase(element.getAttribute("phase"));
-			handler.setAttachTo(element.getAttribute("attachto"));
-			handler.setButton(Integer.valueOf(element.getAttribute("button")));
+
+			String button = element.getAttribute("button");
+			if(button != null) {
+				handler.setButton(Integer.valueOf(button));
+			}
+
 			handler.setModifiers(element.getAttribute("modifiers"));
 			handler.setKeyCode(element.getAttribute("keycode"));
-			handler.setCharCode(element.getAttribute("charcode"));
-			handler.setType(element.getAttribute("type"));
+
+			String charCode = element.getAttribute("charcode");
+			if(charCode == null) {
+				charCode = element.getAttribute("key"); // @key is also allowed
+			}
+			handler.setCharCode(charCode);
+
+			String clickCount = element.getAttribute("clickcount");
+			if(clickCount != null) {
+				handler.setClickCount(Integer.valueOf(clickCount));
+			}
+
+			handler.setPreventDefault(Boolean.valueOf(element.getAttribute("preventdefault")));
+
+			handler.setCommand(element.getAttribute("command"));
 
 			String action = element.getAttribute("action");
 			if(action == null) {
