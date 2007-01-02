@@ -9,8 +9,8 @@
 
 	<scm>
 		<url>http://websvn.lojjic.net/listing.php?repname=repository&amp;path=%2Fxul%2F</url>
-		<connection>https://svn.lojjic.net/xul/trunk</connection>
-		<developerConnection>https://svn.lojjic.net/xul/trunk</developerConnection>
+		<connection>scm:svn:https://svn.lojjic.net/xul/trunk</connection>
+		<developerConnection>scm:svn:https://svn.lojjic.net/xul/trunk</developerConnection>
 	</scm>
 
 	<modules>
