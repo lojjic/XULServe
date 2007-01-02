@@ -28,19 +28,44 @@ public class BindingManager {
 
 	private String documentImplClassName = DocumentXBLImpl.class.getName();
 
+
+	/**
+	 * Set the {@link Document} implementation class to use.
+	 */
 	public void setDocumentImplClassName(String name) {
 		this.documentImplClassName = name;
 	}
 
+
+	/**
+	 * Get a {@link XBLBinding} object for the XBL binding at the given URL. If the
+	 * binding for that URL has already been built, a cached instance is returned.
+	 *
+	 * @param url The URL of the binding to build; must include a fragment
+	 *            identifier pointing to the ID of the particular binding element.
+	 * @return The XBLBinding object
+	 * @throws XBLException
+	 */
 	public XBLBinding getBindingForURL(String url) throws XBLException {
 		XBLBinding binding = bindings.get(url);
 		if(binding == null) {
-			binding = createBinding(url);
+			binding = buildBinding(url);
 			bindings.put(url, binding);
 		}
 		return binding;
 	}
 
+
+	/**
+	 * Load and parse the XBL Document at the given URL. It is cached for later
+	 * use. The Document can also be modified by the application via DOM code,
+	 * and subsequent binding applications will use the updated Document.
+	 *
+	 * @param url The URL of the binding or binding document; it may or may not
+	 *            include the fragment identifier of the particular binding.
+	 * @return The constructed DOM Document
+	 * @throws XBLException
+	 */
 	public Document loadBindingDocument(String url) throws XBLException {
 		final String docURL = removeFragmentId(url);
 		Document document = bindingDocuments.get(docURL);
@@ -80,6 +105,12 @@ public class BindingManager {
 	}
 
 
+	/**
+	 * Utility to get the fragment identifier (the part after '#') from the given URL.
+	 *
+	 * @param fullURL The full URL containing the fragment identifier
+	 * @return The fragment identifier, or null if none found
+	 */
 	private String getFragmentId(String fullURL) {
 		int hashIndex = fullURL.indexOf("#");
 		if(hashIndex == -1) {
@@ -89,6 +120,12 @@ public class BindingManager {
 	}
 
 
+	/**
+	 * Utility to remove the fragment identifier (the part after '#') from the given URL.
+	 *
+	 * @param fullURL The full URL containing the fragment identifier
+	 * @return The URL with the fragment identifier removed
+	 */
 	private String removeFragmentId(String fullURL) {
 		int hashIndex = fullURL.indexOf("#");
 		if(hashIndex == -1) {
@@ -97,7 +134,15 @@ public class BindingManager {
 		return fullURL.substring(0, hashIndex);
 	}
 
-	private XBLBinding createBinding(String url) throws XBLException {
+
+	/**
+	 * Build a {@link XBLBinding} from the given URL.
+	 *
+	 * @param url
+	 * @return
+	 * @throws XBLException
+	 */
+	private XBLBinding buildBinding(String url) throws XBLException {
 		Document document = loadBindingDocument(url);
 		String fragmentId = getFragmentId(url);
 
@@ -140,6 +185,11 @@ public class BindingManager {
 	}
 
 
+	/**
+	 * Build the binding's fields from &lt;xbl:field/&gt; elements
+	 * @param binding
+	 * @param bindingElement
+	 */
 	private void buildFields(XBLBinding binding, Element bindingElement) {
 		NodeList fieldElements = bindingElement.getElementsByTagNameNS(XBL_NAMESPACE, "field");
 		for(int i = 0; i < fieldElements.getLength(); i++) {
@@ -153,7 +203,11 @@ public class BindingManager {
 		}
 	}
 
-
+	/**
+	 * Build the binding's properties from &lt;xbl:property/&gt; elements
+	 * @param binding
+	 * @param bindingElement
+	 */
 	private void buildProperties(XBLBinding binding, Element bindingElement) {
 		NodeList propertyElements = bindingElement.getElementsByTagNameNS(XBL_NAMESPACE, "property");
 		for(int i = 0; i < propertyElements.getLength(); i++) {
@@ -185,7 +239,11 @@ public class BindingManager {
 		}
 	}
 
-
+	/**
+	 * Build the binding's methods from &lt;xbl:method/&gt; elements
+	 * @param binding
+	 * @param bindingElement
+	 */
 	private void buildMethods(XBLBinding binding, Element bindingElement) {
 		NodeList methodElements = bindingElement.getElementsByTagNameNS(XBL_NAMESPACE, "method");
 		for(int i = 0; i < methodElements.getLength(); i++) {
@@ -209,7 +267,11 @@ public class BindingManager {
 		}
 	}
 
-
+	/**
+	 * Build the binding's event handlers from &lt;xbl:handler/&gt; elements
+	 * @param binding
+	 * @param bindingElement
+	 */
 	private void buildHandlers(XBLBinding binding, Element bindingElement) {
 		NodeList handlerElements = bindingElement.getElementsByTagNameNS(XBL_NAMESPACE, "handler");
 		for(int i = 0; i < handlerElements.getLength(); i++) {
@@ -234,7 +296,11 @@ public class BindingManager {
 		}
 	}
 
-
+	/**
+	 * Build the binding's anonymous content tree from the &lt;xbl:content/&gt; element
+	 * @param binding
+	 * @param bindingElement
+	 */
 	private void buildContent(XBLBinding binding, Element bindingElement) {
 		// TODO
 	}
