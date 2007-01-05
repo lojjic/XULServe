@@ -1,4 +1,4 @@
-package net.lojjic.xul.javascript.annotation;
+package net.lojjic.rhino.annotations;
 
 import java.lang.annotation.Target;
 import java.lang.annotation.ElementType;

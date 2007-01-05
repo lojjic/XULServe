@@ -1,9 +1,9 @@
 package net.lojjic.xul.javascript;
 
-import net.lojjic.xul.javascript.annotation.JSClassName;
-import net.lojjic.xul.javascript.annotation.JSFunction;
-import net.lojjic.xul.javascript.annotation.JSGetter;
-import net.lojjic.xul.javascript.annotation.JSSetter;
+import net.lojjic.rhino.annotations.JSClassName;
+import net.lojjic.rhino.annotations.JSFunction;
+import net.lojjic.rhino.annotations.JSGetter;
+import net.lojjic.rhino.annotations.JSSetter;
 import net.lojjic.xul.XULElement;
 import org.mozilla.javascript.Wrapper;
 import org.w3c.dom.NodeList;

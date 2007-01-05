@@ -22,6 +22,7 @@
 		<module>xul-dom-javascript</module>
 		<module>xul-cocoon-block</module>
 		<module>xul-test-webapp</module>
+    <module>rhino-annotations</module>
   </modules>
 
 	<build>

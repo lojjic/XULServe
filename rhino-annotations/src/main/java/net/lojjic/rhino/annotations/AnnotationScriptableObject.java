@@ -1,4 +1,4 @@
-package net.lojjic.xul.javascript.annotation;
+package net.lojjic.rhino.annotations;
 
 import org.mozilla.javascript.ScriptableObject;
 import org.mozilla.javascript.Scriptable;
@@ -77,7 +77,7 @@ public abstract class AnnotationScriptableObject extends ScriptableObject {
 
 	/**
 	 * Get the target JavaScript class name for the given Class.
-	 * Uses the {@link net.lojjic.xul.javascript.annotation.JSClassName}
+	 * Uses the {@link JSClassName}
 	 * annotation if available, otherwise uses the Class's unqualified name.
 	 */
 	protected static String getJSClassName(Class clazz) {
