@@ -52,23 +52,23 @@ public abstract class AnnotationScriptableObject extends ScriptableObject {
 		AnnotatedMethods methods = getAnnotatedMethods(clazz);
 
 		// Add the constructor and prototype to the parent scope:
-		if(methods.constructor != null) {
-			FunctionObject ctor = new FunctionObject(className, methods.constructor, scope);
-			ctor.addAsConstructor(scope, prototype);
-		}
+		FunctionObject ctor = new FunctionObject(className, methods.constructor, scope);
+		ctor.addAsConstructor(scope, prototype);
 
 		// Loop over the getters and add them and any corresponding setters
 		// to the prototype:
 		for(Map.Entry<String,Method> entry : methods.propertyGetters.entrySet()) {
 			Method setter = methods.propertySetters.get(entry.getKey());
 			int attr = PERMANENT | DONTENUM | (setter != null ? 0 : READONLY);
-			((ScriptableObject)prototype).defineProperty(entry.getKey(), null, entry.getValue(), setter, attr);
+			ScriptableObject parent = (entry.getValue().isAnnotationPresent(JSStatic.class) ? ctor : (ScriptableObject)prototype);
+			parent.defineProperty(entry.getKey(), null, entry.getValue(), setter, attr);
 		}
 
 		// Add the functions to the prototype:
 		for(Map.Entry<String,Method> entry : methods.functions.entrySet()) {
 			FunctionObject func = new FunctionObject(entry.getKey(), entry.getValue(), prototype);
-			((ScriptableObject)prototype).defineProperty(entry.getKey(), func, DONTENUM);
+			ScriptableObject parent = (entry.getValue().isAnnotationPresent(JSStatic.class) ? ctor : (ScriptableObject)prototype);
+			parent.defineProperty(entry.getKey(), func, DONTENUM);
 		}
 
 		return className;
