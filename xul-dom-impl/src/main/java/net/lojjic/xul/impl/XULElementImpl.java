@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import net.lojjic.xul.Constants;
+import net.lojjic.xul.XULConstants;
 import net.lojjic.xul.XULElement;
 import net.lojjic.xul.xbl.impl.ElementXBLImpl;
 
@@ -59,7 +59,7 @@ public class XULElementImpl extends ElementXBLImpl implements XULElement {
 	 * @param qualifiedName
 	 */
 	public XULElementImpl(XULDocumentImpl ownerXULDocument, String qualifiedName) {
-		super(ownerXULDocument, Constants.XUL_NAMESPACE, qualifiedName);
+		super(ownerXULDocument, XULConstants.XUL_NAMESPACE, qualifiedName);
 		this.ownerXULDocument = ownerXULDocument;
 	}
 	
@@ -301,7 +301,7 @@ public class XULElementImpl extends ElementXBLImpl implements XULElement {
 
 	public NodeList getElementsByAttribute(String name, String value) {
 		// TODO find a more efficient way to perform this search
-		NodeList all = getElementsByTagNameNS(Constants.XUL_NAMESPACE, "*");
+		NodeList all = getElementsByTagNameNS(XULConstants.XUL_NAMESPACE, "*");
 		final List<Node> matching = new ArrayList<Node>();
 		for(int i=0; i<all.getLength(); i++) {
 			Element elt = (Element)all.item(i);

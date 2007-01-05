@@ -8,7 +8,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.events.Event;
 
-import net.lojjic.xul.Constants;
+import net.lojjic.xul.XULConstants;
 import net.lojjic.xul.XULCommandDispatcher;
 import net.lojjic.xul.XULDocument;
 import net.lojjic.xul.xbl.impl.DocumentXBLImpl;
@@ -49,7 +49,7 @@ public class XULDocumentImpl extends DocumentXBLImpl implements XULDocument {
 
 	@Override
 	public Element createElementNS(String namespaceURI, String qualifiedName) {
-		if(Constants.XUL_NAMESPACE.equals(namespaceURI)) {
+		if(XULConstants.XUL_NAMESPACE.equals(namespaceURI)) {
 			// Parse out the prefix:
 			String localName = qualifiedName;
 			int colon = localName.indexOf(":");
@@ -111,7 +111,7 @@ public class XULDocumentImpl extends DocumentXBLImpl implements XULDocument {
 
 	public NodeList getElementsByAttribute(String name, String value) {
 		// TODO find a more efficient way to perform this search
-		NodeList all = getElementsByTagNameNS(Constants.XUL_NAMESPACE, "*");
+		NodeList all = getElementsByTagNameNS(XULConstants.XUL_NAMESPACE, "*");
 		final List<Node> matching = new ArrayList<Node>();
 		for(int i=0; i<all.getLength(); i++) {
 			Element elt = (Element)all.item(i);
