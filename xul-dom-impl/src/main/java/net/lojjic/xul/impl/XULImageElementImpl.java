@@ -7,8 +7,6 @@ import net.lojjic.xul.XULImageElement;
  */
 public class XULImageElementImpl extends XULElementImpl implements XULImageElement {
 
-	private String src;
-
 	/**
 	 * Constructor.
 	 *
@@ -21,10 +19,10 @@ public class XULImageElementImpl extends XULElementImpl implements XULImageEleme
 
 
 	public String getSrc() {
-		return src;
+		return getAttribute("src");
 	}
 
 	public void setSrc(String src) {
-		this.src = src;
+		setAttribute("src", src);
 	}
 }

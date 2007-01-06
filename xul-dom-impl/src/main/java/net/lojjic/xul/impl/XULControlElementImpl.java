@@ -7,9 +7,6 @@ import net.lojjic.xul.XULControlElement;
  */
 public class XULControlElementImpl extends XULElementImpl implements XULControlElement {
 
-	private boolean disabled;
-	private long tabIndex;
-
 	/**
 	 * Constructor.
 	 *
@@ -21,18 +18,18 @@ public class XULControlElementImpl extends XULElementImpl implements XULControlE
 	}
 
 	public boolean isDisabled() {
-		return disabled;
+		return Boolean.parseBoolean(getAttribute("disabled"));
 	}
 
 	public void setDisabled(boolean disabled) {
-		this.disabled = disabled;
+		setAttribute("disabled", String.valueOf(disabled));
 	}
 
-	public long getTabIndex() {
-		return tabIndex;
+	public int getTabIndex() {
+		return Integer.parseInt(getAttribute("tabindex"));
 	}
 
-	public void setTabIndex(long tabIndex) {
-		this.tabIndex = tabIndex;
+	public void setTabIndex(int tabIndex) {
+		setAttribute("tabindex", String.valueOf(tabIndex));
 	}
 }

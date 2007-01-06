@@ -4,8 +4,6 @@ import org.w3c.dom.NodeList;
 
 public interface XULMultiSelectControlElement extends XULSelectControlElement {
 
-	static enum SelType { single, multiple }
-
 	String getSelType();
 	void setSelType(String selType);
 	

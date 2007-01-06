@@ -7,18 +7,17 @@ import net.lojjic.xul.XULTextBoxElement;
 /**
  * {@link net.lojjic.xul.XULTextBoxElement} implementation
  */
-public class XULTextBoxElementImpl extends XULElementImpl implements XULTextBoxElement {
+public class XULTextBoxElementImpl extends XULControlElementImpl implements XULTextBoxElement {
 
 	private Node inputField;
-	private long maxLength;
-	private String value;
 	private long selectionStart;
 	private long selectionEnd;
-	private String type;
-	private boolean disabled;
-	private long tabIndex;
-	
-	
+
+	/**
+	 * Constructor.
+	 * @param ownerDocument
+	 * @param qualifiedName
+	 */
 	public XULTextBoxElementImpl(XULDocumentImpl ownerDocument, String qualifiedName) {
 		super(ownerDocument, qualifiedName);
 	}
@@ -29,15 +28,16 @@ public class XULTextBoxElementImpl extends XULElementImpl implements XULTextBoxE
 	}
 
 	public long getTextLength() {
-		return value.length();
+		String value = getValue();
+		return (value == null) ? 0 : value.length();
 	}
 
 	public long getMaxLength() {
-		return maxLength;
+		return Long.parseLong(getAttribute("maxlength"));
 	}
 
 	public void setMaxLength(long maxLength) {
-		this.maxLength = maxLength;
+		setAttribute("maxlength", String.valueOf(maxLength));
 	}
 
 	public long getSelectionStart() {
@@ -57,19 +57,19 @@ public class XULTextBoxElementImpl extends XULElementImpl implements XULTextBoxE
 	}
 
 	public String getValue() {
-		return value;
+		return getAttribute("value");
 	}
 
 	public void setValue(String value) {
-		this.value = value;
+		setAttribute("value", value);
 	}
 
 	public String getType() {
-		return type;
+		return getAttribute("type");
 	}
 
 	public void setType(String type) {
-		this.type = type;
+		setAttribute("type", type);
 	}
 
 	public void select() {
@@ -79,22 +79,6 @@ public class XULTextBoxElementImpl extends XULElementImpl implements XULTextBoxE
 	public void setSelectionRange(long selectionStart, long selectionEnd) {
 		this.selectionStart = selectionStart;
 		this.selectionEnd = selectionEnd;
-	}
-
-	public boolean isDisabled() {
-		return disabled;
-	}
-
-	public void setDisabled(boolean disabled) {
-		this.disabled = disabled;
-	}
-
-	public long getTabIndex() {
-		return tabIndex;
-	}
-
-	public void setTabIndex(long tabIndex) {
-		this.tabIndex = tabIndex;
 	}
 
 }

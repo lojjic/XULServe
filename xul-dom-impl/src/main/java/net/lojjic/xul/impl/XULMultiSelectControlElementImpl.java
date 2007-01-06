@@ -14,7 +14,6 @@ import java.util.List;
  */
 public class XULMultiSelectControlElementImpl extends XULSelectControlElementImpl implements XULMultiSelectControlElement {
 
-	private SelType selType;
 	private int currentIndex;
 
 	/**
@@ -28,11 +27,11 @@ public class XULMultiSelectControlElementImpl extends XULSelectControlElementImp
 	}
 
 	public String getSelType() {
-		return selType.toString();
+		return getAttribute("seltype");
 	}
 
 	public void setSelType(String selType) {
-		this.selType = SelType.valueOf(selType);
+		setAttribute("seltype", selType);
 	}
 
 	public XULSelectControlItemElement getCurrentItem() {

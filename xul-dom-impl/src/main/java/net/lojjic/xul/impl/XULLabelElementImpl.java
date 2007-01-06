@@ -7,56 +7,54 @@ import net.lojjic.xul.XULLabelElement;
  */
 public class XULLabelElementImpl extends XULElementImpl implements XULLabelElement {
 
-	private String accessKey;
-	private String control;
-	private boolean disabled;
-	private boolean crop;
-	private String value;
-	
-	
+	/**
+	 * Constructor
+	 * @param ownerDocument
+	 * @param qualifiedName
+	 */
 	public XULLabelElementImpl(XULDocumentImpl ownerDocument, String qualifiedName) {
 		super(ownerDocument, qualifiedName);
 	}
 	
 	
 	public String getAccessKey() {
-		return accessKey;
+		return getAttribute("accesskey");
 	}
 	
 	public void setAccessKey(String accessKey) {
-		this.accessKey = accessKey;
+		setAttribute("accesskey", accessKey);
 	}
 	
 	public String getControl() {
-		return control;
+		return getAttribute("control");
 	}
 	
 	public void setControl(String control) {
-		this.control = control;
+		setAttribute("control", control);
 	}
 	
 	public boolean isCrop() {
-		return crop;
+		return Boolean.parseBoolean(getAttribute("crop"));
 	}
 	
 	public void setCrop(boolean crop) {
-		this.crop = crop;
+		setAttribute("crop", String.valueOf(crop));
 	}
 	
 	public boolean isDisabled() {
-		return disabled;
+		return Boolean.parseBoolean(getAttribute("disabled"));
 	}
 	
 	public void setDisabled(boolean disabled) {
-		this.disabled = disabled;
+		setAttribute("disabled", String.valueOf(disabled));
 	}
 	
 	public String getValue() {
-		return value;
+		return getAttribute("value");
 	}
 	
 	public void setValue(String value) {
-		this.value = value;
+		setAttribute("value", value);
 	}	
 
 }

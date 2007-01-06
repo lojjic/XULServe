@@ -7,10 +7,6 @@ import net.lojjic.xul.XULCheckboxElement;
  */
 public class XULCheckboxElementImpl extends XULLabeledControlElementImpl implements XULCheckboxElement {
 
-	private boolean checked;
-	private short checkState;
-	private boolean autoCheck;
-
 	/**
 	 * Constructor.
 	 *
@@ -22,26 +18,26 @@ public class XULCheckboxElementImpl extends XULLabeledControlElementImpl impleme
 	}
 
 	public boolean isChecked() {
-		return checked;
+		return Boolean.parseBoolean(getAttribute("checked"));
 	}
 
 	public void setChecked(boolean checked) {
-		this.checked = checked;
+		setAttribute("checked", String.valueOf(checked));
 	}
 
 	public short getCheckState() {
-		return checkState;
+		return Short.parseShort(getAttribute("checkState"));
 	}
 
 	public void setCheckState(short checkState) {
-		this.checkState = checkState;
+		setAttribute("checkState", String.valueOf(checkState));
 	}
 
 	public boolean isAutoCheck() {
-		return autoCheck;
+		return Boolean.parseBoolean(getAttribute("autoCheck"));
 	}
 
 	public void setAutoCheck(boolean autoCheck) {
-		this.autoCheck = autoCheck;
+		setAttribute("autoCheck", String.valueOf(autoCheck));
 	}
 }

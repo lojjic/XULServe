@@ -8,8 +8,6 @@ import org.w3c.dom.Element;
  */
 public class XULPopupElementImpl extends XULElementImpl implements XULPopupElement {
 
-	private String position;
-
 	/**
 	 * Constructor.
 	 *
@@ -21,11 +19,11 @@ public class XULPopupElementImpl extends XULElementImpl implements XULPopupEleme
 	}
 
 	public String getPosition() {
-		return position;
+		return getAttribute("position");
 	}
 
 	public void setPosition(String position) {
-		this.position = position;
+		setAttribute("position", position);
 	}
 
 	public void showPopup(short alignment, Element target, Element anchor) {

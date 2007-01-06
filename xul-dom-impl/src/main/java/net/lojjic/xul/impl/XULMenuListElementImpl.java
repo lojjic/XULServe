@@ -8,12 +8,6 @@ import net.lojjic.xul.XULTextBoxElement;
  */
 public class XULMenuListElementImpl extends XULSelectControlElementImpl implements XULMenuListElement {
 
-	private boolean editable;
-	private boolean open;
-	private String label;
-	private String crop;
-	private String image;
-
 	/**
 	 * Constructor.
 	 *
@@ -24,44 +18,45 @@ public class XULMenuListElementImpl extends XULSelectControlElementImpl implemen
 		super(ownerXULDocument, qualifiedName);
 	}
 
+
 	public boolean isEditable() {
-		return editable;
+		return Boolean.parseBoolean(getAttribute("editable"));
 	}
 
 	public void setEditable(boolean editable) {
-		this.editable = editable;
+		setAttribute("editable", String.valueOf(editable));
 	}
 
 	public boolean isOpen() {
-		return open;
+		return Boolean.parseBoolean(getAttribute("open"));
 	}
 
 	public void setOpen(boolean open) {
-		this.open = open;
+		setAttribute("open", String.valueOf(open));
 	}
 
 	public String getLabel() {
-		return label;
+		return getAttribute("label");
 	}
 
 	public void setLabel(String label) {
-		this.label = label;
+		setAttribute("label", label);
 	}
 
 	public String getCrop() {
-		return crop;
+		return getAttribute("crop");
 	}
 
 	public void setCrop(String crop) {
-		this.crop = crop;
+		setAttribute("crop", crop);
 	}
 
 	public String getImage() {
-		return image;
+		return getAttribute("image");
 	}
 
 	public void setImage(String image) {
-		this.image = image;
+		setAttribute("image", image);
 	}
 
 	// For editable menu lists only.

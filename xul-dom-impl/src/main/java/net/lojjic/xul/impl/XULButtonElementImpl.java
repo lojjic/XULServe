@@ -5,139 +5,73 @@ import net.lojjic.xul.XULButtonElement;
 /**
  * {@link net.lojjic.xul.XULButtonElement} implementation
  */
-public class XULButtonElementImpl extends XULElementImpl implements XULButtonElement {
+public class XULButtonElementImpl extends XULLabeledControlElementImpl implements XULButtonElement {
 
-	private String type;
-	private String dlgType;
-	private boolean open;
-	private boolean checked;
-	private short checkState;
-	private boolean autoCheck;
-	private String group;
-	private String crop;
-	private String image;
-	private String label;
-	private String accessKey;
-	private String command;
-	private boolean disabled;
-	private long tabIndex;
-	
-	
+	/**
+	 * Constructor.
+	 * 
+	 * @param ownerDocument
+	 * @param qualifiedName
+	 */
 	public XULButtonElementImpl(XULDocumentImpl ownerDocument, String qualifiedName) {
 		super(ownerDocument, qualifiedName);
 	}
 
-	
-	public String getAccessKey() {
-		return accessKey;
-	}
-	
-	public void setAccessKey(String accessKey) {
-		this.accessKey = accessKey;
-	}
-	
+
 	public boolean isAutoCheck() {
-		return autoCheck;
+		return Boolean.parseBoolean(getAttribute("autoCheck"));
 	}
 	
 	public void setAutoCheck(boolean autoCheck) {
-		this.autoCheck = autoCheck;
+		setAttribute("autoCheck", String.valueOf(autoCheck));
 	}
 	
 	public boolean isChecked() {
-		return checked;
+		return Boolean.parseBoolean(getAttribute("checked"));
 	}
 	
 	public void setChecked(boolean checked) {
-		this.checked = checked;
+		setAttribute("checked", String.valueOf(checked));
 	}
 	
 	public short getCheckState() {
-		return checkState;
+		return Short.parseShort(getAttribute("checkState"));
 	}
 	
 	public void setCheckState(short checkState) {
-		this.checkState = checkState;
-	}
-	
-	public String getCommand() {
-		return command;
-	}
-	
-	public void setCommand(String command) {
-		this.command = command;
-	}
-	
-	public String getCrop() {
-		return crop;
-	}
-	
-	public void setCrop(String crop) {
-		this.crop = crop;
-	}
-	
-	public boolean isDisabled() {
-		return disabled;
-	}
-	
-	public void setDisabled(boolean disabled) {
-		this.disabled = disabled;
+		setAttribute("checkState", String.valueOf(checkState));
 	}
 	
 	public String getDlgType() {
-		return dlgType;
+		return getAttribute("dlgType");
 	}
 	
 	public void setDlgType(String dlgType) {
-		this.dlgType = dlgType;
+		setAttribute("dlgType", dlgType);
 	}
 	
 	public String getGroup() {
-		return group;
+		return getAttribute("group");
 	}
 	
 	public void setGroup(String group) {
-		this.group = group;
-	}
-	
-	public String getImage() {
-		return image;
-	}
-	
-	public void setImage(String image) {
-		this.image = image;
-	}
-	
-	public String getLabel() {
-		return label;
-	}
-	
-	public void setLabel(String label) {
-		this.label = label;
+		setAttribute("group", group);
 	}
 	
 	public boolean isOpen() {
-		return open;
+		return Boolean.parseBoolean(getAttribute("open"));
 	}
 	
 	public void setOpen(boolean open) {
-		this.open = open;
-	}
-	
-	public long getTabIndex() {
-		return tabIndex;
-	}
-	
-	public void setTabIndex(long tabIndex) {
-		this.tabIndex = tabIndex;
+		setAttribute("open", String.valueOf(open));
 	}
 	
 	public String getType() {
-		return type;
+		return getAttribute("type");
 	}
 	
 	public void setType(String type) {
-		this.type = type;
+		setAttribute("type", type);
 	}
 	
 }

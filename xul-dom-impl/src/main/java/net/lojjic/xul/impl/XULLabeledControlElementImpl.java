@@ -7,12 +7,6 @@ import net.lojjic.xul.XULLabeledControlElement;
  */
 public class XULLabeledControlElementImpl extends XULControlElementImpl implements XULLabeledControlElement {
 
-	private String crop;
-	private String image;
-	private String label;
-	private String accessKey;
-	private String command;
-
 	/**
 	 * Constructor.
 	 *
@@ -25,42 +19,44 @@ public class XULLabeledControlElementImpl extends XULControlElementImpl implemen
 
 
 	public String getCrop() {
-		return crop;
+		return getAttribute("crop");
 	}
 
 	public void setCrop(String crop) {
-		this.crop = crop;
+		setAttribute("crop", crop);
 	}
 
 	public String getImage() {
-		return image;
+		return getAttribute("image");
 	}
 
 	public void setImage(String image) {
-		this.image = image;
+		setAttribute("image", image);
 	}
 
 	public String getLabel() {
-		return label;
+		return getAttribute("label");
 	}
 
 	public void setLabel(String label) {
-		this.label = label;
+		setAttribute("label", label);
 	}
 
 	public String getAccessKey() {
-		return accessKey;
+		return getAttribute("accesskey");
 	}
 
 	public void setAccessKey(String accessKey) {
-		this.accessKey = accessKey;
+		setAttribute("accesskey", accessKey);
 	}
 
 	public String getCommand() {
-		return command;
+		return getAttribute("command");
 	}
 
 	public void setCommand(String command) {
-		this.command = command;
+		// TODO parse the command script so it can be executed quickly
+		setAttribute("command", command);
 	}
+
 }

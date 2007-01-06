@@ -11,7 +11,6 @@ import java.util.ArrayList;
  */
 public class XULSelectControlElementImpl extends XULControlElementImpl implements XULSelectControlElement {
 
-	protected String value;
 	protected List<XULSelectControlItemElement> items = new ArrayList<XULSelectControlItemElement>();
 	protected List<XULSelectControlItemElement> selectedItems = new ArrayList<XULSelectControlItemElement>();
 
@@ -52,11 +51,11 @@ public class XULSelectControlElementImpl extends XULControlElementImpl implement
 	}
 
 	public String getValue() {
-		return value;
+		return getAttribute("value");
 	}
 
 	public void setValue(String value) {
-		this.value = value;
+		setAttribute("value", value);
 	}
 
 	public XULSelectControlItemElement appendItem(String label, String value) {

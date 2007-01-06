@@ -5,8 +5,8 @@ public interface XULControlElement extends XULElement {
 	boolean isDisabled();
 	void setDisabled(boolean disabled);
 	
-	long getTabIndex();
-	void setTabIndex(long tabIndex);
+	int getTabIndex();
+	void setTabIndex(int tabIndex);
 	
 	// XXX defined in XULElement, but should be defined here
 	//  readonly attribute nsIControllers controllers;

@@ -9,8 +9,6 @@ import org.w3c.dom.Element;
  */
 public class XULTreeElementImpl extends XULElementImpl implements XULTreeElement {
 
-	private boolean editable;
-
 	/**
 	 * Constructor.
 	 *
@@ -27,11 +25,11 @@ public class XULTreeElementImpl extends XULElementImpl implements XULTreeElement
 	}
 
 	public boolean isEditable() {
-		return editable;
+		return Boolean.parseBoolean(getAttribute("editable"));
 	}
 
 	public void setEditable(boolean editable) {
-		this.editable = editable;
+		setAttribute("editable", String.valueOf(editable));
 	}
 
 	// For editable trees only
