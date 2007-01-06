@@ -40,5 +40,11 @@
 		</td>
 	</xsl:template>
 
+	<xsl:template match="xul:treeseparator">
+		<tr>
+			<td colspan="{count(ancestor::xul:tree/xul:treecols/xul:treecol)}"><hr /></td>
+		</tr>
+	</xsl:template>
+
 
 </xsl:stylesheet>
