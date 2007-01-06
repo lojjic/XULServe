@@ -133,4 +133,13 @@
 		</select>
 	</xsl:template>
 
+
+	<xsl:template match="xul:button">
+		<input type="button" id="@{id}" value="{@label}">
+			<xsl:if test="@oncommand">
+				<xsl:attribute name="onclick">alert('TODO');</xsl:attribute>
+			</xsl:if>
+		</input>
+	</xsl:template>
+
 </xsl:stylesheet>
