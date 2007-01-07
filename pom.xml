@@ -8,7 +8,7 @@
 	<version>1.0-SNAPSHOT</version>
 
 	<scm>
-		<url>http://websvn.lojjic.net/listing.php?repname=repository&amp;path=%2Fxul%2F</url>
+		<url>http://viewvc.lojjic.net/viewvc.cgi/svn/</url>
 		<connection>scm:svn:https://svn.lojjic.net/xul/trunk</connection>
 		<developerConnection>scm:svn:https://svn.lojjic.net/xul/trunk</developerConnection>
 	</scm>
