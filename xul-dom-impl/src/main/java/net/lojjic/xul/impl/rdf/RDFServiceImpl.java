@@ -1,12 +1,6 @@
 package net.lojjic.xul.impl.rdf;
 
 import net.lojjic.xul.rdf.*;
-import org.openrdf.sesame.Sesame;
-import org.openrdf.sesame.config.ConfigurationException;
-import org.openrdf.sesame.config.AccessDeniedException;
-import org.openrdf.sesame.repository.local.LocalService;
-import org.openrdf.sesame.repository.local.LocalRepository;
-import org.openrdf.model.Graph;
 
 /**
  * Implementation of {@link RDFService} that uses a Sesame repository/graph
@@ -14,23 +8,13 @@ import org.openrdf.model.Graph;
  */
 public class RDFServiceImpl implements RDFService {
 
-	private LocalRepository localRepository;
-	private Graph graph;
-
-	public RDFServiceImpl() throws ConfigurationException, AccessDeniedException {
-		LocalService service = Sesame.getService();
-		localRepository = service.createRepository("myRep", false);
-		graph = localRepository.getGraph();
-	}
-
-
 	public RDFResource getAnonymousResource() {
-		return new RDFResourceImpl(graph);
+		return new RDFResourceImpl();
 	}
 
 	public RDFBlob getBlobLiteral(byte[] value, int length) {
 		
-		return new RDFBlobImpl(graph, value);
+		return new RDFBlobImpl(value);
 	}
 
 	public RDFDataSource getDataSource(String uri) {
@@ -42,19 +26,19 @@ public class RDFServiceImpl implements RDFService {
 	}
 
 	public RDFDate getDateLiteral(long value) {
-		return new RDFDateImpl(graph, value);
+		return new RDFDateImpl(value);
 	}
 
 	public RDFInt getIntLiteral(int value) {
-		return new RDFIntImpl(graph, value);
+		return new RDFIntImpl(value);
 	}
 
 	public RDFLiteral getLiteral(String value) {
-		return new RDFLiteralImpl(graph, value);
+		return new RDFLiteralImpl(value);
 	}
 
 	public RDFResource getResource(String uri) {
-		return new RDFResourceImpl(graph, uri);
+		return new RDFResourceImpl(uri);
 	}
 
 	public RDFResource getUnicodeResource(String uri) {

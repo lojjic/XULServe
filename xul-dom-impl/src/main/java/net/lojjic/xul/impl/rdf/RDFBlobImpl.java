@@ -2,27 +2,21 @@ package net.lojjic.xul.impl.rdf;
 
 import net.lojjic.xul.rdf.RDFBlob;
 import net.lojjic.xul.rdf.RDFNode;
-import org.openrdf.model.Literal;
-import org.openrdf.model.Graph;
-import org.openrdf.model.URI;
-import org.openrdf.vocabulary.XmlSchema;
-import org.apache.xerces.impl.dv.util.Base64;
+
+import java.util.Arrays;
 
 /**
- * Implementation of {@link RDFBlob} that wraps a Sesame {@link Literal}.
- * The literal's value is encoded as a Base64 string.
+ * Implementation of {@link RDFBlob}.
  */
 public class RDFBlobImpl extends RDFNodeImpl implements RDFBlob {
 
-	private Literal literal;
+	private byte[] value;
 
 	/**
-	 * Construct an RDFBlobImpl instance wrapping a {@link org.openrdf.model.Literal}
+	 * Constructor
 	 */
-	public RDFBlobImpl(Graph graph, byte[] value) {
-		URI datatype = graph.getValueFactory().createURI(XmlSchema.BASE64BINARY);
-		String base64Value = Base64.encode(value);
-		literal = graph.getValueFactory().createLiteral(base64Value, datatype);
+	public RDFBlobImpl(byte[] value) {
+		this.value = value;
 	}
 
 	/**
@@ -36,13 +30,13 @@ public class RDFBlobImpl extends RDFNodeImpl implements RDFBlob {
 	 * The binary data.
 	 */
 	public byte[] getValue() {
-		return Base64.decode(literal.getLabel());
+		return value;
 	}
 
 	/**
 	 * Compare node equality
 	 */
 	public boolean equalsNode(RDFNode node) {
-		return node != null && node instanceof RDFBlobImpl && literal.equals(((RDFBlobImpl)node).literal);
+		return node != null && node instanceof RDFBlobImpl && Arrays.equals(value, ((RDFBlobImpl)node).value);
 	}
 }

@@ -1,11 +1,9 @@
 package net.lojjic.xul.impl.rdf;
 
 import net.lojjic.xul.rdf.RDFNode;
-import org.openrdf.model.Graph;
 
 /**
- * Implementation of {@link RDFNode} that uses Sesame. This class is
- * abstract so it can be shared by the specific RDF node type impls.
+ * Abstract implementation of {@link RDFNode}.
  */
 public abstract class RDFNodeImpl implements RDFNode {
 

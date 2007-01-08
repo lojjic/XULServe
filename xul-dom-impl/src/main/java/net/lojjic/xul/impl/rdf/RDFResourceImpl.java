@@ -2,32 +2,26 @@ package net.lojjic.xul.impl.rdf;
 
 import net.lojjic.xul.rdf.RDFResource;
 import net.lojjic.xul.rdf.RDFNode;
-import org.openrdf.model.Graph;
-import org.openrdf.model.Resource;
-import org.openrdf.model.URI;
 
 /**
- * Implementation of {@link RDFResource} that wraps a Sesame {@link Resource}.
- * It can either be a URI resource or a blank node resource, depending on the
- * constructor used.
+ * Implementation of {@link RDFResource}
  */
 public class RDFResourceImpl extends RDFNodeImpl implements RDFResource {
 
-	private Resource resource;
+	private String uri;
 
 	/**
 	 * Constructor for an anonymous resource
-	 * @param graph
 	 */
-	public RDFResourceImpl(Graph graph) {
-		this.resource = graph.getValueFactory().createBNode();
+	public RDFResourceImpl() {
+		this.uri = null;
 	}
 
 	/**
 	 * Constructor for a URI (non-anonymous) resource
 	 */
-	public RDFResourceImpl(Graph graph, String uri) {
-		this.resource = graph.getValueFactory().createURI(uri);
+	public RDFResourceImpl(String uri) {
+		this.uri = uri;
 	}
 
 	/**
@@ -35,7 +29,7 @@ public class RDFResourceImpl extends RDFNodeImpl implements RDFResource {
 	 */
 	public String getValue() {
 		// XXX what should this return for blank node? Currently returns null.
-		return (resource instanceof URI) ? ((URI)resource).getURI() : null;
+		return uri;
 	}
 
 	/**
@@ -49,14 +43,14 @@ public class RDFResourceImpl extends RDFNodeImpl implements RDFResource {
 	 * Determine if the resource has the given URI.
 	 */
 	public boolean equalsString(String uri) {
-		// XXX what should this return for blank node? Currently returns false.
-		return (resource instanceof URI) && ((URI) resource).getURI().equals(uri);
+		// XXX what should this return for blank node? Currently returns true if uri param is null.
+		return ((this.uri == null && uri == null) || (this.uri != null && this.uri.equals(uri)));
 	}
 
 	/**
 	 * Compare node equality
 	 */
 	public boolean equalsNode(RDFNode node) {
-		return node != null && node instanceof RDFResourceImpl && resource.equals(((RDFResourceImpl)node).resource);
+		return node != null && node instanceof RDFResourceImpl && this.uri.equals(((RDFResourceImpl)node).uri);
 	}
 }

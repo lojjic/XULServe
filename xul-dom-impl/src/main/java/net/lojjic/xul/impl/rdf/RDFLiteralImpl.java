@@ -2,32 +2,30 @@ package net.lojjic.xul.impl.rdf;
 
 import net.lojjic.xul.rdf.RDFLiteral;
 import net.lojjic.xul.rdf.RDFNode;
-import org.openrdf.model.Graph;
-import org.openrdf.model.Literal;
 
 /**
- * Implementation of {@link RDFLiteral} that wraps a Sesame {@link Literal}.
+ * Implementation of {@link RDFLiteral}.
  */
 public class RDFLiteralImpl extends RDFNodeImpl implements RDFLiteral {
 
-	private Literal literal;
+	private String value;
 
-	public RDFLiteralImpl(Graph graph, String value) {
-		literal = graph.getValueFactory().createLiteral(value);
+	public RDFLiteralImpl(String value) {
+		this.value = value;
 	}
 
 	/**
 	 * The Unicode string value of the literal.
 	 */
 	public String getValue() {
-		return literal.getLabel();
+		return value;
 	}
 
 	/**
 	 * Compare node equality
 	 */
 	public boolean equalsNode(RDFNode node) {
-		return node != null && node instanceof RDFLiteralImpl && literal.equals(((RDFLiteralImpl)node).literal);
+		return node != null && node instanceof RDFLiteralImpl && this.value.equals(((RDFLiteralImpl)node).value);
 	}
 
 }
