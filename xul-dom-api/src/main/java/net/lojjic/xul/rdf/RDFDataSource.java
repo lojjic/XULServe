@@ -9,6 +9,12 @@ import java.util.Enumeration;
 public interface RDFDataSource {
 
 	/**
+	 * The "URI" of the data source. This used by the RDF service's
+	 * getDataSource() method to cache datasources.
+	 */
+	String getURI();
+
+	/**
 	 * Add an observer to this data source. If the datasource supports observers, the
 	 * datasource source should hold a strong reference to the observer.
 	 *

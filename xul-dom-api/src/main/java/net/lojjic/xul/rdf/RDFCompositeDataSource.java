@@ -10,7 +10,7 @@ import java.util.Enumeration;
  * <pre><code>var obj = Components.classes["@mozilla.org/rdf/datasource;1?name=composite-datasource"].
  *         createInstance(Components.interfaces.nsIRDFCompositeDataSource);</code></pre>
  */
-public interface RDFCompositeDataSource {
+public interface RDFCompositeDataSource extends RDFDataSource {
 
 	/**
 	 * <p>Set this value to true if the composite datasource may contains at least one datasource

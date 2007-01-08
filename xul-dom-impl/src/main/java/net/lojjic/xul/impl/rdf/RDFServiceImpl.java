@@ -2,11 +2,15 @@ package net.lojjic.xul.impl.rdf;
 
 import net.lojjic.xul.rdf.*;
 
+import java.util.HashMap;
+
 /**
  * Implementation of {@link RDFService} that uses a Sesame repository/graph
  * to manage the RDF statement data.
  */
 public class RDFServiceImpl implements RDFService {
+
+	private HashMap<String, RDFDataSource> registeredDataSources = new HashMap<String, RDFDataSource>();
 
 	public RDFResource getAnonymousResource() {
 		return new RDFResourceImpl();
@@ -18,11 +22,17 @@ public class RDFServiceImpl implements RDFService {
 	}
 
 	public RDFDataSource getDataSource(String uri) {
-		return null;  //To change body of implemented methods use File | Settings | File Templates.
+		// Use the blocking call, since we need to ensure the data is available
+		// when the template gets built.
+		return getDataSourceBlocking(uri);
 	}
 
 	public RDFDataSource getDataSourceBlocking(String uri) {
-		return null;  //To change body of implemented methods use File | Settings | File Templates.
+		RDFDataSource dataSource = registeredDataSources.get(uri);
+		if(dataSource == null) {
+			// TODO instantiate the correct datasource class
+		}
+		return dataSource;
 	}
 
 	public RDFDate getDateLiteral(long value) {
@@ -51,18 +61,26 @@ public class RDFServiceImpl implements RDFService {
 	}
 
 	public void registerDataSource(RDFDataSource dataSource, boolean replace) {
-		//To change body of implemented methods use File | Settings | File Templates.
-	}
-
-	public void registerResource(RDFResource resource, boolean replace) {
-		//To change body of implemented methods use File | Settings | File Templates.
+		if(replace || !registeredDataSources.containsKey(dataSource.getURI())) {
+			registeredDataSources.put(dataSource.getURI(), dataSource);
+		}
 	}
 
 	public void unregisterDataSource(RDFDataSource dataSource) {
-		//To change body of implemented methods use File | Settings | File Templates.
+		registeredDataSources.remove(dataSource.getURI());
+	}
+
+	public void registerResource(RDFResource resource, boolean replace) {
+		// Unimplemented because in our architecture RDFResource instances
+		// do not maintain references to any low-level RDF data source
+		// resources. We therefore don't care if the same RDFResource
+		// instance is always returned or not.
 	}
 
 	public void unregisterResource(RDFResource resource) {
-		//To change body of implemented methods use File | Settings | File Templates.
+		// Unimplemented because in our architecture RDFResource instances
+		// do not maintain references to any low-level RDF data source
+		// resources. We therefore don't care if the same RDFResource
+		// instance is always returned or not.
 	}
 }
