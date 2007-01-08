@@ -23,7 +23,7 @@ public interface RDFResource extends RDFNode {
 	/**
 	 * Determine if the resource has the given URI.
 	 */
-	boolean equalsString(String URI);
+	boolean equalsString(String uri);
 
 // TODO
 //	/**
@@ -49,25 +49,19 @@ public interface RDFResource extends RDFNode {
 //	 */
 //	void getDelegate(String key, nsIIDRef IID, out nsQIResult*result);
 
-	/**
-	 * An unscriptable version used to avoid a string copy. Meant for use as a performance
-	 * optimization. The string is encoded in UTF-8.
-	 */
-	void getValueConst(String constValue);
+//	/**
+//	 * This method is called by the nsIRDFService after constructing a resource object to
+//	 * initialize it's URI. You would not normally call this method directly
+//	 */
+//	void init(String uri);
 
-	/**
-	 * This method is called by the nsIRDFService after constructing a resource object to
-	 * initialize it's URI. You would not normally call this method directly
-	 */
-	void init(String uri);
-
-	/**
-	 * <p>Force a delegate to be "unbound" from the resource.</p>
-	 * <p/>
-	 * <p>Normally, a delegate object's lifetime will be identical to that of the resource to
-	 * which it is bound; this method allows a delegate to unlink itself from an RDF resource
-	 * prematurely.</p>
-	 */
-	void releaseDelegate(String key);
+//	/**
+//	 * <p>Force a delegate to be "unbound" from the resource.</p>
+//	 * <p/>
+//	 * <p>Normally, a delegate object's lifetime will be identical to that of the resource to
+//	 * which it is bound; this method allows a delegate to unlink itself from an RDF resource
+//	 * prematurely.</p>
+//	 */
+//	void releaseDelegate(String key);
 
 }

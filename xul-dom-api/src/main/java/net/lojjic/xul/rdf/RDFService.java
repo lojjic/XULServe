@@ -6,13 +6,13 @@ package net.lojjic.xul.rdf;
  */
 public interface RDFService {
 
-	RDFResource GetAnonymousResource();
+	RDFResource getAnonymousResource();
 
 	RDFBlob getBlobLiteral(byte[] value, int length);
 
-	RDFDataSource getDataSource(String URI);
+	RDFDataSource getDataSource(String uri);
 
-	RDFDataSource getDataSourceBlocking(String URI);
+	RDFDataSource getDataSourceBlocking(String uri);
 
 	RDFDate getDateLiteral(long value);
 
@@ -20,9 +20,9 @@ public interface RDFService {
 
 	RDFLiteral getLiteral(String value);
 
-	RDFResource getResource(String URI);
+	RDFResource getResource(String uri);
 
-	RDFResource getUnicodeResource(String URI);
+	RDFResource getUnicodeResource(String uri);
 
 	boolean isAnonymousResource(RDFResource resource);
 
