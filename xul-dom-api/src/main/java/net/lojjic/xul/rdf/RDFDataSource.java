@@ -27,18 +27,18 @@ public interface RDFDataSource {
 	 * Get a cursor to iterate over all the arcs that point into a node.
 	 *
 	 * @param node
-	 * @return Enumeration of ??? TODO
+	 * @return Enumeration of RDFResources
 	 */
-	Enumeration arcLabelsIn(RDFNode node);
+	Enumeration<RDFResource> arcLabelsIn(RDFNode node);
 
 
 	/**
 	 * Get a cursor to iterate over all the arcs that originate in a resource.
 	 *
 	 * @param source
-	 * @return Enumeration of ??? TODO
+	 * @return Enumeration of RDFResources
 	 */
-	Enumeration arcLabelsOut(RDFResource source);
+	Enumeration<RDFResource> arcLabelsOut(RDFResource source);
 
 	/**
 	 * Add an assertion to the graph.
@@ -96,9 +96,9 @@ public interface RDFDataSource {
 	/**
 	 * Retrieve all of the resources that the data source currently refers to.
 	 *
-	 * @return
+	 * @return Enumeration of RDFResource objects
 	 */
-	Enumeration getAllResources();
+	Enumeration<RDFResource> getAllResources();
 
 	/**
 	 * Find an RDF resource that points to a given node over the specified arc & truth value
@@ -118,7 +118,7 @@ public interface RDFDataSource {
 	 * @param truthValue
 	 * @return Enumeration points
 	 */
-	Enumeration getSources(RDFResource property, RDFNode target, boolean truthValue);
+	Enumeration<RDFResource> getSources(RDFResource property, RDFNode target, boolean truthValue);
 
 	/**
 	 * Find a child of that is related to the source by the given arc arc and truth value
@@ -138,7 +138,7 @@ public interface RDFDataSource {
 	 * @param truthValue
 	 * @return Enumeration points
 	 */
-	Enumeration getTargets(RDFResource source, RDFResource property, boolean truthValue);
+	Enumeration<RDFNode> getTargets(RDFResource source, RDFResource property, boolean truthValue);
 
 	/**
 	 * Returns true if the specified node is pointed to by the specified arc. Equivalent to
