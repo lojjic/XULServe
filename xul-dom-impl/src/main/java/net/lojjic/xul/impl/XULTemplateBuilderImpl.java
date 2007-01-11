@@ -5,6 +5,10 @@ import net.lojjic.xul.XULTemplateBuilder;
 import net.lojjic.xul.impl.rdf.RDFCompositeDataSourceImpl;
 import net.lojjic.xul.rdf.*;
 import org.w3c.dom.Element;
+import org.w3c.dom.events.EventTarget;
+import org.w3c.dom.events.MutationEvent;
+import org.w3c.dom.events.EventListener;
+import org.w3c.dom.events.Event;
 
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -25,12 +29,21 @@ public class XULTemplateBuilderImpl implements XULTemplateBuilder {
 	 * @param rootElement The root element to which the template builder is attached.
 	 */
 	protected XULTemplateBuilderImpl(RDFService rdfService, Element rootElement) {
-		this.rootElement = rootElement;
+		// Set the root element:
+		setRoot(rootElement);
 
 		// Create the composite datasource:
 		this.database = new RDFCompositeDataSourceImpl(rdfService);
+		parseDatasources(rdfService, rootElement);
 
-		// Add the URIs specified in the 'datasources' attribute to the datasource:
+		// Add observer to rebuild when datasource changes:
+		this.database.addObserver(new RebuildObserver());
+	}
+
+	/**
+	 * Add the URIs specified in the 'datasources' attribute to the datasource.
+	 */
+	private void parseDatasources(RDFService rdfService, Element rootElement) {
 		String datasources = rootElement.getAttribute("datasources");
 		if(datasources == null) {
 			throw new IllegalStateException("Template root element missing 'datasources' attribute.");
@@ -38,9 +51,20 @@ public class XULTemplateBuilderImpl implements XULTemplateBuilder {
 		for(String uri : datasources.split("[\\s]+")) {
 			this.database.addDataSource(rdfService.getDataSource(uri));
 		}
+	}
 
-		// Add rebuild observer:
-		this.database.addObserver(new RebuildObserver());
+	/**
+	 * Set the root element, adding a mutation event listener to trigger
+	 * a rebuild when the template DOM changes.
+	 */
+	private void setRoot(Element rootElement) {
+		this.rootElement = rootElement;
+		EventListener listener = new EventListener() {
+			public void handleEvent(Event evt) {
+				rebuild();
+			}
+		};
+		((EventTarget)rootElement).addEventListener("DOMSubtreeModified", listener, false);
 	}
 
 	/**
