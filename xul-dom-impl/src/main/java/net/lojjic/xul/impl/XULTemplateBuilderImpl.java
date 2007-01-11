@@ -1,17 +1,17 @@
 package net.lojjic.xul.impl;
 
-import net.lojjic.xul.XULTemplateBuilder;
 import net.lojjic.xul.XULBuilderListener;
+import net.lojjic.xul.XULTemplateBuilder;
 import net.lojjic.xul.impl.rdf.RDFCompositeDataSourceImpl;
 import net.lojjic.xul.rdf.*;
 import org.w3c.dom.Element;
 
-import java.util.List;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.List;
 
 /**
- * Abstract implementation of {@link XULTemplateBuilder}
+ * Implementation of {@link XULTemplateBuilder}
  */
 public class XULTemplateBuilderImpl implements XULTemplateBuilder {
 
@@ -69,7 +69,7 @@ public class XULTemplateBuilderImpl implements XULTemplateBuilder {
 	 */
 	public void rebuild() {
 		notifyWillRebuild();
-		// TODO
+		doRebuild();
 		notifyDidRebuild();
 	}
 
@@ -109,6 +109,13 @@ public class XULTemplateBuilderImpl implements XULTemplateBuilder {
 		for(XULBuilderListener listener : listeners) {
 			listener.didRebuild(this);
 		}
+	}
+
+	/**
+	 * Perform the rebuild.
+	 */
+	protected void doRebuild() {
+		// TODO
 	}
 
 
