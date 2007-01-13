@@ -5,10 +5,10 @@ import net.lojjic.xul.XULTemplateBuilder;
 import net.lojjic.xul.impl.rdf.RDFCompositeDataSourceImpl;
 import net.lojjic.xul.rdf.*;
 import org.w3c.dom.Element;
-import org.w3c.dom.events.EventTarget;
-import org.w3c.dom.events.MutationEvent;
-import org.w3c.dom.events.EventListener;
+import org.w3c.dom.DocumentFragment;
 import org.w3c.dom.events.Event;
+import org.w3c.dom.events.EventListener;
+import org.w3c.dom.events.EventTarget;
 
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -21,7 +21,9 @@ public class XULTemplateBuilderImpl implements XULTemplateBuilder {
 
 	protected List<XULBuilderListener> listeners = new ArrayList<XULBuilderListener>();
 	protected Element rootElement;
+	protected Element builtElement;
 	protected RDFCompositeDataSource database;
+	protected RDFService rdfService;
 
 	/**
 	 * Constructor
@@ -29,12 +31,14 @@ public class XULTemplateBuilderImpl implements XULTemplateBuilder {
 	 * @param rootElement The root element to which the template builder is attached.
 	 */
 	protected XULTemplateBuilderImpl(RDFService rdfService, Element rootElement) {
+		this.rdfService = rdfService;
+
 		// Set the root element:
 		setRoot(rootElement);
 
 		// Create the composite datasource:
 		this.database = new RDFCompositeDataSourceImpl(rdfService);
-		parseDatasources(rdfService, rootElement);
+		parseDatasources(rootElement);
 
 		// Add observer to rebuild when datasource changes:
 		this.database.addObserver(new RebuildObserver());
@@ -43,7 +47,7 @@ public class XULTemplateBuilderImpl implements XULTemplateBuilder {
 	/**
 	 * Add the URIs specified in the 'datasources' attribute to the datasource.
 	 */
-	private void parseDatasources(RDFService rdfService, Element rootElement) {
+	private void parseDatasources(Element rootElement) {
 		String datasources = rootElement.getAttribute("datasources");
 		if(datasources == null) {
 			throw new IllegalStateException("Template root element missing 'datasources' attribute.");
@@ -139,7 +143,7 @@ public class XULTemplateBuilderImpl implements XULTemplateBuilder {
 	 * Perform the rebuild.
 	 */
 	protected void doRebuild() {
-		// TODO
+		
 	}
 
 
@@ -190,6 +194,22 @@ public class XULTemplateBuilderImpl implements XULTemplateBuilder {
 				changed = false;
 			}
 		}
+	}
+
+
+	/**
+	 * Class that does the work of compiling the template and building the result
+	 */
+	private class XULTemplate {
+
+		public void compileTemplate() {
+
+		}
+
+		public DocumentFragment buildResultDOM() {
+			return null;
+		}
+
 	}
 
 }
