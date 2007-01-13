@@ -20,7 +20,7 @@
 
 		<map:pipeline type="noncaching">
 			<map:match pattern="**.xul">
-				<map:call function="startXULApp">
+				<map:call function="XULApp.start">
 					<map:parameter name="file" value="{1}.xul" />
 				</map:call>
 			</map:match>
