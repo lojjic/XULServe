@@ -1,19 +1,14 @@
 package net.lojjic.xul;
 
-import org.w3c.dom.Document;
+import org.w3c.dom.views.AbstractView;
 
-public interface Window {
-
-	/**
-	 * Accessor for the document in this window.
-	 */
-	Document getDocument(); //readonly
+public interface Window extends AbstractView {
 	
 	/**
 	 * Accessor for this window's parent window, or the window itself if
 	 * there is no parent, or if the parent is of different type
 	 * (i.e. this does not cross chrome-content boundaries).
-	 */	
+	 */
 	Window getParent(); //readonly
 	
 	/**

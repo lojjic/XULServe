@@ -6,6 +6,8 @@ import java.lang.reflect.Constructor;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.w3c.dom.views.DocumentView;
+import org.w3c.dom.views.AbstractView;
 import org.w3c.dom.events.Event;
 
 import net.lojjic.xul.XULConstants;
@@ -16,8 +18,9 @@ import net.lojjic.xul.xbl.impl.DocumentXBLImpl;
 /**
  * {@link net.lojjic.xul.XULDocument} implementation
  */
-public class XULDocumentImpl extends DocumentXBLImpl implements XULDocument {
+public class XULDocumentImpl extends DocumentXBLImpl implements XULDocument, DocumentView {
 
+	private WindowImpl window;
 	private Node popupNode;
 	private Node popupRangeParent;
 	private long popupRangeOffset;
@@ -168,5 +171,9 @@ public class XULDocumentImpl extends DocumentXBLImpl implements XULDocument {
 	public void setTrustedPopupEvent(Event event) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public AbstractView getDefaultView() {
+		return window;
 	}
 }

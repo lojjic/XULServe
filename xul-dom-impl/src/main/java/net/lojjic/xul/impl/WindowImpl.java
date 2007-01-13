@@ -1,18 +1,22 @@
 package net.lojjic.xul.impl;
 
-import org.apache.commons.lang.NotImplementedException;
-import org.w3c.dom.Document;
-
 import net.lojjic.xul.Window;
+import org.apache.commons.lang.NotImplementedException;
+import org.w3c.dom.views.DocumentView;
 
 public class WindowImpl implements Window {
 	
 	private String name;
-	private Document document;
-	private Window parent;
-	private Window top;
+	private XULDocumentImpl document;
+	private WindowImpl parent;
 
-	public Document getDocument() {
+	public WindowImpl(String name, WindowImpl parent, XULDocumentImpl document) {
+		this.name = name;
+		this.parent = (parent == null) ? this : parent;
+		this.document = document;
+	}
+
+	public DocumentView getDocument() {
 		return document;
 	}
 
@@ -21,6 +25,10 @@ public class WindowImpl implements Window {
 	}
 
 	public Window getTop() {
+		Window top = this;
+		while(top.getParent() != null) {
+			top = top.getParent();
+		}
 		return top;
 	}
 
@@ -48,27 +56,22 @@ public class WindowImpl implements Window {
 
 	public void scrollTo(long xScroll, long yScroll) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	public void scrollBy(long xScrollDif, long yScrollDif) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	public void scrollByLines(long numLines) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	public void scrollByPages(long numPages) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	public void sizeToContent() {
 		// TODO Auto-generated method stub
-		
 	}
 
 }

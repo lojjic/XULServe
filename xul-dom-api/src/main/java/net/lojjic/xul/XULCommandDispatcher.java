@@ -7,8 +7,8 @@ public interface XULCommandDispatcher {
 	Element getFocusedElement();
 	void setFocusedElement(Element element);
 	
-	//TODO Window getFocusedWindow();
-	//TODO void setFocusedWindow(Window window);
+	Window getFocusedWindow();
+	void setFocusedWindow(Window window);
 	
 	void addCommandUpdater(Element updater, String events, String targets);
 	
