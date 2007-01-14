@@ -4,7 +4,7 @@
   xsi:schemaLocation="http://www.springframework.org/schema/beans
   http://www.springframework.org/schema/beans/spring-beans.xsd">
   <bean id="net.lojjic.xul.xul-cocoon-block.block" class="org.apache.cocoon.blocks.BlockServlet">
-    <property name="mountPath" value="/xul-cocoon-block"/>
+    <property name="mountPath" value="/"/>
     <property name="servletClass" value="org.apache.cocoon.sitemap.SitemapServlet"/>
     <property name="blockContextURL" value="blockcontext:/xul-cocoon-block/"/>
   </bean>
