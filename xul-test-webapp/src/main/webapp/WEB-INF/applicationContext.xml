@@ -15,27 +15,29 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 -->
-<!-- @version $Id: applicationContext.xml 485634 2006-12-11 12:18:07Z reinhard $ -->
+<!-- @version $Id: applicationContext.xml 493984 2007-01-08 08:42:11Z cziegeler $ -->
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:util="http://www.springframework.org/schema/util"
-       xmlns:cocoon="http://cocoon.apache.org/core"
-       xmlns:avalon="http://cocoon.apache.org/avalon"
+       xmlns:configurator="http://cocoon.apache.org/schema/configurator"
+       xmlns:avalon="http://cocoon.apache.org/schema/avalon"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
                            http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd
-                           http://cocoon.apache.org/core http://cocoon.apache.org/core.xsd
-                           http://cocoon.apache.org/avalon http://cocoon.apache.org/avalon.xsd">
+                           http://cocoon.apache.org/schema/configurator http://cocoon.apache.org/schema/configurator/cocoon-configurator-1.0.xsd
+                           http://cocoon.apache.org/schema/avalon http://cocoon.apache.org/schema/avalon/cocoon-avalon-1.0.xsd">
 
-  <!-- Load all the properties for Cocoon -->
-  <cocoon:settings/>
+  <!-- Activate Cocoon Spring Configurator -->
+  <configurator:settings/>
 
-  <!-- Load Avalon configurations
-       If you want to use a different logger than the default log4j logger,
-       add a bean conforming to the Avalon Logger interface to this definition
-       and leave out the loggingConfiguration attribute.
-       If you have an own cocoon.xconf specify the location attribute,
-       like location="/WEB-INF/cocoon/cocoon.xconf".
-   -->
-  <avalon:avalon loggingConfiguration="/WEB-INF/log4j.xml"/>
+  <!-- Configure Log4j -->
+  <bean name="org.apache.cocoon.spring.configurator.log4j"
+        class="org.apache.cocoon.spring.configurator.log4j.Log4JConfigurator"
+        scope="singleton">
+    <property name="settings" ref="org.apache.cocoon.configuration.Settings"/>
+    <property name="resource" value="/WEB-INF/log4j.xml"/>
+  </bean>
+
+  <!-- Activate Avalon Bridge -->
+  <avalon:bridge/>
 
 </beans>

@@ -6,7 +6,7 @@
                            http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
 	<bean id="net.lojjic.xul.xul-cocoon-block.block" class="org.apache.cocoon.blocks.BlockServlet">
-		<property name="mountPath" value="/"/>
+		<property name="mountPath" value="/xul"/>
 		<property name="servletClass" value="org.apache.cocoon.sitemap.SitemapServlet"/>
 		<property name="blockContextURL" value="blockcontext:/xul-cocoon-block/"/>
 	</bean>

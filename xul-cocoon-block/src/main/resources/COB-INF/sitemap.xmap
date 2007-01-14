@@ -3,15 +3,15 @@
 <map:sitemap xmlns:map="http://apache.org/cocoon/sitemap/1.0">
 
 	<map:flow language="javascript">
-		<map:script src="XULApp.js"/>
+		<map:script src="flow/XULApp.js"/>
 	</map:flow>
 
 	<map:pipelines>
 
 		<map:pipeline type="noncaching" internal-only="true">
 			<map:match pattern="xul.display">
-				<map:generate src="{xmodule:flow-attr:xul}" />
-				<map:transform type="xsltc" src="">
+				<map:generate src="xmodule:flow-attr:xul" />
+				<map:transform type="xsltc" src="resource://net/lojjic/xul/display/xslt/window.xsl">
 					<map:parameter name="continuation-id" value="{flow-continuation:id}" />
 				</map:transform>
 				<map:serialize type="html" />
@@ -21,14 +21,14 @@
 		<map:pipeline type="noncaching">
 			<map:match pattern="**.xul">
 				<map:call function="XULApp.start">
-					<map:parameter name="file" value="{1}.xul" />
+					<map:parameter name="file" value="context://{1}.xul" />
 				</map:call>
 			</map:match>
 		</map:pipeline>
 
 		<map:pipeline type="caching">
 			<map:match pattern="**">
-				<map:read src="{1}" />
+				<map:read src="context://{1}" />
 			</map:match>
 		</map:pipeline>
 
