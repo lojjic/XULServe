@@ -2,6 +2,7 @@ package net.lojjic.xul.impl;
 
 import net.lojjic.xul.XULMultiSelectControlElement;
 import net.lojjic.xul.XULSelectControlItemElement;
+import net.lojjic.xul.XULElement;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Node;
 
@@ -120,5 +121,18 @@ public class XULMultiSelectControlElementImpl extends XULSelectControlElementImp
 
 	public XULSelectControlItemElement getSelectedItem(int index) {
 		return selectedItems.get(index);
+	}
+
+
+
+	/**
+	 * Element factory
+	 */
+	public static XULElementFactory getFactory() {
+		return new XULElementFactory() {
+			public XULElement create(XULDocumentImpl ownerDocument, String qualifiedName) {
+				return new XULMultiSelectControlElementImpl(ownerDocument, qualifiedName);
+			}
+		};
 	}
 }

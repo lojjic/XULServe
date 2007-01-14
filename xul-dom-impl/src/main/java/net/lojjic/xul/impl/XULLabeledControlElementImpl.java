@@ -1,6 +1,7 @@
 package net.lojjic.xul.impl;
 
 import net.lojjic.xul.XULLabeledControlElement;
+import net.lojjic.xul.XULElement;
 
 /**
  * {@link net.lojjic.xul.XULLabeledControlElement} implementation
@@ -57,6 +58,18 @@ public class XULLabeledControlElementImpl extends XULControlElementImpl implemen
 	public void setCommand(String command) {
 		// TODO parse the command script so it can be executed quickly
 		setAttribute("command", command);
+	}
+
+
+	/**
+	 * Element factory
+	 */
+	public static XULElementFactory getFactory() {
+		return new XULElementFactory() {
+			public XULElement create(XULDocumentImpl ownerDocument, String qualifiedName) {
+				return new XULLabeledControlElementImpl(ownerDocument, qualifiedName);
+			}
+		};
 	}
 
 }

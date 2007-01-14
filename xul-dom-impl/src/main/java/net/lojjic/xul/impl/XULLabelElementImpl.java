@@ -1,6 +1,7 @@
 package net.lojjic.xul.impl;
 
 import net.lojjic.xul.XULLabelElement;
+import net.lojjic.xul.XULElement;
 
 /**
  * {@link net.lojjic.xul.XULLabelElement} implementation
@@ -55,6 +56,19 @@ public class XULLabelElementImpl extends XULElementImpl implements XULLabelEleme
 	
 	public void setValue(String value) {
 		setAttribute("value", value);
-	}	
+	}
+
+
+
+	/**
+	 * Element factory
+	 */
+	public static XULElementFactory getFactory() {
+		return new XULElementFactory() {
+			public XULElement create(XULDocumentImpl ownerDocument, String qualifiedName) {
+				return new XULLabelElementImpl(ownerDocument, qualifiedName);
+			}
+		};
+	}
 
 }

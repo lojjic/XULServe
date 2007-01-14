@@ -1,19 +1,20 @@
 package net.lojjic.xul.impl;
 
-import java.util.*;
-import java.lang.reflect.Constructor;
-
+import net.lojjic.xul.XULCommandDispatcher;
+import net.lojjic.xul.XULConstants;
+import net.lojjic.xul.XULDocument;
+import net.lojjic.xul.xbl.impl.DocumentXBLImpl;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.w3c.dom.views.DocumentView;
-import org.w3c.dom.views.AbstractView;
+import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.events.Event;
+import org.w3c.dom.views.AbstractView;
+import org.w3c.dom.views.DocumentView;
 
-import net.lojjic.xul.XULConstants;
-import net.lojjic.xul.XULCommandDispatcher;
-import net.lojjic.xul.XULDocument;
-import net.lojjic.xul.xbl.impl.DocumentXBLImpl;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * {@link net.lojjic.xul.XULDocument} implementation
@@ -29,26 +30,12 @@ public class XULDocumentImpl extends DocumentXBLImpl implements XULDocument, Doc
 	private long width;
 	private long height;
 
+	private static HashMap<String, XULElementFactory> elementFactories = new HashMap<String, XULElementFactory>();
 
-	private static HashMap<String, Class> elementImplMap = new HashMap<String, Class>();
-	static {
-		elementImplMap.put("button", XULButtonElementImpl.class);
-		elementImplMap.put("checkbox", XULCheckboxElementImpl.class);
-		elementImplMap.put("description", XULDescriptionElementImpl.class);
-		elementImplMap.put("image", XULImageElementImpl.class);
-		elementImplMap.put("label", XULLabelElementImpl.class);
-		elementImplMap.put("listbox", XULMultiSelectControlElementImpl.class);
-		elementImplMap.put("listitem", XULSelectControlItemElementImpl.class);
-		elementImplMap.put("menu", XULSelectControlItemElementImpl.class);
-		elementImplMap.put("menulist", XULMenuListElementImpl.class);
-		elementImplMap.put("menuitem", XULSelectControlItemElementImpl.class);
-		elementImplMap.put("menupopup", XULPopupElementImpl.class);
-		elementImplMap.put("menuseparator", XULSelectControlItemElementImpl.class);
-		elementImplMap.put("popup", XULPopupElementImpl.class);
-		elementImplMap.put("textbox", XULTextBoxElementImpl.class);
-		elementImplMap.put("tree", XULTreeElementImpl.class);
+	@Override
+	public DOMImplementation getImplementation() {
+		return XULDOMImplementation.getInstance();
 	}
-
 
 	@Override
 	public Element createElementNS(String namespaceURI, String qualifiedName) {
@@ -59,19 +46,18 @@ public class XULDocumentImpl extends DocumentXBLImpl implements XULDocument, Doc
 			if(colon != -1) {
 				localName = localName.substring(colon + 1);
 			}
-			Class implCls = elementImplMap.get(localName);
-			if(implCls != null) {
-				try {
-					Constructor cons = implCls.getConstructor(XULDocumentImpl.class, String.class);
-					return (Element)cons.newInstance(this, qualifiedName);
-				}
-				catch (Exception e) {
-					// TODO log a warning
-				}
+
+			// Find the factory:
+			XULElementFactory factory = elementFactories.get(localName);
+			if(factory == null) {
+				factory = XULElementImpl.getFactory();
 			}
-			return new XULElementImpl(this, qualifiedName);
+
+			// Create the instance:
+			return factory.create(this, qualifiedName);
 		}
 
+		// Fall back:
 		return super.createElementNS(namespaceURI, qualifiedName);
 	}
 
@@ -176,4 +162,25 @@ public class XULDocumentImpl extends DocumentXBLImpl implements XULDocument, Doc
 	public AbstractView getDefaultView() {
 		return window;
 	}
+
+
+
+	static {
+		elementFactories.put("button", XULButtonElementImpl.getFactory());
+		elementFactories.put("checkbox", XULCheckboxElementImpl.getFactory());
+		elementFactories.put("description", XULDescriptionElementImpl.getFactory());
+		elementFactories.put("image", XULImageElementImpl.getFactory());
+		elementFactories.put("label", XULLabelElementImpl.getFactory());
+		elementFactories.put("listbox", XULMultiSelectControlElementImpl.getFactory());
+		elementFactories.put("listitem", XULSelectControlItemElementImpl.getFactory());
+		elementFactories.put("menu", XULSelectControlItemElementImpl.getFactory());
+		elementFactories.put("menulist", XULMenuListElementImpl.getFactory());
+		elementFactories.put("menuitem", XULSelectControlItemElementImpl.getFactory());
+		elementFactories.put("menupopup", XULPopupElementImpl.getFactory());
+		elementFactories.put("menuseparator", XULSelectControlItemElementImpl.getFactory());
+		elementFactories.put("popup", XULPopupElementImpl.getFactory());
+		elementFactories.put("textbox", XULTextBoxElementImpl.getFactory());
+		elementFactories.put("tree", XULTreeElementImpl.getFactory());
+	}
+
 }

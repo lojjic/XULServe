@@ -3,6 +3,7 @@ package net.lojjic.xul.impl;
 import org.w3c.dom.Node;
 
 import net.lojjic.xul.XULTextBoxElement;
+import net.lojjic.xul.XULElement;
 
 /**
  * {@link net.lojjic.xul.XULTextBoxElement} implementation
@@ -79,6 +80,19 @@ public class XULTextBoxElementImpl extends XULControlElementImpl implements XULT
 	public void setSelectionRange(long selectionStart, long selectionEnd) {
 		this.selectionStart = selectionStart;
 		this.selectionEnd = selectionEnd;
+	}
+
+
+
+	/**
+	 * Element factory
+	 */
+	public static XULElementFactory getFactory() {
+		return new XULElementFactory() {
+			public XULElement create(XULDocumentImpl ownerDocument, String qualifiedName) {
+				return new XULTextBoxElementImpl(ownerDocument, qualifiedName);
+			}
+		};
 	}
 
 }

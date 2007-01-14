@@ -1,6 +1,7 @@
 package net.lojjic.xul.impl;
 
 import net.lojjic.xul.XULButtonElement;
+import net.lojjic.xul.XULElement;
 
 /**
  * {@link net.lojjic.xul.XULButtonElement} implementation
@@ -72,6 +73,18 @@ public class XULButtonElementImpl extends XULLabeledControlElementImpl implement
 	
 	public void setType(String type) {
 		setAttribute("type", type);
+	}
+
+
+	/**
+	 * Element factory
+	 */
+	public static XULElementFactory getFactory() {
+		return new XULElementFactory() {
+			public XULElement create(XULDocumentImpl ownerDocument, String qualifiedName) {
+				return new XULButtonElementImpl(ownerDocument, qualifiedName);
+			}
+		};
 	}
 	
 }

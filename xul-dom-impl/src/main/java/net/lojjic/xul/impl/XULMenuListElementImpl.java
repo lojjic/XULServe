@@ -2,6 +2,7 @@ package net.lojjic.xul.impl;
 
 import net.lojjic.xul.XULMenuListElement;
 import net.lojjic.xul.XULTextBoxElement;
+import net.lojjic.xul.XULElement;
 
 /**
  * {@link net.lojjic.xul.XULMenuListElement} implementation
@@ -63,5 +64,18 @@ public class XULMenuListElementImpl extends XULSelectControlElementImpl implemen
 	public XULTextBoxElement getInputField() //readonly
 	{
 		return null;  //To change body of implemented methods use File | Settings | File Templates.
+	}
+
+
+
+	/**
+	 * Element factory
+	 */
+	public static XULElementFactory getFactory() {
+		return new XULElementFactory() {
+			public XULElement create(XULDocumentImpl ownerDocument, String qualifiedName) {
+				return new XULMenuListElementImpl(ownerDocument, qualifiedName);
+			}
+		};
 	}
 }

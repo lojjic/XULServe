@@ -2,6 +2,7 @@ package net.lojjic.xul.impl;
 
 import net.lojjic.xul.XULSelectControlElement;
 import net.lojjic.xul.XULSelectControlItemElement;
+import net.lojjic.xul.XULElement;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -74,5 +75,18 @@ public class XULSelectControlElementImpl extends XULControlElementImpl implement
 		XULSelectControlItemElement element = items.remove(index);
 		selectedItems.remove(element);
 		return element;
+	}
+
+
+
+	/**
+	 * Element factory
+	 */
+	public static XULElementFactory getFactory() {
+		return new XULElementFactory() {
+			public XULElement create(XULDocumentImpl ownerDocument, String qualifiedName) {
+				return new XULSelectControlElementImpl(ownerDocument, qualifiedName);
+			}
+		};
 	}
 }

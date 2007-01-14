@@ -1,6 +1,7 @@
 package net.lojjic.xul.impl;
 
 import net.lojjic.xul.XULPopupElement;
+import net.lojjic.xul.XULElement;
 import org.w3c.dom.Element;
 
 /**
@@ -33,5 +34,18 @@ public class XULPopupElementImpl extends XULElementImpl implements XULPopupEleme
 
 	public void hidePopup() {
 		setHidden(true);
+	}
+
+
+
+	/**
+	 * Element factory
+	 */
+	public static XULElementFactory getFactory() {
+		return new XULElementFactory() {
+			public XULElement create(XULDocumentImpl ownerDocument, String qualifiedName) {
+				return new XULPopupElementImpl(ownerDocument, qualifiedName);
+			}
+		};
 	}
 }

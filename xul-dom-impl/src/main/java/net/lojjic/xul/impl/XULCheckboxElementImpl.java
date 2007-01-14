@@ -1,6 +1,7 @@
 package net.lojjic.xul.impl;
 
 import net.lojjic.xul.XULCheckboxElement;
+import net.lojjic.xul.XULElement;
 
 /**
  * {@link net.lojjic.xul.XULCheckboxElement} implementation
@@ -40,4 +41,17 @@ public class XULCheckboxElementImpl extends XULLabeledControlElementImpl impleme
 	public void setAutoCheck(boolean autoCheck) {
 		setAttribute("autoCheck", String.valueOf(autoCheck));
 	}
+
+
+	/**
+	 * Element factory
+	 */
+	public static XULElementFactory getFactory() {
+		return new XULElementFactory() {
+			public XULElement create(XULDocumentImpl ownerDocument, String qualifiedName) {
+				return new XULCheckboxElementImpl(ownerDocument, qualifiedName);
+			}
+		};
+	}
+
 }

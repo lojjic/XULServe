@@ -11,6 +11,21 @@ import org.w3c.dom.DocumentType;
  */
 public class XULDOMImplementation extends DOMImplementationImpl implements DOMImplementation {
 
+	private static XULDOMImplementation singleton = new XULDOMImplementation();
+
+	/**
+	 * Return singleton instance
+	 */
+	public static XULDOMImplementation getInstance() {
+		return singleton;
+	}
+
+	/**
+	 * Private constructor
+	 */
+	private XULDOMImplementation() {}
+
+
 	/**
 	 * Test if the DOM implementation implements a specific feature and
 	 * version, as specified in .

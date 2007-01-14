@@ -292,4 +292,17 @@ public class XULElementImpl extends ElementXBLImpl implements XULElement {
 		};
 	}
 
+
+
+	/**
+	 * Element factory
+	 */
+	public static XULElementFactory getFactory() {
+		return new XULElementFactory() {
+			public XULElement create(XULDocumentImpl ownerDocument, String qualifiedName) {
+				return new XULElementImpl(ownerDocument, qualifiedName);
+			}
+		};
+	}
+
 }
