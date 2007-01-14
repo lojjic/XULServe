@@ -10,6 +10,7 @@ import net.lojjic.xul.xbl.impl.ElementXBLImpl;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.w3c.dom.events.MouseEvent;
 import org.w3c.dom.css.CSSStyleDeclaration;
 
 /**
@@ -260,7 +261,10 @@ public class XULElementImpl extends ElementXBLImpl implements XULElement {
 	}
 
 	public void click() {
-		// TODO
+		MouseEvent evt = (MouseEvent)ownerXULDocument.createEvent("MouseEvents");
+		evt.initMouseEvent("click", true, true, ownerXULDocument.getDefaultView(),
+				1, 0, 0, 0, 0, false, false, false, false, (short)0, this);
+		dispatchEvent(evt);
 	}
 
 	public void doCommand() {
