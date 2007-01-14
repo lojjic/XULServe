@@ -6,6 +6,7 @@ import java.util.Map;
 import net.lojjic.xul.XULDocument;
 import net.lojjic.xul.XULElement;
 import net.lojjic.xul.impl.XULDocumentImpl;
+import net.lojjic.xul.impl.XULDOMImplementation;
 
 import org.apache.cocoon.util.location.LocationUtils;
 import org.w3c.dom.Node;
@@ -34,7 +35,7 @@ public class XULParser implements ContentHandler {
 	}
 
 	public void startDocument() throws SAXException {
-		document = new XULDocumentImpl();
+		document = new XULDocumentImpl(new XULDOMImplementation());
 		currentNode = document;
 	}
 

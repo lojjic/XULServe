@@ -13,7 +13,6 @@ import org.w3c.dom.views.AbstractView;
 import org.w3c.dom.views.DocumentView;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -21,6 +20,7 @@ import java.util.List;
  */
 public class XULDocumentImpl extends DocumentXBLImpl implements XULDocument, DocumentView {
 
+	private XULDOMImplementation domImplementation;
 	private WindowImpl window;
 	private Node popupNode;
 	private Node popupRangeParent;
@@ -30,31 +30,23 @@ public class XULDocumentImpl extends DocumentXBLImpl implements XULDocument, Doc
 	private long width;
 	private long height;
 
-	private static HashMap<String, XULElementFactory> elementFactories = new HashMap<String, XULElementFactory>();
+	/**
+	 * Constructor
+	 * @param domImplementation
+	 */
+	public XULDocumentImpl(XULDOMImplementation domImplementation) {
+		this.domImplementation = domImplementation;
+	}
 
 	@Override
 	public DOMImplementation getImplementation() {
-		return XULDOMImplementation.getInstance();
+		return domImplementation;
 	}
 
 	@Override
 	public Element createElementNS(String namespaceURI, String qualifiedName) {
 		if(XULConstants.XUL_NAMESPACE.equals(namespaceURI)) {
-			// Parse out the prefix:
-			String localName = qualifiedName;
-			int colon = localName.indexOf(":");
-			if(colon != -1) {
-				localName = localName.substring(colon + 1);
-			}
-
-			// Find the factory:
-			XULElementFactory factory = elementFactories.get(localName);
-			if(factory == null) {
-				factory = XULElementImpl.getFactory();
-			}
-
-			// Create the instance:
-			return factory.create(this, qualifiedName);
+			return domImplementation.createXULElement(this, qualifiedName);
 		}
 
 		// Fall back:
@@ -165,22 +157,5 @@ public class XULDocumentImpl extends DocumentXBLImpl implements XULDocument, Doc
 
 
 
-	static {
-		elementFactories.put("button", XULButtonElementImpl.getFactory());
-		elementFactories.put("checkbox", XULCheckboxElementImpl.getFactory());
-		elementFactories.put("description", XULDescriptionElementImpl.getFactory());
-		elementFactories.put("image", XULImageElementImpl.getFactory());
-		elementFactories.put("label", XULLabelElementImpl.getFactory());
-		elementFactories.put("listbox", XULMultiSelectControlElementImpl.getFactory());
-		elementFactories.put("listitem", XULSelectControlItemElementImpl.getFactory());
-		elementFactories.put("menu", XULSelectControlItemElementImpl.getFactory());
-		elementFactories.put("menulist", XULMenuListElementImpl.getFactory());
-		elementFactories.put("menuitem", XULSelectControlItemElementImpl.getFactory());
-		elementFactories.put("menupopup", XULPopupElementImpl.getFactory());
-		elementFactories.put("menuseparator", XULSelectControlItemElementImpl.getFactory());
-		elementFactories.put("popup", XULPopupElementImpl.getFactory());
-		elementFactories.put("textbox", XULTextBoxElementImpl.getFactory());
-		elementFactories.put("tree", XULTreeElementImpl.getFactory());
-	}
 
 }

@@ -17,7 +17,8 @@ import org.w3c.dom.css.CSSStyleDeclaration;
  * {@link net.lojjic.xul.XULElement} implementation
  */
 public class XULElementImpl extends ElementXBLImpl implements XULElement {
-	
+
+	protected XULDOMImplementation implementation;
 	protected XULDocumentImpl ownerXULDocument;
 	
 	
