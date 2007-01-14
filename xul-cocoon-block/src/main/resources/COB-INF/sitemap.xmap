@@ -11,7 +11,7 @@
 		<map:pipeline type="noncaching" internal-only="true">
 			<map:match pattern="xul.display">
 				<map:generate src="xmodule:flow-attr:xul" />
-				<map:transform type="xsltc" src="resource://net/lojjic/xul/display/xslt/window.xsl">
+				<map:transform type="xsltc" src="resource://net/lojjic/xul/display/xslt/XULtoHTML.xsl">
 					<map:parameter name="continuation-id" value="{flow-continuation:id}" />
 				</map:transform>
 				<map:serialize type="html" />
