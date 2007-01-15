@@ -3,7 +3,7 @@ package net.lojjic.xul.xbl.impl;
 /**
  * Exception class for XBL exceptions.
  */
-public class XBLException extends Exception {
+public class XBLException extends RuntimeException {
 
 	public XBLException() {
 	}
