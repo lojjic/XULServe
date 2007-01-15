@@ -1,8 +1,8 @@
 package net.lojjic.xul.xbl.impl;
 
 import net.lojjic.xul.xbl.DocumentXBL;
-import org.w3c.dom.Document;
-import org.w3c.dom.NamedNodeMap;
+import net.lojjic.xul.xbl.ElementXBL;
+import org.w3c.dom.*;
 import org.apache.xerces.dom.DocumentImpl;
 
 /**
@@ -12,6 +12,9 @@ public class DocumentXBLImpl extends DocumentImpl implements DocumentXBL {
 
 	protected BindingManager xblBindingManager = new BindingManager();
 
+
+	////////////////////////////////////////////
+	///// Methods defined in XBL 1.0 Spec: /////
 
 	/**
 	 * The loadBindingDocument method can be used to synchronously obtain the specified
@@ -25,7 +28,13 @@ public class DocumentXBLImpl extends DocumentImpl implements DocumentXBL {
 	 *         calling document to attach bindings that are defined in the binding document.
 	 */
 	public Document loadBindingDocument(String documentURL) {
-		return null;  //To change body of implemented methods use File | Settings | File Templates.
+		try {
+			return xblBindingManager.loadBindingDocument(documentURL);
+		}
+		catch(XBLException e) {
+			// TODO log warning?
+		}
+		return null;
 	}
 
 	/**
@@ -33,7 +42,40 @@ public class DocumentXBLImpl extends DocumentImpl implements DocumentXBL {
 	 * the bound document. Documents are referenced using their URLs.
 	 */
 	public NamedNodeMap getBindingDocuments() {
-		return null;  //To change body of implemented methods use File | Settings | File Templates.
+		return xblBindingManager.getBindingDocuments();
 	}
 
+
+	//////////////////////////////////////////////////////
+	///// Methods defined in Mozilla implementation: /////
+
+	public void addBinding(Element elt, String bindingURL) {
+		((ElementXBL)elt).addBinding(bindingURL);
+	}
+
+	public Element getAnonymousElementByAttribute(Element elt, String attrName, String attrValue) {
+		NodeList anonNodes = getAnonymousNodes(elt);
+		for(int i=0; i<anonNodes.getLength(); i++) {
+			Node node = anonNodes.item(i);
+			if(node instanceof Element) {
+				String val = ((Element)node).getAttribute(attrName);
+				if(val != null && val.equals(attrValue)) {
+					return (Element)node;
+				}
+			}
+		}
+		return null;
+	}
+
+	public NodeList getAnonymousNodes(Element elt) {
+		return ((ElementXBL)elt).getXblChildNodes();
+	}
+
+	public Element getBindingParent(Node node) {
+		return ((ElementXBL)node).getBindingOwner();
+	}
+
+	public void removeBinding(Element elt, String bindingURL) {
+		((ElementXBL)elt).removeBinding(bindingURL);
+	}
 }

@@ -1,14 +1,16 @@
 package net.lojjic.xul.xbl;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.*;
 
 /**
  * DocumentXBL interface.
- *
+ * <p/>
  * See http://www.mozilla.org/projects/xbl/xbl.html#dom-documentxbl}
  */
 public interface DocumentXBL {
+
+	////////////////////////////////////////////
+	///// Methods defined in XBL 1.0 Spec: /////
 
 	/**
 	 * The loadBindingDocument method can be used to synchronously obtain the specified
@@ -28,5 +30,20 @@ public interface DocumentXBL {
 	 * the bound document. Documents are referenced using their URLs.
 	 */
 	NamedNodeMap getBindingDocuments();
+
+
+
+	//////////////////////////////////////////////////////
+	///// Methods defined in Mozilla implementation: /////
+
+	NodeList getAnonymousNodes(Element elt);
+
+	Element getAnonymousElementByAttribute(Element elt, String attrName, String attrValue);
+
+	void addBinding(Element elt, String bindingURL);
+
+	void removeBinding(Element elt, String bindingURL);
+
+	Element getBindingParent(Node node);
 
 }

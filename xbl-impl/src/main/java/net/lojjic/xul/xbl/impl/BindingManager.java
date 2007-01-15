@@ -1,8 +1,6 @@
 package net.lojjic.xul.xbl.impl;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
+import org.w3c.dom.*;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventListener;
 import org.w3c.dom.events.EventTarget;
@@ -34,6 +32,42 @@ public class BindingManager {
 	 */
 	public void setDocumentImplClassName(String name) {
 		this.documentImplClassName = name;
+	}
+
+	/**
+	 * Get the loaded binding documents as a NamedNodeMap
+	 */
+	public NamedNodeMap getBindingDocuments() {
+		return new NamedNodeMap() {
+			private DOMException modificationException = new DOMException(
+						DOMException.NO_MODIFICATION_ALLOWED_ERR, "NamedNodeMap cannot be modified.");
+			public int getLength() {
+				return bindingDocuments.size();
+			}
+			public Node getNamedItem(String name) {
+				return bindingDocuments.get(name);
+			}
+			public Node getNamedItemNS(String namespaceURI, String localName) throws DOMException {
+				// TODO unsure what this should do
+				return getNamedItem(localName);
+			}
+			public Node item(int index) {
+				// TODO ensure that this will return the same item over multiple calls with the same argument
+				return bindingDocuments.values().toArray(new Node[getLength()])[index];
+			}
+			public Node removeNamedItem(String name) throws DOMException {
+				throw modificationException;
+			}
+			public Node removeNamedItemNS(String namespaceURI, String localName) throws DOMException {
+				throw modificationException;
+			}
+			public Node setNamedItem(Node arg) throws DOMException {
+				throw modificationException;
+			}
+			public Node setNamedItemNS(Node arg) throws DOMException {
+				throw modificationException;
+			}
+		};
 	}
 
 
