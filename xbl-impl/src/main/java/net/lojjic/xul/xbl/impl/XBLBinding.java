@@ -1,10 +1,13 @@
 package net.lojjic.xul.xbl.impl;
 
-import org.w3c.dom.DocumentFragment;
+import org.w3c.dom.NodeList;
+import org.w3c.dom.Element;
 import org.apache.commons.lang.ArrayUtils;
 
 import java.util.HashMap;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Collections;
 
 /**
  * Class modeling an XBL binding.
@@ -18,7 +21,7 @@ public class XBLBinding {
 	private HashMap<String, XBLProperty> properties = new HashMap<String, XBLProperty>();
 	private HashMap<String, XBLMethod> methods = new HashMap<String, XBLMethod>();
 	private ArrayList<XBLHandler> handlers = new ArrayList<XBLHandler>();
-	private DocumentFragment content;
+	private XBLContentTemplate contentTemplate;
 
 
 	public XBLBinding getParentBinding() {
@@ -91,11 +94,12 @@ public class XBLBinding {
 		return (XBLHandler[])ArrayUtils.addAll(parentHandlers, ourHandlers);
 	}
 
-	public DocumentFragment getContent() {
-		return content;
+	public XBLContentTemplate getContentTemplate() {
+		return contentTemplate;
 	}
 
-	public void setContent(DocumentFragment content) {
-		this.content = content;
+	public void setContentTemplate(XBLContentTemplate contentTemplate) {
+		this.contentTemplate = contentTemplate;
 	}
+
 }

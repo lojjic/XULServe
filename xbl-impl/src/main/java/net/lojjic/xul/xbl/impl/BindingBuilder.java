@@ -222,8 +222,12 @@ public class BindingBuilder {
 	 * @param bindingElement
 	 */
 	private void buildContent(XBLBinding binding, Element bindingElement) {
-		// TODO
+		NodeList contentElements = bindingElement.getElementsByTagNameNS(XBL_NAMESPACE, "content");
+		if(contentElements.getLength() > 0) {
+			ElementXBLImpl element = (ElementXBLImpl)contentElements.item(0);
+			XBLContentTemplate template = new XBLContentTemplate(element);
+			binding.setContentTemplate(template);
+		}
 	}
-
 
 }
