@@ -3,10 +3,11 @@ package net.lojjic.xul.impl.rdf;
 import net.lojjic.xul.rdf.RDFDataSource;
 import net.lojjic.xul.rdf.RDFRemoteDataSource;
 import net.lojjic.xul.rdf.RDFService;
-import org.openrdf.sesame.admin.StdOutAdminListener;
-import org.openrdf.sesame.constants.RDFFormat;
 
 import java.net.URL;
+
+import org.openrdf.repository.Connection;
+import org.openrdf.rio.RDFFormat;
 
 /**
  * RDF data source implementation that gets its data from a RDF-XML file.
@@ -76,13 +77,13 @@ public class RDFXMLDataSourceImpl extends RDFMemoryDataSourceImpl implements RDF
 		if(!blocking) {
 			throw new UnsupportedOperationException("Non-blocking RDF-XML file loading is not supported by this implementation.");
 		}
-
-		try {
-			// TODO implement special AdminListener that logs messages or something
-			repository.addData(new URL(uri), null, RDFFormat.RDFXML, true, new StdOutAdminListener());
-		}
-		catch (Exception e) {
-			throw new RuntimeException("Error loading RDFXML source.", e);
-		}
+		execute(
+			new ConnectionCallback<Object>() {
+				public Object doInConnection(Connection conn) throws Exception {
+					conn.add(new URL(uri), null, RDFFormat.RDFXML);
+					return null;
+				}
+			}
+		);
 	}
 }

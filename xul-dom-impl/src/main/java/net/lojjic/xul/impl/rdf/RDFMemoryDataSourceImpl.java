@@ -3,9 +3,13 @@ package net.lojjic.xul.impl.rdf;
 import net.lojjic.xul.rdf.*;
 import org.apache.xerces.impl.dv.util.Base64;
 import org.openrdf.model.*;
-import org.openrdf.sesame.Sesame;
-import org.openrdf.sesame.repository.local.LocalRepository;
-import org.openrdf.vocabulary.XmlSchema;
+import org.openrdf.model.vocabulary.XMLSchema;
+import org.openrdf.repository.Repository;
+import org.openrdf.repository.RepositoryImpl;
+import org.openrdf.repository.Connection;
+import org.openrdf.sail.memory.MemoryStore;
+import org.openrdf.sail.SailException;
+import org.openrdf.util.iterator.Iterators;
 
 import java.util.*;
 
@@ -15,8 +19,7 @@ import java.util.*;
  */
 public class RDFMemoryDataSourceImpl extends AbstractDataSourceImpl implements RDFDataSource {
 
-	protected LocalRepository repository;
-	protected Graph graph;
+	private Repository repository;
 
 	/**
 	 * Construct the instance, setting up the in-memory Sesame repository.
@@ -24,8 +27,8 @@ public class RDFMemoryDataSourceImpl extends AbstractDataSourceImpl implements R
 	public RDFMemoryDataSourceImpl(RDFService rdfService) {
 		super(rdfService);
 		try {
-			repository = Sesame.getService().createRepository(getURI(), false);
-			graph = repository.getGraph();
+			repository = new RepositoryImpl(new MemoryStore());
+			repository.initialize();
 		}
 		catch (Exception e) {
 			throw new RuntimeException("Exception creating local Sesame repository.", e);
@@ -40,22 +43,50 @@ public class RDFMemoryDataSourceImpl extends AbstractDataSourceImpl implements R
 		return "mem-repo:" + hashCode();
 	}
 
+	protected static interface ConnectionCallback<T> {
+		T doInConnection(Connection conn) throws Exception;
+	}
+
+	protected <T> T execute(ConnectionCallback<T> callback) {
+		try {
+			Connection con = repository.getConnection();
+			try {
+				return callback.doInConnection(con);
+			}
+			finally {
+				con.close();
+			}
+		}
+		catch (Exception e) {
+			throw new RDFException(e);
+		}
+	}
+
 	/**
 	 * Get a cursor to iterate over all the arcs that point into a node.
 	 *
 	 * @param node
 	 * @return Enumeration of RDFResources
 	 */
-	public Enumeration<RDFResource> arcLabelsIn(RDFNode node) {
-		final Iterator<Statement> iter = graph.getStatementCollection(null, null, toValue(node)).iterator();
-		return new Enumeration<RDFResource>() {
-			public boolean hasMoreElements() {
-				return iter.hasNext();
+	public Enumeration<RDFResource> arcLabelsIn(final RDFNode node) {
+		return execute(
+			new ConnectionCallback<Enumeration<RDFResource>>() {
+				public Enumeration<RDFResource> doInConnection(Connection con) {
+					final Iterator<Statement> iter = Iterators.addAll(
+						con.getStatements(null, null, toValue(node), false),
+						new ArrayList<Statement>()
+					).iterator();
+					return new Enumeration<RDFResource>() {
+						public boolean hasMoreElements() {
+							return iter.hasNext();
+						}
+						public RDFResource nextElement() {
+							return toRDFResource(iter.next().getPredicate());
+						}
+					};
+				}
 			}
-			public RDFResource nextElement() {
-				return toRDFResource(iter.next().getPredicate());
-			}
-		};
+		);
 	}
 
 	/**
@@ -64,16 +95,25 @@ public class RDFMemoryDataSourceImpl extends AbstractDataSourceImpl implements R
 	 * @param source
 	 * @return Enumeration of RDFResources
 	 */
-	public Enumeration<RDFResource> arcLabelsOut(RDFResource source) {
-		final Iterator<Statement> iter = graph.getStatementCollection(toResource(source), null, null).iterator();
-		return new Enumeration<RDFResource>() {
-			public boolean hasMoreElements() {
-				return iter.hasNext();
+	public Enumeration<RDFResource> arcLabelsOut(final RDFResource source) {
+		return execute(
+			new ConnectionCallback<Enumeration<RDFResource>>() {
+				public Enumeration<RDFResource> doInConnection(Connection con) {
+					final Iterator<Statement> iter = Iterators.addAll(
+						con.getStatements(toResource(source), null, null, false),
+						new ArrayList<Statement>()
+					).iterator();
+					return new Enumeration<RDFResource>() {
+						public boolean hasMoreElements() {
+							return iter.hasNext();
+						}
+						public RDFResource nextElement() {
+							return toRDFResource(iter.next().getPredicate());
+						}
+					};
+				}
 			}
-			public RDFResource nextElement() {
-				return toRDFResource(iter.next().getPredicate());
-			}
-		};
+		);
 	}
 
 	/**
@@ -84,9 +124,18 @@ public class RDFMemoryDataSourceImpl extends AbstractDataSourceImpl implements R
 	 * @param target
 	 * @param truthValue - Currently not supported.
 	 */
-	public void doAssert(RDFResource source, RDFResource property, RDFNode target, boolean truthValue) {
+	public void doAssert(final RDFResource source, final RDFResource property, final RDFNode target, boolean truthValue) {
 		checkTruthValue(truthValue);
-		graph.add(toStatement(source, property, target));
+
+		execute(
+			new ConnectionCallback<Object>() {
+				public Object doInConnection(Connection conn) throws Exception {
+					conn.add(toStatement(source, property, target));
+					return null;
+				}
+			}
+		);
+
 		super.doAssert(source, property, target, truthValue);
 	}
 
@@ -148,15 +197,24 @@ public class RDFMemoryDataSourceImpl extends AbstractDataSourceImpl implements R
 	 * Retrieve all of the resources that the data source currently refers to.
 	 */
 	public Enumeration<RDFResource> getAllResources() {
-		final Iterator<Statement> iter = graph.getStatementCollection(null, null, null).iterator();
-		return new Enumeration<RDFResource>() {
-			public boolean hasMoreElements() {
-				return iter.hasNext();
+		return execute(
+			new ConnectionCallback<Enumeration<RDFResource>>() {
+				public Enumeration<RDFResource> doInConnection(Connection conn) throws Exception {
+					final Iterator<Statement> iter = Iterators.addAll(
+						conn.getStatements(null, null, null, false),
+						new ArrayList<Statement>()
+					).iterator();
+					return new Enumeration<RDFResource>() {
+						public boolean hasMoreElements() {
+							return iter.hasNext();
+						}
+						public RDFResource nextElement() {
+							return toRDFResource(iter.next().getSubject());
+						}
+					};
+				}
 			}
-			public RDFResource nextElement() {
-				return toRDFResource(iter.next().getSubject());
-			}
-		};
+		);
 	}
 
 	/**
@@ -175,17 +233,26 @@ public class RDFMemoryDataSourceImpl extends AbstractDataSourceImpl implements R
 	 * @param truthValue
 	 * @return Enumeration points
 	 */
-	public Enumeration<RDFResource> getSources(RDFResource property, RDFNode target, boolean truthValue) {
+	public Enumeration<RDFResource> getSources(final RDFResource property, final RDFNode target, boolean truthValue) {
 		checkTruthValue(truthValue);
-		final Iterator<Statement> iter = graph.getStatementCollection(null, toURI(property), toValue(target)).iterator();
-		return new Enumeration<RDFResource>() {
-			public boolean hasMoreElements() {
-				return iter.hasNext();
+		return execute(
+			new ConnectionCallback<Enumeration<RDFResource>>() {
+				public Enumeration<RDFResource> doInConnection(Connection conn) throws Exception {
+					final Iterator<Statement> iter = Iterators.addAll(
+						conn.getStatements(null, toURI(property), toValue(target), false),
+						new ArrayList<Statement>()
+					).iterator();
+					return new Enumeration<RDFResource>() {
+						public boolean hasMoreElements() {
+							return iter.hasNext();
+						}
+						public RDFResource nextElement() {
+							return toRDFResource(iter.next().getSubject());
+						}
+					};
+				}
 			}
-			public RDFResource nextElement() {
-				return toRDFResource(iter.next().getSubject());
-			}
-		};
+		);
 	}
 
 	/**
@@ -209,17 +276,26 @@ public class RDFMemoryDataSourceImpl extends AbstractDataSourceImpl implements R
 	 * @param truthValue
 	 * @return Enumeration points
 	 */
-	public Enumeration<RDFNode> getTargets(RDFResource source, RDFResource property, boolean truthValue) {
+	public Enumeration<RDFNode> getTargets(final RDFResource source, final RDFResource property, boolean truthValue) {
 		checkTruthValue(truthValue);
-		final Iterator<Statement> iter = graph.getStatementCollection(toResource(source), toURI(property), null).iterator();
-		return new Enumeration<RDFNode>() {
-			public boolean hasMoreElements() {
-				return iter.hasNext();
+		return execute(
+			new ConnectionCallback<Enumeration<RDFNode>>() {
+				public Enumeration<RDFNode> doInConnection(Connection conn) throws Exception {
+					final Iterator<Statement> iter = Iterators.addAll(
+						conn.getStatements(toResource(source), toURI(property), null, false),
+						new ArrayList<Statement>()
+					).iterator();
+					return new Enumeration<RDFNode>() {
+						public boolean hasMoreElements() {
+							return iter.hasNext();
+						}
+						public RDFNode nextElement() {
+							return toRDFNode(iter.next().getObject());
+						}
+					};
+				}
 			}
-			public RDFNode nextElement() {
-				return toRDFNode(iter.next().getObject());
-			}
-		};
+		);
 	}
 
 	/**
@@ -231,7 +307,7 @@ public class RDFMemoryDataSourceImpl extends AbstractDataSourceImpl implements R
 	 * @return
 	 */
 	public boolean hasArcIn(RDFNode node, RDFResource arc) {
-		return graph.contains(null, toURI(arc), toValue(node));
+		return hasAssertion(null, arc, node, true);
 	}
 
 	/**
@@ -243,7 +319,7 @@ public class RDFMemoryDataSourceImpl extends AbstractDataSourceImpl implements R
 	 * @return
 	 */
 	public boolean hasArcOut(RDFResource source, RDFResource arc) {
-		return graph.contains(toResource(source), toURI(arc), null);
+		return hasAssertion(source, arc, null, true);
 	}
 
 	/**
@@ -255,9 +331,16 @@ public class RDFMemoryDataSourceImpl extends AbstractDataSourceImpl implements R
 	 * @param truthValue
 	 * @return
 	 */
-	public boolean hasAssertion(RDFResource source, RDFResource property, RDFNode target, boolean truthValue) {
+	public boolean hasAssertion(final RDFResource source, final RDFResource property,
+	                            final RDFNode target, boolean truthValue) {
 		checkTruthValue(truthValue);
-		return graph.contains(toStatement(source, property, target));
+		return execute(
+			new ConnectionCallback<Boolean>() {
+				public Boolean doInConnection(Connection conn) throws Exception {
+					return conn.hasStatement(toStatement(source, property, target), false);
+				}
+			}
+		);
 	}
 
 	/**
@@ -296,8 +379,15 @@ public class RDFMemoryDataSourceImpl extends AbstractDataSourceImpl implements R
 	 * @param property
 	 * @param target
 	 */
-	public void unassert(RDFResource source, RDFResource property, RDFNode target) {
-		graph.remove(toStatement(source, property, target));
+	public void unassert(final RDFResource source, final RDFResource property, final RDFNode target) {
+		execute(
+			new ConnectionCallback<Object>() {
+				public Object doInConnection(Connection conn) throws Exception {
+					conn.remove(toStatement(source, property, target));
+					return null;
+				}
+			}
+		);
 		super.unassert(source, property, target);
 	}
 
@@ -318,22 +408,20 @@ public class RDFMemoryDataSourceImpl extends AbstractDataSourceImpl implements R
 	 * Utility to convert a Mozilla RDFNode to a Sesame Literal
 	 */
 	private Literal toLiteral(RDFNode rdfNode) {
-		ValueFactory factory = graph.getValueFactory();
+		ValueFactory factory = repository.getValueFactory();
 		if(rdfNode instanceof RDFLiteral) {
 			return factory.createLiteral(((RDFLiteral)rdfNode).getValue());
 		}
 		if(rdfNode instanceof RDFInt) {
-			URI datatype = factory.createURI(XmlSchema.INT);
-			return factory.createLiteral(String.valueOf(((RDFInt)rdfNode).getValue()), datatype);
+			return factory.createLiteral(String.valueOf(((RDFInt)rdfNode).getValue()), XMLSchema.INT);
 		}
 		if(rdfNode instanceof RDFDate) {
-			URI datatype = factory.createURI(XmlSchema.DATETIME);
+			URI datatype = XMLSchema.DATETIME;
 			return null; //TODO create literal with xsd:datetime-formatted string
 		}
 		if(rdfNode instanceof RDFBlob) {
-			URI datatype = factory.createURI(XmlSchema.BASE64BINARY);
 			String base64 = Base64.encode(((RDFBlob)rdfNode).getValue());
-			return factory.createLiteral(base64, datatype);
+			return factory.createLiteral(base64, XMLSchema.BASE64BINARY);
 		}
 		throw new IllegalArgumentException("Cannot convert given object to a Literal.");
 	}
@@ -348,7 +436,7 @@ public class RDFMemoryDataSourceImpl extends AbstractDataSourceImpl implements R
 			return toURI(mozResource);
 		}
 		// Blank node; use the object's hashcode as the bnode id
-		return graph.getValueFactory().createBNode(String.valueOf(mozResource.hashCode()));
+		return repository.getValueFactory().createBNode(String.valueOf(mozResource.hashCode()));
 	}
 
 	/**
@@ -358,14 +446,14 @@ public class RDFMemoryDataSourceImpl extends AbstractDataSourceImpl implements R
 		if(mozResource.getValue() == null) {
 			throw new IllegalArgumentException("Cannot convert an anonymous resource to a URI.");
 		}
-		return graph.getValueFactory().createURI(mozResource.getValue());
+		return repository.getValueFactory().createURI(mozResource.getValue());
 	}
 
 	/**
 	 * Utility to build a Sesame Statement from the given Mozilla triple parts
 	 */
 	private Statement toStatement(RDFResource subject, RDFResource predicate, RDFNode object) {
-		return graph.getValueFactory().createStatement(toResource(subject), toURI(predicate), toValue(object));
+		return repository.getValueFactory().createStatement(toResource(subject), toURI(predicate), toValue(object));
 	}
 
 	/**
@@ -378,7 +466,7 @@ public class RDFMemoryDataSourceImpl extends AbstractDataSourceImpl implements R
 			return rdfService.getAnonymousResource();
 		}
 		// URI nodes:
-		return rdfService.getResource(((URI)resource).getURI());
+		return rdfService.getResource(resource.toString());
 	}
 
 	/**
@@ -391,14 +479,13 @@ public class RDFMemoryDataSourceImpl extends AbstractDataSourceImpl implements R
 		}
 		// Literals:
 		Literal literal = (Literal)value;
-		ValueFactory factory = graph.getValueFactory();
-		if(factory.createURI(XmlSchema.INT).equals(literal.getDatatype())) {
+		if(XMLSchema.INT.equals(literal.getDatatype())) {
 			return rdfService.getIntLiteral(Integer.parseInt(literal.getLabel()));
 		}
-		if(factory.createURI(XmlSchema.DATETIME).equals(literal.getDatatype())) {
+		if(XMLSchema.DATETIME.equals(literal.getDatatype())) {
 			return rdfService.getDateLiteral(0); //TODO parse xsd:datetime string into time
 		}
-		if(factory.createURI(XmlSchema.BASE64BINARY).equals(literal.getDatatype())) {
+		if(XMLSchema.BASE64BINARY.equals(literal.getDatatype())) {
 			byte[] bytes = Base64.decode(literal.getLabel());
 			return rdfService.getBlobLiteral(bytes, bytes.length);
 		}

@@ -36,8 +36,8 @@
 		</dependency>
 		<dependency>
 			<groupId>org.openrdf</groupId>
-			<artifactId>sesame</artifactId>
-			<version>1.2.6</version>
+			<artifactId>openrdf-runtime</artifactId>
+			<version>2.0-alpha4</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
@@ -46,4 +46,13 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
+
+	<repositories>
+		<repository>
+			<id>aduna</id>
+			<url>http://repository.aduna-software.org/maven2</url>
+			<snapshots><enabled>false</enabled></snapshots>
+			<releases><enabled>true</enabled></releases>
+		</repository>
+	</repositories>
 </project>
