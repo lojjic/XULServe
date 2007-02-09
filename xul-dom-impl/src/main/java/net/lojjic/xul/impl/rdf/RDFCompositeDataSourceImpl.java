@@ -4,7 +4,6 @@ import net.lojjic.xul.rdf.RDFCompositeDataSource;
 import net.lojjic.xul.rdf.RDFDataSource;
 import net.lojjic.xul.rdf.RDFService;
 
-import java.util.Enumeration;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -83,16 +82,8 @@ public class RDFCompositeDataSourceImpl extends RDFMemoryDataSourceImpl implemen
 	 *
 	 * @return java.util.Enumeration that will enumerate each of the datasources in the composite
 	 */
-	public Enumeration<RDFDataSource> getDataSources() {
-		final Iterator<RDFDataSource> iter = dataSources.iterator();
-		return new Enumeration<RDFDataSource>() {
-			public boolean hasMoreElements() {
-				return iter.hasNext();
-			}
-			public RDFDataSource nextElement() {
-				return iter.next();
-			}
-		};
+	public Iterator<RDFDataSource> getDataSources() {
+		return dataSources.iterator();
 	}
 
 	/**

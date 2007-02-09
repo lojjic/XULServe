@@ -1,6 +1,6 @@
 package net.lojjic.xul.rdf;
 
-import java.util.Enumeration;
+import java.util.Iterator;
 
 /**
  * <p>An nsIRDFCompositeDataSource composes individual data sources, providing
@@ -60,7 +60,7 @@ public interface RDFCompositeDataSource extends RDFDataSource {
 	 *
 	 * @return java.util.Enumeration that will enumerate each of the datasources in the composite
 	 */
-	Enumeration<RDFDataSource> getDataSources();
+	Iterator<RDFDataSource> getDataSources();
 
 	/**
 	 * Remove a datasource from the composite data source.

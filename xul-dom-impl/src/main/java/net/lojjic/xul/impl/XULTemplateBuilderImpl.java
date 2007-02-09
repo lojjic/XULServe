@@ -11,8 +11,8 @@ import org.w3c.dom.events.EventListener;
 import org.w3c.dom.events.EventTarget;
 
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.List;
+import java.util.Iterator;
 
 /**
  * Implementation of {@link XULTemplateBuilder}
@@ -105,9 +105,9 @@ public class XULTemplateBuilderImpl implements XULTemplateBuilder {
 	 * Reload any of our RDF datasources that support RDFRemoteDatasource.
 	 */
 	public void refresh() {
-		Enumeration<RDFDataSource> dataSources = database.getDataSources();
-		while(dataSources.hasMoreElements()) {
-			RDFDataSource source = dataSources.nextElement();
+		Iterator<RDFDataSource> dataSources = database.getDataSources();
+		while(dataSources.hasNext()) {
+			RDFDataSource source = dataSources.next();
 			if(source instanceof RDFRemoteDataSource) {
 				((RDFRemoteDataSource)source).refresh(true);
 			}

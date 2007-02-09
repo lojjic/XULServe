@@ -8,7 +8,6 @@ import org.openrdf.repository.Repository;
 import org.openrdf.repository.RepositoryImpl;
 import org.openrdf.repository.Connection;
 import org.openrdf.sail.memory.MemoryStore;
-import org.openrdf.sail.SailException;
 import org.openrdf.util.iterator.Iterators;
 
 import java.util.*;
@@ -68,21 +67,22 @@ public class RDFMemoryDataSourceImpl extends AbstractDataSourceImpl implements R
 	 * @param node
 	 * @return Enumeration of RDFResources
 	 */
-	public Enumeration<RDFResource> arcLabelsIn(final RDFNode node) {
+	public Iterator<RDFResource> arcLabelsIn(final RDFNode node) {
 		return execute(
-			new ConnectionCallback<Enumeration<RDFResource>>() {
-				public Enumeration<RDFResource> doInConnection(Connection con) {
+			new ConnectionCallback<Iterator<RDFResource>>() {
+				public Iterator<RDFResource> doInConnection(Connection con) {
 					final Iterator<Statement> iter = Iterators.addAll(
 						con.getStatements(null, null, toValue(node), false),
 						new ArrayList<Statement>()
 					).iterator();
-					return new Enumeration<RDFResource>() {
-						public boolean hasMoreElements() {
+					return new Iterator<RDFResource>() {
+						public boolean hasNext() {
 							return iter.hasNext();
 						}
-						public RDFResource nextElement() {
+						public RDFResource next() {
 							return toRDFResource(iter.next().getPredicate());
 						}
+						public void remove() {}
 					};
 				}
 			}
@@ -95,21 +95,22 @@ public class RDFMemoryDataSourceImpl extends AbstractDataSourceImpl implements R
 	 * @param source
 	 * @return Enumeration of RDFResources
 	 */
-	public Enumeration<RDFResource> arcLabelsOut(final RDFResource source) {
+	public Iterator<RDFResource> arcLabelsOut(final RDFResource source) {
 		return execute(
-			new ConnectionCallback<Enumeration<RDFResource>>() {
-				public Enumeration<RDFResource> doInConnection(Connection con) {
+			new ConnectionCallback<Iterator<RDFResource>>() {
+				public Iterator<RDFResource> doInConnection(Connection con) {
 					final Iterator<Statement> iter = Iterators.addAll(
 						con.getStatements(toResource(source), null, null, false),
 						new ArrayList<Statement>()
 					).iterator();
-					return new Enumeration<RDFResource>() {
-						public boolean hasMoreElements() {
+					return new Iterator<RDFResource>() {
+						public boolean hasNext() {
 							return iter.hasNext();
 						}
-						public RDFResource nextElement() {
+						public RDFResource next() {
 							return toRDFResource(iter.next().getPredicate());
 						}
+						public void remove() {}
 					};
 				}
 			}
@@ -188,7 +189,7 @@ public class RDFMemoryDataSourceImpl extends AbstractDataSourceImpl implements R
 	 * @param source
 	 * @return
 	 */
-	public Enumeration getAllCmds(RDFResource source) {
+	public Iterator getAllCmds(RDFResource source) {
 		// TODO
 		return null;
 	}
@@ -196,21 +197,22 @@ public class RDFMemoryDataSourceImpl extends AbstractDataSourceImpl implements R
 	/**
 	 * Retrieve all of the resources that the data source currently refers to.
 	 */
-	public Enumeration<RDFResource> getAllResources() {
+	public Iterator<RDFResource> getAllResources() {
 		return execute(
-			new ConnectionCallback<Enumeration<RDFResource>>() {
-				public Enumeration<RDFResource> doInConnection(Connection conn) throws Exception {
+			new ConnectionCallback<Iterator<RDFResource>>() {
+				public Iterator<RDFResource> doInConnection(Connection conn) throws Exception {
 					final Iterator<Statement> iter = Iterators.addAll(
 						conn.getStatements(null, null, null, false),
 						new ArrayList<Statement>()
 					).iterator();
-					return new Enumeration<RDFResource>() {
-						public boolean hasMoreElements() {
+					return new Iterator<RDFResource>() {
+						public boolean hasNext() {
 							return iter.hasNext();
 						}
-						public RDFResource nextElement() {
+						public RDFResource next() {
 							return toRDFResource(iter.next().getSubject());
 						}
+						public void remove() {}
 					};
 				}
 			}
@@ -221,8 +223,8 @@ public class RDFMemoryDataSourceImpl extends AbstractDataSourceImpl implements R
 	 * Find an RDF resource that points to a given node over the specified arc & truth value
 	 */
 	public RDFResource getSource(RDFResource property, RDFNode target, boolean truthValue) {
-		Enumeration<RDFResource> sources = getSources(property, target, truthValue);
-		return sources.hasMoreElements() ? sources.nextElement() : null;
+		Iterator<RDFResource> sources = getSources(property, target, truthValue);
+		return sources.hasNext() ? sources.next() : null;
 	}
 
 	/**
@@ -233,22 +235,23 @@ public class RDFMemoryDataSourceImpl extends AbstractDataSourceImpl implements R
 	 * @param truthValue
 	 * @return Enumeration points
 	 */
-	public Enumeration<RDFResource> getSources(final RDFResource property, final RDFNode target, boolean truthValue) {
+	public Iterator<RDFResource> getSources(final RDFResource property, final RDFNode target, boolean truthValue) {
 		checkTruthValue(truthValue);
 		return execute(
-			new ConnectionCallback<Enumeration<RDFResource>>() {
-				public Enumeration<RDFResource> doInConnection(Connection conn) throws Exception {
+			new ConnectionCallback<Iterator<RDFResource>>() {
+				public Iterator<RDFResource> doInConnection(Connection conn) throws Exception {
 					final Iterator<Statement> iter = Iterators.addAll(
 						conn.getStatements(null, toURI(property), toValue(target), false),
 						new ArrayList<Statement>()
 					).iterator();
-					return new Enumeration<RDFResource>() {
-						public boolean hasMoreElements() {
+					return new Iterator<RDFResource>() {
+						public boolean hasNext() {
 							return iter.hasNext();
 						}
-						public RDFResource nextElement() {
+						public RDFResource next() {
 							return toRDFResource(iter.next().getSubject());
 						}
+						public void remove() {}
 					};
 				}
 			}
@@ -264,8 +267,8 @@ public class RDFMemoryDataSourceImpl extends AbstractDataSourceImpl implements R
 	 * @return NS_RDF_NO_VALUE if there is no target accessable from the source via the specified property.
 	 */
 	public RDFNode getTarget(RDFResource source, RDFResource property, boolean truthValue) {
-		Enumeration<RDFNode> targets = getTargets(source, property, truthValue);
-		return targets.hasMoreElements() ? targets.nextElement() : null;
+		Iterator<RDFNode> targets = getTargets(source, property, truthValue);
+		return targets.hasNext() ? targets.next() : null;
 	}
 
 	/**
@@ -276,22 +279,23 @@ public class RDFMemoryDataSourceImpl extends AbstractDataSourceImpl implements R
 	 * @param truthValue
 	 * @return Enumeration points
 	 */
-	public Enumeration<RDFNode> getTargets(final RDFResource source, final RDFResource property, boolean truthValue) {
+	public Iterator<RDFNode> getTargets(final RDFResource source, final RDFResource property, boolean truthValue) {
 		checkTruthValue(truthValue);
 		return execute(
-			new ConnectionCallback<Enumeration<RDFNode>>() {
-				public Enumeration<RDFNode> doInConnection(Connection conn) throws Exception {
+			new ConnectionCallback<Iterator<RDFNode>>() {
+				public Iterator<RDFNode> doInConnection(Connection conn) throws Exception {
 					final Iterator<Statement> iter = Iterators.addAll(
 						conn.getStatements(toResource(source), toURI(property), null, false),
 						new ArrayList<Statement>()
 					).iterator();
-					return new Enumeration<RDFNode>() {
-						public boolean hasMoreElements() {
+					return new Iterator<RDFNode>() {
+						public boolean hasNext() {
 							return iter.hasNext();
 						}
-						public RDFNode nextElement() {
+						public RDFNode next() {
 							return toRDFNode(iter.next().getObject());
 						}
+						public void remove() {}
 					};
 				}
 			}

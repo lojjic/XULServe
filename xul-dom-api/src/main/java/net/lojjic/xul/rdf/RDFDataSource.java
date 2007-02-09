@@ -1,6 +1,6 @@
 package net.lojjic.xul.rdf;
 
-import java.util.Enumeration;
+import java.util.Iterator;
 
 /**
  * <p>RDF data source interface.</p>
@@ -29,7 +29,7 @@ public interface RDFDataSource {
 	 * @param node
 	 * @return Enumeration of RDFResources
 	 */
-	Enumeration<RDFResource> arcLabelsIn(RDFNode node);
+	Iterator<RDFResource> arcLabelsIn(RDFNode node);
 
 
 	/**
@@ -38,7 +38,7 @@ public interface RDFDataSource {
 	 * @param source
 	 * @return Enumeration of RDFResources
 	 */
-	Enumeration<RDFResource> arcLabelsOut(RDFResource source);
+	Iterator<RDFResource> arcLabelsOut(RDFResource source);
 
 	/**
 	 * Add an assertion to the graph.
@@ -91,14 +91,14 @@ public interface RDFDataSource {
 	 * @param source
 	 * @return
 	 */
-	Enumeration getAllCmds(RDFResource source);
+	Iterator getAllCmds(RDFResource source);
 
 	/**
 	 * Retrieve all of the resources that the data source currently refers to.
 	 *
 	 * @return Enumeration of RDFResource objects
 	 */
-	Enumeration<RDFResource> getAllResources();
+	Iterator<RDFResource> getAllResources();
 
 	/**
 	 * Find an RDF resource that points to a given node over the specified arc & truth value
@@ -118,7 +118,7 @@ public interface RDFDataSource {
 	 * @param truthValue
 	 * @return Enumeration points
 	 */
-	Enumeration<RDFResource> getSources(RDFResource property, RDFNode target, boolean truthValue);
+	Iterator<RDFResource> getSources(RDFResource property, RDFNode target, boolean truthValue);
 
 	/**
 	 * Find a child of that is related to the source by the given arc arc and truth value
@@ -138,7 +138,7 @@ public interface RDFDataSource {
 	 * @param truthValue
 	 * @return Enumeration points
 	 */
-	Enumeration<RDFNode> getTargets(RDFResource source, RDFResource property, boolean truthValue);
+	Iterator<RDFNode> getTargets(RDFResource source, RDFResource property, boolean truthValue);
 
 	/**
 	 * Returns true if the specified node is pointed to by the specified arc. Equivalent to
