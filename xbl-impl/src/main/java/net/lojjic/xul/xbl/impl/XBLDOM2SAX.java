@@ -1,9 +1,8 @@
 package net.lojjic.xul.xbl.impl;
 
+import net.lojjic.xul.xbl.ElementXBL;
 import org.apache.xalan.xsltc.trax.DOM2SAX;
 import org.w3c.dom.*;
-
-import net.lojjic.xul.xbl.ElementXBL;
 
 /**
  * Specialized {@link DOM2SAX} that walks the XBL DOM after anonymous
@@ -23,41 +22,26 @@ public class XBLDOM2SAX extends DOM2SAX {
 	 * model after repositioning by the content template. This has the effect
 	 * of making {@link DOM2SAX#parse()} stream SAX events for the entire
 	 * XBL content model including anonymous nodes.
-	 * <p>
-	 * Implementation note: rather than creating a new NodeWrapper instance,
-	 * the navigation methods change the delegate and return the same instance.
-	 * This prevents a lot of extra object creation, but relies on an assumption
-	 * that the extended {@link org.apache.xalan.xsltc.trax.DOM2SAX#parse()}
-	 * will not call any method on the Node after calling one of those overridden
-	 * navigation methods.
 	 */
 	private static class NodeWrapper implements Node {
 		private Node delegate;
-		private boolean isElementXBL;
 
 		public NodeWrapper(Node node) {
-			setDelegateNode(node);
-		}
-
-		private void setDelegateNode(Node node) {
 			this.delegate = node;
-			isElementXBL = (node instanceof ElementXBL);
 		}
 
 		/**
 		 * @return child nodes after XBL content template evaluation
 		 */
 		public NodeList getChildNodes() {
-			if(isElementXBL) {
-				final Node self = this;
+			if(delegate instanceof ElementXBL) {
 				final NodeList nodes = ((ElementXBL)delegate).getXblChildNodes();
 				return new NodeList() {
 					public int getLength() {
 						return nodes.getLength();
 					}
 					public Node item(int index) {
-						setDelegateNode(nodes.item(index));
-						return self;
+						return new NodeWrapper(nodes.item(index));
 					}
 				};
 			}
@@ -71,15 +55,14 @@ public class XBLDOM2SAX extends DOM2SAX {
 		 */
 		public Node getFirstChild() {
 			Node node;
-			if(isElementXBL) {
+			if(delegate instanceof ElementXBL) {
 				NodeList nodes = ((ElementXBL)delegate).getXblChildNodes();
 				node = (nodes.getLength() == 0 ? null : nodes.item(0));
 			}
 			else {
 				node = delegate.getFirstChild();
 			}
-			setDelegateNode(node);
-			return this;
+			return (node == null ? null : new NodeWrapper(node));
 		}
 
 		/**
@@ -87,45 +70,74 @@ public class XBLDOM2SAX extends DOM2SAX {
 		 */
 		public Node getLastChild() {
 			Node node;
-			if(isElementXBL) {
+			if(delegate instanceof ElementXBL) {
 				NodeList nodes = ((ElementXBL)delegate).getXblChildNodes();
-				node = nodes.getLength() == 0 ? null : nodes.item(nodes.getLength() - 1);
+				node = (nodes.getLength() == 0 ? null : nodes.item(nodes.getLength() - 1));
 			}
 			else {
 				node = delegate.getLastChild();
 			}
-			setDelegateNode(node);
-			return this;
+			return (node == null ? null : new NodeWrapper(node));
 		}
 
 		/**
 		 * @return next sibling node after XBL content template evaluation
 		 */
 		public Node getNextSibling() {
-			Node node;
-			if(isElementXBL) {
-				// TODO
+			Node node = null;
+			if(delegate instanceof ElementXBL) {
+				Node parent = ((ElementXBL)delegate).getAnonymousParent();
+				if(parent == null) {
+					parent = delegate.getParentNode();
+				}
+				NodeList siblings;
+				if(parent instanceof ElementXBL) {
+					siblings = ((ElementXBL)parent).getXblChildNodes();
+				}
+				else {
+					siblings = parent.getChildNodes();
+				}
+				for(int i=0; i<siblings.getLength(); i++) {
+					if(siblings.item(i) == delegate) {
+						node = (i == siblings.getLength() - 1 ? null : siblings.item(i + 1));
+						break;
+					}
+				}
 			}
 			else {
 				node = delegate.getNextSibling();
 			}
-			setDelegateNode(node);
-			return this;
+			return (node == null ? null : new NodeWrapper(node));
 		}
 
 		/**
 		 * @return previous sibling node after XBL content template evaluation
 		 */
 		public Node getPreviousSibling() {
-			Node node;
-			if(isElementXBL) {
-				// TODO
+			Node node = null;
+			if(delegate instanceof ElementXBL) {
+				Node parent = ((ElementXBL)delegate).getAnonymousParent();
+				if(parent == null) {
+					parent = delegate.getParentNode();
+				}
+				NodeList siblings;
+				if(parent instanceof ElementXBL) {
+					siblings = ((ElementXBL)parent).getXblChildNodes();
+				}
+				else {
+					siblings = parent.getChildNodes();
+				}
+				for(int i=0; i<siblings.getLength(); i++) {
+					if(siblings.item(i) == delegate) {
+						node = (i == 0 ? null : siblings.item(i - 1));
+						break;
+					}
+				}
 			}
 			else {
 				node = delegate.getPreviousSibling();
 			}
-			setDelegateNode(node);
-			return this;
+			return (node == null ? null : new NodeWrapper(node));
 		}
 
 
