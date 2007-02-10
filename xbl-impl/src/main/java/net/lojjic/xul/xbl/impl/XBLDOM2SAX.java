@@ -1,6 +1,5 @@
 package net.lojjic.xul.xbl.impl;
 
-import net.lojjic.xul.xbl.ElementXBL;
 import org.apache.xalan.xsltc.trax.DOM2SAX;
 import org.w3c.dom.*;
 
@@ -34,8 +33,8 @@ public class XBLDOM2SAX extends DOM2SAX {
 		 * @return child nodes after XBL content template evaluation
 		 */
 		public NodeList getChildNodes() {
-			if(delegate instanceof ElementXBL) {
-				final NodeList nodes = ((ElementXBL)delegate).getXblChildNodes();
+			if(delegate instanceof ElementXBLImpl) {
+				final NodeList nodes = ((ElementXBLImpl)delegate).getXblChildNodes();
 				return new NodeList() {
 					public int getLength() {
 						return nodes.getLength();
@@ -55,9 +54,8 @@ public class XBLDOM2SAX extends DOM2SAX {
 		 */
 		public Node getFirstChild() {
 			Node node;
-			if(delegate instanceof ElementXBL) {
-				NodeList nodes = ((ElementXBL)delegate).getXblChildNodes();
-				node = (nodes.getLength() == 0 ? null : nodes.item(0));
+			if(delegate instanceof ElementXBLImpl) {
+				node = ((ElementXBLImpl)delegate).getXblFirstChild();
 			}
 			else {
 				node = delegate.getFirstChild();
@@ -70,9 +68,8 @@ public class XBLDOM2SAX extends DOM2SAX {
 		 */
 		public Node getLastChild() {
 			Node node;
-			if(delegate instanceof ElementXBL) {
-				NodeList nodes = ((ElementXBL)delegate).getXblChildNodes();
-				node = (nodes.getLength() == 0 ? null : nodes.item(nodes.getLength() - 1));
+			if(delegate instanceof ElementXBLImpl) {
+				node = ((ElementXBLImpl)delegate).getXblLastChild();
 			}
 			else {
 				node = delegate.getLastChild();
@@ -84,25 +81,9 @@ public class XBLDOM2SAX extends DOM2SAX {
 		 * @return next sibling node after XBL content template evaluation
 		 */
 		public Node getNextSibling() {
-			Node node = null;
-			if(delegate instanceof ElementXBL) {
-				Node parent = ((ElementXBL)delegate).getAnonymousParent();
-				if(parent == null) {
-					parent = delegate.getParentNode();
-				}
-				NodeList siblings;
-				if(parent instanceof ElementXBL) {
-					siblings = ((ElementXBL)parent).getXblChildNodes();
-				}
-				else {
-					siblings = parent.getChildNodes();
-				}
-				for(int i=0; i<siblings.getLength(); i++) {
-					if(siblings.item(i) == delegate) {
-						node = (i == siblings.getLength() - 1 ? null : siblings.item(i + 1));
-						break;
-					}
-				}
+			Node node;
+			if(delegate instanceof ElementXBLImpl) {
+				node = ((ElementXBLImpl)delegate).getXblNextSibling();
 			}
 			else {
 				node = delegate.getNextSibling();
@@ -114,25 +95,23 @@ public class XBLDOM2SAX extends DOM2SAX {
 		 * @return previous sibling node after XBL content template evaluation
 		 */
 		public Node getPreviousSibling() {
-			Node node = null;
-			if(delegate instanceof ElementXBL) {
-				Node parent = ((ElementXBL)delegate).getAnonymousParent();
-				if(parent == null) {
-					parent = delegate.getParentNode();
-				}
-				NodeList siblings;
-				if(parent instanceof ElementXBL) {
-					siblings = ((ElementXBL)parent).getXblChildNodes();
-				}
-				else {
-					siblings = parent.getChildNodes();
-				}
-				for(int i=0; i<siblings.getLength(); i++) {
-					if(siblings.item(i) == delegate) {
-						node = (i == 0 ? null : siblings.item(i - 1));
-						break;
-					}
-				}
+			Node node;
+			if(delegate instanceof ElementXBLImpl) {
+				node = ((ElementXBLImpl)delegate).getXblPreviousSibling();
+			}
+			else {
+				node = delegate.getPreviousSibling();
+			}
+			return (node == null ? null : new NodeWrapper(node));
+		}
+
+		/**
+		 * @return parent node after XBL content template evaluation
+		 */
+		public Node getParentNode() {
+			Node node;
+			if(delegate instanceof ElementXBLImpl) {
+				node = ((ElementXBLImpl)delegate).getXblParentNode();
 			}
 			else {
 				node = delegate.getPreviousSibling();
@@ -187,10 +166,6 @@ public class XBLDOM2SAX extends DOM2SAX {
 
 		public Document getOwnerDocument() {
 			return delegate.getOwnerDocument();
-		}
-
-		public Node getParentNode() {
-			return delegate.getParentNode();
 		}
 
 		public String getPrefix() {

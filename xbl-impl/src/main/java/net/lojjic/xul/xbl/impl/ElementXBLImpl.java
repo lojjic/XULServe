@@ -66,6 +66,76 @@ public class ElementXBLImpl extends ElementNSImpl implements ElementXBL {
 	}
 
 	/**
+	 * Get the parent node of this element after anonymous content repositioning.
+	 * Specific to this implementation.
+	 */
+	public Node getXblParentNode() {
+		Node parent = getAnonymousParent();
+		if(parent == null) {
+			parent = getParentNode();
+		}
+		return parent;
+	}
+
+	/**
+	 * Get the first child node of this element after anonymous content repositioning.
+	 * Specific to this implementation.
+	 */
+	public Node getXblFirstChild() {
+		if(xblChildNodes != null && xblChildNodes.size() > 0) {
+			return xblChildNodes.get(0);
+		}
+		return getFirstChild();
+	}
+
+	/**
+	 * Get the last child node of this element after anonymous content repositioning.
+	 * Specific to this implementation.
+	 */
+	public Node getXblLastChild() {
+		if(xblChildNodes != null && xblChildNodes.size() > 0) {
+			return xblChildNodes.get(xblChildNodes.size() - 1);
+		}
+		return getFirstChild();
+	}
+
+	/**
+	 * Get the next sibling node of this element after anonymous content repositioning.
+	 * Specific to this implementation.
+	 */
+	public Node getXblNextSibling() {
+		Node parent = getXblParentNode();
+		if(parent instanceof ElementXBLImpl) {
+			List<Node> siblings = ((ElementXBLImpl)parent).xblChildNodes;
+			int index = siblings.indexOf(this);
+			if(index == -1) {
+				throw new IllegalStateException("XBL anonymous content model is in invalid state: the xblParentNode " +
+						"of this XBL element does not contain this element in its xblChildNodes list.");
+			}
+			return (index == siblings.size() - 1) ? null : siblings.get(index + 1);
+		}
+		return getNextSibling();
+	}
+
+	/**
+	 * Get the previous sibling node of this element after anonymous content repositioning.
+	 * Specific to this implementation.
+	 */
+	public Node getXblPreviousSibling() {
+		Node parent = getXblParentNode();
+		if(parent instanceof ElementXBLImpl) {
+			List<Node> siblings = ((ElementXBLImpl)parent).xblChildNodes;
+			int index = siblings.indexOf(this);
+			if(index == -1) {
+				throw new IllegalStateException("XBL anonymous content model is in invalid state: the xblParentNode " +
+						"of this XBL element does not contain this element in its xblChildNodes list.");
+			}
+			return (index == 0) ? null : siblings.get(index - 1);
+		}
+		return getPreviousSibling();
+	}
+
+	/**
 	 * The bindingOwner property is used to obtain the bound element with the binding
 	 * attached that is responsible for the generation of the specified anonymous node.
 	 * This property enables an author to determine the scope of any content node. When
