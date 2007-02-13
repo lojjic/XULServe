@@ -40,10 +40,6 @@ public class XULMenuListElementImpl extends XULSelectControlElementImpl implemen
 		return getAttribute("label");
 	}
 
-	public void setLabel(String label) {
-		setAttribute("label", label);
-	}
-
 	public String getCrop() {
 		return getAttribute("crop");
 	}
