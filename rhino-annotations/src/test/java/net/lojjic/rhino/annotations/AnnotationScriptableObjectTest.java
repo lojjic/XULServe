@@ -6,7 +6,6 @@ import org.mozilla.javascript.Scriptable;
 import java.io.Reader;
 import java.io.InputStreamReader;
 import java.io.InputStream;
-import java.util.Date;
 
 /**
  * Test cases for {@link net.lojjic.rhino.annotations.AnnotationScriptableObject}
