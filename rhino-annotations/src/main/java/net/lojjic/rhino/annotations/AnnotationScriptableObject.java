@@ -15,6 +15,8 @@ import java.util.Map;
  */
 public abstract class AnnotationScriptableObject extends ScriptableObject {
 
+	private String className;
+
 	/**
 	 * Data container for categorized annotated methods
 	 */
@@ -24,6 +26,26 @@ public abstract class AnnotationScriptableObject extends ScriptableObject {
 		Map<String,Method> propertySetters = new HashMap<String,Method>();
 		Map<String,Method> functions = new HashMap<String,Method>();
 	}
+
+
+	protected AnnotationScriptableObject() {
+		super();
+	}
+
+	protected AnnotationScriptableObject(Scriptable scope) {
+		super(scope, null);
+		setPrototype(getClassPrototype(scope, getClassName()));
+	}
+
+
+	@Override
+	public String getClassName() {
+		if(className == null) {
+			className = getJSClassName(getClass());
+		}
+		return className;
+	}
+
 
 	public static void defineClass(Scriptable scope, Class clazz)
 			throws IllegalAccessException, InstantiationException, InvocationTargetException {
@@ -46,7 +68,6 @@ public abstract class AnnotationScriptableObject extends ScriptableObject {
 
 		// Get the JS class name:
 		String className = getJSClassName(clazz);
-
 
 		// Collect the class's annotated methods:
 		AnnotatedMethods methods = getAnnotatedMethods(clazz);
