@@ -1,28 +1,27 @@
 package net.lojjic.xml.javascript.views;
 
+import net.lojjic.rhino.annotations.JSClassName;
+import net.lojjic.rhino.annotations.JSGetter;
+import net.lojjic.xml.javascript.ScriptableDOMObject;
 import org.mozilla.javascript.Scriptable;
 import org.w3c.dom.views.AbstractView;
+import org.w3c.dom.views.DocumentView;
 
-import net.lojjic.xml.javascript.ScriptableDOMObject;
-
-public class ScriptableAbstractView extends ScriptableDOMObject {
+@JSClassName("AbstractView")
+public class ScriptableAbstractView extends ScriptableDOMObject implements AbstractView {
 	
 	public static String JS_CLASS_NAME = "AbstractView";
 	
 	protected AbstractView delegateAbstractView;
 
-	public AbstractView getDelegateAbstractView() {
-		return delegateAbstractView;
-	}
-
 	public ScriptableAbstractView(Scriptable scope, AbstractView view) {
-		super(scope);
+		super(scope, view);
 		this.delegateAbstractView = view;
 	}
-	
-	
-	public Object jsGet_document() {
-		return wrap(delegateAbstractView.getDocument());
+
+	@JSGetter("document")
+	public DocumentView getDocument() {
+		return delegateAbstractView.getDocument();
 	}
 
 }

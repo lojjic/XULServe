@@ -2,11 +2,16 @@ package net.lojjic.xml.javascript;
 
 import org.mozilla.javascript.Scriptable;
 import org.w3c.dom.Element;
+import org.w3c.dom.Attr;
+import org.w3c.dom.NodeList;
+import org.w3c.dom.TypeInfo;
+import net.lojjic.rhino.annotations.JSClassName;
+import net.lojjic.rhino.annotations.JSGetter;
+import net.lojjic.rhino.annotations.JSFunction;
 
-public class ScriptableElement extends ScriptableNode {
+@JSClassName("Element")
+public class ScriptableElement extends ScriptableNode implements Element {
 
-	public static String JS_CLASS_NAME = "Element";
-		
 	protected Element delegateElement;
 	
 	public ScriptableElement(Scriptable scope, Element element) {
@@ -14,89 +19,103 @@ public class ScriptableElement extends ScriptableNode {
 		this.delegateElement = element;
 	}
 	
-	
-	public String jsGet_tagName() {
+	@JSGetter("tagName")
+	public String getTagName() {
 		return delegateElement.getTagName();
 	}
-	
-	public String jsFunction_getAttribute(String name) {
+
+	@JSFunction("getAttribute")
+	public String getAttribute(String name) {
 		return delegateElement.getAttribute(name);
 	}
 	
-	public void jsFunction_setAttribute(String name, String value) {
+	@JSFunction("setAttribute")
+	public void setAttribute(String name, String value) {
 		delegateElement.setAttribute(name, value);
 	}
 	
-	public void jsFunction_removeAttribute(String name) {
+	@JSFunction("removeAttribute")
+	public void removeAttribute(String name) {
 		delegateElement.removeAttribute(name);
 	}
 	
-	public Object jsFunction_getAttributeNode(String name) {
-		return wrap(delegateElement.getAttributeNode(name));
+	@JSFunction("getAttributeNode")
+	public Attr getAttributeNode(String name) {
+		return delegateElement.getAttributeNode(name);
 	}
 	
-	public Object jsFunction_setAttributeNode(ScriptableAttr attr) {
-		delegateElement.setAttributeNode(attr.delegateAttr);
-		return attr;
+	@JSFunction("setAttributeNode")
+	public Attr setAttributeNode(Attr attr) {
+		return delegateElement.setAttributeNode(attr);
 	}
 	
-	public Object jsFunction_removeAttributeNode(ScriptableAttr attr) {
-		delegateElement.removeAttributeNode(attr.delegateAttr);
-		return attr;
+	@JSFunction("removeAttributeNode")
+	public Attr removeAttributeNode(Attr attr) {
+		return delegateElement.removeAttributeNode(attr);
 	}
 	
-	public Object jsFunction_getElementsByTagName(String name) {
-		return wrap(delegateElement.getElementsByTagName(name));
+	@JSFunction("getElementsByTagName")
+	public NodeList getElementsByTagName(String name) {
+		return delegateElement.getElementsByTagName(name);
 	}
 	
-	public Object jsFunction_getElementsByTagNameNS(String ns, String name) {
-		return wrap(delegateElement.getElementsByTagNameNS(ns, name));
+	@JSFunction("getElementsByTagNameNS")
+	public NodeList getElementsByTagNameNS(String ns, String name) {
+		return delegateElement.getElementsByTagNameNS(ns, name);
 	}
 	
-	public String jsFunction_getAttributeNS(String ns, String name) {
+	@JSFunction("getAttributeNS")
+	public String getAttributeNS(String ns, String name) {
 		return delegateElement.getAttributeNS(ns, name);
 	}
 	
-	public void jsFunction_setAttributeNS(String ns, String name, String value) {
+	@JSFunction("setAttributeNS")
+	public void setAttributeNS(String ns, String name, String value) {
 		delegateElement.setAttributeNS(ns, name, value);
 	}
 	
-	public void jsFunction_removeAttributeNS(String ns, String name) {
+	@JSFunction("removeAttributeNS")
+	public void removeAttributeNS(String ns, String name) {
 		delegateElement.removeAttributeNS(ns, name);
 	}
 	
-	public Object jsFunction_getAttributeNodeNS(String ns, String name) {
-		return wrap(delegateElement.getAttributeNodeNS(ns, name));
+	@JSFunction("getAttributeNodeNS")
+	public Attr getAttributeNodeNS(String ns, String name) {
+		return delegateElement.getAttributeNodeNS(ns, name);
 	}
 	
-	public Object jsFunction_setAttributeNodeNS(ScriptableAttr attr) {
-		delegateElement.setAttributeNodeNS(attr.delegateAttr);
-		return attr;
+	@JSFunction("setAttributeNodeNS")
+	public Attr setAttributeNodeNS(Attr attr) {
+		return delegateElement.setAttributeNodeNS(attr);
 	}
 	
-	public boolean jsFunction_hasAttribute(String name) {
+	@JSFunction("hasAttribute")
+	public boolean hasAttribute(String name) {
 		return delegateElement.hasAttribute(name);
 	}
 	
-	public boolean jsFunction_hasAttributeNS(String ns, String name) {
+	@JSFunction("hasAttributeNS")
+	public boolean hasAttributeNS(String ns, String name) {
 		return delegateElement.hasAttributeNS(ns, name);
 	}
 	
-	/* TODO
-	public TypeInfo jsGet_schemaTypeInfo() {
+	@JSGetter("schemaTypeInfo")
+	public TypeInfo getSchemaTypeInfo() {
 		return delegateElement.getSchemaTypeInfo();
 	}
-	*/
-	
-	public void jsFunction_setIdAttribute(String name, boolean makeId) {
+
+	@JSFunction("setIdAttribute")
+	public void setIdAttribute(String name, boolean makeId) {
 		delegateElement.setIdAttribute(name, makeId);
 	}
 	
-	public void jsFunction_setIdAttributeNS(String ns, String name, boolean makeId) {
+	@JSFunction("setIdAttributeNS")
+	public void setIdAttributeNS(String ns, String name, boolean makeId) {
 		delegateElement.setIdAttributeNS(ns, name, makeId);
 	}
 	
-	public void jsFunction_setIdAttributeNode(ScriptableAttr attr, boolean makeId) {
-		delegateElement.setIdAttributeNode(attr.delegateAttr, makeId);
+	@JSFunction("setIdAttributeNode")
+	public void setIdAttributeNode(Attr attr, boolean makeId) {
+		delegateElement.setIdAttributeNode(attr, makeId);
 	}
 }

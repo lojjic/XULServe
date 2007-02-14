@@ -14,7 +14,9 @@ import net.lojjic.xml.javascript.events.*;
 import net.lojjic.xml.javascript.views.*;
 
 public class DOMWrapFactory extends WrapFactory {
-	
+
+	public static final String USER_DATA_KEY = "ScriptableDOMObject:UserDataKey";
+
 	private HashMap<Class, Class<? extends ScriptableDOMObject>> mappings = new HashMap<Class, Class<? extends ScriptableDOMObject>>();
 
 
@@ -32,6 +34,9 @@ public class DOMWrapFactory extends WrapFactory {
 	/**
 	 * Override the base functionality to handle our special DOM object
 	 * wrappers.
+	 * <p>
+	 * If the Java object is a DOM Node, the wrapper is saved as a User
+	 * Data attribute so the same wrapper instance will be returned next time.
 	 * 
 	 * @param cx the current Context for this thread
 	 * @param scope the scope of the executing script
@@ -42,14 +47,23 @@ public class DOMWrapFactory extends WrapFactory {
 	 */
 	@Override
 	public Scriptable wrapAsJavaObject(Context cx, Scriptable scope, Object javaObject, Class staticType) {
+		Scriptable wrapper = null;
+
+		// If javaObject is a DOM Node, check the user data for an existing wrapper:
+		if(javaObject instanceof Node) {
+			wrapper = (Scriptable)((Node)javaObject).getUserData(USER_DATA_KEY);
+			if(wrapper != null) {
+				return wrapper;
+			}
+		}
 
 		// If a matching wrapper class is defined in the mappings, create an instance:
 		Class javaClass = javaObject.getClass();
-		Class wrapper = getWrapperForClass(javaClass);
-		if(wrapper != null) {
+		Class wrapperClass = getWrapperForClass(javaClass);
+		if(wrapperClass != null) {
 			try {
-				Constructor constructor = wrapper.getConstructor(Scriptable.class, javaClass);
-				return (Scriptable)constructor.newInstance(scope, javaObject);
+				Constructor constructor = wrapperClass.getConstructor(Scriptable.class, javaClass);
+				wrapper = (Scriptable)constructor.newInstance(scope, javaObject);
 			}
 			catch(Exception e) {
 				// TODO handle more elegantly
@@ -57,7 +71,18 @@ public class DOMWrapFactory extends WrapFactory {
 			}
 		}
 
-		return super.wrapAsJavaObject(cx, scope, javaObject, staticType);
+		// Fall back to inherited behavior:
+		if(wrapper == null) {
+			wrapper = super.wrapAsJavaObject(cx, scope, javaObject, staticType);
+		}
+
+		// If javaObject is a DOM Node, save the wrapper as a user data attribute
+		// so the same instance can be reused next time:
+		if(javaObject instanceof Node) {
+			((Node)javaObject).setUserData(USER_DATA_KEY, wrapper, null);
+		}
+
+		return wrapper;
 	}
 
 

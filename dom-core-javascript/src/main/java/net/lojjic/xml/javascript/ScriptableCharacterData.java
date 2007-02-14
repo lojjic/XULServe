@@ -2,48 +2,59 @@ package net.lojjic.xml.javascript;
 
 import org.mozilla.javascript.Scriptable;
 import org.w3c.dom.CharacterData;
+import net.lojjic.rhino.annotations.JSClassName;
+import net.lojjic.rhino.annotations.JSGetter;
+import net.lojjic.rhino.annotations.JSSetter;
+import net.lojjic.rhino.annotations.JSFunction;
 
-public class ScriptableCharacterData extends ScriptableNode {
-	
-	public static String JS_CLASS_NAME = "CharacterData";
+@JSClassName("CharacterData")
+public class ScriptableCharacterData extends ScriptableNode implements CharacterData {
 
 	CharacterData delegateCharacterData;
 	
 	public ScriptableCharacterData(Scriptable scope, CharacterData cdata) {
 		super(scope, cdata);
 		this.delegateCharacterData = cdata;
-	}	
-	
-	
-	public String jsGet_data() {
+	}
+
+
+	@JSGetter("data")
+	public String getData() {
 		return delegateCharacterData.getData();
 	}
 	
-	public void jsSet_data(String data) {
+	@JSSetter("data")
+	public void setData(String data) {
 		delegateCharacterData.setData(data);
 	}
 	
-	public int jsGet_length() {
+	@JSGetter("length")
+	public int getLength() {
 		return delegateCharacterData.getLength();
 	}
-	
-	public String jsFunction_substringData(int offset, int count) {
+
+	@JSFunction("substringData")
+	public String substringData(int offset, int count) {
 		return delegateCharacterData.substringData(offset, count);
 	}
 	
-	public void jsFunction_appendData(String data) {
+	@JSFunction("appendData")
+	public void appendData(String data) {
 		delegateCharacterData.appendData(data);
 	}
 	
-	public void jsFunction_insertData(int offset, String data) {
+	@JSFunction("insertData")
+	public void insertData(int offset, String data) {
 		delegateCharacterData.insertData(offset, data);
 	}
 	
-	public void jsFunction_deleteData(int offset, int count) {
+	@JSFunction("deleteData")
+	public void deleteData(int offset, int count) {
 		delegateCharacterData.deleteData(offset, count);
 	}
 	
-	public void jsFunction_replaceData(int offset, int count, String data) {
+	@JSFunction("replaceData")
+	public void replaceData(int offset, int count, String data) {
 		delegateCharacterData.replaceData(offset, count, data);
 	}
 

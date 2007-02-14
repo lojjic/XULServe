@@ -1,16 +1,14 @@
 package net.lojjic.xml.javascript.events;
 
-import net.lojjic.xml.javascript.ScriptableNode;
-
+import net.lojjic.rhino.annotations.JSClassName;
+import net.lojjic.rhino.annotations.JSFunction;
+import net.lojjic.rhino.annotations.JSGetter;
 import org.mozilla.javascript.Scriptable;
-import org.w3c.dom.DOMException;
 import org.w3c.dom.Node;
-import org.w3c.dom.events.Event;
 import org.w3c.dom.events.MutationEvent;
 
-public class ScriptableMutationEvent extends ScriptableEvent {
-	
-	public static String JS_CLASS_NAME = "MutationEvent";
+@JSClassName("MutationEvent")
+public class ScriptableMutationEvent extends ScriptableEvent implements MutationEvent {
 	
 	protected MutationEvent delegateMutationEvent;
 
@@ -28,37 +26,36 @@ public class ScriptableMutationEvent extends ScriptableEvent {
     The Attr was just removed.
     */
 	
-	
-	public short jsGet_attrChange() {
+	@JSGetter("attrChange")
+	public short getAttrChange() {
 		return delegateMutationEvent.getAttrChange();
 	}
 	
-	public String jsGet_attrName() {
+	@JSGetter("attrName")
+	public String getAttrName() {
 		return delegateMutationEvent.getAttrName();
 	}
 	
-	public String jsGet_newValue() {
+	@JSGetter("newValue")
+	public String getNewValue() {
 		return delegateMutationEvent.getNewValue();
 	}
 	
-	public String jsGet_prevValue() {
+	@JSGetter("prevValue")
+	public String getPrevValue() {
 		return delegateMutationEvent.getPrevValue();
 	}
 	
-	public Object jsGet_relatedNode() {
-		return wrap(delegateMutationEvent.getRelatedNode());
+	@JSGetter("relatedNode")
+	public Node getRelatedNode() {
+		return delegateMutationEvent.getRelatedNode();
 	}
-	
-	public void jsFunction_initMutationEvent(String type, boolean canBubble, boolean cancelable, 
-			Object relatedNode, String prevValue, String newValue, String attrName, short attrChange) {
-		if(relatedNode instanceof ScriptableNode) {
-			relatedNode = ((ScriptableNode)relatedNode).getDelegateNode();
-		}
-		if(!(relatedNode instanceof Node)) {
-			throw new DOMException(DOMException.TYPE_MISMATCH_ERR, 
-					"Unrecognized value for 'relatedNode' argument; must of type Node.");
-		}
-		delegateMutationEvent.initMutationEvent(type, canBubble, cancelable, (Node)relatedNode, prevValue, newValue, attrName, attrChange);
+
+	@JSFunction("initMutationEvent")
+	public void initMutationEvent(String type, boolean canBubble, boolean cancelable,
+			Node relatedNode, String prevValue, String newValue, String attrName, short attrChange) {
+		delegateMutationEvent.initMutationEvent(type, canBubble, cancelable,
+				relatedNode, prevValue, newValue, attrName, attrChange);
 	}
 	
 }

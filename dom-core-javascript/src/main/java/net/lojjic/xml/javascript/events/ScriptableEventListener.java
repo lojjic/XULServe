@@ -1,15 +1,14 @@
 package net.lojjic.xml.javascript.events;
 
+import net.lojjic.rhino.annotations.JSClassName;
+import net.lojjic.rhino.annotations.JSFunction;
+import net.lojjic.xml.javascript.ScriptableDOMObject;
 import org.mozilla.javascript.Scriptable;
-import org.w3c.dom.DOMException;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventListener;
 
-import net.lojjic.xml.javascript.ScriptableDOMObject;
-
-public class ScriptableEventListener extends ScriptableDOMObject {
-	
-	public static String JS_CLASS_NAME = "EventListener";
+@JSClassName("EventListener")
+public class ScriptableEventListener extends ScriptableDOMObject implements EventListener {
 	
 	protected EventListener delegateEventListener;
 
@@ -18,19 +17,13 @@ public class ScriptableEventListener extends ScriptableDOMObject {
 	}
 
 	public ScriptableEventListener(Scriptable scope, EventListener eventListener) {
-		super(scope);
+		super(scope, eventListener);
 		this.delegateEventListener = eventListener;
 	}
 	
-	
-	public void jsFunction_handleEvent(Object event) {
-		if(event instanceof ScriptableEvent) {
-			event = ((ScriptableEvent)event).delegateEvent;
-		}
-		if(!(event instanceof Event)) {
-			throw new DOMException(DOMException.TYPE_MISMATCH_ERR, "handleEvent() expects an Event object");
-		}
-		delegateEventListener.handleEvent((Event)event);
+	@JSFunction("handleEvent")
+	public void handleEvent(Event event) {
+		delegateEventListener.handleEvent(event);
 	}
 
 }

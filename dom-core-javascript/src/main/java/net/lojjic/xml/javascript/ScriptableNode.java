@@ -1,19 +1,20 @@
 package net.lojjic.xml.javascript;
 
+import net.lojjic.rhino.annotations.JSClassName;
+import net.lojjic.rhino.annotations.JSFunction;
+import net.lojjic.rhino.annotations.JSGetter;
+import net.lojjic.rhino.annotations.JSSetter;
 import net.lojjic.xml.javascript.events.ScriptableEventListener;
-
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Function;
 import org.mozilla.javascript.Scriptable;
-import org.w3c.dom.DOMException;
-import org.w3c.dom.Node;
+import org.w3c.dom.*;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventListener;
 import org.w3c.dom.events.EventTarget;
 
-public class ScriptableNode extends ScriptableDOMObject {
-	
-	public static String JS_CLASS_NAME = "Node";
+@JSClassName("Node")
+public class ScriptableNode extends ScriptableDOMObject implements Node {
 
 	protected Node delegateNode;
 	
@@ -22,160 +23,201 @@ public class ScriptableNode extends ScriptableDOMObject {
 	}
 
 	public ScriptableNode(Scriptable scope, Node node) {
-		super(scope);
+		super(scope, node);
 		this.delegateNode = node;
-	}	
-	
-	public String jsGet_nodeName() {
+	}
+
+	@JSGetter("nodeName")
+	public String getNodeName() {
 		return delegateNode.getNodeName();
 	}
-	
-	public String jsGet_nodeValue() {
+
+	@JSGetter("nodeValue")
+	public String getNodeValue() {
 		return delegateNode.getNodeValue();
 	}
-	
-	public void jsSet_nodeValue(String val) {
+
+	@JSSetter("nodeValue")
+	public void setNodeValue(String val) {
 		delegateNode.setNodeValue(val);
 	}
-	
-	public short jsGet_nodeType() {
+
+	@JSGetter("nodeType")
+	public short getNodeType() {
 		return delegateNode.getNodeType();
 	}
 	
-	public Object jsGet_parentNode() {
-		return wrap(delegateNode.getParentNode());
+	@JSGetter("parentNode")
+	public Node getParentNode() {
+		return delegateNode.getParentNode();
 	}
 	
-	public Object jsGet_childNodes() {
-		return new ScriptableNodeList(getParentScope(), delegateNode.getChildNodes());
+	@JSGetter("childNodes")
+	public NodeList getChildNodes() {
+		return delegateNode.getChildNodes();
 	}
 	
-	public Object jsGet_firstChild() {
-		return wrap(delegateNode.getFirstChild());
+	@JSGetter("firstChild")
+	public Node getFirstChild() {
+		return delegateNode.getFirstChild();
 	}
 	
-	public Object jsGet_lastChild() {
-		return wrap(delegateNode.getLastChild());
+	@JSGetter("lastChild")
+	public Node getLastChild() {
+		return delegateNode.getLastChild();
 	}
 	
-	public Object jsGet_previousSibling() {
-		return wrap(delegateNode.getPreviousSibling());
+	@JSGetter("previousSibling")
+	public Node getPreviousSibling() {
+		return delegateNode.getPreviousSibling();
 	}
 	
-	public Object jsGet_nextSibling() {
-		return wrap(delegateNode.getNextSibling());
+	@JSGetter("nextSibling")
+	public Node getNextSibling() {
+		return delegateNode.getNextSibling();
 	}
 	
-	public Object jsGet_attributes() {
-		return null; //TODO need NamedNodeMap wrapper
+	@JSGetter("attributes")
+	public NamedNodeMap getAttributes() {
+		return delegateNode.getAttributes();
 	}
 	
-	public Object jsGet_ownerDocument() {
-		return new ScriptableDocument(getParentScope(), delegateNode.getOwnerDocument());
-	}
-	
-	public Object jsFunction_insertBefore(ScriptableNode newNode, ScriptableNode refNode) {
-		delegateNode.insertBefore(newNode.delegateNode, (refNode == null ? null : refNode.delegateNode));
-		return newNode;
+	@JSGetter("ownerDocument")
+	public Document getOwnerDocument() {
+		return delegateNode.getOwnerDocument();
 	}
 
-	public Object jsFunction_replaceChild(ScriptableNode newNode, ScriptableNode refNode) {
-		delegateNode.replaceChild(newNode.delegateNode, refNode.delegateNode);
-		return newNode;
+	@JSFunction("insertBefore")
+	public Node insertBefore(Node newNode, Node refNode) {
+		return delegateNode.insertBefore(newNode, refNode);
 	}
 
-	public Object jsFunction_removeChild(ScriptableNode node) {
-		delegateNode.removeChild(node.delegateNode);
-		return node;
+	@JSFunction("replaceChild")
+	public Node replaceChild(Node newNode, Node refNode) {
+		return delegateNode.replaceChild(newNode, refNode);
 	}
 
-	public Object jsFunction_appendChild(ScriptableNode node) {
-		return jsFunction_insertBefore(node, null);
+	@JSFunction("removeChild")
+	public Node removeChild(Node node) {
+		return delegateNode.removeChild(node);
+	}
+
+	@JSFunction("appendChild")
+	public Node appendChild(Node node) {
+		return delegateNode.appendChild(node);
 	}
 	
-	public boolean jsFunction_hasChildNodes() {
+	@JSFunction("hasChildNodes")
+	public boolean hasChildNodes() {
 		return delegateNode.hasChildNodes();
 	}
 	
-	public Object jsFunction_cloneNode(boolean deep) {
-		return wrap(delegateNode.cloneNode(deep));
+	@JSFunction("cloneNode")
+	public Node cloneNode(boolean deep) {
+		return delegateNode.cloneNode(deep);
 	}
 	
-	public void jsFunction_normalize() {
+	@JSFunction("normalize")
+	public void normalize() {
 		delegateNode.normalize();
 	}
 	
-	public boolean jsFunction_isSupported(String feature, String version) {
+	@JSFunction("isSupported")
+	public boolean isSupported(String feature, String version) {
 		return delegateNode.isSupported(feature, version);
 	}
-	
-	public String jsGet_namespaceURI() {
+
+	@JSGetter("namespaceURI")
+	public String getNamespaceURI() {
 		return delegateNode.getNamespaceURI();
 	}
 	
-	public String jsGet_prefix() {
+	@JSGetter("prefix")
+	public String getPrefix() {
 		return delegateNode.getPrefix();
 	}
 	
-	public void jsSet_prefix(String prefix) {
+	@JSSetter("prefix")
+	public void setPrefix(String prefix) {
 		delegateNode.setPrefix(prefix);
 	}
 	
-	public String jsGet_localName() {
+	@JSGetter("localName")
+	public String getLocalName() {
 		return delegateNode.getLocalName();
 	}
 	
-	public boolean jsFunction_hasAttributes() {
+	@JSFunction("hasAttributes")
+	public boolean hasAttributes() {
 		return delegateNode.hasAttributes();
 	}
 	
-	public String jsGet_baseURI() {
+	@JSGetter("baseURI")
+	public String getBaseURI() {
 		return delegateNode.getBaseURI();
 	}
 	
-	public short jsFunction_compareDocumentPosition(ScriptableNode node) {
-		return delegateNode.compareDocumentPosition(node.delegateNode);
+	@JSFunction("compareDocumentPosition")
+	public short compareDocumentPosition(Node node) {
+		return delegateNode.compareDocumentPosition(node);
 	}
 	
-	public String jsGet_textContent() {
+	@JSGetter("textContent")
+	public String getTextContent() {
 		return delegateNode.getTextContent();
 	}
 	
-	public void jsSet_textContent(String text) {
+	@JSSetter("textContent")
+	public void setTextContent(String text) {
 		delegateNode.setTextContent(text);
 	}
 	
-	public boolean jsFunction_isSameNode(ScriptableNode node) {
-		return delegateNode.isSameNode(node.delegateNode);
+	@JSFunction("isSameNode")
+	public boolean isSameNode(Node node) {
+		return delegateNode.isSameNode(node);
 	}
 	
-	public String jsFunction_lookupNamespaceURI(String uri) {
+	@JSFunction("lookupNamespaceURI")
+	public String lookupNamespaceURI(String uri) {
 		return delegateNode.lookupNamespaceURI(uri);
 	}
 	
-	public boolean jsFunction_isEqualNode(ScriptableNode node) {
-		return delegateNode.isEqualNode(node.delegateNode);
+	@JSFunction("isEqualNode")
+	public boolean isEqualNode(Node node) {
+		return delegateNode.isEqualNode(node);
 	}
 	
-	public Object jsFunction_getFeature(String feature, String version) {
+	@JSFunction("getFeature")
+	public Object getFeature(String feature, String version) {
 		return delegateNode.getFeature(feature, version);
 	}
-	
-	/* TODO
-	public Object jsFunction_setUserData(String key, Object data, UserDataHandler handler) {
+
+	@JSFunction("isDefaultNamespace")
+	public boolean isDefaultNamespace(String namespaceURI) {
+		return delegateNode.isDefaultNamespace(namespaceURI);
+	}
+
+	@JSFunction("lookupPrefix")
+	public String lookupPrefix(String namespaceURI) {
+		return delegateNode.lookupPrefix(namespaceURI);
+	}
+
+	@JSFunction("setUserData")
+	public Object setUserData(String key, Object data, UserDataHandler handler) {
 		return delegateNode.setUserData(key, data, handler);
 	}
-	
-	public Object jsFunction_getUserData(String key) {
+
+	@JSFunction("getUserData")
+	public Object getUserData(String key) {
 		return delegateNode.getUserData(key);
 	}
-	*/
-	
-	
+
+
 	
 	///// EventTarget interface: /////
 	
-	public void jsFunction_addEventListener(String type, Object listener, boolean useCapture) {
+	@JSFunction("addEventListener")
+	public void addEventListener(String type, Object listener, boolean useCapture) {
 		checkEventsSupported();
 		if(listener instanceof Function) {
 			listener = new JSFunctionEventListener(this, (Function)listener);
@@ -189,12 +231,14 @@ public class ScriptableNode extends ScriptableDOMObject {
 		((EventTarget)delegateNode).addEventListener(type, (EventListener)listener, useCapture);
 	}
 	
-	public boolean jsFunction_dispatchEvent(Object event) {
+	@JSFunction("dispatchEvent")
+	public boolean dispatchEvent(Object event) {
 		checkEventsSupported();
 		return ((EventTarget)delegateNode).dispatchEvent((Event)event);
 	}
 	
-	public void jsFunction_removeEventListener(String type, Object listener, boolean useCapture) {
+	@JSFunction("removeEventListener")
+	public void removeEventListener(String type, Object listener, boolean useCapture) {
 		checkEventsSupported();
 		if(listener instanceof ScriptableEventListener) {
 			listener = ((ScriptableEventListener)listener).getDelegateEventListener();

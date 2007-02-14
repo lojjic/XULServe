@@ -1,13 +1,14 @@
 package net.lojjic.xml.javascript;
 
+import net.lojjic.rhino.annotations.JSClassName;
+import net.lojjic.rhino.annotations.JSFunction;
+import net.lojjic.rhino.annotations.JSGetter;
 import org.mozilla.javascript.Scriptable;
-import org.w3c.dom.CharacterData;
 import org.w3c.dom.Text;
 
-public class ScriptableText extends ScriptableCharacterData {
-	
-	public static String JS_CLASS_NAME = "Text";
-	
+@JSClassName("Text")
+public class ScriptableText extends ScriptableCharacterData implements Text {
+
 	private Text delegateText;
 
 	public ScriptableText(Scriptable scope, Text text) {
@@ -15,21 +16,24 @@ public class ScriptableText extends ScriptableCharacterData {
 		this.delegateText = text;
 	}
 	
-	
-	public String jsGet_wholeText() {
+	@JSGetter("wholeText")
+	public String getWholeText() {
 		return delegateText.getWholeText();
 	}
-	
-	public boolean jsGet_isElementContentWhitespace() {
+
+	@JSFunction("isElementContentWhitespace") //TODO check the JS binding
+	public boolean isElementContentWhitespace() {
 		return delegateText.isElementContentWhitespace();
 	}
-	
-	public Object jsFunction_replaceWholeText(String content) {
-		return wrap(delegateText.replaceWholeText(content));
+
+	@JSFunction("replaceWholeText")
+	public Text replaceWholeText(String content) {
+		return delegateText.replaceWholeText(content);
 	}
 	
-	public Object jsFunction_splitText(int offset) {
-		return wrap(delegateText.splitText(offset));
+	@JSFunction("splitText")
+	public Text splitText(int offset) {
+		return delegateText.splitText(offset);
 	}
 
 }

@@ -1,17 +1,15 @@
 package net.lojjic.xml.javascript.events;
 
-import net.lojjic.xml.javascript.ScriptableNode;
-import net.lojjic.xml.javascript.views.ScriptableAbstractView;
-
+import net.lojjic.rhino.annotations.JSClassName;
+import net.lojjic.rhino.annotations.JSFunction;
+import net.lojjic.rhino.annotations.JSGetter;
 import org.mozilla.javascript.Scriptable;
-import org.w3c.dom.DOMException;
 import org.w3c.dom.events.EventTarget;
 import org.w3c.dom.events.MouseEvent;
 import org.w3c.dom.views.AbstractView;
 
-public class ScriptableMouseEvent extends ScriptableUIEvent {
-	
-	public static String JS_CLASS_NAME = "MouseEvent";
+@JSClassName("MouseEvent")
+public class ScriptableMouseEvent extends ScriptableUIEvent implements MouseEvent {
 	
 	protected MouseEvent delegateMouseEvent;
 
@@ -20,69 +18,63 @@ public class ScriptableMouseEvent extends ScriptableUIEvent {
 		this.delegateMouseEvent = event;
 	}
 	
-	
-	public boolean jsGet_altKey() {
+
+	@JSGetter("altKey")
+	public boolean getAltKey() {
 		return delegateMouseEvent.getAltKey();
 	}
 
-	public short jsGet_button() {
+	@JSGetter("button")
+	public short getButton() {
 		return delegateMouseEvent.getButton();
 	}
 
-	public int jsGet_clientX() {
+	@JSGetter("clientX")
+	public int getClientX() {
 		return delegateMouseEvent.getClientX();
 	}
 
-	public int jsGet_clientY() {
+	@JSGetter("clientY")
+	public int getClientY() {
 		return delegateMouseEvent.getClientY();
 	}
 
-	public boolean jsGet_ctrlKey() {
+	@JSGetter("ctrlKey")
+	public boolean getCtrlKey() {
 		return delegateMouseEvent.getCtrlKey();
 	}
 
-	public boolean jsGet_metaKey() {
+	@JSGetter("metaKey")
+	public boolean getMetaKey() {
 		return delegateMouseEvent.getMetaKey();
 	}
 
-	public Object jsGet_relatedTarget() {
+	@JSGetter("relatedTarget")
+	public EventTarget getRelatedTarget() {
 		return delegateMouseEvent.getRelatedTarget();
 	}
 
-	public int jsGet_screenX() {
+	@JSGetter("screenX")
+	public int getScreenX() {
 		return delegateMouseEvent.getScreenX();
 	}
 
-	public int jsGet_screenY() {
+	@JSGetter("screenY")
+	public int getScreenY() {
 		return delegateMouseEvent.getScreenY();
 	}
 
-	public boolean jsGet_shiftKey() {
+	@JSGetter("shiftKey")
+	public boolean getShiftKey() {
 		return delegateMouseEvent.getShiftKey();
 	}
 	
-	public void jsFunction_initMouseEvent(String type, boolean canBubble, boolean cancelable, Object view, 
+	@JSFunction("initMouseEvent")
+	public void initMouseEvent(String type, boolean canBubble, boolean cancelable, AbstractView view,
 			int detail, int screenX, int screenY, int clientX, int clientY, boolean ctrlKey, boolean altKey, 
-			boolean shiftKey, boolean metaKey, short button, Object relatedTarget) {
-		
-		if(view instanceof ScriptableAbstractView) {
-			view = ((ScriptableAbstractView)view).getDelegateAbstractView();
-		}
-		if(!(view instanceof AbstractView)) {
-			throw new DOMException(DOMException.TYPE_MISMATCH_ERR,
-					"Unrecognized value for 'viewArg'; must be of type AbstractView.");
-		}
-		
-		if(relatedTarget instanceof ScriptableNode) {
-			relatedTarget = ((ScriptableNode)relatedTarget).getDelegateNode();
-		}
-		if(!(relatedTarget instanceof EventTarget)) {
-			throw new DOMException(DOMException.TYPE_MISMATCH_ERR,
-					"Unrecognized value for 'relatedTarget' argument; must be of type EventTarget.");
-		}
-		
-		delegateMouseEvent.initMouseEvent(type, canBubble, cancelable, (AbstractView)view, detail, screenX, screenY, 
-				clientX, clientY, ctrlKey, altKey, shiftKey, metaKey, button, (EventTarget)relatedTarget);
+			boolean shiftKey, boolean metaKey, short button, EventTarget relatedTarget) {
+		delegateMouseEvent.initMouseEvent(type, canBubble, cancelable, view, detail, screenX, screenY,
+				clientX, clientY, ctrlKey, altKey, shiftKey, metaKey, button, relatedTarget);
 	}
 
 }

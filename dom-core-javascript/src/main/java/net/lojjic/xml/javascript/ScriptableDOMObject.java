@@ -1,43 +1,33 @@
 package net.lojjic.xml.javascript;
 
-import org.mozilla.javascript.Context;
+import net.lojjic.rhino.annotations.AnnotationScriptableObject;
+import net.lojjic.rhino.annotations.JSConstructor;
 import org.mozilla.javascript.Scriptable;
-import org.mozilla.javascript.ScriptableObject;
-import org.w3c.dom.Node;
+import org.mozilla.javascript.Wrapper;
 
-public abstract class ScriptableDOMObject extends ScriptableObject {
+/**
+ * Common abstract superclass for all the Scriptable DOM object wrappers
+ */
+public abstract class ScriptableDOMObject extends AnnotationScriptableObject implements Wrapper {
 
-	public static final String USER_DATA_KEY = "ScriptableDOMObject:UserDataKey";
+	private Object wrappedObject;
 
-	public static String JS_CLASS_NAME;
-	
-	public ScriptableDOMObject(Scriptable scope) {
-		super(scope, getClassPrototype(scope, JS_CLASS_NAME));
+	public ScriptableDOMObject(Scriptable scope, Object wrappedObject) {
+		super(scope);
+		this.wrappedObject = wrappedObject;
 	}
 
-	@Override
-	public String getClassName() {
-		return JS_CLASS_NAME;
+	/**
+	 * @see org.mozilla.javascript.Wrapper#unwrap()
+	 * @return the wrapped Java object
+	 */
+	public Object unwrap() {
+		return wrappedObject;
 	}
 
-
-	protected Object wrap(Object javaObject) {
-		Object wrapper = null;
-		if(javaObject instanceof Node) {
-			wrapper = ((Node)javaObject).getUserData(USER_DATA_KEY);
-		}
-		if(wrapper == null) {
-			wrapper = Context.javaToJS(javaObject, getTopLevelScope(this));
-			if(javaObject instanceof Node) {
-				((Node)javaObject).setUserData(USER_DATA_KEY, wrapper, null);
-			}
-		}
-		return wrapper;
-	}
-
-
+	@JSConstructor
 	public void jsConstructor() {
-		throw new IllegalStateException(getClassName() + " cannot be instantiated directly; " +
+		throw new RuntimeException(getClassName() + " cannot be instantiated directly; " +
 				"use document.createElement(tagName) or document.createElementNS(namespace, tagName) instead.");
 	}
 }

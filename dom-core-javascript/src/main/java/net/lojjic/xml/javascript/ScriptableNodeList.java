@@ -3,35 +3,34 @@ package net.lojjic.xml.javascript;
 import org.mozilla.javascript.Scriptable;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import net.lojjic.rhino.annotations.JSGetter;
+import net.lojjic.rhino.annotations.JSFunction;
+import net.lojjic.rhino.annotations.JSClassName;
 
-public class ScriptableNodeList extends ScriptableDOMObject {
-	
-	public static String JS_CLASS_NAME = "NodeList";
+@JSClassName("NodeList")
+public class ScriptableNodeList extends ScriptableDOMObject implements NodeList {
 
 	NodeList delegateNodeList;
 	
-	
 	public ScriptableNodeList(Scriptable scope, NodeList nodeList) {
-		super(scope);
+		super(scope, nodeList);
 		this.delegateNodeList = nodeList;
 	}
 	
 	/**
 	 * {@link NodeList#getLength()}
 	 */
-	public int jsGet_length() {
+	@JSGetter("length")
+	public int getLength() {
 		return delegateNodeList.getLength();
 	}
 
 	/**
 	 * {@link NodeList#item(int)}
 	 */
-	public Object jsFunction_item(int index) {
-		Node node = delegateNodeList.item(index);
-		if(null == node) {
-			return NOT_FOUND;
-		}
-		return new ScriptableNode(getParentScope(), node);
+	@JSFunction("item")
+	public Node item(int index) {
+		return delegateNodeList.item(index);
 	}
 	
 	/**
@@ -39,6 +38,6 @@ public class ScriptableNodeList extends ScriptableDOMObject {
 	 */
 	@Override
 	public Object get(int index, Scriptable start) {
-		return jsFunction_item(index);
+		return item(index);
 	}
 }

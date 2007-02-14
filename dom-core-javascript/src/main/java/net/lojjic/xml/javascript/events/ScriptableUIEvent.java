@@ -1,16 +1,14 @@
 package net.lojjic.xml.javascript.events;
 
-import net.lojjic.xml.javascript.views.ScriptableAbstractView;
-
+import net.lojjic.rhino.annotations.JSClassName;
+import net.lojjic.rhino.annotations.JSFunction;
+import net.lojjic.rhino.annotations.JSGetter;
 import org.mozilla.javascript.Scriptable;
-import org.w3c.dom.DOMException;
-import org.w3c.dom.events.Event;
 import org.w3c.dom.events.UIEvent;
 import org.w3c.dom.views.AbstractView;
 
-public class ScriptableUIEvent extends ScriptableEvent {
-	
-	public static String JS_CLASS_NAME = "UIEvent";
+@JSClassName("UIEvent")
+public class ScriptableUIEvent extends ScriptableEvent implements UIEvent {
 	
 	protected UIEvent delegateUIEvent;
 
@@ -19,24 +17,19 @@ public class ScriptableUIEvent extends ScriptableEvent {
 		this.delegateUIEvent = event;
 	}
 	
-	
-	public int jsGet_detail() {
+	@JSGetter("detail")
+	public int getDetail() {
 		return delegateUIEvent.getDetail();
 	}
-	
-	public Object jsGet_view() {
-		return wrap(delegateUIEvent.getView());
+
+	@JSGetter("view")
+	public AbstractView getView() {
+		return delegateUIEvent.getView();
 	}
-	
-	public void jsFunction_initUIEvent(String type, boolean canBubble, boolean cancelable, Object view, int detail) {
-		if(view instanceof ScriptableAbstractView) {
-			view = ((ScriptableAbstractView)view).getDelegateAbstractView();
-		}
-		if(!(view instanceof AbstractView)) {
-			throw new DOMException(DOMException.TYPE_MISMATCH_ERR,
-					"Unrecognized value for the 'view' argument; must be an AbstractView.");
-		}
-		delegateUIEvent.initUIEvent(type, canBubble, cancelable, (AbstractView)view, detail);
+
+	@JSFunction("initUIEvent")
+	public void initUIEvent(String type, boolean canBubble, boolean cancelable, AbstractView view, int detail) {
+		delegateUIEvent.initUIEvent(type, canBubble, cancelable, view, detail);
 	}
 
 }

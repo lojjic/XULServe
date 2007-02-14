@@ -2,17 +2,20 @@ package net.lojjic.xml.javascript.events;
 
 import org.mozilla.javascript.Scriptable;
 import org.w3c.dom.events.Event;
+import org.w3c.dom.events.EventTarget;
 
 import net.lojjic.xml.javascript.ScriptableDOMObject;
+import net.lojjic.rhino.annotations.JSClassName;
+import net.lojjic.rhino.annotations.JSGetter;
+import net.lojjic.rhino.annotations.JSFunction;
 
-public class ScriptableEvent extends ScriptableDOMObject {
-	
-	public static String JS_CLASS_NAME = "Event";
+@JSClassName("Event")
+public class ScriptableEvent extends ScriptableDOMObject implements Event {
 	
 	protected Event delegateEvent;
 
 	public ScriptableEvent(Scriptable scope, Event event) {
-		super(scope);
+		super(scope, event);
 		this.delegateEvent = event;
 	}
 	
@@ -27,44 +30,53 @@ public class ScriptableEvent extends ScriptableDOMObject {
 	The current event phase is the capturing phase.
 	 */
 	
-	
-	public boolean jsGet_bubbles() {
+	@JSGetter("bubbles")
+	public boolean getBubbles() {
 		return delegateEvent.getBubbles();
 	}
 	
-	public boolean jsGet_cancelable() {
+	@JSGetter("cancelable")
+	public boolean getCancelable() {
 		return delegateEvent.getCancelable();
 	}
 	
-	public Object jsGet_currentTarget() {
+	@JSGetter("currentTarget")
+	public EventTarget getCurrentTarget() {
 		return delegateEvent.getCurrentTarget();
 	}
 	
-	public short jsGet_eventPhase() {
+	@JSGetter("eventPhase")
+	public short getEventPhase() {
 		return delegateEvent.getEventPhase();
 	}
 	
-	public Object jsGet_target() {
+	@JSGetter("target")
+	public EventTarget getTarget() {
 		return delegateEvent.getTarget();
 	}
 	
-	public long jsGet_timestamp() {
+	@JSGetter("timestamp")
+	public long getTimeStamp() {
 		return delegateEvent.getTimeStamp();
 	}
 	
-	public String jsGet_type() {
+	@JSGetter("type")
+	public String getType() {
 		return delegateEvent.getType();
 	}
-	
-	public void jsFunction_initEvent(String eventType, boolean canBubble, boolean cancelable) {
+
+	@JSFunction("initEvent")
+	public void initEvent(String eventType, boolean canBubble, boolean cancelable) {
 		delegateEvent.initEvent(eventType, canBubble, cancelable);
 	}
 	
-	public void jsFunction_preventDefault() {
+	@JSFunction("preventDefault")
+	public void preventDefault() {
 		delegateEvent.preventDefault();
 	}
 
-	public void jsFunction_stopPropagation() {
+	@JSFunction("stopPropagation")
+	public void stopPropagation() {
 		delegateEvent.stopPropagation();
 	}
 
