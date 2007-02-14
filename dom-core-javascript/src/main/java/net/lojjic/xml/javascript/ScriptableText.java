@@ -6,6 +6,9 @@ import net.lojjic.rhino.annotations.JSGetter;
 import org.mozilla.javascript.Scriptable;
 import org.w3c.dom.Text;
 
+/**
+ * Scriptable wrapper for {@link org.w3c.dom.Text}
+ */
 @JSClassName("Text")
 public class ScriptableText extends ScriptableCharacterData implements Text {
 

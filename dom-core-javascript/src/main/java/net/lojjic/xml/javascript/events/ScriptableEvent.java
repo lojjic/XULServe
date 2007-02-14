@@ -9,6 +9,9 @@ import net.lojjic.rhino.annotations.JSClassName;
 import net.lojjic.rhino.annotations.JSGetter;
 import net.lojjic.rhino.annotations.JSFunction;
 
+/**
+ * Scriptable wrapper for {@link org.w3c.dom.events.Event}
+ */
 @JSClassName("Event")
 public class ScriptableEvent extends ScriptableDOMObject implements Event {
 	

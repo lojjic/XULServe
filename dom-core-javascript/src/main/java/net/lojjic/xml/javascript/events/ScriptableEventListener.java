@@ -7,6 +7,9 @@ import org.mozilla.javascript.Scriptable;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventListener;
 
+/**
+ * Scriptable wrapper for {@link org.w3c.dom.events.EventListener}
+ */
 @JSClassName("EventListener")
 public class ScriptableEventListener extends ScriptableDOMObject implements EventListener {
 	

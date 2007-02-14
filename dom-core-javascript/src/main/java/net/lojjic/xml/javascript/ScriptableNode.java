@@ -13,6 +13,9 @@ import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventListener;
 import org.w3c.dom.events.EventTarget;
 
+/**
+ * Scriptable wrapper for {@link org.w3c.dom.Node}
+ */
 @JSClassName("Node")
 public class ScriptableNode extends ScriptableDOMObject implements Node {
 

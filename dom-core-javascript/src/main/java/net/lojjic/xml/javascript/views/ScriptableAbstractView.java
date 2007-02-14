@@ -7,6 +7,9 @@ import org.mozilla.javascript.Scriptable;
 import org.w3c.dom.views.AbstractView;
 import org.w3c.dom.views.DocumentView;
 
+/**
+ * Scriptable wrapper for {@link org.w3c.dom.views.AbstractView}
+ */
 @JSClassName("AbstractView")
 public class ScriptableAbstractView extends ScriptableDOMObject implements AbstractView {
 	

@@ -7,6 +7,9 @@ import org.mozilla.javascript.Scriptable;
 import org.w3c.dom.events.UIEvent;
 import org.w3c.dom.views.AbstractView;
 
+/**
+ * Scriptable wrapper for {@link org.w3c.dom.events.UIEvent}
+ */
 @JSClassName("UIEvent")
 public class ScriptableUIEvent extends ScriptableEvent implements UIEvent {
 	

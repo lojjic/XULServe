@@ -8,6 +8,9 @@ import org.w3c.dom.events.EventTarget;
 import org.w3c.dom.events.MouseEvent;
 import org.w3c.dom.views.AbstractView;
 
+/**
+ * Scriptable wrapper for {@link org.w3c.dom.events.MouseEvent}
+ */
 @JSClassName("MouseEvent")
 public class ScriptableMouseEvent extends ScriptableUIEvent implements MouseEvent {
 	

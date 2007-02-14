@@ -7,6 +7,9 @@ import net.lojjic.rhino.annotations.JSGetter;
 import net.lojjic.rhino.annotations.JSFunction;
 import net.lojjic.rhino.annotations.JSClassName;
 
+/**
+ * Scriptable wrapper for {@link org.w3c.dom.NodeList}
+ */
 @JSClassName("NodeList")
 public class ScriptableNodeList extends ScriptableDOMObject implements NodeList {
 

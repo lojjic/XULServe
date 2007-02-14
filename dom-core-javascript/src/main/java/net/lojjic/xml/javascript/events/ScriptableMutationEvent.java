@@ -7,6 +7,9 @@ import org.mozilla.javascript.Scriptable;
 import org.w3c.dom.Node;
 import org.w3c.dom.events.MutationEvent;
 
+/**
+ * Scriptable wrapper for {@link org.w3c.dom.events.MutationEvent}
+ */
 @JSClassName("MutationEvent")
 public class ScriptableMutationEvent extends ScriptableEvent implements MutationEvent {
 	

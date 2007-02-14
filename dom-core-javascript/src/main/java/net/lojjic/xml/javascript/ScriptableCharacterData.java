@@ -7,6 +7,9 @@ import net.lojjic.rhino.annotations.JSGetter;
 import net.lojjic.rhino.annotations.JSSetter;
 import net.lojjic.rhino.annotations.JSFunction;
 
+/**
+ * Scriptable wrapper for {@link org.w3c.dom.CharacterData}
+ */
 @JSClassName("CharacterData")
 public class ScriptableCharacterData extends ScriptableNode implements CharacterData {
 

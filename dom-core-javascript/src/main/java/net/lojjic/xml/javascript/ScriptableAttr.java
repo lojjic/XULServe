@@ -7,6 +7,9 @@ import net.lojjic.rhino.annotations.JSGetter;
 import net.lojjic.rhino.annotations.JSSetter;
 import net.lojjic.rhino.annotations.JSFunction;
 
+/**
+ * Scriptable wrapper for {@link org.w3c.dom.Attr}
+ */
 @JSClassName("Attr")
 public class ScriptableAttr extends ScriptableNode implements Attr {
 

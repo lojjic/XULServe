@@ -9,6 +9,9 @@ import net.lojjic.rhino.annotations.JSClassName;
 import net.lojjic.rhino.annotations.JSGetter;
 import net.lojjic.rhino.annotations.JSFunction;
 
+/**
+ * Scriptable wrapper for {@link org.w3c.dom.Element}
+ */
 @JSClassName("Element")
 public class ScriptableElement extends ScriptableNode implements Element {
 

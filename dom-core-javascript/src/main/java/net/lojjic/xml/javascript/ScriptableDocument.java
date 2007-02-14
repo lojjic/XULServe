@@ -11,6 +11,9 @@ import org.w3c.dom.events.Event;
 import org.w3c.dom.views.AbstractView;
 import org.w3c.dom.views.DocumentView;
 
+/**
+ * Scriptable wrapper for {@link org.w3c.dom.Document}
+ */
 @JSClassName("Document")
 public class ScriptableDocument extends ScriptableNode implements Document {
 
