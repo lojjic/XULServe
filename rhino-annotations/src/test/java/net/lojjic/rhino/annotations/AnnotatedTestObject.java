@@ -33,7 +33,7 @@ public class AnnotatedTestObject extends AnnotationScriptableObject {
 	@JSFunction("functionWithReturnValue")
 	String methodWithReturnValue(String arg) {
 		System.out.println("Java: Called functionWithReturnValue with arg: " + arg);
-		return "this is the return value";
+		return arg;
 	}
 
 }
