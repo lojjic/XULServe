@@ -118,12 +118,32 @@ public class DOMWrapFactory extends WrapFactory {
 	public void addDefaultWrapMappings() {
 		// Core:
 		addWrapMapping(Attr.class, ScriptableAttr.class);
+		addWrapMapping(CDATASection.class, ScriptableCDATASection.class);
 		addWrapMapping(CharacterData.class, ScriptableCharacterData.class);
+		addWrapMapping(Comment.class, ScriptableComment.class);
 		addWrapMapping(Document.class, ScriptableDocument.class);
+		addWrapMapping(DocumentFragment.class, ScriptableDocumentFragment.class);
+		addWrapMapping(DocumentType.class, ScriptableDocumentType.class);
+		addWrapMapping(DOMConfiguration.class, ScriptableDOMConfiguration.class);
+		addWrapMapping(DOMError.class, ScriptableDOMError.class);
+		addWrapMapping(DOMErrorHandler.class, ScriptableDOMErrorHandler.class);
+		addWrapMapping(DOMImplementation.class, ScriptableDOMImplementation.class);
+		addWrapMapping(DOMImplementationList.class, ScriptableDOMImplementationList.class);
+		addWrapMapping(DOMImplementationSource.class, ScriptableDOMImplementationSource.class);
+		addWrapMapping(DOMLocator.class, ScriptableDOMLocator.class);
+		addWrapMapping(DOMStringList.class, ScriptableDOMStringList.class);
 		addWrapMapping(Element.class, ScriptableElement.class);
+		addWrapMapping(Entity.class, ScriptableEntity.class);
+		addWrapMapping(EntityReference.class, ScriptableEntityReference.class);
+		addWrapMapping(NamedNodeMap.class, ScriptableNamedNodeMap.class);
+		addWrapMapping(NameList.class, ScriptableNameList.class);
 		addWrapMapping(Node.class, ScriptableNode.class);
 		addWrapMapping(NodeList.class, ScriptableNodeList.class);
+		addWrapMapping(Notation.class, ScriptableNotation.class);
+		addWrapMapping(ProcessingInstruction.class, ScriptableProcessingInstruction.class);
 		addWrapMapping(Text.class, ScriptableText.class);
+		addWrapMapping(TypeInfo.class, ScriptableTypeInfo.class);
+		addWrapMapping(UserDataHandler.class, ScriptableUserDataHandler.class);
 
 		// Events:
 		addWrapMapping(Event.class, ScriptableEvent.class);
