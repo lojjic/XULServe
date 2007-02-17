@@ -10,6 +10,13 @@ function testBasic() {
 
 	var ret = obj.functionWithReturnValue("my argument 2");
 	assertEquals(ret, "my argument 2");
+
+	var staticPropValue = "my test static property value";
+	MyJSClass.staticProp = staticPropValue;
+	assertEquals(MyJSClass.staticProp, staticPropValue);
+
+	var ret2 = MyJSClass.staticFunction("my static argument");
+	assertEquals(ret2, "my static argument");
 }
 
 function testInheritanceMapping() {

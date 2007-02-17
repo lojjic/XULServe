@@ -8,6 +8,7 @@ import org.mozilla.javascript.Context;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Member;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -164,6 +165,10 @@ public abstract class AnnotationScriptableObject extends ScriptableObject {
 			// Functions:
 			if(method.isAnnotationPresent(JSFunction.class)) {
 				result.functions.put(method.getAnnotation(JSFunction.class).value(), method);
+			}
+			// JSStatic only applies to static methods:
+			if(method.isAnnotationPresent(JSStatic.class) && !Modifier.isStatic(method.getModifiers())) {
+				throw Context.reportRuntimeError("@JSStatic annotation applied to non-static method " + method.getName());
 			}
 		}
 		// If no @JSConstructor-annotated method was found, use a zero-argument constructor
