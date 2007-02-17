@@ -3,10 +3,6 @@ package net.lojjic.rhino.annotations;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
-import java.io.Reader;
-import java.io.InputStreamReader;
-import java.io.InputStream;
-
 import junit.framework.TestCase;
 
 /**
@@ -14,19 +10,16 @@ import junit.framework.TestCase;
  */
 public class AnnotationScriptableObjectTest extends TestCase {
 
-	private static final String jsFile = "/net/lojjic/rhino/annotations/AnnotationScriptableObjectTest.js";
+	private static final String baseJSFile = "/net/lojjic/rhino/annotations/UnitTest.js";
+	private static final String testsJSFile = "/net/lojjic/rhino/annotations/AnnotationScriptableObjectTest.js";
 
 	public void testBasic() throws Exception {
 		Context cx = Context.enter();
 		try {
 			Scriptable scope = cx.initStandardObjects();
-
 			AnnotationScriptableObject.defineClass(scope, AnnotatedTestObject.class, false, false);
-
-			InputStream inputStream = getClass().getResourceAsStream(jsFile);
-			Reader reader = new InputStreamReader(inputStream);
-
-			cx.evaluateReader(scope, reader, jsFile, 1, null);
+			JSUtils.loadJSFile(cx, scope, baseJSFile);
+			JSUtils.loadJSFile(cx, scope, testsJSFile);
 			cx.evaluateString(scope, "testBasic()", "<test>", 1, null);
 		}
 		finally {
@@ -38,13 +31,9 @@ public class AnnotationScriptableObjectTest extends TestCase {
 		Context cx = Context.enter();
 		try {
 			Scriptable scope = cx.initStandardObjects();
-
 			AnnotationScriptableObject.defineClass(scope, AnnotatedTestObjectSubclass.class, false, true);
-
-			InputStream inputStream = getClass().getResourceAsStream(jsFile);
-			Reader reader = new InputStreamReader(inputStream);
-
-			cx.evaluateReader(scope, reader, jsFile, 1, null);
+			JSUtils.loadJSFile(cx, scope, baseJSFile);
+			JSUtils.loadJSFile(cx, scope, testsJSFile);
 			cx.evaluateString(scope, "testInheritanceMapping()", "<test>", 1, null);
 		}
 		finally {
@@ -56,19 +45,14 @@ public class AnnotationScriptableObjectTest extends TestCase {
 		Context cx = Context.enter();
 		try {
 			Scriptable scope = cx.initStandardObjects();
-
 			AnnotationScriptableObject.defineClass(scope, AnnotatedTestObjectSubclass.class, false, false);
-
-			InputStream inputStream = getClass().getResourceAsStream(jsFile);
-			Reader reader = new InputStreamReader(inputStream);
-
-			cx.evaluateReader(scope, reader, jsFile, 1, null);
+			JSUtils.loadJSFile(cx, scope, baseJSFile);
+			JSUtils.loadJSFile(cx, scope, testsJSFile);
 			cx.evaluateString(scope, "testInheritanceNoMapping()", "<test>", 1, null);
 		}
 		finally {
 			Context.exit();
 		}
 	}
-
 
 }
