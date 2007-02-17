@@ -1,13 +1,11 @@
 package net.lojjic.xml.javascript;
 
-import net.lojjic.rhino.annotations.JSClassName;
-import net.lojjic.rhino.annotations.JSFunction;
-import net.lojjic.rhino.annotations.JSGetter;
-import net.lojjic.rhino.annotations.JSSetter;
+import net.lojjic.rhino.annotations.*;
 import net.lojjic.xml.javascript.events.ScriptableEventListener;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Function;
 import org.mozilla.javascript.Scriptable;
+import org.mozilla.javascript.ScriptableObject;
 import org.w3c.dom.*;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventListener;
@@ -28,6 +26,96 @@ public class ScriptableNode extends ScriptableDOMObject implements Node {
 	public ScriptableNode(Scriptable scope, Node node) {
 		super(scope, node);
 		this.delegateNode = node;
+	}
+
+	@JSStatic @JSGetter("ELEMENT_NODE")
+	public static short get_ELEMENT_NODE(ScriptableObject obj) {
+		return Node.ELEMENT_NODE;
+	}
+
+	@JSStatic @JSGetter("ATTRIBUTE_NODE")
+	public static short get_ATTRIBUTE_NODE(ScriptableObject obj) {
+		return Node.ATTRIBUTE_NODE;
+	}
+
+	@JSStatic @JSGetter("TEXT_NODE")
+	public static short get_TEXT_NODE(ScriptableObject obj) {
+		return Node.TEXT_NODE;
+	}
+
+	@JSStatic @JSGetter("CDATA_SECTION_NODE")
+	public static short get_CDATA_SECTION_NODE(ScriptableObject obj) {
+		return Node.CDATA_SECTION_NODE;
+	}
+
+	@JSStatic @JSGetter("ENTITY_REFERENCE_NODE")
+	public static short get_ENTITY_REFERENCE_NODE(ScriptableObject obj) {
+		return Node.ENTITY_REFERENCE_NODE;
+	}
+
+	@JSStatic @JSGetter("ENTITY_NODE")
+	public static short get_ENTITY_NODE(ScriptableObject obj) {
+		return Node.ENTITY_NODE;
+	}
+
+	@JSStatic @JSGetter("PROCESSING_INSTRUCTION_NODE")
+	public static short get_PROCESSING_INSTRUCTION_NODE(ScriptableObject obj) {
+		return Node.PROCESSING_INSTRUCTION_NODE;
+	}
+
+	@JSStatic @JSGetter("COMMENT_NODE")
+	public static short get_COMMENT_NODE(ScriptableObject obj) {
+		return Node.COMMENT_NODE;
+	}
+
+	@JSStatic @JSGetter("DOCUMENT_NODE")
+	public static short get_DOCUMENT_NODE(ScriptableObject obj) {
+		return Node.DOCUMENT_NODE;
+	}
+
+	@JSStatic @JSGetter("DOCUMENT_TYPE_NODE")
+	public static short get_DOCUMENT_TYPE_NODE(ScriptableObject obj) {
+		return Node.DOCUMENT_TYPE_NODE;
+	}
+
+	@JSStatic @JSGetter("DOCUMENT_FRAGMENT_NODE")
+	public static short get_DOCUMENT_FRAGMENT_NODE(ScriptableObject obj) {
+		return Node.DOCUMENT_FRAGMENT_NODE;
+	}
+
+	@JSStatic @JSGetter("NOTATION_NODE")
+	public static short get_NOTATION_NODE(ScriptableObject obj) {
+		return Node.NOTATION_NODE;
+	}
+
+	@JSStatic @JSGetter("DOCUMENT_POSITION_DISCONNECTED")
+	public static short get_DOCUMENT_POSITION_DISCONNECTED(ScriptableObject obj) {
+		return Node.DOCUMENT_POSITION_DISCONNECTED;
+	}
+
+	@JSStatic @JSGetter("DOCUMENT_POSITION_PRECEDING")
+	public static short get_DOCUMENT_POSITION_PRECEDING(ScriptableObject obj) {
+		return Node.DOCUMENT_POSITION_PRECEDING;
+	}
+
+	@JSStatic @JSGetter("DOCUMENT_POSITION_FOLLOWING")
+	public static short get_DOCUMENT_POSITION_FOLLOWING(ScriptableObject obj) {
+		return Node.DOCUMENT_POSITION_FOLLOWING;
+	}
+
+	@JSStatic @JSGetter("DOCUMENT_POSITION_CONTAINS")
+	public static short get_DOCUMENT_POSITION_CONTAINS(ScriptableObject obj) {
+		return Node.DOCUMENT_POSITION_CONTAINS;
+	}
+
+	@JSStatic @JSGetter("DOCUMENT_POSITION_CONTAINED_BY")
+	public static short get_DOCUMENT_POSITION_CONTAINED_BY(ScriptableObject obj) {
+		return Node.DOCUMENT_POSITION_CONTAINED_BY;
+	}
+
+	@JSStatic @JSGetter("DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC")
+	public static short get_DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC(ScriptableObject obj) {
+		return Node.DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC;
 	}
 
 	@JSGetter("nodeName")

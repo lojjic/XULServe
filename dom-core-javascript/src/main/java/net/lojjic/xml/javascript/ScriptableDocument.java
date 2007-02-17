@@ -127,7 +127,7 @@ public class ScriptableDocument extends ScriptableNode implements Document {
 		return delegateDocument.getInputEncoding();
 	}
 
-	@JSGetter("strictErrorCheckin")
+	@JSGetter("strictErrorChecking")
 	public boolean getStrictErrorChecking() {
 		return delegateDocument.getStrictErrorChecking();
 	}

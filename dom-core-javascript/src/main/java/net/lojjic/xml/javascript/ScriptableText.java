@@ -24,7 +24,7 @@ public class ScriptableText extends ScriptableCharacterData implements Text {
 		return delegateText.getWholeText();
 	}
 
-	@JSFunction("isElementContentWhitespace") //TODO check the JS binding
+	@JSGetter("isElementContentWhitespace")
 	public boolean isElementContentWhitespace() {
 		return delegateText.isElementContentWhitespace();
 	}

@@ -3,8 +3,10 @@ package net.lojjic.xml.javascript;
 import org.w3c.dom.DOMError;
 import org.w3c.dom.DOMLocator;
 import org.mozilla.javascript.Scriptable;
+import org.mozilla.javascript.ScriptableObject;
 import net.lojjic.rhino.annotations.JSGetter;
 import net.lojjic.rhino.annotations.JSClassName;
+import net.lojjic.rhino.annotations.JSStatic;
 
 /**
  * Scriptable wrapper for {@link org.w3c.dom.DOMError}
@@ -17,6 +19,21 @@ public class ScriptableDOMError extends ScriptableDOMObject implements DOMError 
 	public ScriptableDOMError(Scriptable scope, DOMError delegateDOMError) {
 		super(scope, delegateDOMError);
 		this.delegateDOMError = delegateDOMError;
+	}
+
+	@JSStatic @JSGetter("SEVERITY_WARNING")
+	public static short get_SEVERITY_WARNING(ScriptableObject obj) {
+		return DOMError.SEVERITY_WARNING;
+	}
+
+	@JSStatic @JSGetter("SEVERITY_ERROR")
+	public static short get_SEVERITY_ERROR(ScriptableObject obj) {
+		return DOMError.SEVERITY_ERROR;
+	}
+
+	@JSStatic @JSGetter("SEVERITY_FATAL_ERROR")
+	public static short get_SEVERITY_FATAL_ERROR(ScriptableObject obj) {
+		return DOMError.SEVERITY_FATAL_ERROR;
 	}
 
 	@JSGetter("location")

@@ -40,4 +40,6 @@ public class ScriptableDOMConfiguration extends ScriptableDOMObject implements D
 	public void setParameter(String name, Object value) throws DOMException {
 		delegateDOMConfiguration.setParameter(name, value);
 	}
+
+	// TODO expose parameters as camel-cased properties
 }
