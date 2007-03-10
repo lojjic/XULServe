@@ -1,4 +1,4 @@
-package net.lojjic.xul.impl.rdf;
+package net.lojjic.xul.rdf.impl;
 
 import net.lojjic.xul.rdf.RDFDataSource;
 import net.lojjic.xul.rdf.RDFRemoteDataSource;

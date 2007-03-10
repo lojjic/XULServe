@@ -1,4 +1,4 @@
-package net.lojjic.xul.impl.rdf;
+package net.lojjic.xul.rdf.impl;
 
 /**
  * Runtime exception class for RDF operations

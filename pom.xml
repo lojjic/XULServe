@@ -23,6 +23,8 @@
 	<modules>
 		<module>xbl-api</module>
 		<module>xbl-impl</module>
+		<module>xul-rdf-api</module>
+		<module>xul-rdf-impl</module>
 		<module>xul-dom-api</module>
 		<module>xul-dom-impl</module>
 		<module>rhino-annotations</module>
@@ -31,7 +33,7 @@
 		<module>xul-display</module>
 		<module>xul-cocoon-block</module>
 		<module>xul-test-webapp</module>
-	</modules>
+  </modules>
 
 	<build>
 		<plugins>

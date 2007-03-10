@@ -2,7 +2,7 @@ package net.lojjic.xul.impl;
 
 import net.lojjic.xul.XULBuilderListener;
 import net.lojjic.xul.XULTemplateBuilder;
-import net.lojjic.xul.impl.rdf.RDFCompositeDataSourceImpl;
+import net.lojjic.xul.rdf.impl.RDFCompositeDataSourceImpl;
 import net.lojjic.xul.rdf.*;
 import org.w3c.dom.Element;
 import org.w3c.dom.DocumentFragment;
