@@ -12,7 +12,11 @@ public abstract class ScriptableDOMObject extends AnnotationScriptableObject imp
 
 	private Object wrappedObject;
 
-	public ScriptableDOMObject(Scriptable scope, Object wrappedObject) {
+	protected ScriptableDOMObject() {
+		super();
+	}
+
+	protected ScriptableDOMObject(Scriptable scope, Object wrappedObject) {
 		super(scope);
 		this.wrappedObject = wrappedObject;
 	}

@@ -18,9 +18,9 @@ import org.w3c.dom.events.EventTarget;
 public class ScriptableNode extends ScriptableDOMObject implements Node {
 
 	protected Node delegateNode;
-	
-	public Node getDelegateNode() {
-		return delegateNode;
+
+	public ScriptableNode() {
+		super();
 	}
 
 	public ScriptableNode(Scriptable scope, Node node) {
