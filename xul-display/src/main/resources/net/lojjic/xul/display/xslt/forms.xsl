@@ -28,7 +28,13 @@
 	</xsl:template>
 
 	<xsl:template match="xul:checkbox">
-		<input type="checkbox" id="{@id}">
+		<xsl:variable name="id">
+			<xsl:choose>
+				<xsl:when test="@id"><xsl:value-of select="@id" /></xsl:when>
+				<xsl:otherwise><xsl:value-of select="generate-id(.)" /></xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+		<input type="checkbox" id="{$id}">
 			<xsl:if test="@checked = 'true'">
 				<xsl:attribute name="checked">checked</xsl:attribute>
 			</xsl:if>
@@ -37,7 +43,7 @@
 			</xsl:if>
 		</input>
 		<xsl:if test="@label">
-			<label for="{@id}"><xsl:value-of select="@label" /></label>
+			<label for="{$id}"><xsl:value-of select="@label" /></label>
 		</xsl:if>
 	</xsl:template>
 
@@ -103,7 +109,7 @@
 	</xsl:template>
 
 
-	<xsl:template match="xul:menuitem[@editable = 'true']">
+	<xsl:template match="xul:menulist[@editable = 'true']">
 		<input type="text" id="{@id}" />
 		<div id="{@id}:menupopup" class="menupopup">
 			<xsl:for-each select="xul:menupopup/xul:menuitem">
@@ -114,7 +120,7 @@
 		</div>
 	</xsl:template>
 
-	<xsl:template match="xul:menuitem">
+	<xsl:template match="xul:menulist">
 		<select id="{@id}">
 			<xsl:for-each select="xul:menupopup/xul:menuitem">
 				<option>
@@ -140,6 +146,22 @@
 				<xsl:attribute name="onclick">alert('TODO');</xsl:attribute>
 			</xsl:if>
 		</input>
+	</xsl:template>
+
+
+	<xsl:template match="xul:groupbox">
+		<fieldset class="groupbox">
+			<xsl:apply-templates select="xul:caption" mode="groupbox-caption" />
+			<xsl:apply-templates select="." mode="box">
+				<xsl:with-param name="default-orient">vertical</xsl:with-param>
+			</xsl:apply-templates>
+		</fieldset>
+	</xsl:template>
+
+	<xsl:template match="xul:caption" mode="groupbox-caption">
+		<legend>
+			<xsl:value-of select="@label" />
+		</legend>
 	</xsl:template>
 
 </xsl:stylesheet>

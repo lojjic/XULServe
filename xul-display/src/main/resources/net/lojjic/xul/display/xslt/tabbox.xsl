@@ -18,9 +18,9 @@
 	</xsl:template>
 
 	<xsl:template match="xul:tab">
-		<div class="tab">
+		<span class="tab">
 			<xsl:value-of select="@label" />
-		</div>
+		</span>
 	</xsl:template>
 
 	<xsl:template match="xul:tabpanels">

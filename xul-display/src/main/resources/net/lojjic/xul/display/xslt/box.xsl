@@ -51,6 +51,11 @@
 	<xsl:template match="xul:*" mode="vbox-child">
 		<tr>
 			<td>
+				<xsl:if test="@flex">
+					<xsl:attribute name="height">
+						<xsl:value-of select="concat(number(@flex) * 100, '%')" />
+					</xsl:attribute>
+				</xsl:if>
 				<xsl:apply-templates select="." />
 			</td>
 		</tr>

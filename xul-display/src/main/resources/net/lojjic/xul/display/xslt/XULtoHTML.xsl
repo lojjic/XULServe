@@ -10,6 +10,7 @@
 	<xsl:include href="menus.xsl" />
 	<xsl:include href="stack.xsl" />
 	<xsl:include href="tabbox.xsl" />
+	<xsl:include href="text.xsl" />
 	<xsl:include href="toolbar.xsl" />
 	<xsl:include href="tree.xsl" />
 	<xsl:include href="window.xsl" />
