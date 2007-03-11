@@ -4,7 +4,7 @@
 		xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 
 	<xsl:template match="xul:textbox">
-		<input>
+		<input class="textbox">
 			<xsl:attribute name="type">
 				<xsl:choose>
 					<xsl:when test="@type = 'password'">password</xsl:when>
@@ -19,7 +19,7 @@
 	</xsl:template>
 
 	<xsl:template match="xul:textbox[@multiline = 'true']">
-		<textarea id="{@id}">
+		<textarea id="{@id}" class="textbox">
 			<xsl:if test="@disabled = 'true'">
 				<xsl:attribute name="disabled">disabled</xsl:attribute>
 			</xsl:if>
@@ -34,7 +34,7 @@
 				<xsl:otherwise><xsl:value-of select="generate-id(.)" /></xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
-		<input type="checkbox" id="{$id}">
+		<input type="checkbox" id="{$id}" class="checkbox">
 			<xsl:if test="@checked = 'true'">
 				<xsl:attribute name="checked">checked</xsl:attribute>
 			</xsl:if>
@@ -55,7 +55,7 @@
 
 	<xsl:template match="xul:radio">
 		<xsl:variable name="radiogroupId" select="generate-id(ancestor::xul:radiogroup[1])" />
-		<input type="radio" id="{@id}" name="{concat($radiogroupId, '_', @id)}">
+		<input type="radio" id="{@id}" class="radio" name="{concat($radiogroupId, '_', @id)}">
 			<xsl:if test="@selected = 'true'">
 				<xsl:attribute name="checked">checked</xsl:attribute>
 			</xsl:if>
@@ -69,7 +69,7 @@
 	</xsl:template>
 
 	<xsl:template match="xul:listbox[xul:listcols]">
-		<table>
+		<table class="listbox">
 			<xsl:for-each select="xul:listcols/xul:listcol">
 				<col />
 			</xsl:for-each>
@@ -95,7 +95,7 @@
 	</xsl:template>
 
 	<xsl:template match="xul:listbox">
-		<select id="{@id}">
+		<select id="{@id}" class="listbox">
 			<xsl:attribute name="size">
 				<xsl:choose>
 					<xsl:when test="@rows"><xsl:value-of select="@rows" /></xsl:when>
@@ -121,7 +121,7 @@
 	</xsl:template>
 
 	<xsl:template match="xul:menulist">
-		<select id="{@id}">
+		<select id="{@id}" class="menulist">
 			<xsl:for-each select="xul:menupopup/xul:menuitem">
 				<option>
 					<xsl:attribute name="value">

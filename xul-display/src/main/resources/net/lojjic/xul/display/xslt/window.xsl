@@ -7,6 +7,13 @@
 		<html>
 			<head>
 				<title><xsl:value-of select="@title" /></title>
+				<style type="text/css">
+					tr {vertical-align:top;}
+					.label {white-space:nowrap;}
+					input.textbox, textarea.textbox {width:100%;}
+					select.menulist, select.listbox {width:100%;}
+					.tab {border:1px solid; -moz-border-radius:4px 4px 0 0; cursor:default;}
+				</style>
 			</head>
 			<body>
 				<xsl:apply-templates />

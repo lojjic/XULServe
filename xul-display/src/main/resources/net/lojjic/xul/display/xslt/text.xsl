@@ -4,7 +4,7 @@
 		xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 
 	<xsl:template match="xul:label[@control]">
-		<label for="{@control}">
+		<label for="{@control}" class="label">
 			<xsl:copy-of select="@accesskey" /> 
 			<xsl:value-of select="@value" />
 		</label>

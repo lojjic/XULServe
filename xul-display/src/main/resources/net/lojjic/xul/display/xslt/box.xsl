@@ -36,6 +36,11 @@
 
 	<xsl:template match="xul:*" mode="hbox-child">
 		<td>
+			<xsl:if test="@flex">
+				<xsl:attribute name="width">
+					<xsl:value-of select="concat(number(@flex) * 100, '%')" />
+				</xsl:attribute>
+			</xsl:if>
 			<xsl:apply-templates select="." />
 		</td>
 	</xsl:template>

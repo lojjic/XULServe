@@ -27,7 +27,9 @@
 	</xsl:template>
 
 	<xsl:template match="xul:menuitem">
-		<div class="menuitem"></div>
+		<div class="menuitem">
+			<xsl:value-of select="@label"/>
+		</div>
 	</xsl:template>
 
 </xsl:stylesheet>
