@@ -31,15 +31,9 @@ public abstract class AbstractDataSourceImpl implements RDFDataSource {
 	}
 
 	/**
-	 * Add an assertion to the graph.
-	 *
-	 * @param source
-	 * @param property
-	 * @param target
-	 * @param truthValue
+	 * Notify observers of an assert event
 	 */
-	public void doAssert(RDFResource source, RDFResource property, RDFNode target, boolean truthValue) {
-		// Notify observers:
+	protected void notifyAssert(RDFResource source, RDFResource property, RDFNode target, boolean truthValue) {
 		for(RDFObserver observer : observers) {
 			observer.onAssert(this, source, property, target);
 		}
@@ -50,6 +44,13 @@ public abstract class AbstractDataSourceImpl implements RDFDataSource {
 	 * must be followed by calling endUpdateBatch(), otherwise viewers will get out of sync.
 	 */
 	public void beginUpdateBatch() {
+		notifyBeginUpdateBatch();
+	}
+
+	/**
+	 * Notify observers of a beginUpdateBatch event
+	 */
+	public void notifyBeginUpdateBatch() {
 		// Notify observers:
 		for(RDFObserver observer : observers) {
 			observer.onBeginUpdateBatch(this);
@@ -57,18 +58,9 @@ public abstract class AbstractDataSourceImpl implements RDFDataSource {
 	}
 
 	/**
-	 * <p>Change an assertion from</p>
-	 * <pre>[source]--[property]-->[oldTarget]</pre>
-	 * <p>To</p>
-	 * <pre>[source]--[property]-->[newTarget]</pre>
-	 *
-	 * @param source
-	 * @param property
-	 * @param oldTarget
-	 * @param newTarget
+	 * Notify observers of a change event
 	 */
-	public void change(RDFResource source, RDFResource property, RDFNode oldTarget, RDFNode newTarget) {
-		// Notify observers:
+	public void notifyChange(RDFResource source, RDFResource property, RDFNode oldTarget, RDFNode newTarget) {
 		for(RDFObserver observer : observers) {
 			observer.onChange(this, source, property, oldTarget, newTarget);
 		}
@@ -78,25 +70,22 @@ public abstract class AbstractDataSourceImpl implements RDFDataSource {
 	 * Notify observers that the datasource has completed issuing a notification group.
 	 */
 	public void endUpdateBatch() {
-		// Notify observers:
+		notifyEndUpdateBatch();
+	}
+
+	/**
+	 * Notify observers of an endUpdateBatch event
+	 */
+	public void notifyEndUpdateBatch() {
 		for(RDFObserver observer : observers) {
 			observer.onEndUpdateBatch(this);
 		}
 	}
 
 	/**
-	 * <p>'Move' an assertion from</p>
-	 * <pre>[oldSource]--[property]-->[target]</pre>
-	 * <p>To</p>
-	 * <pre>[newSource]--[property]-->[target]</pre>
-	 *
-	 * @param oldSource
-	 * @param newSource
-	 * @param property
-	 * @param target
+	 * Notify observers of a move event
 	 */
-	public void move(RDFResource oldSource, RDFResource newSource, RDFResource property, RDFNode target) {
-		// Notify observers:
+	public void notifyMove(RDFResource oldSource, RDFResource newSource, RDFResource property, RDFNode target) {
 		for(RDFObserver observer : observers) {
 			observer.onMove(this, oldSource, newSource, property, target);
 		}
@@ -112,13 +101,9 @@ public abstract class AbstractDataSourceImpl implements RDFDataSource {
 	}
 
 	/**
-	 * Remove an assertion from the graph.
-	 *
-	 * @param source
-	 * @param property
-	 * @param target
+	 * Notify observers of an unassert event
 	 */
-	public void unassert(RDFResource source, RDFResource property, RDFNode target) {
+	public void notifyUnassert(RDFResource source, RDFResource property, RDFNode target) {
 		// Notify observers:
 		for(RDFObserver observer : observers) {
 			observer.onUnassert(this, source, property, target);

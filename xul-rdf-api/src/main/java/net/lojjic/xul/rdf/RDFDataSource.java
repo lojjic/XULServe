@@ -106,7 +106,7 @@ public interface RDFDataSource {
 	 * @param property
 	 * @param target
 	 * @param truthValue
-	 * @return NS_RDF_NO_VALUE if there is no source that leads to the target with the specified property.
+	 * @return null if there is no source that leads to the target with the specified property.
 	 */
 	RDFResource getSource(RDFResource property, RDFNode target, boolean truthValue);
 
@@ -126,7 +126,7 @@ public interface RDFDataSource {
 	 * @param source
 	 * @param property
 	 * @param truthValue
-	 * @return NS_RDF_NO_VALUE if there is no target accessable from the source via the specified property.
+	 * @return null if there is no target accessable from the source via the specified property.
 	 */
 	RDFNode getTarget(RDFResource source, RDFResource property, boolean truthValue);
 

@@ -137,15 +137,7 @@ public class RDFMemoryDataSourceImpl extends AbstractDataSourceImpl implements R
 			}
 		);
 
-		super.doAssert(source, property, target, truthValue);
-	}
-
-	/**
-	 * Notify observers that the datasource is about to send several notifications at once. This
-	 * must be followed by calling endUpdateBatch(), otherwise viewers will get out of sync.
-	 */
-	public void beginUpdateBatch() {
-		super.beginUpdateBatch();
+		notifyAssert(source, property, target, truthValue);
 	}
 
 	/**
@@ -162,7 +154,7 @@ public class RDFMemoryDataSourceImpl extends AbstractDataSourceImpl implements R
 	public void change(RDFResource source, RDFResource property, RDFNode oldTarget, RDFNode newTarget) {
 		unassert(source, property, oldTarget);
 		doAssert(source, property, newTarget, true);
-		super.change(source, property, oldTarget, newTarget);
+		notifyChange(source, property, oldTarget, newTarget);
 	}
 
 	/**
@@ -174,13 +166,6 @@ public class RDFMemoryDataSourceImpl extends AbstractDataSourceImpl implements R
 	 */
 	public void doCommand(Object[] sources, RDFResource command, Object[] arguments) {
 		//To change body of implemented methods use File | Settings | File Templates.
-	}
-
-	/**
-	 * Notify observers that the datasource has completed issuing a notification group.
-	 */
-	public void endUpdateBatch() {
-		super.endUpdateBatch();
 	}
 
 	/**
@@ -264,7 +249,7 @@ public class RDFMemoryDataSourceImpl extends AbstractDataSourceImpl implements R
 	 * @param source
 	 * @param property
 	 * @param truthValue
-	 * @return NS_RDF_NO_VALUE if there is no target accessable from the source via the specified property.
+	 * @return null if there is no target accessable from the source via the specified property.
 	 */
 	public RDFNode getTarget(RDFResource source, RDFResource property, boolean truthValue) {
 		Iterator<RDFNode> targets = getTargets(source, property, truthValue);
@@ -373,7 +358,7 @@ public class RDFMemoryDataSourceImpl extends AbstractDataSourceImpl implements R
 	public void move(RDFResource oldSource, RDFResource newSource, RDFResource property, RDFNode target) {
 		unassert(oldSource, property, target);
 		doAssert(newSource, property, target, true);
-		super.move(oldSource, newSource, property, target);
+		notifyMove(oldSource, newSource, property, target);
 	}
 
 	/**
@@ -392,14 +377,14 @@ public class RDFMemoryDataSourceImpl extends AbstractDataSourceImpl implements R
 				}
 			}
 		);
-		super.unassert(source, property, target);
+		notifyUnassert(source, property, target);
 	}
 
 
 	/**
 	 * Utility to convert a Mozilla RDFNode to a Sesame Value of the appropriate type.
 	 */
-	private Value toValue(RDFNode rdfNode) {
+	protected Value toValue(RDFNode rdfNode) {
 		// Resources:
 		if(rdfNode instanceof RDFResource) {
 			return toResource((RDFResource)rdfNode);
@@ -411,7 +396,7 @@ public class RDFMemoryDataSourceImpl extends AbstractDataSourceImpl implements R
 	/**
 	 * Utility to convert a Mozilla RDFNode to a Sesame Literal
 	 */
-	private Literal toLiteral(RDFNode rdfNode) {
+	protected Literal toLiteral(RDFNode rdfNode) {
 		ValueFactory factory = repository.getValueFactory();
 		if(rdfNode instanceof RDFLiteral) {
 			return factory.createLiteral(((RDFLiteral)rdfNode).getValue());
@@ -434,7 +419,7 @@ public class RDFMemoryDataSourceImpl extends AbstractDataSourceImpl implements R
 	 * Utility to convert a Mozilla RDFResource to a Sesame Resource.
 	 * Same as toURI() but it can return a BNode.
 	 */
-	private Resource toResource(RDFResource mozResource) {
+	protected Resource toResource(RDFResource mozResource) {
 		// URI resource:
 		if(mozResource.getValue() != null) {
 			return toURI(mozResource);
@@ -446,7 +431,7 @@ public class RDFMemoryDataSourceImpl extends AbstractDataSourceImpl implements R
 	/**
 	 * Utility to convert a Mozilla RDFResource to a Sesame URI
 	 */
-	private URI toURI(RDFResource mozResource) {
+	protected URI toURI(RDFResource mozResource) {
 		if(mozResource.getValue() == null) {
 			throw new IllegalArgumentException("Cannot convert an anonymous resource to a URI.");
 		}
@@ -456,14 +441,14 @@ public class RDFMemoryDataSourceImpl extends AbstractDataSourceImpl implements R
 	/**
 	 * Utility to build a Sesame Statement from the given Mozilla triple parts
 	 */
-	private Statement toStatement(RDFResource subject, RDFResource predicate, RDFNode object) {
+	protected Statement toStatement(RDFResource subject, RDFResource predicate, RDFNode object) {
 		return repository.getValueFactory().createStatement(toResource(subject), toURI(predicate), toValue(object));
 	}
 
 	/**
 	 * Utility to convert a Sesame Resource to a Mozilla RDFResource
 	 */
-	private RDFResource toRDFResource(Resource resource) {
+	protected RDFResource toRDFResource(Resource resource) {
 		// Blank nodes:
 		if(resource instanceof BNode) {
 			// TODO figure out how to guarantee the same instance for the same logical bnode
@@ -476,7 +461,7 @@ public class RDFMemoryDataSourceImpl extends AbstractDataSourceImpl implements R
 	/**
 	 * Utility to convert a Sesame Value to a Mozilla RDFNode
 	 */
-	private RDFNode toRDFNode(Value value) {
+	protected RDFNode toRDFNode(Value value) {
 		// Resources:
 		if(value instanceof Resource) {
 			return toRDFResource((Resource)value);
