@@ -15,6 +15,7 @@ public class XULCommandEventImpl extends EventImpl implements XULCommandEvent {
 	protected boolean shiftKey;
 	protected boolean altKey;
 	protected boolean metaKey;
+	protected Event sourceEvent;
 	protected AbstractView view;
 	protected int detail;
 
@@ -32,6 +33,10 @@ public class XULCommandEventImpl extends EventImpl implements XULCommandEvent {
 
 	public boolean isMetaKey() {
 		return metaKey;
+	}
+
+	public Event getSourceEvent() {
+		return sourceEvent;
 	}
 
 	public AbstractView getView() {
@@ -58,7 +63,7 @@ public class XULCommandEventImpl extends EventImpl implements XULCommandEvent {
 		this.altKey = altKey;
 		this.shiftKey = shiftKey;
 		this.metaKey = metaKey;
-		// TODO sourceEvent arg?
+		this.sourceEvent = sourceEvent;
 	}
 
 	public void initUIEvent(String type, boolean canBubble, boolean cancelable,

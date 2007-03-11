@@ -5,6 +5,7 @@ import java.util.List;
 
 import net.lojjic.xul.XULConstants;
 import net.lojjic.xul.XULElement;
+import net.lojjic.xul.XULCommandEvent;
 import net.lojjic.xul.xbl.impl.ElementXBLImpl;
 
 import org.w3c.dom.Element;
@@ -269,7 +270,9 @@ public class XULElementImpl extends ElementXBLImpl implements XULElement {
 	}
 
 	public void doCommand() {
-		// TODO
+		XULCommandEvent evt = (XULCommandEvent)ownerXULDocument.createEvent("XULCommandEvents");
+		evt.initCommandEvent("command", true, true, ownerXULDocument.getDefaultView(), 0, false, false, false, false, null);
+		dispatchEvent(evt);
 	}
 
 	public NodeList getElementsByAttribute(String name, String value) {
