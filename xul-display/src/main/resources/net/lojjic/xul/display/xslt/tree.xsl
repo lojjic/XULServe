@@ -21,21 +21,31 @@
 	</xsl:template>
 
 	<xsl:template match="xul:treechildren">
-		<xsl:apply-templates />
+		<xsl:param name="nestingLevel" select="0" />
+		<xsl:apply-templates>
+			<xsl:with-param name="nestingLevel" select="$nestingLevel + 1" />
+		</xsl:apply-templates>
 	</xsl:template>
 	
 	<xsl:template match="xul:treeitem">
-		<xsl:apply-templates />
+		<xsl:param name="nestingLevel" />
+		<xsl:apply-templates>
+			<xsl:with-param name="nestingLevel" select="$nestingLevel" />
+		</xsl:apply-templates>
 	</xsl:template>
 
 	<xsl:template match="xul:treerow">
+		<xsl:param name="nestingLevel" />
 		<tr>
-			<xsl:apply-templates />
+			<xsl:apply-templates>
+				<xsl:with-param name="nestingLevel" select="$nestingLevel" />
+			</xsl:apply-templates>
 		</tr>
 	</xsl:template>
 
 	<xsl:template match="xul:treecell">
-		<td>
+		<xsl:param name="nestingLevel" />
+		<td style="padding-left:{$nestingLevel}em">
 			<xsl:value-of select="@label" />
 		</td>
 	</xsl:template>

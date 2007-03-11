@@ -30,7 +30,9 @@
 	</xsl:template>
 
 	<xsl:template match="xul:tabpanel">
-		<xsl:apply-templates select="." mode="box" />
+		<div class="tabpanel">
+			<xsl:apply-templates select="." mode="box" />
+		</div>
 	</xsl:template>
 
 </xsl:stylesheet>
