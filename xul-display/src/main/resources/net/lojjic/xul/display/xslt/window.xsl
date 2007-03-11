@@ -16,6 +16,9 @@
 					select.menulist, select.listbox {width:100%;}
 					.tab {border:1px solid; -moz-border-radius:4px 4px 0 0; cursor:default;}
 					.tabpanel {border:1px solid;}
+
+					table.tree {width:100%}
+					table.tree thead th {border:2px outset #999; text-align:left;}
 				</style>
 			</head>
 			<body>

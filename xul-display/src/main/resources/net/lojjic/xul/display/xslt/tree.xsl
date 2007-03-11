@@ -4,7 +4,7 @@
 		xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 
 	<xsl:template match="xul:tree">
-		<table>
+		<table class="tree">
 			<thead>
 				<tr>
 					<xsl:for-each select="xul:treecols/xul:treecol">
@@ -36,7 +36,7 @@
 
 	<xsl:template match="xul:treerow">
 		<xsl:param name="nestingLevel" />
-		<tr>
+		<tr class="treerow">
 			<xsl:apply-templates>
 				<xsl:with-param name="nestingLevel" select="$nestingLevel" />
 			</xsl:apply-templates>
@@ -45,13 +45,13 @@
 
 	<xsl:template match="xul:treecell">
 		<xsl:param name="nestingLevel" />
-		<td style="padding-left:{$nestingLevel}em">
+		<td class="treecell" style="padding-left:{$nestingLevel}em">
 			<xsl:value-of select="@label" />
 		</td>
 	</xsl:template>
 
 	<xsl:template match="xul:treeseparator">
-		<tr>
+		<tr class="treeseparator">
 			<td colspan="{count(ancestor::xul:tree/xul:treecols/xul:treecol)}"><hr /></td>
 		</tr>
 	</xsl:template>
