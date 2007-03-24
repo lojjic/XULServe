@@ -1,13 +1,11 @@
 package net.lojjic.xml.javascript;
 
+import net.lojjic.rhino.annotations.JSGetter;
+import net.lojjic.rhino.annotations.JSSetter;
+import net.lojjic.rhino.annotations.JSStatic;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 import org.w3c.dom.DOMException;
-
-import net.lojjic.rhino.annotations.JSGetter;
-import net.lojjic.rhino.annotations.JSStatic;
-import net.lojjic.rhino.annotations.JSSetter;
-import net.lojjic.rhino.annotations.JSConstructor;
 
 /**
  * Scriptable wrapper for {@link org.w3c.dom.DOMException}

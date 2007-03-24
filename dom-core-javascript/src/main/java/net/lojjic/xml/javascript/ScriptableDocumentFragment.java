@@ -8,7 +8,7 @@ import org.w3c.dom.DocumentFragment;
  * Scriptable wrapper for {@link org.w3c.dom.DocumentFragment}
  */
 @JSClassName("DocumentFragment")
-public class ScriptableDocumentFragment extends ScriptableNode implements DocumentFragment {
+public class ScriptableDocumentFragment extends ScriptableNode {
 
 	private DocumentFragment delegateDocumentFragment;
 

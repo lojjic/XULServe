@@ -1,17 +1,16 @@
 package net.lojjic.xml.javascript;
 
-import org.mozilla.javascript.Scriptable;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import net.lojjic.rhino.annotations.JSGetter;
-import net.lojjic.rhino.annotations.JSFunction;
 import net.lojjic.rhino.annotations.JSClassName;
+import net.lojjic.rhino.annotations.JSFunction;
+import net.lojjic.rhino.annotations.JSGetter;
+import org.mozilla.javascript.Scriptable;
+import org.w3c.dom.NodeList;
 
 /**
  * Scriptable wrapper for {@link org.w3c.dom.NodeList}
  */
 @JSClassName("NodeList")
-public class ScriptableNodeList extends ScriptableDOMObject implements NodeList {
+public class ScriptableNodeList extends ScriptableDOMObject {
 
 	NodeList delegateNodeList;
 	
@@ -32,7 +31,7 @@ public class ScriptableNodeList extends ScriptableDOMObject implements NodeList 
 	 * {@link NodeList#item(int)}
 	 */
 	@JSFunction("item")
-	public Node item(int index) {
+	public Object item(int index) {
 		return delegateNodeList.item(index);
 	}
 	

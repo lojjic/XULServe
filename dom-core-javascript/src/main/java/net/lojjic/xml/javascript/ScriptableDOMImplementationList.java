@@ -1,17 +1,16 @@
 package net.lojjic.xml.javascript;
 
-import org.w3c.dom.DOMImplementationList;
-import org.w3c.dom.DOMImplementation;
-import org.mozilla.javascript.Scriptable;
-import net.lojjic.rhino.annotations.JSGetter;
-import net.lojjic.rhino.annotations.JSFunction;
 import net.lojjic.rhino.annotations.JSClassName;
+import net.lojjic.rhino.annotations.JSFunction;
+import net.lojjic.rhino.annotations.JSGetter;
+import org.mozilla.javascript.Scriptable;
+import org.w3c.dom.DOMImplementationList;
 
 /**
  * Scriptable wrapper for {@link org.w3c.dom.DOMImplementationList}
  */
 @JSClassName("DOMImplementationList")
-public class ScriptableDOMImplementationList extends ScriptableDOMObject implements DOMImplementationList {
+public class ScriptableDOMImplementationList extends ScriptableDOMObject {
 
 	private DOMImplementationList delegateDOMImplementationList;
 
@@ -26,7 +25,7 @@ public class ScriptableDOMImplementationList extends ScriptableDOMObject impleme
 	}
 
 	@JSFunction("item")
-	public DOMImplementation item(int index) {
+	public Object item(int index) {
 		return delegateDOMImplementationList.item(index);
 	}
 

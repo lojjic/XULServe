@@ -12,7 +12,7 @@ import org.w3c.dom.views.AbstractView;
  * Scriptable wrapper for {@link org.w3c.dom.events.MouseEvent}
  */
 @JSClassName("MouseEvent")
-public class ScriptableMouseEvent extends ScriptableUIEvent implements MouseEvent {
+public class ScriptableMouseEvent extends ScriptableUIEvent {
 	
 	protected MouseEvent delegateMouseEvent;
 
@@ -53,7 +53,7 @@ public class ScriptableMouseEvent extends ScriptableUIEvent implements MouseEven
 	}
 
 	@JSGetter("relatedTarget")
-	public EventTarget getRelatedTarget() {
+	public Object getRelatedTarget() {
 		return delegateMouseEvent.getRelatedTarget();
 	}
 
@@ -73,11 +73,12 @@ public class ScriptableMouseEvent extends ScriptableUIEvent implements MouseEven
 	}
 	
 	@JSFunction("initMouseEvent")
-	public void initMouseEvent(String type, boolean canBubble, boolean cancelable, AbstractView view,
+	public void initMouseEvent(String type, boolean canBubble, boolean cancelable, Object view,
 			int detail, int screenX, int screenY, int clientX, int clientY, boolean ctrlKey, boolean altKey, 
-			boolean shiftKey, boolean metaKey, short button, EventTarget relatedTarget) {
-		delegateMouseEvent.initMouseEvent(type, canBubble, cancelable, view, detail, screenX, screenY,
-				clientX, clientY, ctrlKey, altKey, shiftKey, metaKey, button, relatedTarget);
+			boolean shiftKey, boolean metaKey, short button, Object relatedTarget) {
+		delegateMouseEvent.initMouseEvent(type, canBubble, cancelable, convertArg(view, AbstractView.class),
+				detail, screenX, screenY, clientX, clientY, ctrlKey, altKey, shiftKey, metaKey,
+				button, convertArg(relatedTarget, EventTarget.class));
 	}
 
 }

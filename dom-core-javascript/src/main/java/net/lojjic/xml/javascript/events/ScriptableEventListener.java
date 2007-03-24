@@ -11,7 +11,7 @@ import org.w3c.dom.events.EventListener;
  * Scriptable wrapper for {@link org.w3c.dom.events.EventListener}
  */
 @JSClassName("EventListener")
-public class ScriptableEventListener extends ScriptableDOMObject implements EventListener {
+public class ScriptableEventListener extends ScriptableDOMObject {
 	
 	protected EventListener delegateEventListener;
 
@@ -25,8 +25,8 @@ public class ScriptableEventListener extends ScriptableDOMObject implements Even
 	}
 	
 	@JSFunction("handleEvent")
-	public void handleEvent(Event event) {
-		delegateEventListener.handleEvent(event);
+	public void handleEvent(Object event) {
+		delegateEventListener.handleEvent(convertArg(event, Event.class));
 	}
 
 }

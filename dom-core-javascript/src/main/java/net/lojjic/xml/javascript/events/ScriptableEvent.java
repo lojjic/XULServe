@@ -1,19 +1,19 @@
 package net.lojjic.xml.javascript.events;
 
-import org.mozilla.javascript.Scriptable;
-import org.w3c.dom.events.Event;
-import org.w3c.dom.events.EventTarget;
-
-import net.lojjic.xml.javascript.ScriptableDOMObject;
 import net.lojjic.rhino.annotations.JSClassName;
-import net.lojjic.rhino.annotations.JSGetter;
 import net.lojjic.rhino.annotations.JSFunction;
+import net.lojjic.rhino.annotations.JSGetter;
+import net.lojjic.rhino.annotations.JSStatic;
+import net.lojjic.xml.javascript.ScriptableDOMObject;
+import org.mozilla.javascript.Scriptable;
+import org.mozilla.javascript.ScriptableObject;
+import org.w3c.dom.events.Event;
 
 /**
  * Scriptable wrapper for {@link org.w3c.dom.events.Event}
  */
 @JSClassName("Event")
-public class ScriptableEvent extends ScriptableDOMObject implements Event {
+public class ScriptableEvent extends ScriptableDOMObject {
 	
 	protected Event delegateEvent;
 
@@ -21,18 +21,22 @@ public class ScriptableEvent extends ScriptableDOMObject implements Event {
 		super(scope, event);
 		this.delegateEvent = event;
 	}
-	
 
-	
-	/* TODO static properties:
-	static short 	AT_TARGET
-	The event is currently being evaluated at the target EventTarget.
-	static short 	BUBBLING_PHASE
-	The current event phase is the bubbling phase.
-	static short 	CAPTURING_PHASE
-	The current event phase is the capturing phase.
-	 */
-	
+	@JSStatic @JSGetter("AT_TARGET")
+	public static short get_AT_TARGET(ScriptableObject obj) {
+		return Event.AT_TARGET;
+	}
+
+	@JSStatic @JSGetter("BUBBLING_PHASE")
+	public static short get_BUBBLING_PHASE(ScriptableObject obj) {
+		return Event.BUBBLING_PHASE;
+	}
+
+	@JSStatic @JSGetter("CAPTURING_PHASE")
+	public static short get_CAPTURING_PHASE(ScriptableObject obj) {
+		return Event.CAPTURING_PHASE;
+	}
+
 	@JSGetter("bubbles")
 	public boolean getBubbles() {
 		return delegateEvent.getBubbles();
@@ -44,7 +48,7 @@ public class ScriptableEvent extends ScriptableDOMObject implements Event {
 	}
 	
 	@JSGetter("currentTarget")
-	public EventTarget getCurrentTarget() {
+	public Object getCurrentTarget() {
 		return delegateEvent.getCurrentTarget();
 	}
 	
@@ -54,7 +58,7 @@ public class ScriptableEvent extends ScriptableDOMObject implements Event {
 	}
 	
 	@JSGetter("target")
-	public EventTarget getTarget() {
+	public Object getTarget() {
 		return delegateEvent.getTarget();
 	}
 	

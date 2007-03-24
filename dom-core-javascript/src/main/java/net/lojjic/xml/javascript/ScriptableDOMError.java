@@ -1,18 +1,17 @@
 package net.lojjic.xml.javascript;
 
-import org.w3c.dom.DOMError;
-import org.w3c.dom.DOMLocator;
+import net.lojjic.rhino.annotations.JSClassName;
+import net.lojjic.rhino.annotations.JSGetter;
+import net.lojjic.rhino.annotations.JSStatic;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
-import net.lojjic.rhino.annotations.JSGetter;
-import net.lojjic.rhino.annotations.JSClassName;
-import net.lojjic.rhino.annotations.JSStatic;
+import org.w3c.dom.DOMError;
 
 /**
  * Scriptable wrapper for {@link org.w3c.dom.DOMError}
  */
 @JSClassName("DOMError")
-public class ScriptableDOMError extends ScriptableDOMObject implements DOMError {
+public class ScriptableDOMError extends ScriptableDOMObject {
 
 	private DOMError delegateDOMError;
 
@@ -37,7 +36,7 @@ public class ScriptableDOMError extends ScriptableDOMObject implements DOMError 
 	}
 
 	@JSGetter("location")
-	public DOMLocator getLocation() {
+	public Object getLocation() {
 		return delegateDOMError.getLocation();
 	}
 

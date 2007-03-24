@@ -29,6 +29,21 @@ public abstract class ScriptableDOMObject extends AnnotationScriptableObject imp
 		return wrappedObject;
 	}
 
+	/**
+	 * Cast/convert the given argument Object to the given Class.
+	 */
+	@SuppressWarnings({"unchecked"})
+	protected <T> T convertArg(Object arg, Class<T> type) {
+		while(arg instanceof Wrapper) {
+			arg = ((Wrapper)arg).unwrap();
+		}
+		if(!type.isInstance(arg)) {
+			throw new IllegalArgumentException("Expected argument of type " + type.getName()
+					+ ", got " + arg.getClass().getName());
+		}
+		return (T)arg;
+	}
+
 	@JSConstructor
 	public void jsConstructor() {
 		throw new RuntimeException(getClassName() + " cannot be instantiated directly; " +

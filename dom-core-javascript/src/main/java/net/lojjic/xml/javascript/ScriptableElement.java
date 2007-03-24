@@ -1,19 +1,17 @@
 package net.lojjic.xml.javascript;
 
-import org.mozilla.javascript.Scriptable;
-import org.w3c.dom.Element;
-import org.w3c.dom.Attr;
-import org.w3c.dom.NodeList;
-import org.w3c.dom.TypeInfo;
 import net.lojjic.rhino.annotations.JSClassName;
-import net.lojjic.rhino.annotations.JSGetter;
 import net.lojjic.rhino.annotations.JSFunction;
+import net.lojjic.rhino.annotations.JSGetter;
+import org.mozilla.javascript.Scriptable;
+import org.w3c.dom.Attr;
+import org.w3c.dom.Element;
 
 /**
  * Scriptable wrapper for {@link org.w3c.dom.Element}
  */
 @JSClassName("Element")
-public class ScriptableElement extends ScriptableNode implements Element {
+public class ScriptableElement extends ScriptableNode {
 
 	protected Element delegateElement;
 	
@@ -43,27 +41,27 @@ public class ScriptableElement extends ScriptableNode implements Element {
 	}
 	
 	@JSFunction("getAttributeNode")
-	public Attr getAttributeNode(String name) {
+	public Object getAttributeNode(String name) {
 		return delegateElement.getAttributeNode(name);
 	}
 	
 	@JSFunction("setAttributeNode")
-	public Attr setAttributeNode(Attr attr) {
-		return delegateElement.setAttributeNode(attr);
+	public Object setAttributeNode(Object attr) {
+		return delegateElement.setAttributeNode(convertArg(attr, Attr.class));
 	}
 	
 	@JSFunction("removeAttributeNode")
-	public Attr removeAttributeNode(Attr attr) {
-		return delegateElement.removeAttributeNode(attr);
+	public Object removeAttributeNode(Object attr) {
+		return delegateElement.removeAttributeNode(convertArg(attr, Attr.class));
 	}
 	
 	@JSFunction("getElementsByTagName")
-	public NodeList getElementsByTagName(String name) {
+	public Object getElementsByTagName(String name) {
 		return delegateElement.getElementsByTagName(name);
 	}
 	
 	@JSFunction("getElementsByTagNameNS")
-	public NodeList getElementsByTagNameNS(String ns, String name) {
+	public Object getElementsByTagNameNS(String ns, String name) {
 		return delegateElement.getElementsByTagNameNS(ns, name);
 	}
 	
@@ -83,13 +81,13 @@ public class ScriptableElement extends ScriptableNode implements Element {
 	}
 	
 	@JSFunction("getAttributeNodeNS")
-	public Attr getAttributeNodeNS(String ns, String name) {
+	public Object getAttributeNodeNS(String ns, String name) {
 		return delegateElement.getAttributeNodeNS(ns, name);
 	}
 	
 	@JSFunction("setAttributeNodeNS")
-	public Attr setAttributeNodeNS(Attr attr) {
-		return delegateElement.setAttributeNodeNS(attr);
+	public Object setAttributeNodeNS(Object attr) {
+		return delegateElement.setAttributeNodeNS(convertArg(attr, Attr.class));
 	}
 	
 	@JSFunction("hasAttribute")
@@ -103,7 +101,7 @@ public class ScriptableElement extends ScriptableNode implements Element {
 	}
 	
 	@JSGetter("schemaTypeInfo")
-	public TypeInfo getSchemaTypeInfo() {
+	public Object getSchemaTypeInfo() {
 		return delegateElement.getSchemaTypeInfo();
 	}
 
@@ -118,7 +116,7 @@ public class ScriptableElement extends ScriptableNode implements Element {
 	}
 	
 	@JSFunction("setIdAttributeNode")
-	public void setIdAttributeNode(Attr attr, boolean makeId) {
-		delegateElement.setIdAttributeNode(attr, makeId);
+	public void setIdAttributeNode(Object attr, boolean makeId) {
+		delegateElement.setIdAttributeNode(convertArg(attr, Attr.class), makeId);
 	}
 }

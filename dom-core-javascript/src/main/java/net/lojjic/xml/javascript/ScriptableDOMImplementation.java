@@ -1,18 +1,16 @@
 package net.lojjic.xml.javascript;
 
-import org.w3c.dom.DOMImplementation;
-import org.w3c.dom.Document;
-import org.w3c.dom.DocumentType;
-import org.w3c.dom.DOMException;
-import org.mozilla.javascript.Scriptable;
 import net.lojjic.rhino.annotations.JSClassName;
 import net.lojjic.rhino.annotations.JSFunction;
+import org.mozilla.javascript.Scriptable;
+import org.w3c.dom.DOMImplementation;
+import org.w3c.dom.DocumentType;
 
 /**
  * Scriptable wrapper for {@link org.w3c.dom.DOMImplementation}
  */
 @JSClassName("DOMImplementation")
-public class ScriptableDOMImplementation extends ScriptableDOMObject implements DOMImplementation {
+public class ScriptableDOMImplementation extends ScriptableDOMObject {
 
 	private DOMImplementation delegateDOMImplementation;
 
@@ -22,12 +20,12 @@ public class ScriptableDOMImplementation extends ScriptableDOMObject implements 
 	}
 
 	@JSFunction("createDocument")
-	public Document createDocument(String namespaceURI, String qualifiedName, DocumentType doctype) throws DOMException {
-		return delegateDOMImplementation.createDocument(namespaceURI, qualifiedName, doctype);
+	public Object createDocument(String namespaceURI, String qualifiedName, Object doctype) {
+		return delegateDOMImplementation.createDocument(namespaceURI, qualifiedName, convertArg(doctype, DocumentType.class));
 	}
 
 	@JSFunction("createDocumentType")
-	public DocumentType createDocumentType(String qualifiedName, String publicId, String systemId) throws DOMException {
+	public Object createDocumentType(String qualifiedName, String publicId, String systemId) {
 		return delegateDOMImplementation.createDocumentType(qualifiedName, publicId, systemId);
 	}
 

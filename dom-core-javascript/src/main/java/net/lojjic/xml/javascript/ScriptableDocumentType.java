@@ -4,13 +4,12 @@ import net.lojjic.rhino.annotations.JSClassName;
 import net.lojjic.rhino.annotations.JSGetter;
 import org.mozilla.javascript.Scriptable;
 import org.w3c.dom.DocumentType;
-import org.w3c.dom.NamedNodeMap;
 
 /**
  * Scriptable wrapper for {@link org.w3c.dom.DocumentType}
  */
 @JSClassName("DocumentType")
-public class ScriptableDocumentType extends ScriptableNode implements DocumentType {
+public class ScriptableDocumentType extends ScriptableNode {
 
 	private DocumentType delegateDocumentType;
 
@@ -20,7 +19,7 @@ public class ScriptableDocumentType extends ScriptableNode implements DocumentTy
 	}
 
 	@JSGetter("entities")
-	public NamedNodeMap getEntities() {
+	public Object getEntities() {
 		return delegateDocumentType.getEntities();
 	}
 
@@ -35,7 +34,7 @@ public class ScriptableDocumentType extends ScriptableNode implements DocumentTy
 	}
 
 	@JSGetter("notations")
-	public NamedNodeMap getNotations() {
+	public Object getNotations() {
 		return delegateDocumentType.getNotations();
 	}
 

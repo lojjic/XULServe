@@ -15,7 +15,7 @@ import org.w3c.dom.events.EventTarget;
  * Scriptable wrapper for {@link org.w3c.dom.Node}
  */
 @JSClassName("Node")
-public class ScriptableNode extends ScriptableDOMObject implements Node {
+public class ScriptableNode extends ScriptableDOMObject {
 
 	protected Node delegateNode;
 
@@ -139,63 +139,63 @@ public class ScriptableNode extends ScriptableDOMObject implements Node {
 	}
 	
 	@JSGetter("parentNode")
-	public Node getParentNode() {
+	public Object getParentNode() {
 		return delegateNode.getParentNode();
 	}
 	
 	@JSGetter("childNodes")
-	public NodeList getChildNodes() {
+	public Object getChildNodes() {
 		return delegateNode.getChildNodes();
 	}
 	
 	@JSGetter("firstChild")
-	public Node getFirstChild() {
+	public Object getFirstChild() {
 		return delegateNode.getFirstChild();
 	}
 	
 	@JSGetter("lastChild")
-	public Node getLastChild() {
+	public Object getLastChild() {
 		return delegateNode.getLastChild();
 	}
 	
 	@JSGetter("previousSibling")
-	public Node getPreviousSibling() {
+	public Object getPreviousSibling() {
 		return delegateNode.getPreviousSibling();
 	}
 	
 	@JSGetter("nextSibling")
-	public Node getNextSibling() {
+	public Object getNextSibling() {
 		return delegateNode.getNextSibling();
 	}
 	
 	@JSGetter("attributes")
-	public NamedNodeMap getAttributes() {
+	public Object getAttributes() {
 		return delegateNode.getAttributes();
 	}
 	
 	@JSGetter("ownerDocument")
-	public Document getOwnerDocument() {
+	public Object getOwnerDocument() {
 		return delegateNode.getOwnerDocument();
 	}
 
 	@JSFunction("insertBefore")
-	public Node insertBefore(Node newNode, Node refNode) {
-		return delegateNode.insertBefore(newNode, refNode);
+	public Object insertBefore(Object newNode, Object refNode) {
+		return delegateNode.insertBefore(convertArg(newNode, Node.class), convertArg(refNode, Node.class));
 	}
 
 	@JSFunction("replaceChild")
-	public Node replaceChild(Node newNode, Node refNode) {
-		return delegateNode.replaceChild(newNode, refNode);
+	public Object replaceChild(Object newNode, Object refNode) {
+		return delegateNode.replaceChild(convertArg(newNode, Node.class), convertArg(refNode, Node.class));
 	}
 
 	@JSFunction("removeChild")
-	public Node removeChild(Node node) {
-		return delegateNode.removeChild(node);
+	public Object removeChild(Object node) {
+		return delegateNode.removeChild(convertArg(node, Node.class));
 	}
 
 	@JSFunction("appendChild")
-	public Node appendChild(Node node) {
-		return delegateNode.appendChild(node);
+	public Object appendChild(Object node) {
+		return delegateNode.appendChild(convertArg(node, Node.class));
 	}
 	
 	@JSFunction("hasChildNodes")
@@ -204,7 +204,7 @@ public class ScriptableNode extends ScriptableDOMObject implements Node {
 	}
 	
 	@JSFunction("cloneNode")
-	public Node cloneNode(boolean deep) {
+	public Object cloneNode(boolean deep) {
 		return delegateNode.cloneNode(deep);
 	}
 	
@@ -249,8 +249,8 @@ public class ScriptableNode extends ScriptableDOMObject implements Node {
 	}
 	
 	@JSFunction("compareDocumentPosition")
-	public short compareDocumentPosition(Node node) {
-		return delegateNode.compareDocumentPosition(node);
+	public short compareDocumentPosition(Object node) {
+		return delegateNode.compareDocumentPosition(convertArg(node, Node.class));
 	}
 	
 	@JSGetter("textContent")
@@ -264,8 +264,8 @@ public class ScriptableNode extends ScriptableDOMObject implements Node {
 	}
 	
 	@JSFunction("isSameNode")
-	public boolean isSameNode(Node node) {
-		return delegateNode.isSameNode(node);
+	public boolean isSameNode(Object node) {
+		return delegateNode.isSameNode(convertArg(node, Node.class));
 	}
 	
 	@JSFunction("lookupNamespaceURI")
@@ -274,8 +274,8 @@ public class ScriptableNode extends ScriptableDOMObject implements Node {
 	}
 	
 	@JSFunction("isEqualNode")
-	public boolean isEqualNode(Node node) {
-		return delegateNode.isEqualNode(node);
+	public boolean isEqualNode(Object node) {
+		return delegateNode.isEqualNode(convertArg(node, Node.class));
 	}
 	
 	@JSFunction("getFeature")
@@ -294,8 +294,8 @@ public class ScriptableNode extends ScriptableDOMObject implements Node {
 	}
 
 	@JSFunction("setUserData")
-	public Object setUserData(String key, Object data, UserDataHandler handler) {
-		return delegateNode.setUserData(key, data, handler);
+	public Object setUserData(String key, Object data, Object handler) {
+		return delegateNode.setUserData(key, data, convertArg(handler, UserDataHandler.class));
 	}
 
 	@JSFunction("getUserData")

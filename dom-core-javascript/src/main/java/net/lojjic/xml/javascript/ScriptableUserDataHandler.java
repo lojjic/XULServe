@@ -1,20 +1,19 @@
 package net.lojjic.xml.javascript;
 
-import org.w3c.dom.UserDataHandler;
-import org.w3c.dom.Node;
-import org.w3c.dom.TypeInfo;
-import org.mozilla.javascript.Scriptable;
-import org.mozilla.javascript.ScriptableObject;
 import net.lojjic.rhino.annotations.JSClassName;
 import net.lojjic.rhino.annotations.JSFunction;
-import net.lojjic.rhino.annotations.JSStatic;
 import net.lojjic.rhino.annotations.JSGetter;
+import net.lojjic.rhino.annotations.JSStatic;
+import org.mozilla.javascript.Scriptable;
+import org.mozilla.javascript.ScriptableObject;
+import org.w3c.dom.Node;
+import org.w3c.dom.UserDataHandler;
 
 /**
  * Scriptable wrapper for {@link org.w3c.dom.UserDataHandler}
  */
 @JSClassName("UserDataHandler")
-public class ScriptableUserDataHandler extends ScriptableDOMObject implements UserDataHandler {
+public class ScriptableUserDataHandler extends ScriptableDOMObject {
 
 	private UserDataHandler delegateUserDataHandler;
 
@@ -51,7 +50,7 @@ public class ScriptableUserDataHandler extends ScriptableDOMObject implements Us
 	}
 
 	@JSFunction("handle")
-	public void handle(short operation, String key, Object data, Node src, Node dst) {
-		delegateUserDataHandler.handle(operation, key, data, src, dst);
+	public void handle(short operation, String key, Object data, Object src, Object dst) {
+		delegateUserDataHandler.handle(operation, key, data, convertArg(src, Node.class), convertArg(dst, Node.class));
 	}
 }

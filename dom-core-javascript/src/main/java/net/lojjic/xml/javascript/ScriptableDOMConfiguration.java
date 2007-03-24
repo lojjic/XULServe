@@ -1,18 +1,16 @@
 package net.lojjic.xml.javascript;
 
-import org.w3c.dom.DOMConfiguration;
-import org.w3c.dom.DOMException;
-import org.w3c.dom.DOMStringList;
-import org.mozilla.javascript.Scriptable;
-import net.lojjic.rhino.annotations.JSGetter;
 import net.lojjic.rhino.annotations.JSClassName;
 import net.lojjic.rhino.annotations.JSFunction;
+import net.lojjic.rhino.annotations.JSGetter;
+import org.mozilla.javascript.Scriptable;
+import org.w3c.dom.DOMConfiguration;
 
 /**
  * Scriptable wrapper for {@link org.w3c.dom.DOMConfiguration}
  */
 @JSClassName("DOMConfiguration")
-public class ScriptableDOMConfiguration extends ScriptableDOMObject implements DOMConfiguration {
+public class ScriptableDOMConfiguration extends ScriptableDOMObject {
 
 	private DOMConfiguration delegateDOMConfiguration;
 
@@ -27,17 +25,17 @@ public class ScriptableDOMConfiguration extends ScriptableDOMObject implements D
 	}
 
 	@JSFunction("getParameter")
-	public Object getParameter(String name) throws DOMException {
+	public Object getParameter(String name) {
 		return delegateDOMConfiguration.getParameter(name);
 	}
 
 	@JSGetter("parameterNames")
-	public DOMStringList getParameterNames() {
+	public Object getParameterNames() {
 		return delegateDOMConfiguration.getParameterNames();
 	}
 
 	@JSFunction("setParameter")
-	public void setParameter(String name, Object value) throws DOMException {
+	public void setParameter(String name, Object value) {
 		delegateDOMConfiguration.setParameter(name, value);
 	}
 

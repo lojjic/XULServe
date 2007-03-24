@@ -10,7 +10,7 @@ import net.lojjic.rhino.annotations.JSGetter;
  * Scriptable wrapper for {@link org.w3c.dom.DOMStringList}
  */
 @JSClassName("DOMStringList")
-public class ScriptableDOMStringList extends ScriptableDOMObject implements DOMStringList {
+public class ScriptableDOMStringList extends ScriptableDOMObject {
 
 	private DOMStringList delegateDOMStringList;
 

@@ -1,16 +1,15 @@
 package net.lojjic.xml.javascript;
 
-import org.w3c.dom.DOMLocator;
-import org.w3c.dom.Node;
-import org.mozilla.javascript.Scriptable;
 import net.lojjic.rhino.annotations.JSClassName;
 import net.lojjic.rhino.annotations.JSGetter;
+import org.mozilla.javascript.Scriptable;
+import org.w3c.dom.DOMLocator;
 
 /**
  * Scriptable wrapper for {@link org.w3c.dom.DOMLocator}
  */
 @JSClassName("DOMLocator")
-public class ScriptableDOMLocator extends ScriptableDOMObject implements DOMLocator {
+public class ScriptableDOMLocator extends ScriptableDOMObject {
 
 	private DOMLocator delegateDOMLocator;
 
@@ -35,7 +34,7 @@ public class ScriptableDOMLocator extends ScriptableDOMObject implements DOMLoca
 	}
 
 	@JSGetter("relatedNode")
-	public Node getRelatedNode() {
+	public Object getRelatedNode() {
 		return delegateDOMLocator.getRelatedNode();
 	}
 

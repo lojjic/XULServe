@@ -5,17 +5,17 @@ import net.lojjic.rhino.annotations.JSFunction;
 import net.lojjic.rhino.annotations.JSGetter;
 import net.lojjic.rhino.annotations.JSSetter;
 import org.mozilla.javascript.Scriptable;
-import org.w3c.dom.*;
+import org.w3c.dom.DOMException;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
 import org.w3c.dom.events.DocumentEvent;
-import org.w3c.dom.events.Event;
-import org.w3c.dom.views.AbstractView;
 import org.w3c.dom.views.DocumentView;
 
 /**
  * Scriptable wrapper for {@link org.w3c.dom.Document}
  */
 @JSClassName("Document")
-public class ScriptableDocument extends ScriptableNode implements Document {
+public class ScriptableDocument extends ScriptableNode {
 
 	protected Document delegateDocument;
 	
@@ -28,67 +28,67 @@ public class ScriptableDocument extends ScriptableNode implements Document {
 	///// Document core interface: /////
 
 	@JSFunction("adoptNode")
-	public Node adoptNode(Node source) throws DOMException {
-		return delegateDocument.adoptNode(source);
+	public Object adoptNode(Object source) {
+		return delegateDocument.adoptNode(convertArg(source, Node.class));
 	}
 
 	@JSFunction("createAttribute")
-	public Attr createAttribute(String name) throws DOMException {
+	public Object createAttribute(String name) {
 		return delegateDocument.createAttribute(name);
 	}
 
 	@JSFunction("createAttributeNS")
-	public Attr createAttributeNS(String namespaceURI, String qualifiedName) throws DOMException {
+	public Object createAttributeNS(String namespaceURI, String qualifiedName) {
 		return delegateDocument.createAttributeNS(namespaceURI, qualifiedName);
 	}
 
 	@JSFunction("createCDATASection")
-	public CDATASection createCDATASection(String data) throws DOMException {
+	public Object createCDATASection(String data) {
 		return delegateDocument.createCDATASection(data);
 	}
 
 	@JSFunction("createComment")
-	public Comment createComment(String data) {
+	public Object createComment(String data) {
 		return delegateDocument.createComment(data);
 	}
 
 	@JSFunction("createDocumentFragment")
-	public DocumentFragment createDocumentFragment() {
+	public Object createDocumentFragment() {
 		return delegateDocument.createDocumentFragment();
 	}
 
 	@JSFunction("createElement")
-	public Element createElement(String tagName) throws DOMException {
+	public Object createElement(String tagName) {
 		return delegateDocument.createElement(tagName);
 	}
 
 	@JSFunction("createElementNS")
-	public Element createElementNS(String namespaceURI, String qualifiedName) throws DOMException {
+	public Object createElementNS(String namespaceURI, String qualifiedName) {
 		return delegateDocument.createElementNS(namespaceURI, qualifiedName);
 	}
 
 	@JSFunction("createEntityReference")
-	public EntityReference createEntityReference(String name) throws DOMException {
+	public Object createEntityReference(String name) {
 		return delegateDocument.createEntityReference(name);
 	}
 
 	@JSFunction("createProcessingInstruction")
-	public ProcessingInstruction createProcessingInstruction(String target, String data) throws DOMException {
+	public Object createProcessingInstruction(String target, String data) {
 		return delegateDocument.createProcessingInstruction(target, data);
 	}
 
 	@JSFunction("createTextNode")
-	public Text createTextNode(String data) {
+	public Object createTextNode(String data) {
 		return delegateDocument.createTextNode(data);
 	}
 
 	@JSGetter("doctype")
-	public DocumentType getDoctype() {
+	public Object getDoctype() {
 		return delegateDocument.getDoctype();
 	}
 
 	@JSGetter("documentElement")
-	public Element getDocumentElement() {
+	public Object getDocumentElement() {
 		return delegateDocument.getDocumentElement();
 	}
 
@@ -98,27 +98,27 @@ public class ScriptableDocument extends ScriptableNode implements Document {
 	}
 
 	@JSGetter("domConfig")
-	public DOMConfiguration getDomConfig() {
+	public Object getDomConfig() {
 		return delegateDocument.getDomConfig();
 	}
 
 	@JSFunction("getElementById")
-	public Element getElementById(String elementId) {
+	public Object getElementById(String elementId) {
 		return delegateDocument.getElementById(elementId);
 	}
 
 	@JSFunction("getElementsByTagName")
-	public NodeList getElementsByTagName(String tagname) {
+	public Object getElementsByTagName(String tagname) {
 		return delegateDocument.getElementsByTagName(tagname);
 	}
 
 	@JSFunction("getElementsByTagNameNS")
-	public NodeList getElementsByTagNameNS(String namespaceURI, String localName) {
+	public Object getElementsByTagNameNS(String namespaceURI, String localName) {
 		return delegateDocument.getElementsByTagNameNS(namespaceURI, localName);
 	}
 
 	@JSGetter("implementation")
-	public DOMImplementation getImplementation() {
+	public Object getImplementation() {
 		return delegateDocument.getImplementation();
 	}
 
@@ -148,8 +148,8 @@ public class ScriptableDocument extends ScriptableNode implements Document {
 	}
 
 	@JSFunction("importNode")
-	public Node importNode(Node importedNode, boolean deep) throws DOMException {
-		return delegateDocument.importNode(importedNode, deep);
+	public Object importNode(Object importedNode, boolean deep) {
+		return delegateDocument.importNode(convertArg(importedNode, Node.class), deep);
 	}
 
 	@JSFunction("normalizeDocument")
@@ -158,8 +158,8 @@ public class ScriptableDocument extends ScriptableNode implements Document {
 	}
 
 	@JSFunction("renameNode")
-	public Node renameNode(Node n, String namespaceURI, String qualifiedName) throws DOMException {
-		return delegateDocument.renameNode(n, namespaceURI, qualifiedName);
+	public Object renameNode(Object n, String namespaceURI, String qualifiedName) {
+		return delegateDocument.renameNode(convertArg(n, Node.class), namespaceURI, qualifiedName);
 	}
 
 	@JSSetter("documentURI")
@@ -173,19 +173,19 @@ public class ScriptableDocument extends ScriptableNode implements Document {
 	}
 
 	@JSSetter("xmlStandalone")
-	public void setXmlStandalone(boolean xmlStandalone) throws DOMException {
+	public void setXmlStandalone(boolean xmlStandalone) {
 		delegateDocument.setXmlStandalone(xmlStandalone);
 	}
 
 	@JSSetter("xmlVersion")
-	public void setXmlVersion(String xmlVersion) throws DOMException {
+	public void setXmlVersion(String xmlVersion) {
 		delegateDocument.setXmlVersion(xmlVersion);
 	}
 
 	///// DocumentEvent interface: /////
 
 	@JSFunction("createEvent")
-	public Event createEvent(String type) {
+	public Object createEvent(String type) {
 		if(!(delegateDocument instanceof DocumentEvent)) {
 			throw new DOMException(DOMException.NOT_SUPPORTED_ERR,
 					"This Document object does not support DocumentEvent interface methods.");
@@ -197,7 +197,7 @@ public class ScriptableDocument extends ScriptableNode implements Document {
 	///// DocumentView interface: /////
 
 	@JSGetter("defaultView")
-	public AbstractView getDefaultView() {
+	public Object getDefaultView() {
 		if(!(delegateDocument instanceof DocumentView)) {
 			throw new DOMException(DOMException.NOT_SUPPORTED_ERR,
 					"This Document object does not support DocumentView interface methods.");

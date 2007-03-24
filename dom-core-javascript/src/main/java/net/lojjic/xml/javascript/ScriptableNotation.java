@@ -9,7 +9,7 @@ import net.lojjic.rhino.annotations.JSClassName;
  * Scriptable wrapper for {@link org.w3c.dom.Notation}
  */
 @JSClassName("Notation")
-public class ScriptableNotation extends ScriptableNode implements Notation {
+public class ScriptableNotation extends ScriptableNode {
 
 	private Notation delegateNotation;
 

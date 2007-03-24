@@ -10,7 +10,7 @@ import net.lojjic.rhino.annotations.JSGetter;
  * Scriptable wrapper for {@link org.w3c.dom.NameList}
  */
 @JSClassName("NameList")
-public class ScriptableNameList extends ScriptableDOMObject implements NameList {
+public class ScriptableNameList extends ScriptableDOMObject {
 
 	private NameList delegateNameList;
 

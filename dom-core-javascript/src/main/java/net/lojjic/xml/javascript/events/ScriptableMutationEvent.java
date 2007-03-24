@@ -3,7 +3,9 @@ package net.lojjic.xml.javascript.events;
 import net.lojjic.rhino.annotations.JSClassName;
 import net.lojjic.rhino.annotations.JSFunction;
 import net.lojjic.rhino.annotations.JSGetter;
+import net.lojjic.rhino.annotations.JSStatic;
 import org.mozilla.javascript.Scriptable;
+import org.mozilla.javascript.ScriptableObject;
 import org.w3c.dom.Node;
 import org.w3c.dom.events.MutationEvent;
 
@@ -11,7 +13,7 @@ import org.w3c.dom.events.MutationEvent;
  * Scriptable wrapper for {@link org.w3c.dom.events.MutationEvent}
  */
 @JSClassName("MutationEvent")
-public class ScriptableMutationEvent extends ScriptableEvent implements MutationEvent {
+public class ScriptableMutationEvent extends ScriptableEvent {
 	
 	protected MutationEvent delegateMutationEvent;
 
@@ -19,16 +21,22 @@ public class ScriptableMutationEvent extends ScriptableEvent implements Mutation
 		super(scope, event);
 		this.delegateMutationEvent = event;
 	}
-	
-	/* TODO static properties:
-	static short 	ADDITION
-    The Attr was just added.
-    static short 	MODIFICATION
-    The Attr was modified in place.
-    static short 	REMOVAL
-    The Attr was just removed.
-    */
-	
+
+	@JSStatic @JSGetter("ADDITION")
+	public static short get_ADDITION(ScriptableObject obj) {
+		return MutationEvent.ADDITION;
+	}
+
+	@JSStatic @JSGetter("MODIFICATION")
+	public static short get_MODIFICATION(ScriptableObject obj) {
+		return MutationEvent.MODIFICATION;
+	}
+
+	@JSStatic @JSGetter("REMOVAL")
+	public static short get_REMOVAL(ScriptableObject obj) {
+		return MutationEvent.REMOVAL;
+	}
+
 	@JSGetter("attrChange")
 	public short getAttrChange() {
 		return delegateMutationEvent.getAttrChange();
@@ -50,15 +58,15 @@ public class ScriptableMutationEvent extends ScriptableEvent implements Mutation
 	}
 	
 	@JSGetter("relatedNode")
-	public Node getRelatedNode() {
+	public Object getRelatedNode() {
 		return delegateMutationEvent.getRelatedNode();
 	}
 
 	@JSFunction("initMutationEvent")
 	public void initMutationEvent(String type, boolean canBubble, boolean cancelable,
-			Node relatedNode, String prevValue, String newValue, String attrName, short attrChange) {
+			Object relatedNode, String prevValue, String newValue, String attrName, short attrChange) {
 		delegateMutationEvent.initMutationEvent(type, canBubble, cancelable,
-				relatedNode, prevValue, newValue, attrName, attrChange);
+				convertArg(relatedNode, Node.class), prevValue, newValue, attrName, attrChange);
 	}
 	
 }

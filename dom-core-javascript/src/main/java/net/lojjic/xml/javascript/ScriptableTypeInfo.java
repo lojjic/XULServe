@@ -12,7 +12,7 @@ import net.lojjic.rhino.annotations.JSStatic;
  * Scriptable wrapper for {@link org.w3c.dom.TypeInfo}
  */
 @JSClassName("TypeInfo")
-public class ScriptableTypeInfo extends ScriptableDOMObject implements TypeInfo {
+public class ScriptableTypeInfo extends ScriptableDOMObject {
 
 	private TypeInfo delegateTypeInfo;
 

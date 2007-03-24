@@ -1,17 +1,18 @@
 package net.lojjic.xml.javascript;
 
-import org.mozilla.javascript.Scriptable;
-import org.w3c.dom.*;
 import net.lojjic.rhino.annotations.JSClassName;
 import net.lojjic.rhino.annotations.JSGetter;
 import net.lojjic.rhino.annotations.JSSetter;
-import net.lojjic.rhino.annotations.JSFunction;
+import org.mozilla.javascript.Scriptable;
+import org.w3c.dom.Attr;
+import org.w3c.dom.Element;
+import org.w3c.dom.TypeInfo;
 
 /**
  * Scriptable wrapper for {@link org.w3c.dom.Attr}
  */
 @JSClassName("Attr")
-public class ScriptableAttr extends ScriptableNode implements Attr {
+public class ScriptableAttr extends ScriptableNode {
 
 	protected Attr delegateAttr;
 
@@ -50,7 +51,7 @@ public class ScriptableAttr extends ScriptableNode implements Attr {
 	}
 
 	@JSSetter("value")
-	public void setValue(String value) throws DOMException {
+	public void setValue(String value) {
 		delegateAttr.setValue(value);
 	}
 }

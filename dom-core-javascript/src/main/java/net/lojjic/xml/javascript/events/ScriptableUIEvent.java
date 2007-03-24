@@ -11,7 +11,7 @@ import org.w3c.dom.views.AbstractView;
  * Scriptable wrapper for {@link org.w3c.dom.events.UIEvent}
  */
 @JSClassName("UIEvent")
-public class ScriptableUIEvent extends ScriptableEvent implements UIEvent {
+public class ScriptableUIEvent extends ScriptableEvent {
 	
 	protected UIEvent delegateUIEvent;
 
@@ -26,13 +26,13 @@ public class ScriptableUIEvent extends ScriptableEvent implements UIEvent {
 	}
 
 	@JSGetter("view")
-	public AbstractView getView() {
+	public Object getView() {
 		return delegateUIEvent.getView();
 	}
 
 	@JSFunction("initUIEvent")
-	public void initUIEvent(String type, boolean canBubble, boolean cancelable, AbstractView view, int detail) {
-		delegateUIEvent.initUIEvent(type, canBubble, cancelable, view, detail);
+	public void initUIEvent(String type, boolean canBubble, boolean cancelable, Object view, int detail) {
+		delegateUIEvent.initUIEvent(type, canBubble, cancelable, convertArg(view, AbstractView.class), detail);
 	}
 
 }

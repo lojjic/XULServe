@@ -1,18 +1,17 @@
 package net.lojjic.xml.javascript;
 
+import net.lojjic.rhino.annotations.JSClassName;
+import net.lojjic.rhino.annotations.JSFunction;
+import net.lojjic.rhino.annotations.JSGetter;
+import org.mozilla.javascript.Scriptable;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
-import org.w3c.dom.DOMException;
-import org.mozilla.javascript.Scriptable;
-import net.lojjic.rhino.annotations.JSClassName;
-import net.lojjic.rhino.annotations.JSGetter;
-import net.lojjic.rhino.annotations.JSFunction;
 
 /**
  * Scriptable wrapper for {@link org.w3c.dom.NamedNodeMap}
  */
 @JSClassName("NamedNodeMap")
-public class ScriptableNamedNodeMap extends ScriptableDOMObject implements NamedNodeMap {
+public class ScriptableNamedNodeMap extends ScriptableDOMObject {
 
 	private NamedNodeMap delegateNamedNodeMap;
 
@@ -27,38 +26,38 @@ public class ScriptableNamedNodeMap extends ScriptableDOMObject implements Named
 	}
 
 	@JSFunction("getNamedItem")
-	public Node getNamedItem(String name) {
+	public Object getNamedItem(String name) {
 		return delegateNamedNodeMap.getNamedItem(name);
 	}
 
 	@JSFunction("getNamedItemNS")
-	public Node getNamedItemNS(String namespaceURI, String localName) throws DOMException {
+	public Object getNamedItemNS(String namespaceURI, String localName) {
 		return delegateNamedNodeMap.getNamedItemNS(namespaceURI, localName);
 	}
 
 	@JSFunction("item")
-	public Node item(int index) {
+	public Object item(int index) {
 		return delegateNamedNodeMap.item(index);
 	}
 
 	@JSFunction("removeNamedItem")
-	public Node removeNamedItem(String name) throws DOMException {
+	public Object removeNamedItem(String name) {
 		return delegateNamedNodeMap.removeNamedItem(name);
 	}
 
 	@JSFunction("removeNamedItemNS")
-	public Node removeNamedItemNS(String namespaceURI, String localName) throws DOMException {
+	public Object removeNamedItemNS(String namespaceURI, String localName) {
 		return delegateNamedNodeMap.removeNamedItemNS(namespaceURI, localName);
 	}
 
 	@JSFunction("setNamedItem")
-	public Node setNamedItem(Node arg) throws DOMException {
-		return delegateNamedNodeMap.setNamedItem(arg);
+	public Object setNamedItem(Object arg) {
+		return delegateNamedNodeMap.setNamedItem(convertArg(arg, Node.class));
 	}
 
 	@JSFunction("setNamedItemNS")
-	public Node setNamedItemNS(Node arg) throws DOMException {
-		return delegateNamedNodeMap.setNamedItemNS(arg);
+	public Object setNamedItemNS(Object arg) {
+		return delegateNamedNodeMap.setNamedItemNS(convertArg(arg, Node.class));
 	}
 
 	/**

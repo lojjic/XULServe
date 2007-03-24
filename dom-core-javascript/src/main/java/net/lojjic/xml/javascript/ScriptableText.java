@@ -10,7 +10,7 @@ import org.w3c.dom.Text;
  * Scriptable wrapper for {@link org.w3c.dom.Text}
  */
 @JSClassName("Text")
-public class ScriptableText extends ScriptableCharacterData implements Text {
+public class ScriptableText extends ScriptableCharacterData {
 
 	private Text delegateText;
 
@@ -30,12 +30,12 @@ public class ScriptableText extends ScriptableCharacterData implements Text {
 	}
 
 	@JSFunction("replaceWholeText")
-	public Text replaceWholeText(String content) {
+	public Object replaceWholeText(String content) {
 		return delegateText.replaceWholeText(content);
 	}
 	
 	@JSFunction("splitText")
-	public Text splitText(int offset) {
+	public Object splitText(int offset) {
 		return delegateText.splitText(offset);
 	}
 

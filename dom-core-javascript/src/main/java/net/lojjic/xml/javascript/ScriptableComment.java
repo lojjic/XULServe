@@ -8,7 +8,7 @@ import org.w3c.dom.Comment;
  * Scriptable wrapper for {@link org.w3c.dom.Comment}
  */
 @JSClassName("Comment")
-public class ScriptableComment extends ScriptableCharacterData implements Comment {
+public class ScriptableComment extends ScriptableCharacterData {
 
 	private Comment delegateComment;
 

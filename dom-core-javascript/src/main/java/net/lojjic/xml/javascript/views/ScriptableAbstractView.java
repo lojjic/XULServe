@@ -5,13 +5,12 @@ import net.lojjic.rhino.annotations.JSGetter;
 import net.lojjic.xml.javascript.ScriptableDOMObject;
 import org.mozilla.javascript.Scriptable;
 import org.w3c.dom.views.AbstractView;
-import org.w3c.dom.views.DocumentView;
 
 /**
  * Scriptable wrapper for {@link org.w3c.dom.views.AbstractView}
  */
 @JSClassName("AbstractView")
-public class ScriptableAbstractView extends ScriptableDOMObject implements AbstractView {
+public class ScriptableAbstractView extends ScriptableDOMObject {
 	
 	public static String JS_CLASS_NAME = "AbstractView";
 	
@@ -23,7 +22,7 @@ public class ScriptableAbstractView extends ScriptableDOMObject implements Abstr
 	}
 
 	@JSGetter("document")
-	public DocumentView getDocument() {
+	public Object getDocument() {
 		return delegateAbstractView.getDocument();
 	}
 

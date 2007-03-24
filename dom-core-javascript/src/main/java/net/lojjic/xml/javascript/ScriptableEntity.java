@@ -9,7 +9,7 @@ import net.lojjic.rhino.annotations.JSGetter;
  * Scriptable wrapper for {@link org.w3c.dom.Entity}
  */
 @JSClassName("Entity")
-public class ScriptableEntity extends ScriptableNode implements Entity {
+public class ScriptableEntity extends ScriptableNode {
 
 	private Entity delegateEntity;
 

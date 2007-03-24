@@ -1,17 +1,16 @@
 package net.lojjic.xml.javascript;
 
-import org.w3c.dom.ProcessingInstruction;
-import org.w3c.dom.DOMException;
-import org.mozilla.javascript.Scriptable;
-import net.lojjic.rhino.annotations.JSGetter;
 import net.lojjic.rhino.annotations.JSClassName;
+import net.lojjic.rhino.annotations.JSGetter;
 import net.lojjic.rhino.annotations.JSSetter;
+import org.mozilla.javascript.Scriptable;
+import org.w3c.dom.ProcessingInstruction;
 
 /**
  * Scriptable wrapper for {@link org.w3c.dom.ProcessingInstruction}
  */
 @JSClassName("ProcessingInstruction")
-public class ScriptableProcessingInstruction extends ScriptableNode implements ProcessingInstruction {
+public class ScriptableProcessingInstruction extends ScriptableNode {
 
 	private ProcessingInstruction delegateProcessingInstruction;
 
@@ -31,7 +30,7 @@ public class ScriptableProcessingInstruction extends ScriptableNode implements P
 	}
 
 	@JSSetter("data")
-	public void setData(String data) throws DOMException {
+	public void setData(String data) {
 		delegateProcessingInstruction.setData(data);
 	}
 }

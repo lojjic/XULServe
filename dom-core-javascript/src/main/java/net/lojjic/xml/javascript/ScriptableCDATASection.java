@@ -8,7 +8,7 @@ import org.w3c.dom.CDATASection;
  * Scriptable wrapper for {@link org.w3c.dom.CDATASection}
  */
 @JSClassName("CDATASection")
-public class ScriptableCDATASection extends ScriptableText implements CDATASection {
+public class ScriptableCDATASection extends ScriptableText {
 
 	private CDATASection delegateCDATASection;
 
