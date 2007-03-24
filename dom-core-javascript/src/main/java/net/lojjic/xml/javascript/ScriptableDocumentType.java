@@ -14,6 +14,10 @@ public class ScriptableDocumentType extends ScriptableNode {
 
 	private DocumentType delegateDocumentType;
 
+	public ScriptableDocumentType() {
+		super();
+	}
+
 	public ScriptableDocumentType(Scriptable scope, DocumentType delegateDocumentType) {
 		super(scope, delegateDocumentType);
 		this.delegateDocumentType = delegateDocumentType;

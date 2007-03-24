@@ -13,6 +13,10 @@ public class ScriptableEntity extends ScriptableNode {
 
 	private Entity delegateEntity;
 
+	public ScriptableEntity() {
+		super();
+	}
+
 	public ScriptableEntity(Scriptable scope, Entity delegateEntity) {
 		super(scope, delegateEntity);
 		this.delegateEntity = delegateEntity;

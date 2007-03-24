@@ -16,6 +16,10 @@ public class ScriptableNamedNodeMap extends ScriptableDOMObject {
 
 	private NamedNodeMap delegateNamedNodeMap;
 
+	public ScriptableNamedNodeMap() {
+		super();
+	}
+
 	public ScriptableNamedNodeMap(Scriptable scope, NamedNodeMap delegateNamedNodeMap) {
 		super(scope, delegateNamedNodeMap);
 		this.delegateNamedNodeMap = delegateNamedNodeMap;

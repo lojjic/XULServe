@@ -17,6 +17,10 @@ public class ScriptableUserDataHandler extends ScriptableDOMObject {
 
 	private UserDataHandler delegateUserDataHandler;
 
+	public ScriptableUserDataHandler() {
+		super();
+	}
+
 	public ScriptableUserDataHandler(Scriptable scope, UserDataHandler delegateUserDataHandler) {
 		super(scope, delegateUserDataHandler);
 		this.delegateUserDataHandler = delegateUserDataHandler;
@@ -25,32 +29,32 @@ public class ScriptableUserDataHandler extends ScriptableDOMObject {
 	// TODO JS Constructor
 
 	@JSStatic @JSGetter("NODE_CLONED")
-	public static short get_NODE_CLONED(ScriptableObject obj) {
+	public static int get_NODE_CLONED(ScriptableObject obj) {
 		return UserDataHandler.NODE_CLONED;
 	}
 
 	@JSStatic @JSGetter("NODE_IMPORTED")
-	public static short get_NODE_IMPORTED(ScriptableObject obj) {
+	public static int get_NODE_IMPORTED(ScriptableObject obj) {
 		return UserDataHandler.NODE_IMPORTED;
 	}
 
 	@JSStatic @JSGetter("NODE_DELETED")
-	public static short get_NODE_DELETED(ScriptableObject obj) {
+	public static int get_NODE_DELETED(ScriptableObject obj) {
 		return UserDataHandler.NODE_DELETED;
 	}
 
 	@JSStatic @JSGetter("NODE_RENAMED")
-	public static short get_NODE_RENAMED(ScriptableObject obj) {
+	public static int get_NODE_RENAMED(ScriptableObject obj) {
 		return UserDataHandler.NODE_RENAMED;
 	}
 
 	@JSStatic @JSGetter("NODE_ADOPTED")
-	public static short get_NODE_ADOPTED(ScriptableObject obj) {
+	public static int get_NODE_ADOPTED(ScriptableObject obj) {
 		return UserDataHandler.NODE_ADOPTED;
 	}
 
 	@JSFunction("handle")
-	public void handle(short operation, String key, Object data, Object src, Object dst) {
-		delegateUserDataHandler.handle(operation, key, data, convertArg(src, Node.class), convertArg(dst, Node.class));
+	public void handle(int operation, String key, Object data, Object src, Object dst) {
+		delegateUserDataHandler.handle((short)operation, key, data, convertArg(src, Node.class), convertArg(dst, Node.class));
 	}
 }

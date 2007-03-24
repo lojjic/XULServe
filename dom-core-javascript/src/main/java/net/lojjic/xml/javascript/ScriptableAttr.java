@@ -15,6 +15,10 @@ public class ScriptableAttr extends ScriptableNode {
 
 	protected Attr delegateAttr;
 
+	public ScriptableAttr() {
+		super();
+	}
+
 	public ScriptableAttr(Scriptable scope, Attr attr) {
 		super(scope, attr);
 		this.delegateAttr = attr;

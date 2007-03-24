@@ -13,6 +13,10 @@ public class ScriptableNotation extends ScriptableNode {
 
 	private Notation delegateNotation;
 
+	public ScriptableNotation() {
+		super();
+	}
+
 	public ScriptableNotation(Scriptable scope, Notation delegateNotation) {
 		super(scope, delegateNotation);
 		this.delegateNotation = delegateNotation;

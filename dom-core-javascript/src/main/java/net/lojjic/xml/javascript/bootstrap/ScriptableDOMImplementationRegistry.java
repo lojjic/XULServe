@@ -18,6 +18,10 @@ import org.w3c.dom.DOMImplementationList;
 @JSClassName("DOMImplementationRegistry")
 public class ScriptableDOMImplementationRegistry extends AnnotationScriptableObject {
 
+	public ScriptableDOMImplementationRegistry() {
+		super();
+	}
+
 	public ScriptableDOMImplementationRegistry(Scriptable scope) {
 		super(scope);
 	}

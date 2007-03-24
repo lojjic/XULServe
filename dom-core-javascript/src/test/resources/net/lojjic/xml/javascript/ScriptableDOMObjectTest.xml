@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<testroot>
+	<child number="1" name="First Child Name">
+		<subchild number="1" name="First Subchild Name">First Subchild Content</subchild>
+		<subchild number="2" name="Second Subchild Name">Second Subchild Content</subchild>
+		<subchild number="3" name="Third Subchild Name" />
+	</child>
+	<child number="2" name="Second Child Name">Second Child Content</child>
+	<child number="3" name="Third Child Name" />
+</testroot>

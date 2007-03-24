@@ -14,6 +14,10 @@ public class ScriptableDOMStringList extends ScriptableDOMObject {
 
 	private DOMStringList delegateDOMStringList;
 
+	public ScriptableDOMStringList() {
+		super();
+	}
+
 	public ScriptableDOMStringList(Scriptable scope, DOMStringList delegateDOMStringList) {
 		super(scope, delegateDOMStringList);
 		this.delegateDOMStringList = delegateDOMStringList;

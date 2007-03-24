@@ -14,6 +14,10 @@ public class ScriptableDOMErrorHandler extends ScriptableDOMObject {
 
 	private DOMErrorHandler delegateDOMErrorHandler;
 
+	public ScriptableDOMErrorHandler() {
+		super();
+	}
+
 	public ScriptableDOMErrorHandler(Scriptable scope, DOMErrorHandler delegateDOMErrorHandler) {
 		super(scope, delegateDOMErrorHandler);
 		this.delegateDOMErrorHandler = delegateDOMErrorHandler;

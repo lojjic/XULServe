@@ -14,7 +14,11 @@ import org.w3c.dom.NodeList;
 public class ScriptableNodeList extends ScriptableDOMObject {
 
 	NodeList delegateNodeList;
-	
+
+	public ScriptableNodeList() {
+		super();
+	}
+
 	public ScriptableNodeList(Scriptable scope, NodeList nodeList) {
 		super(scope, nodeList);
 		this.delegateNodeList = nodeList;

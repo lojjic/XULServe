@@ -14,6 +14,10 @@ public class ScriptableProcessingInstruction extends ScriptableNode {
 
 	private ProcessingInstruction delegateProcessingInstruction;
 
+	public ScriptableProcessingInstruction() {
+		super();
+	}
+
 	public ScriptableProcessingInstruction(Scriptable scope, ProcessingInstruction delegateProcessingInstruction) {
 		super(scope, delegateProcessingInstruction);
 		this.delegateProcessingInstruction = delegateProcessingInstruction;

@@ -29,92 +29,92 @@ public class ScriptableNode extends ScriptableDOMObject {
 	}
 
 	@JSStatic @JSGetter("ELEMENT_NODE")
-	public static short get_ELEMENT_NODE(ScriptableObject obj) {
+	public static int get_ELEMENT_NODE(ScriptableObject obj) {
 		return Node.ELEMENT_NODE;
 	}
 
 	@JSStatic @JSGetter("ATTRIBUTE_NODE")
-	public static short get_ATTRIBUTE_NODE(ScriptableObject obj) {
+	public static int get_ATTRIBUTE_NODE(ScriptableObject obj) {
 		return Node.ATTRIBUTE_NODE;
 	}
 
 	@JSStatic @JSGetter("TEXT_NODE")
-	public static short get_TEXT_NODE(ScriptableObject obj) {
+	public static int get_TEXT_NODE(ScriptableObject obj) {
 		return Node.TEXT_NODE;
 	}
 
 	@JSStatic @JSGetter("CDATA_SECTION_NODE")
-	public static short get_CDATA_SECTION_NODE(ScriptableObject obj) {
+	public static int get_CDATA_SECTION_NODE(ScriptableObject obj) {
 		return Node.CDATA_SECTION_NODE;
 	}
 
 	@JSStatic @JSGetter("ENTITY_REFERENCE_NODE")
-	public static short get_ENTITY_REFERENCE_NODE(ScriptableObject obj) {
+	public static int get_ENTITY_REFERENCE_NODE(ScriptableObject obj) {
 		return Node.ENTITY_REFERENCE_NODE;
 	}
 
 	@JSStatic @JSGetter("ENTITY_NODE")
-	public static short get_ENTITY_NODE(ScriptableObject obj) {
+	public static int get_ENTITY_NODE(ScriptableObject obj) {
 		return Node.ENTITY_NODE;
 	}
 
 	@JSStatic @JSGetter("PROCESSING_INSTRUCTION_NODE")
-	public static short get_PROCESSING_INSTRUCTION_NODE(ScriptableObject obj) {
+	public static int get_PROCESSING_INSTRUCTION_NODE(ScriptableObject obj) {
 		return Node.PROCESSING_INSTRUCTION_NODE;
 	}
 
 	@JSStatic @JSGetter("COMMENT_NODE")
-	public static short get_COMMENT_NODE(ScriptableObject obj) {
+	public static int get_COMMENT_NODE(ScriptableObject obj) {
 		return Node.COMMENT_NODE;
 	}
 
 	@JSStatic @JSGetter("DOCUMENT_NODE")
-	public static short get_DOCUMENT_NODE(ScriptableObject obj) {
+	public static int get_DOCUMENT_NODE(ScriptableObject obj) {
 		return Node.DOCUMENT_NODE;
 	}
 
 	@JSStatic @JSGetter("DOCUMENT_TYPE_NODE")
-	public static short get_DOCUMENT_TYPE_NODE(ScriptableObject obj) {
+	public static int get_DOCUMENT_TYPE_NODE(ScriptableObject obj) {
 		return Node.DOCUMENT_TYPE_NODE;
 	}
 
 	@JSStatic @JSGetter("DOCUMENT_FRAGMENT_NODE")
-	public static short get_DOCUMENT_FRAGMENT_NODE(ScriptableObject obj) {
+	public static int get_DOCUMENT_FRAGMENT_NODE(ScriptableObject obj) {
 		return Node.DOCUMENT_FRAGMENT_NODE;
 	}
 
 	@JSStatic @JSGetter("NOTATION_NODE")
-	public static short get_NOTATION_NODE(ScriptableObject obj) {
+	public static int get_NOTATION_NODE(ScriptableObject obj) {
 		return Node.NOTATION_NODE;
 	}
 
 	@JSStatic @JSGetter("DOCUMENT_POSITION_DISCONNECTED")
-	public static short get_DOCUMENT_POSITION_DISCONNECTED(ScriptableObject obj) {
+	public static int get_DOCUMENT_POSITION_DISCONNECTED(ScriptableObject obj) {
 		return Node.DOCUMENT_POSITION_DISCONNECTED;
 	}
 
 	@JSStatic @JSGetter("DOCUMENT_POSITION_PRECEDING")
-	public static short get_DOCUMENT_POSITION_PRECEDING(ScriptableObject obj) {
+	public static int get_DOCUMENT_POSITION_PRECEDING(ScriptableObject obj) {
 		return Node.DOCUMENT_POSITION_PRECEDING;
 	}
 
 	@JSStatic @JSGetter("DOCUMENT_POSITION_FOLLOWING")
-	public static short get_DOCUMENT_POSITION_FOLLOWING(ScriptableObject obj) {
+	public static int get_DOCUMENT_POSITION_FOLLOWING(ScriptableObject obj) {
 		return Node.DOCUMENT_POSITION_FOLLOWING;
 	}
 
 	@JSStatic @JSGetter("DOCUMENT_POSITION_CONTAINS")
-	public static short get_DOCUMENT_POSITION_CONTAINS(ScriptableObject obj) {
+	public static int get_DOCUMENT_POSITION_CONTAINS(ScriptableObject obj) {
 		return Node.DOCUMENT_POSITION_CONTAINS;
 	}
 
 	@JSStatic @JSGetter("DOCUMENT_POSITION_CONTAINED_BY")
-	public static short get_DOCUMENT_POSITION_CONTAINED_BY(ScriptableObject obj) {
+	public static int get_DOCUMENT_POSITION_CONTAINED_BY(ScriptableObject obj) {
 		return Node.DOCUMENT_POSITION_CONTAINED_BY;
 	}
 
 	@JSStatic @JSGetter("DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC")
-	public static short get_DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC(ScriptableObject obj) {
+	public static int get_DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC(ScriptableObject obj) {
 		return Node.DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC;
 	}
 
@@ -134,7 +134,7 @@ public class ScriptableNode extends ScriptableDOMObject {
 	}
 
 	@JSGetter("nodeType")
-	public short getNodeType() {
+	public int getNodeType() {
 		return delegateNode.getNodeType();
 	}
 	
@@ -145,7 +145,19 @@ public class ScriptableNode extends ScriptableDOMObject {
 	
 	@JSGetter("childNodes")
 	public Object getChildNodes() {
-		return Context.javaToJS(delegateNode.getChildNodes(), getParentScope());
+		// Xerces' NodeImpl also implements NodeList, so getChildNodes() returns
+		// the node itself, causing the wrong wrapper to be chosen by javaToJS().
+		// To avoid this we wrap it in something that only implements NodeList.
+		final NodeList origNodeList = delegateNode.getChildNodes();
+		NodeList nodeList = new NodeList() {
+			public int getLength() {
+				return origNodeList.getLength();
+			}
+			public Node item(int index) {
+				return origNodeList.item(index);
+			}
+		};
+		return Context.javaToJS(nodeList, getParentScope());
 	}
 	
 	@JSGetter("firstChild")
@@ -251,7 +263,7 @@ public class ScriptableNode extends ScriptableDOMObject {
 	}
 	
 	@JSFunction("compareDocumentPosition")
-	public short compareDocumentPosition(Object node) {
+	public int compareDocumentPosition(Object node) {
 		return delegateNode.compareDocumentPosition(convertArg(node, Node.class));
 	}
 	

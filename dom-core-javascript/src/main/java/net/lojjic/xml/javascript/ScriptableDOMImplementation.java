@@ -16,6 +16,10 @@ public class ScriptableDOMImplementation extends ScriptableDOMObject {
 
 	private DOMImplementation delegateDOMImplementation;
 
+	public ScriptableDOMImplementation() {
+		super();
+	}
+
 	public ScriptableDOMImplementation(Scriptable scope, DOMImplementation delegateDOMImplementation) {
 		super(scope, delegateDOMImplementation);
 		this.delegateDOMImplementation = delegateDOMImplementation;

@@ -14,6 +14,10 @@ public class ScriptableNameList extends ScriptableDOMObject {
 
 	private NameList delegateNameList;
 
+	public ScriptableNameList() {
+		super();
+	}
+
 	public ScriptableNameList(Scriptable scope, NameList delegateNameList) {
 		super(scope, delegateNameList);
 		this.delegateNameList = delegateNameList;

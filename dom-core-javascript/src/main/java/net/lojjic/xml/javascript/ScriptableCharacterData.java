@@ -15,6 +15,10 @@ public class ScriptableCharacterData extends ScriptableNode {
 
 	CharacterData delegateCharacterData;
 	
+	public ScriptableCharacterData() {
+		super();
+	}
+
 	public ScriptableCharacterData(Scriptable scope, CharacterData cdata) {
 		super(scope, cdata);
 		this.delegateCharacterData = cdata;

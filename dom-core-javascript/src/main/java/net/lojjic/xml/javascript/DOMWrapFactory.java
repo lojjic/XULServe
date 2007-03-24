@@ -59,15 +59,15 @@ public class DOMWrapFactory extends WrapFactory {
 
 		// If a matching wrapper class is defined in the mappings, create an instance:
 		Class javaClass = javaObject.getClass();
-		Class wrapperClass = getWrapperForClass(javaClass);
-		if(wrapperClass != null) {
+		Class wrappedClass = findMappedClass(javaClass);
+		if(wrappedClass != null) {
 			try {
-				Constructor constructor = wrapperClass.getConstructor(Scriptable.class, javaClass);
+				Class wrapperClass = mappings.get(wrappedClass);
+				Constructor constructor = wrapperClass.getConstructor(Scriptable.class, wrappedClass);
 				wrapper = (Scriptable)constructor.newInstance(scope, javaObject);
 			}
 			catch(Exception e) {
-				// TODO handle more elegantly
-				System.out.println("Problem instantiating JavaScript wrapper class; falling back to default wrapper.");
+				Context.throwAsScriptRuntimeEx(e);
 			}
 		}
 
@@ -87,23 +87,20 @@ public class DOMWrapFactory extends WrapFactory {
 
 
 	/**
-	 * Find the most specific mapped wrapper for the given Class.
-	 * Walks the inheritance line, checking each class and its explicitly
-	 * declared interfaces for a match in the mappings. If no mapping
-	 * is found, null is returned.
+	 * Find the most specific class/interface for which a wrap mapping exists for the given Class.
+	 * Walks the inheritance line, checking each class and its explicitly declared interfaces
+	 * for a match in the mappings. If no mapping is found, null is returned.
 	 */
-	private Class getWrapperForClass(Class clazz) {
+	private Class findMappedClass(Class clazz) {
 		while(clazz != null) {
 			// Try the class directly:
-			Class wrapper = mappings.get(clazz);
-			if(wrapper != null) {
-				return wrapper;
+			if(mappings.containsKey(clazz)) {
+				return clazz;
 			}
 			// Try the class's interfaces:
 			for(Class iface : clazz.getInterfaces()) {
-				wrapper = mappings.get(iface);
-				if(wrapper != null) {
-					return wrapper;
+				if(mappings.containsKey(iface)) {
+					return iface;
 				}
 			}
 			clazz = clazz.getSuperclass();

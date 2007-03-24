@@ -12,6 +12,10 @@ public class ScriptableEntityReference extends ScriptableNode {
 
 	private EntityReference delegateEntityReference;
 
+	public ScriptableEntityReference() {
+		super();
+	}
+
 	public ScriptableEntityReference(Scriptable scope, EntityReference delegateEntityReference) {
 		super(scope, delegateEntityReference);
 		this.delegateEntityReference = delegateEntityReference;

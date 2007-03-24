@@ -16,23 +16,27 @@ public class ScriptableDOMError extends ScriptableDOMObject {
 
 	private DOMError delegateDOMError;
 
+	public ScriptableDOMError() {
+		super();
+	}
+
 	public ScriptableDOMError(Scriptable scope, DOMError delegateDOMError) {
 		super(scope, delegateDOMError);
 		this.delegateDOMError = delegateDOMError;
 	}
 
 	@JSStatic @JSGetter("SEVERITY_WARNING")
-	public static short get_SEVERITY_WARNING(ScriptableObject obj) {
+	public static int get_SEVERITY_WARNING(ScriptableObject obj) {
 		return DOMError.SEVERITY_WARNING;
 	}
 
 	@JSStatic @JSGetter("SEVERITY_ERROR")
-	public static short get_SEVERITY_ERROR(ScriptableObject obj) {
+	public static int get_SEVERITY_ERROR(ScriptableObject obj) {
 		return DOMError.SEVERITY_ERROR;
 	}
 
 	@JSStatic @JSGetter("SEVERITY_FATAL_ERROR")
-	public static short get_SEVERITY_FATAL_ERROR(ScriptableObject obj) {
+	public static int get_SEVERITY_FATAL_ERROR(ScriptableObject obj) {
 		return DOMError.SEVERITY_FATAL_ERROR;
 	}
 
@@ -57,7 +61,7 @@ public class ScriptableDOMError extends ScriptableDOMObject {
 	}
 
 	@JSGetter("severity")
-	public short getSeverity() {
+	public int getSeverity() {
 		return delegateDOMError.getSeverity();
 	}
 

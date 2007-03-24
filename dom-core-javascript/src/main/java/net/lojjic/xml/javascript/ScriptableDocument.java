@@ -19,7 +19,11 @@ import org.w3c.dom.views.DocumentView;
 public class ScriptableDocument extends ScriptableNode {
 
 	protected Document delegateDocument;
-	
+
+	public ScriptableDocument() {
+		super();
+	}
+
 	public ScriptableDocument(Scriptable scope, Document document) {
 		super(scope, document);
 		this.delegateDocument = document;

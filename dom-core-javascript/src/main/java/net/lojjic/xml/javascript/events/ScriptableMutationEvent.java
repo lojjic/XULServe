@@ -18,28 +18,32 @@ public class ScriptableMutationEvent extends ScriptableEvent {
 	
 	protected MutationEvent delegateMutationEvent;
 
+	public ScriptableMutationEvent() {
+		super();
+	}
+
 	public ScriptableMutationEvent(Scriptable scope, MutationEvent event) {
 		super(scope, event);
 		this.delegateMutationEvent = event;
 	}
 
 	@JSStatic @JSGetter("ADDITION")
-	public static short get_ADDITION(ScriptableObject obj) {
+	public static int get_ADDITION(ScriptableObject obj) {
 		return MutationEvent.ADDITION;
 	}
 
 	@JSStatic @JSGetter("MODIFICATION")
-	public static short get_MODIFICATION(ScriptableObject obj) {
+	public static int get_MODIFICATION(ScriptableObject obj) {
 		return MutationEvent.MODIFICATION;
 	}
 
 	@JSStatic @JSGetter("REMOVAL")
-	public static short get_REMOVAL(ScriptableObject obj) {
+	public static int get_REMOVAL(ScriptableObject obj) {
 		return MutationEvent.REMOVAL;
 	}
 
 	@JSGetter("attrChange")
-	public short getAttrChange() {
+	public int getAttrChange() {
 		return delegateMutationEvent.getAttrChange();
 	}
 	
@@ -65,9 +69,9 @@ public class ScriptableMutationEvent extends ScriptableEvent {
 
 	@JSFunction("initMutationEvent")
 	public void initMutationEvent(String type, boolean canBubble, boolean cancelable,
-			Object relatedNode, String prevValue, String newValue, String attrName, short attrChange) {
+			Object relatedNode, String prevValue, String newValue, String attrName, int attrChange) {
 		delegateMutationEvent.initMutationEvent(type, canBubble, cancelable,
-				convertArg(relatedNode, Node.class), prevValue, newValue, attrName, attrChange);
+				convertArg(relatedNode, Node.class), prevValue, newValue, attrName, (short)attrChange);
 	}
 	
 }

@@ -12,6 +12,10 @@ public class ScriptableDocumentFragment extends ScriptableNode {
 
 	private DocumentFragment delegateDocumentFragment;
 
+	public ScriptableDocumentFragment() {
+		super();
+	}
+
 	public ScriptableDocumentFragment(Scriptable scope, DocumentFragment delegateDocumentFragment) {
 		super(scope, delegateDocumentFragment);
 		this.delegateDocumentFragment = delegateDocumentFragment;

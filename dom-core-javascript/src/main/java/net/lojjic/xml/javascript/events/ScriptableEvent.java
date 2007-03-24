@@ -18,23 +18,27 @@ public class ScriptableEvent extends ScriptableDOMObject {
 	
 	protected Event delegateEvent;
 
+	public ScriptableEvent() {
+		super();
+	}
+
 	public ScriptableEvent(Scriptable scope, Event event) {
 		super(scope, event);
 		this.delegateEvent = event;
 	}
 
 	@JSStatic @JSGetter("AT_TARGET")
-	public static short get_AT_TARGET(ScriptableObject obj) {
+	public static int get_AT_TARGET(ScriptableObject obj) {
 		return Event.AT_TARGET;
 	}
 
 	@JSStatic @JSGetter("BUBBLING_PHASE")
-	public static short get_BUBBLING_PHASE(ScriptableObject obj) {
+	public static int get_BUBBLING_PHASE(ScriptableObject obj) {
 		return Event.BUBBLING_PHASE;
 	}
 
 	@JSStatic @JSGetter("CAPTURING_PHASE")
-	public static short get_CAPTURING_PHASE(ScriptableObject obj) {
+	public static int get_CAPTURING_PHASE(ScriptableObject obj) {
 		return Event.CAPTURING_PHASE;
 	}
 
@@ -54,7 +58,7 @@ public class ScriptableEvent extends ScriptableDOMObject {
 	}
 	
 	@JSGetter("eventPhase")
-	public short getEventPhase() {
+	public int getEventPhase() {
 		return delegateEvent.getEventPhase();
 	}
 	

@@ -15,8 +15,8 @@ public class ScriptableEventListener extends ScriptableDOMObject {
 	
 	protected EventListener delegateEventListener;
 
-	public EventListener getDelegateEventListener() {
-		return delegateEventListener;
+	public ScriptableEventListener() {
+		super();
 	}
 
 	public ScriptableEventListener(Scriptable scope, EventListener eventListener) {
@@ -29,4 +29,7 @@ public class ScriptableEventListener extends ScriptableDOMObject {
 		delegateEventListener.handleEvent(convertArg(event, Event.class));
 	}
 
+	public EventListener getDelegateEventListener() {
+		return delegateEventListener;
+	}
 }

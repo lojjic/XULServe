@@ -14,6 +14,10 @@ public class ScriptableDOMImplementationSource extends ScriptableDOMObject {
 
 	private DOMImplementationSource delegateDOMImplementationSource;
 
+	public ScriptableDOMImplementationSource() {
+		super();
+	}
+
 	public ScriptableDOMImplementationSource(Scriptable scope, DOMImplementationSource delegateDOMImplementationSource) {
 		super(scope, delegateDOMImplementationSource);
 		this.delegateDOMImplementationSource = delegateDOMImplementationSource;

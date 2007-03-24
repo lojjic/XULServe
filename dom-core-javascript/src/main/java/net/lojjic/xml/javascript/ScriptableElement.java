@@ -15,7 +15,11 @@ import org.w3c.dom.Element;
 public class ScriptableElement extends ScriptableNode {
 
 	protected Element delegateElement;
-	
+
+	public ScriptableElement() {
+		super();
+	}
+
 	public ScriptableElement(Scriptable scope, Element element) {
 		super(scope, element);
 		this.delegateElement = element;

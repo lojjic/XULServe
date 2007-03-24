@@ -16,28 +16,32 @@ public class ScriptableTypeInfo extends ScriptableDOMObject {
 
 	private TypeInfo delegateTypeInfo;
 
+	public ScriptableTypeInfo() {
+		super();
+	}
+
 	public ScriptableTypeInfo(Scriptable scope, TypeInfo delegateTypeInfo) {
 		super(scope, delegateTypeInfo);
 		this.delegateTypeInfo = delegateTypeInfo;
 	}
 
 	@JSStatic @JSGetter("DERIVATION_RESTRICTION")
-	public static short get_DERIVATION_RESTRICTION(ScriptableObject obj) {
+	public static int get_DERIVATION_RESTRICTION(ScriptableObject obj) {
 		return TypeInfo.DERIVATION_RESTRICTION;
 	}
 
 	@JSStatic @JSGetter("DERIVATION_EXTENSION")
-	public static short get_DERIVATION_EXTENSION(ScriptableObject obj) {
+	public static int get_DERIVATION_EXTENSION(ScriptableObject obj) {
 		return TypeInfo.DERIVATION_EXTENSION;
 	}
 
 	@JSStatic @JSGetter("DERIVATION_UNION")
-	public static short get_DERIVATION_UNION(ScriptableObject obj) {
+	public static int get_DERIVATION_UNION(ScriptableObject obj) {
 		return TypeInfo.DERIVATION_UNION;
 	}
 
 	@JSStatic @JSGetter("DERIVATION_LIST")
-	public static short get_DERIVATION_LIST(ScriptableObject obj) {
+	public static int get_DERIVATION_LIST(ScriptableObject obj) {
 		return TypeInfo.DERIVATION_LIST;
 	}
 

@@ -14,6 +14,10 @@ public class ScriptableDOMLocator extends ScriptableDOMObject {
 
 	private DOMLocator delegateDOMLocator;
 
+	public ScriptableDOMLocator() {
+		super();
+	}
+
 	public ScriptableDOMLocator(Scriptable scope, DOMLocator delegateDOMLocator) {
 		super(scope, delegateDOMLocator);
 		this.delegateDOMLocator = delegateDOMLocator;

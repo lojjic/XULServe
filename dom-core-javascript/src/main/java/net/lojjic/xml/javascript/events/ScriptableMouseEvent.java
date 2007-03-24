@@ -3,8 +3,8 @@ package net.lojjic.xml.javascript.events;
 import net.lojjic.rhino.annotations.JSClassName;
 import net.lojjic.rhino.annotations.JSFunction;
 import net.lojjic.rhino.annotations.JSGetter;
-import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.Context;
+import org.mozilla.javascript.Scriptable;
 import org.w3c.dom.events.EventTarget;
 import org.w3c.dom.events.MouseEvent;
 import org.w3c.dom.views.AbstractView;
@@ -16,6 +16,10 @@ import org.w3c.dom.views.AbstractView;
 public class ScriptableMouseEvent extends ScriptableUIEvent {
 	
 	protected MouseEvent delegateMouseEvent;
+
+	public ScriptableMouseEvent() {
+		super();
+	}
 
 	public ScriptableMouseEvent(Scriptable scope, MouseEvent event) {
 		super(scope, event);
@@ -29,7 +33,7 @@ public class ScriptableMouseEvent extends ScriptableUIEvent {
 	}
 
 	@JSGetter("button")
-	public short getButton() {
+	public int getButton() {
 		return delegateMouseEvent.getButton();
 	}
 
@@ -76,10 +80,10 @@ public class ScriptableMouseEvent extends ScriptableUIEvent {
 	@JSFunction("initMouseEvent")
 	public void initMouseEvent(String type, boolean canBubble, boolean cancelable, Object view,
 			int detail, int screenX, int screenY, int clientX, int clientY, boolean ctrlKey, boolean altKey, 
-			boolean shiftKey, boolean metaKey, short button, Object relatedTarget) {
+			boolean shiftKey, boolean metaKey, int button, Object relatedTarget) {
 		delegateMouseEvent.initMouseEvent(type, canBubble, cancelable, convertArg(view, AbstractView.class),
 				detail, screenX, screenY, clientX, clientY, ctrlKey, altKey, shiftKey, metaKey,
-				button, convertArg(relatedTarget, EventTarget.class));
+				(short)button, convertArg(relatedTarget, EventTarget.class));
 	}
 
 }

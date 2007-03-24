@@ -12,6 +12,10 @@ public class ScriptableComment extends ScriptableCharacterData {
 
 	private Comment delegateComment;
 
+	public ScriptableComment() {
+		super();
+	}
+
 	public ScriptableComment(Scriptable scope, Comment delegateComment) {
 		super(scope, delegateComment);
 		this.delegateComment = delegateComment;

@@ -12,10 +12,12 @@ import org.w3c.dom.views.AbstractView;
  */
 @JSClassName("AbstractView")
 public class ScriptableAbstractView extends ScriptableDOMObject {
-	
-	public static String JS_CLASS_NAME = "AbstractView";
-	
+
 	protected AbstractView delegateAbstractView;
+
+	public ScriptableAbstractView() {
+		super();
+	}
 
 	public ScriptableAbstractView(Scriptable scope, AbstractView view) {
 		super(scope, view);

@@ -15,6 +15,10 @@ public class ScriptableText extends ScriptableCharacterData {
 
 	private Text delegateText;
 
+	public ScriptableText() {
+		super();
+	}
+
 	public ScriptableText(Scriptable scope, Text text) {
 		super(scope, text);
 		this.delegateText = text;

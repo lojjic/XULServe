@@ -16,6 +16,10 @@ public class ScriptableUIEvent extends ScriptableEvent {
 	
 	protected UIEvent delegateUIEvent;
 
+	public ScriptableUIEvent() {
+		super();
+	}
+
 	public ScriptableUIEvent(Scriptable scope, UIEvent event) {
 		super(scope, event);
 		this.delegateUIEvent = event;

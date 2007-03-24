@@ -15,6 +15,10 @@ public class ScriptableDOMConfiguration extends ScriptableDOMObject {
 
 	private DOMConfiguration delegateDOMConfiguration;
 
+	public ScriptableDOMConfiguration() {
+		super();
+	}
+
 	public ScriptableDOMConfiguration(Scriptable scope, DOMConfiguration delegateDOMConfiguration) {
 		super(scope, delegateDOMConfiguration);
 		this.delegateDOMConfiguration = delegateDOMConfiguration;
