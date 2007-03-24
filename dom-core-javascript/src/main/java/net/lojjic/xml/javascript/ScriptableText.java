@@ -4,6 +4,7 @@ import net.lojjic.rhino.annotations.JSClassName;
 import net.lojjic.rhino.annotations.JSFunction;
 import net.lojjic.rhino.annotations.JSGetter;
 import org.mozilla.javascript.Scriptable;
+import org.mozilla.javascript.Context;
 import org.w3c.dom.Text;
 
 /**
@@ -31,12 +32,12 @@ public class ScriptableText extends ScriptableCharacterData {
 
 	@JSFunction("replaceWholeText")
 	public Object replaceWholeText(String content) {
-		return delegateText.replaceWholeText(content);
+		return Context.javaToJS(delegateText.replaceWholeText(content), getParentScope());
 	}
 	
 	@JSFunction("splitText")
 	public Object splitText(int offset) {
-		return delegateText.splitText(offset);
+		return Context.javaToJS(delegateText.splitText(offset), getParentScope());
 	}
 
 }

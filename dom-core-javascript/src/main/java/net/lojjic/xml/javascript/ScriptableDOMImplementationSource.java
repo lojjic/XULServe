@@ -3,6 +3,7 @@ package net.lojjic.xml.javascript;
 import net.lojjic.rhino.annotations.JSClassName;
 import net.lojjic.rhino.annotations.JSFunction;
 import org.mozilla.javascript.Scriptable;
+import org.mozilla.javascript.Context;
 import org.w3c.dom.DOMImplementationSource;
 
 /**
@@ -20,11 +21,11 @@ public class ScriptableDOMImplementationSource extends ScriptableDOMObject {
 
 	@JSFunction("getDOMImplementation")
 	public Object getDOMImplementation(String features) {
-		return delegateDOMImplementationSource.getDOMImplementation(features);
+		return Context.javaToJS(delegateDOMImplementationSource.getDOMImplementation(features), getParentScope());
 	}
 
 	@JSFunction("getDOMImplementationList")
 	public Object getDOMImplementationList(String features) {
-		return delegateDOMImplementationSource.getDOMImplementationList(features);
+		return Context.javaToJS(delegateDOMImplementationSource.getDOMImplementationList(features), getParentScope());
 	}
 }

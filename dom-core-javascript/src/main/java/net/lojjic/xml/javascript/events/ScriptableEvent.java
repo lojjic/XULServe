@@ -7,6 +7,7 @@ import net.lojjic.rhino.annotations.JSStatic;
 import net.lojjic.xml.javascript.ScriptableDOMObject;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
+import org.mozilla.javascript.Context;
 import org.w3c.dom.events.Event;
 
 /**
@@ -49,7 +50,7 @@ public class ScriptableEvent extends ScriptableDOMObject {
 	
 	@JSGetter("currentTarget")
 	public Object getCurrentTarget() {
-		return delegateEvent.getCurrentTarget();
+		return Context.javaToJS(delegateEvent.getCurrentTarget(), getParentScope());
 	}
 	
 	@JSGetter("eventPhase")
@@ -59,7 +60,7 @@ public class ScriptableEvent extends ScriptableDOMObject {
 	
 	@JSGetter("target")
 	public Object getTarget() {
-		return delegateEvent.getTarget();
+		return Context.javaToJS(delegateEvent.getTarget(), getParentScope());
 	}
 	
 	@JSGetter("timestamp")

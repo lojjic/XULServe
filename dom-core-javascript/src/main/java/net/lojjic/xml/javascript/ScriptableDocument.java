@@ -4,6 +4,7 @@ import net.lojjic.rhino.annotations.JSClassName;
 import net.lojjic.rhino.annotations.JSFunction;
 import net.lojjic.rhino.annotations.JSGetter;
 import net.lojjic.rhino.annotations.JSSetter;
+import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
@@ -29,67 +30,67 @@ public class ScriptableDocument extends ScriptableNode {
 
 	@JSFunction("adoptNode")
 	public Object adoptNode(Object source) {
-		return delegateDocument.adoptNode(convertArg(source, Node.class));
+		return Context.javaToJS(delegateDocument.adoptNode(convertArg(source, Node.class)), getParentScope());
 	}
 
 	@JSFunction("createAttribute")
 	public Object createAttribute(String name) {
-		return delegateDocument.createAttribute(name);
+		return Context.javaToJS(delegateDocument.createAttribute(name), getParentScope());
 	}
 
 	@JSFunction("createAttributeNS")
 	public Object createAttributeNS(String namespaceURI, String qualifiedName) {
-		return delegateDocument.createAttributeNS(namespaceURI, qualifiedName);
+		return Context.javaToJS(delegateDocument.createAttributeNS(namespaceURI, qualifiedName), getParentScope());
 	}
 
 	@JSFunction("createCDATASection")
 	public Object createCDATASection(String data) {
-		return delegateDocument.createCDATASection(data);
+		return Context.javaToJS(delegateDocument.createCDATASection(data), getParentScope());
 	}
 
 	@JSFunction("createComment")
 	public Object createComment(String data) {
-		return delegateDocument.createComment(data);
+		return Context.javaToJS(delegateDocument.createComment(data), getParentScope());
 	}
 
 	@JSFunction("createDocumentFragment")
 	public Object createDocumentFragment() {
-		return delegateDocument.createDocumentFragment();
+		return Context.javaToJS(delegateDocument.createDocumentFragment(), getParentScope());
 	}
 
 	@JSFunction("createElement")
 	public Object createElement(String tagName) {
-		return delegateDocument.createElement(tagName);
+		return Context.javaToJS(delegateDocument.createElement(tagName), getParentScope());
 	}
 
 	@JSFunction("createElementNS")
 	public Object createElementNS(String namespaceURI, String qualifiedName) {
-		return delegateDocument.createElementNS(namespaceURI, qualifiedName);
+		return Context.javaToJS(delegateDocument.createElementNS(namespaceURI, qualifiedName), getParentScope());
 	}
 
 	@JSFunction("createEntityReference")
 	public Object createEntityReference(String name) {
-		return delegateDocument.createEntityReference(name);
+		return Context.javaToJS(delegateDocument.createEntityReference(name), getParentScope());
 	}
 
 	@JSFunction("createProcessingInstruction")
 	public Object createProcessingInstruction(String target, String data) {
-		return delegateDocument.createProcessingInstruction(target, data);
+		return Context.javaToJS(delegateDocument.createProcessingInstruction(target, data), getParentScope());
 	}
 
 	@JSFunction("createTextNode")
 	public Object createTextNode(String data) {
-		return delegateDocument.createTextNode(data);
+		return Context.javaToJS(delegateDocument.createTextNode(data), getParentScope());
 	}
 
 	@JSGetter("doctype")
 	public Object getDoctype() {
-		return delegateDocument.getDoctype();
+		return Context.javaToJS(delegateDocument.getDoctype(), getParentScope());
 	}
 
 	@JSGetter("documentElement")
 	public Object getDocumentElement() {
-		return delegateDocument.getDocumentElement();
+		return Context.javaToJS(delegateDocument.getDocumentElement(), getParentScope());
 	}
 
 	@JSGetter("documentURI")
@@ -99,27 +100,27 @@ public class ScriptableDocument extends ScriptableNode {
 
 	@JSGetter("domConfig")
 	public Object getDomConfig() {
-		return delegateDocument.getDomConfig();
+		return Context.javaToJS(delegateDocument.getDomConfig(), getParentScope());
 	}
 
 	@JSFunction("getElementById")
 	public Object getElementById(String elementId) {
-		return delegateDocument.getElementById(elementId);
+		return Context.javaToJS(delegateDocument.getElementById(elementId), getParentScope());
 	}
 
 	@JSFunction("getElementsByTagName")
 	public Object getElementsByTagName(String tagname) {
-		return delegateDocument.getElementsByTagName(tagname);
+		return Context.javaToJS(delegateDocument.getElementsByTagName(tagname), getParentScope());
 	}
 
 	@JSFunction("getElementsByTagNameNS")
 	public Object getElementsByTagNameNS(String namespaceURI, String localName) {
-		return delegateDocument.getElementsByTagNameNS(namespaceURI, localName);
+		return Context.javaToJS(delegateDocument.getElementsByTagNameNS(namespaceURI, localName), getParentScope());
 	}
 
 	@JSGetter("implementation")
 	public Object getImplementation() {
-		return delegateDocument.getImplementation();
+		return Context.javaToJS(delegateDocument.getImplementation(), getParentScope());
 	}
 
 	@JSGetter("inputEncoding")
@@ -149,7 +150,7 @@ public class ScriptableDocument extends ScriptableNode {
 
 	@JSFunction("importNode")
 	public Object importNode(Object importedNode, boolean deep) {
-		return delegateDocument.importNode(convertArg(importedNode, Node.class), deep);
+		return Context.javaToJS(delegateDocument.importNode(convertArg(importedNode, Node.class), deep), getParentScope());
 	}
 
 	@JSFunction("normalizeDocument")
@@ -159,7 +160,7 @@ public class ScriptableDocument extends ScriptableNode {
 
 	@JSFunction("renameNode")
 	public Object renameNode(Object n, String namespaceURI, String qualifiedName) {
-		return delegateDocument.renameNode(convertArg(n, Node.class), namespaceURI, qualifiedName);
+		return Context.javaToJS(delegateDocument.renameNode(convertArg(n, Node.class), namespaceURI, qualifiedName), getParentScope());
 	}
 
 	@JSSetter("documentURI")
@@ -190,7 +191,7 @@ public class ScriptableDocument extends ScriptableNode {
 			throw new DOMException(DOMException.NOT_SUPPORTED_ERR,
 					"This Document object does not support DocumentEvent interface methods.");
 		}
-		return ((DocumentEvent)delegateDocument).createEvent(type);
+		return Context.javaToJS(((DocumentEvent)delegateDocument).createEvent(type), getParentScope());
 	}
 	
 	
@@ -202,7 +203,7 @@ public class ScriptableDocument extends ScriptableNode {
 			throw new DOMException(DOMException.NOT_SUPPORTED_ERR,
 					"This Document object does not support DocumentView interface methods.");
 		}
-		return ((DocumentView)delegateDocument).getDefaultView();
+		return Context.javaToJS(((DocumentView)delegateDocument).getDefaultView(), getParentScope());
 	}
 
 }

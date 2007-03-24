@@ -3,10 +3,9 @@ package net.lojjic.xml.javascript;
 import net.lojjic.rhino.annotations.JSClassName;
 import net.lojjic.rhino.annotations.JSGetter;
 import net.lojjic.rhino.annotations.JSSetter;
+import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 import org.w3c.dom.Attr;
-import org.w3c.dom.Element;
-import org.w3c.dom.TypeInfo;
 
 /**
  * Scriptable wrapper for {@link org.w3c.dom.Attr}
@@ -27,13 +26,13 @@ public class ScriptableAttr extends ScriptableNode {
 	}
 
 	@JSGetter("ownerElement")
-	public Element getOwnerElement() {
-		return delegateAttr.getOwnerElement();
+	public Object getOwnerElement() {
+		return Context.javaToJS(delegateAttr.getOwnerElement(), getParentScope());
 	}
 
 	@JSGetter("schemaTypeInfo")
-	public TypeInfo getSchemaTypeInfo() {
-		return delegateAttr.getSchemaTypeInfo();
+	public Object getSchemaTypeInfo() {
+		return Context.javaToJS(delegateAttr.getSchemaTypeInfo(), getParentScope());
 	}
 
 	@JSGetter("specified")

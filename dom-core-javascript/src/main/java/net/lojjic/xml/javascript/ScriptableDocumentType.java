@@ -3,6 +3,7 @@ package net.lojjic.xml.javascript;
 import net.lojjic.rhino.annotations.JSClassName;
 import net.lojjic.rhino.annotations.JSGetter;
 import org.mozilla.javascript.Scriptable;
+import org.mozilla.javascript.Context;
 import org.w3c.dom.DocumentType;
 
 /**
@@ -20,7 +21,7 @@ public class ScriptableDocumentType extends ScriptableNode {
 
 	@JSGetter("entities")
 	public Object getEntities() {
-		return delegateDocumentType.getEntities();
+		return Context.javaToJS(delegateDocumentType.getEntities(), getParentScope());
 	}
 
 	@JSGetter("internalSubset")
@@ -35,7 +36,7 @@ public class ScriptableDocumentType extends ScriptableNode {
 
 	@JSGetter("notations")
 	public Object getNotations() {
-		return delegateDocumentType.getNotations();
+		return Context.javaToJS(delegateDocumentType.getNotations(), getParentScope());
 	}
 
 	@JSGetter("publicId")

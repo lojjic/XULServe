@@ -4,6 +4,7 @@ import net.lojjic.rhino.annotations.JSClassName;
 import net.lojjic.rhino.annotations.JSFunction;
 import net.lojjic.rhino.annotations.JSGetter;
 import org.mozilla.javascript.Scriptable;
+import org.mozilla.javascript.Context;
 import org.w3c.dom.DOMImplementationList;
 
 /**
@@ -26,7 +27,7 @@ public class ScriptableDOMImplementationList extends ScriptableDOMObject {
 
 	@JSFunction("item")
 	public Object item(int index) {
-		return delegateDOMImplementationList.item(index);
+		return Context.javaToJS(delegateDOMImplementationList.item(index), getParentScope());
 	}
 
 	/**

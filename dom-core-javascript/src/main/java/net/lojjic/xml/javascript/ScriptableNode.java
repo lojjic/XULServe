@@ -140,62 +140,64 @@ public class ScriptableNode extends ScriptableDOMObject {
 	
 	@JSGetter("parentNode")
 	public Object getParentNode() {
-		return delegateNode.getParentNode();
+		return Context.javaToJS(delegateNode.getParentNode(), getParentScope());
 	}
 	
 	@JSGetter("childNodes")
 	public Object getChildNodes() {
-		return delegateNode.getChildNodes();
+		return Context.javaToJS(delegateNode.getChildNodes(), getParentScope());
 	}
 	
 	@JSGetter("firstChild")
 	public Object getFirstChild() {
-		return delegateNode.getFirstChild();
+		return Context.javaToJS(delegateNode.getFirstChild(), getParentScope());
 	}
 	
 	@JSGetter("lastChild")
 	public Object getLastChild() {
-		return delegateNode.getLastChild();
+		return Context.javaToJS(delegateNode.getLastChild(), getParentScope());
 	}
 	
 	@JSGetter("previousSibling")
 	public Object getPreviousSibling() {
-		return delegateNode.getPreviousSibling();
+		return Context.javaToJS(delegateNode.getPreviousSibling(), getParentScope());
 	}
 	
 	@JSGetter("nextSibling")
 	public Object getNextSibling() {
-		return delegateNode.getNextSibling();
+		return Context.javaToJS(delegateNode.getNextSibling(), getParentScope());
 	}
 	
 	@JSGetter("attributes")
 	public Object getAttributes() {
-		return delegateNode.getAttributes();
+		return Context.javaToJS(delegateNode.getAttributes(), getParentScope());
 	}
 	
 	@JSGetter("ownerDocument")
 	public Object getOwnerDocument() {
-		return delegateNode.getOwnerDocument();
+		return Context.javaToJS(delegateNode.getOwnerDocument(), getParentScope());
 	}
 
 	@JSFunction("insertBefore")
 	public Object insertBefore(Object newNode, Object refNode) {
-		return delegateNode.insertBefore(convertArg(newNode, Node.class), convertArg(refNode, Node.class));
+		Node result = delegateNode.insertBefore(convertArg(newNode, Node.class), convertArg(refNode, Node.class));
+		return Context.javaToJS(result, getParentScope());
 	}
 
 	@JSFunction("replaceChild")
 	public Object replaceChild(Object newNode, Object refNode) {
-		return delegateNode.replaceChild(convertArg(newNode, Node.class), convertArg(refNode, Node.class));
+		Node result = delegateNode.replaceChild(convertArg(newNode, Node.class), convertArg(refNode, Node.class));
+		return Context.javaToJS(result, getParentScope());
 	}
 
 	@JSFunction("removeChild")
 	public Object removeChild(Object node) {
-		return delegateNode.removeChild(convertArg(node, Node.class));
+		return Context.javaToJS(delegateNode.removeChild(convertArg(node, Node.class)), getParentScope());
 	}
 
 	@JSFunction("appendChild")
 	public Object appendChild(Object node) {
-		return delegateNode.appendChild(convertArg(node, Node.class));
+		return Context.javaToJS(delegateNode.appendChild(convertArg(node, Node.class)), getParentScope());
 	}
 	
 	@JSFunction("hasChildNodes")
@@ -205,7 +207,7 @@ public class ScriptableNode extends ScriptableDOMObject {
 	
 	@JSFunction("cloneNode")
 	public Object cloneNode(boolean deep) {
-		return delegateNode.cloneNode(deep);
+		return Context.javaToJS(delegateNode.cloneNode(deep), getParentScope());
 	}
 	
 	@JSFunction("normalize")
@@ -280,7 +282,7 @@ public class ScriptableNode extends ScriptableDOMObject {
 	
 	@JSFunction("getFeature")
 	public Object getFeature(String feature, String version) {
-		return delegateNode.getFeature(feature, version);
+		return Context.javaToJS(delegateNode.getFeature(feature, version), getParentScope());
 	}
 
 	@JSFunction("isDefaultNamespace")
@@ -295,12 +297,13 @@ public class ScriptableNode extends ScriptableDOMObject {
 
 	@JSFunction("setUserData")
 	public Object setUserData(String key, Object data, Object handler) {
-		return delegateNode.setUserData(key, data, convertArg(handler, UserDataHandler.class));
+		Object result = delegateNode.setUserData(key, data, convertArg(handler, UserDataHandler.class));
+		return Context.javaToJS(result, getParentScope());
 	}
 
 	@JSFunction("getUserData")
 	public Object getUserData(String key) {
-		return delegateNode.getUserData(key);
+		return Context.javaToJS(delegateNode.getUserData(key), getParentScope());
 	}
 
 

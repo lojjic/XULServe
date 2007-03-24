@@ -4,6 +4,7 @@ import net.lojjic.rhino.annotations.JSClassName;
 import net.lojjic.rhino.annotations.JSFunction;
 import net.lojjic.rhino.annotations.JSGetter;
 import org.mozilla.javascript.Scriptable;
+import org.mozilla.javascript.Context;
 import org.w3c.dom.events.EventTarget;
 import org.w3c.dom.events.MouseEvent;
 import org.w3c.dom.views.AbstractView;
@@ -54,7 +55,7 @@ public class ScriptableMouseEvent extends ScriptableUIEvent {
 
 	@JSGetter("relatedTarget")
 	public Object getRelatedTarget() {
-		return delegateMouseEvent.getRelatedTarget();
+		return Context.javaToJS(delegateMouseEvent.getRelatedTarget(), getParentScope());
 	}
 
 	@JSGetter("screenX")

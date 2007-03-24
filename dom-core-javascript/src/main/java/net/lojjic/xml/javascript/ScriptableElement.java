@@ -4,6 +4,7 @@ import net.lojjic.rhino.annotations.JSClassName;
 import net.lojjic.rhino.annotations.JSFunction;
 import net.lojjic.rhino.annotations.JSGetter;
 import org.mozilla.javascript.Scriptable;
+import org.mozilla.javascript.Context;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
 
@@ -42,27 +43,27 @@ public class ScriptableElement extends ScriptableNode {
 	
 	@JSFunction("getAttributeNode")
 	public Object getAttributeNode(String name) {
-		return delegateElement.getAttributeNode(name);
+		return Context.javaToJS(delegateElement.getAttributeNode(name), getParentScope());
 	}
 	
 	@JSFunction("setAttributeNode")
 	public Object setAttributeNode(Object attr) {
-		return delegateElement.setAttributeNode(convertArg(attr, Attr.class));
+		return Context.javaToJS(delegateElement.setAttributeNode(convertArg(attr, Attr.class)), getParentScope());
 	}
 	
 	@JSFunction("removeAttributeNode")
 	public Object removeAttributeNode(Object attr) {
-		return delegateElement.removeAttributeNode(convertArg(attr, Attr.class));
+		return Context.javaToJS(delegateElement.removeAttributeNode(convertArg(attr, Attr.class)), getParentScope());
 	}
 	
 	@JSFunction("getElementsByTagName")
 	public Object getElementsByTagName(String name) {
-		return delegateElement.getElementsByTagName(name);
+		return Context.javaToJS(delegateElement.getElementsByTagName(name), getParentScope());
 	}
 	
 	@JSFunction("getElementsByTagNameNS")
 	public Object getElementsByTagNameNS(String ns, String name) {
-		return delegateElement.getElementsByTagNameNS(ns, name);
+		return Context.javaToJS(delegateElement.getElementsByTagNameNS(ns, name), getParentScope());
 	}
 	
 	@JSFunction("getAttributeNS")
@@ -82,12 +83,12 @@ public class ScriptableElement extends ScriptableNode {
 	
 	@JSFunction("getAttributeNodeNS")
 	public Object getAttributeNodeNS(String ns, String name) {
-		return delegateElement.getAttributeNodeNS(ns, name);
+		return Context.javaToJS(delegateElement.getAttributeNodeNS(ns, name), getParentScope());
 	}
 	
 	@JSFunction("setAttributeNodeNS")
 	public Object setAttributeNodeNS(Object attr) {
-		return delegateElement.setAttributeNodeNS(convertArg(attr, Attr.class));
+		return Context.javaToJS(delegateElement.setAttributeNodeNS(convertArg(attr, Attr.class)), getParentScope());
 	}
 	
 	@JSFunction("hasAttribute")
@@ -102,7 +103,7 @@ public class ScriptableElement extends ScriptableNode {
 	
 	@JSGetter("schemaTypeInfo")
 	public Object getSchemaTypeInfo() {
-		return delegateElement.getSchemaTypeInfo();
+		return Context.javaToJS(delegateElement.getSchemaTypeInfo(), getParentScope());
 	}
 
 	@JSFunction("setIdAttribute")

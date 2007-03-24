@@ -3,6 +3,7 @@ package net.lojjic.xml.javascript;
 import net.lojjic.rhino.annotations.JSClassName;
 import net.lojjic.rhino.annotations.JSGetter;
 import org.mozilla.javascript.Scriptable;
+import org.mozilla.javascript.Context;
 import org.w3c.dom.DOMLocator;
 
 /**
@@ -35,7 +36,7 @@ public class ScriptableDOMLocator extends ScriptableDOMObject {
 
 	@JSGetter("relatedNode")
 	public Object getRelatedNode() {
-		return delegateDOMLocator.getRelatedNode();
+		return Context.javaToJS(delegateDOMLocator.getRelatedNode(), getParentScope());
 	}
 
 	@JSGetter("uri")

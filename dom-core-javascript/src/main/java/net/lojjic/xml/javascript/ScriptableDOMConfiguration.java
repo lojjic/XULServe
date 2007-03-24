@@ -4,6 +4,7 @@ import net.lojjic.rhino.annotations.JSClassName;
 import net.lojjic.rhino.annotations.JSFunction;
 import net.lojjic.rhino.annotations.JSGetter;
 import org.mozilla.javascript.Scriptable;
+import org.mozilla.javascript.Context;
 import org.w3c.dom.DOMConfiguration;
 
 /**
@@ -26,12 +27,12 @@ public class ScriptableDOMConfiguration extends ScriptableDOMObject {
 
 	@JSFunction("getParameter")
 	public Object getParameter(String name) {
-		return delegateDOMConfiguration.getParameter(name);
+		return Context.javaToJS(delegateDOMConfiguration.getParameter(name), getParentScope());
 	}
 
 	@JSGetter("parameterNames")
 	public Object getParameterNames() {
-		return delegateDOMConfiguration.getParameterNames();
+		return Context.javaToJS(delegateDOMConfiguration.getParameterNames(), getParentScope());
 	}
 
 	@JSFunction("setParameter")

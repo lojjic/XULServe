@@ -4,9 +4,13 @@ import net.lojjic.rhino.annotations.AnnotationScriptableObject;
 import net.lojjic.rhino.annotations.JSClassName;
 import net.lojjic.rhino.annotations.JSFunction;
 import net.lojjic.rhino.annotations.JSStatic;
+import net.lojjic.xml.javascript.ScriptableDOMImplementation;
+import net.lojjic.xml.javascript.ScriptableDOMImplementationList;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 import org.w3c.dom.bootstrap.DOMImplementationRegistry;
+import org.w3c.dom.DOMImplementation;
+import org.w3c.dom.DOMImplementationList;
 
 /**
  * Scriptable wrapper for {@link org.w3c.dom.bootstrap.DOMImplementationRegistry}
@@ -19,9 +23,10 @@ public class ScriptableDOMImplementationRegistry extends AnnotationScriptableObj
 	}
 
 	@JSStatic @JSFunction("getDOMImplementation")
-	public static Object getDOMImplementation(ScriptableObject obj, String features) {
+	public static ScriptableDOMImplementation getDOMImplementation(ScriptableObject scope, String features) {
 		try {
-			return DOMImplementationRegistry.newInstance().getDOMImplementation(features);
+			DOMImplementation result = DOMImplementationRegistry.newInstance().getDOMImplementation(features);
+			return new ScriptableDOMImplementation(scope, result);
 		}
 		catch(Exception e) {
 			throw new RuntimeException(e);
@@ -29,9 +34,10 @@ public class ScriptableDOMImplementationRegistry extends AnnotationScriptableObj
 	}
 
 	@JSStatic @JSFunction("getDOMImplementation")
-	public static Object getDOMImplementationList(ScriptableObject obj, String features) {
+	public static ScriptableDOMImplementationList getDOMImplementationList(ScriptableObject scope, String features) {
 		try {
-			return DOMImplementationRegistry.newInstance().getDOMImplementationList(features);
+			DOMImplementationList result = DOMImplementationRegistry.newInstance().getDOMImplementationList(features);
+			return new ScriptableDOMImplementationList(scope, result);
 		}
 		catch(Exception e) {
 			throw new RuntimeException(e);

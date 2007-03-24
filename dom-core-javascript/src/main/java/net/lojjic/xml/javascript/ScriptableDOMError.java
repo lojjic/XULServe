@@ -5,6 +5,7 @@ import net.lojjic.rhino.annotations.JSGetter;
 import net.lojjic.rhino.annotations.JSStatic;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
+import org.mozilla.javascript.Context;
 import org.w3c.dom.DOMError;
 
 /**
@@ -37,7 +38,7 @@ public class ScriptableDOMError extends ScriptableDOMObject {
 
 	@JSGetter("location")
 	public Object getLocation() {
-		return delegateDOMError.getLocation();
+		return Context.javaToJS(delegateDOMError.getLocation(), getParentScope());
 	}
 
 	@JSGetter("message")
@@ -47,12 +48,12 @@ public class ScriptableDOMError extends ScriptableDOMObject {
 
 	@JSGetter("relatedData")
 	public Object getRelatedData() {
-		return delegateDOMError.getRelatedData();
+		return Context.javaToJS(delegateDOMError.getRelatedData(), getParentScope());
 	}
 
 	@JSGetter("relatedException")
 	public Object getRelatedException() {
-		return delegateDOMError.getRelatedException();
+		return Context.javaToJS(delegateDOMError.getRelatedException(), getParentScope());
 	}
 
 	@JSGetter("severity")

@@ -4,6 +4,7 @@ import net.lojjic.rhino.annotations.JSClassName;
 import net.lojjic.rhino.annotations.JSFunction;
 import net.lojjic.rhino.annotations.JSGetter;
 import org.mozilla.javascript.Scriptable;
+import org.mozilla.javascript.Context;
 import org.w3c.dom.events.UIEvent;
 import org.w3c.dom.views.AbstractView;
 
@@ -27,7 +28,7 @@ public class ScriptableUIEvent extends ScriptableEvent {
 
 	@JSGetter("view")
 	public Object getView() {
-		return delegateUIEvent.getView();
+		return Context.javaToJS(delegateUIEvent.getView(), getParentScope());
 	}
 
 	@JSFunction("initUIEvent")

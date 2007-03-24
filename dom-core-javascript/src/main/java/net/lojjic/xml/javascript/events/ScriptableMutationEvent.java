@@ -6,6 +6,7 @@ import net.lojjic.rhino.annotations.JSGetter;
 import net.lojjic.rhino.annotations.JSStatic;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
+import org.mozilla.javascript.Context;
 import org.w3c.dom.Node;
 import org.w3c.dom.events.MutationEvent;
 
@@ -59,7 +60,7 @@ public class ScriptableMutationEvent extends ScriptableEvent {
 	
 	@JSGetter("relatedNode")
 	public Object getRelatedNode() {
-		return delegateMutationEvent.getRelatedNode();
+		return Context.javaToJS(delegateMutationEvent.getRelatedNode(), getParentScope());
 	}
 
 	@JSFunction("initMutationEvent")
