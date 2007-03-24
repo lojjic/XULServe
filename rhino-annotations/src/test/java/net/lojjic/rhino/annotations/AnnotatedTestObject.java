@@ -10,6 +10,11 @@ public class AnnotatedTestObject extends AnnotationScriptableObject {
 
 	private String property;
 
+	@JSConstructor
+	public AnnotatedTestObject() {
+		System.out.println("Java: Calling constructorMethod");
+	}
+
 	@JSSetter("prop")
 	public void setProperty(String property) {
 		System.out.println("Java: Calling setProperty setter method with value: " + property);
@@ -20,11 +25,6 @@ public class AnnotatedTestObject extends AnnotationScriptableObject {
 	public String getProperty() {
 		System.out.println("Java: Calling getProperty getter method, returning value: " + property);
 		return property;
-	}
-
-	@JSConstructor
-	public void constructorMethod() {
-		System.out.println("Java: Calling constructorMethod");
 	}
 
 	@JSFunction("functionNoReturnValue")

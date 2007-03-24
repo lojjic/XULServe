@@ -1,14 +1,8 @@
 package net.lojjic.rhino.annotations;
 
-import org.mozilla.javascript.FunctionObject;
-import org.mozilla.javascript.Scriptable;
-import org.mozilla.javascript.ScriptableObject;
-import org.mozilla.javascript.Context;
+import org.mozilla.javascript.*;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Member;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
+import java.lang.reflect.*;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -73,21 +67,22 @@ public abstract class AnnotationScriptableObject extends ScriptableObject {
 	}
 
 
-	public static void defineClass(Scriptable scope, Class clazz)
+	public static void defineClass(Scriptable scope, Class<? extends AnnotationScriptableObject> clazz)
 			throws IllegalAccessException, InstantiationException, InvocationTargetException {
 		defineClass(scope, clazz, false, false);
 	}
 
-	public static void defineClass(Scriptable scope, Class clazz, boolean sealed)
+	public static void defineClass(Scriptable scope, Class<? extends AnnotationScriptableObject> clazz, boolean sealed)
 			throws IllegalAccessException, InstantiationException, InvocationTargetException {
 		defineClass(scope, clazz, sealed, false);
 	}
 
-	public static String defineClass(Scriptable scope, Class clazz, boolean sealed, boolean mapInheritance)
+	public static String defineClass(Scriptable scope, Class<? extends AnnotationScriptableObject> clazz,
+	                                 boolean sealed, boolean mapInheritance)
 			throws IllegalAccessException, InstantiationException, InvocationTargetException {
 
 		// Create the prototype instance:
-		Scriptable prototype = (Scriptable)clazz.newInstance();
+		Scriptable prototype = clazz.newInstance();
 
 		// Set the prototype's prototype:
 		prototype.setPrototype(getSuperPrototype(scope, clazz, sealed, mapInheritance));
@@ -145,15 +140,10 @@ public abstract class AnnotationScriptableObject extends ScriptableObject {
 	/**
 	 * Collect the annotated methods for the given Class.
 	 */
-	protected static AnnotatedMembers getAnnotatedMethods(Class clazz, boolean includeInherited) {
+	protected static AnnotatedMembers getAnnotatedMethods(Class<? extends AnnotationScriptableObject> clazz, boolean includeInherited) {
 		AnnotatedMembers result = new AnnotatedMembers();
 
-		Method[] methods = clazz.getDeclaredMethods();
-		for (Method method : methods) {
-			// Constructor:
-			if(method.isAnnotationPresent(JSConstructor.class)) {
-				result.constructor = method;
-			}
+		for(Method method : clazz.getDeclaredMethods()) {
 			// Property getters:
 			if(method.isAnnotationPresent(JSGetter.class)) {
 				result.propertyGetters.put(method.getAnnotation(JSGetter.class).value(), method);
@@ -171,15 +161,13 @@ public abstract class AnnotationScriptableObject extends ScriptableObject {
 				throw Context.reportRuntimeError("@JSStatic annotation applied to non-static method " + method.getName());
 			}
 		}
-		// If no @JSConstructor-annotated method was found, use a zero-argument constructor
-		if(result.constructor == null) {
-			try {
-				result.constructor = clazz.getConstructor();
-			}
-			catch (NoSuchMethodException e) {
-				throw Context.reportRuntimeError("No default constructor for scriptable class " + clazz.getName());
-			}
+
+		// Constructor:
+		Member ctor = getJSConstructor(clazz);
+		if(ctor == null) {
+			throw Context.reportRuntimeError("No constructor found for class " + clazz.getName());
 		}
+		result.constructor = ctor;
 
 		if(includeInherited) {
 			Class superClass = clazz.getSuperclass();
@@ -190,6 +178,31 @@ public abstract class AnnotationScriptableObject extends ScriptableObject {
 		}
 
 		return result;
+	}
+
+	/**
+	 * Find an appropriate {@link Constructor} to use as the JavaScript constructor
+	 * function for the given AnnotationScriptableObject class. First, look for a
+	 * method annotated with {@link JSConstructor}. Then look for a constructor
+	 * annotated with {@link JSConstructor}. If none is found, use the constructor
+	 * with the fewest arguments. If no public constructors are found, return null.
+	 */
+	protected static Member getJSConstructor(Class<? extends AnnotationScriptableObject> clazz) {
+		for(Method method : clazz.getDeclaredMethods()) {
+			if(method.isAnnotationPresent(JSConstructor.class)) {
+				return method;
+			}
+		}
+		Constructor fewestArgsCtor = null;
+		for(Constructor ctor : clazz.getConstructors()) {
+			if(ctor.isAnnotationPresent(JSConstructor.class)) {
+				return ctor;
+			}
+			if(fewestArgsCtor == null || ctor.getParameterTypes().length < fewestArgsCtor.getParameterTypes().length) {
+				fewestArgsCtor = ctor;
+			}
+		}
+		return fewestArgsCtor;
 	}
 
 

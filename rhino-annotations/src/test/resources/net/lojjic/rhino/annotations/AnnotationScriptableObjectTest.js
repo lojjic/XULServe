@@ -24,7 +24,7 @@ function testInheritanceMapping() {
 	assertNotNull(this.MyJSClass);
 	assertNotNull(MyJSClass.prototype.functionNoReturnValue);
 
-	var obj = new MyJSSubclass();
+	var obj = new MyJSSubclass("my ctr argument");
 
 	var subPropValue = "my test sub property value";
 	obj.subprop = subPropValue;
@@ -41,7 +41,7 @@ function testInheritanceNoMapping() {
 	assertNotNull(MyJSSubclass.prototype.functionNoReturnValue);
 	assertNull(this.MyJSClass);
 
-	var obj = new MyJSSubclass();
+	var obj = new MyJSSubclass("my ctr argument");
 
 	var subPropValue = "my test sub property value";
 	obj.subprop = subPropValue;

@@ -8,6 +8,15 @@ public class AnnotatedTestObjectSubclass extends AnnotatedTestObject {
 
 	private String subProperty;
 
+	public AnnotatedTestObjectSubclass() {
+		super();
+	}
+
+	@JSConstructor
+	public AnnotatedTestObjectSubclass(String arg) {
+		System.out.println("Java: Calling subConstructorMethod with argument: " + arg);
+	}
+
 	@JSSetter("subprop")
 	void setSubProperty(String subProperty) {
 		System.out.println("Java: Calling setSubProperty setter method with value: " + subProperty);
@@ -18,11 +27,6 @@ public class AnnotatedTestObjectSubclass extends AnnotatedTestObject {
 	String getSubProperty() {
 		System.out.println("Java: Calling getSubProperty getter method, returning value: " + subProperty);
 		return subProperty;
-	}
-
-	@JSConstructor
-	void subConstructorMethod() {
-		System.out.println("Java: Calling subConstructorMethod");
 	}
 
 	@JSFunction("subFunctionNoReturnValue")
