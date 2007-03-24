@@ -20,7 +20,33 @@ import java.io.InputStream;
  */
 public class ScriptableDOMObjectTest extends TestCase {
 
-	public void testScriptableDOM() throws Exception {
+	public void testGetElementsByTagName() throws Exception {
+		callJSFunction("testGetElementsByTagName");
+	}
+
+	public void testChildNodes() throws Exception {
+		callJSFunction("testChildNodes");
+	}
+
+	public void testAttributes() throws Exception {
+		callJSFunction("testAttributes");
+	}
+
+	public void testTextNode() throws Exception {
+		callJSFunction("testTextNode");
+	}
+
+	public void testUnsealed() throws Exception {
+		callJSFunction("testUnsealed");
+	}
+
+	public void testSingleWrapperInstance() throws Exception {
+		callJSFunction("testSingleWrapperInstance");
+	}
+
+
+
+	private void callJSFunction(String functionName) throws Exception {
 		Context ctxt = Context.enter();
 		try {
 			// Set up the WrapFactory:
@@ -42,7 +68,7 @@ public class ScriptableDOMObjectTest extends TestCase {
 			// Load and execute the JavaScript test file:
 			JSUtils.loadJSFile(ctxt, scope, "/net/lojjic/rhino/annotations/UnitTest.js");
 			JSUtils.loadJSFile(ctxt, scope, "/net/lojjic/xml/javascript/ScriptableDOMObjectTest.js");
-			ctxt.evaluateString(scope, "testDOM()", "<test>", 1, null);
+			ctxt.evaluateString(scope, functionName + "()", "<test>", 1, null);
 		}
 		finally {
 			Context.exit();

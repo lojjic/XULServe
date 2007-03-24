@@ -15,6 +15,10 @@ function assertEquals(obj1, obj2, failMessage) {
 	if(obj1 != obj2) throw failMessage || "Expected " + obj2 + ", got " + obj1;
 }
 
+function assertTrue(expr, failMessage) {
+	if(!expr) throw failMessage || "Expression evaluated to false, expected true";
+}
+
 function listProps(obj) {
 	print("=== Properties for object " + obj + ": ===")
 	for(var i in obj) {
