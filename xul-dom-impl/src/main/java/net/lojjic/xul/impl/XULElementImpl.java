@@ -9,6 +9,8 @@ import net.lojjic.xul.XULCommandEvent;
 import net.lojjic.xul.XULTemplateBuilder;
 import net.lojjic.xul.rdf.RDFCompositeDataSource;
 import net.lojjic.xul.rdf.RDFResource;
+import net.lojjic.xul.rdf.RDFService;
+import net.lojjic.xul.rdf.impl.RDFCompositeDataSourceImpl;
 import net.lojjic.xul.xbl.impl.ElementXBLImpl;
 
 import org.w3c.dom.Element;
@@ -17,6 +19,7 @@ import org.w3c.dom.NodeList;
 import org.w3c.dom.events.MouseEvent;
 import org.w3c.dom.events.UIEvent;
 import org.w3c.dom.css.CSSStyleDeclaration;
+import org.apache.commons.lang.StringUtils;
 
 /**
  * {@link net.lojjic.xul.XULElement} implementation
@@ -257,16 +260,39 @@ public class XULElementImpl extends ElementXBLImpl implements XULElement {
 
 	public XULTemplateBuilder getBuilder() //readonly
 	{
+		// lazily instantiate the builder
+		if(xulTemplateBuilder == null && getDatabase() != null) {
+			RDFService rdfService = null; //TODO get the RDFService
+			xulTemplateBuilder = new XULTemplateBuilderImpl(rdfService, this);
+		}
 		return xulTemplateBuilder;
 	}
 
 	public RDFCompositeDataSource getDatabase() //readonly
 	{
+		// lazily load the datasource
+		if(rdfCompositeDataSource == null) {
+			String attr = StringUtils.trimToNull(getAttribute("datasources"));
+			if(attr != null) {
+				RDFService rdfService = null; //TODO get the RDFService
+				rdfCompositeDataSource = new RDFCompositeDataSourceImpl(rdfService); //TODO should we ask the RDFService for this?
+				for(String uri : attr.split("\\s+")) {
+					rdfCompositeDataSource.addDataSource(rdfService.getDataSource(uri));
+				}
+			}
+		}
 		return rdfCompositeDataSource;
 	}
 
 	public RDFResource getResource() //readonly
 	{
+		if(rdfResource == null) {
+			String uri = StringUtils.trimToNull(getAttribute("uri"));
+			if(uri != null) {
+				RDFService rdfService = null; //TODO get the RDFService
+				rdfResource = rdfService.getResource(uri);
+			}
+		}
 		return rdfResource;
 	}
 

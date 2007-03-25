@@ -19,7 +19,7 @@ public interface RDFService {
 
 	/**
 	 * Get the <i>named data source</i> corresponding to the URI. If a data
-	 * source has been registered via <code>tegisterDataSource()</code>, that
+	 * source has been registered via <code>registerDataSource()</code>, that
 	 * data source will be returned.
 	 */
 	RDFDataSource getDataSource(String uri);
