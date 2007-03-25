@@ -7,7 +7,10 @@ import net.lojjic.rhino.annotations.JSSetter;
 import net.lojjic.xml.javascript.ScriptableElement;
 import net.lojjic.xul.XULElement;
 import org.mozilla.javascript.Context;
+import org.mozilla.javascript.Function;
 import org.mozilla.javascript.Scriptable;
+import org.w3c.dom.events.Event;
+import org.w3c.dom.events.EventListener;
 
 /**
  * Scriptable wrapper for {@link XULElement} instances.
@@ -325,6 +328,63 @@ public class ScriptableXULElement extends ScriptableElement {
 	@JSFunction("getElementsByAttribute")
 	public Object getElementsByAttribute(String name, String value) {
 		return Context.javaToJS(delegateXULElement.getElementsByAttribute(name, value), getParentScope());
+	}
+
+
+
+	///// Event Attributes: /////
+
+	protected Function onclickFunction;
+	protected String lastOnclickAttributeValue;
+
+	protected EventListener clickAttributeEventListener = new AttributeEventListener(this, "onclick");
+
+	@JSGetter("onclick")
+	public Function getOnclick() {
+		String attrValue = delegateXULElement.getAttribute("onclick");
+		if(attrValue != null && (onclickFunction == null || !attrValue.equals(lastOnclickAttributeValue))) {
+			onclickFunction = compileEventFunction(attrValue);
+			lastOnclickAttributeValue = attrValue;
+		}
+		return onclickFunction;
+	}
+	@JSSetter("onclick")
+	public void setOnclick(Function function) {
+		if(function == null) {
+			delegateXULElement.removeEventListener("click", clickAttributeEventListener, false);
+		} else {
+			delegateXULElement.addEventListener("click", clickAttributeEventListener, false);
+		}
+		onclickFunction = function;
+		// The DOM attribute does not get updated per the Mozilla implementation.
+	}
+
+	/**
+	 * Compile the given script body into an event listener function
+	 */
+	private Function compileEventFunction(String funcBody) {
+		String script = "function(event){" + funcBody + "}";
+		return Context.getCurrentContext().compileFunction(getParentScope(), script,
+					delegateXULElement.getOwnerDocument().getDocumentURI(), 0, null);
+	}
+
+	/**
+	 * {@link EventListener} implementation that executes the given event property function, e.g. onclick.
+	 */
+	protected class AttributeEventListener implements EventListener {
+		private Scriptable thisObj;
+		private String eventProp;
+		public AttributeEventListener(Scriptable thisObj, String eventProp) {
+			this.thisObj = thisObj;
+			this.eventProp = eventProp;
+		}
+		public void handleEvent(Event event) {
+			Object wrappedEvent = Context.javaToJS(event, getParentScope());
+			Object propVal = thisObj.get(eventProp, thisObj);
+			if(propVal != null && propVal != NOT_FOUND && propVal instanceof Function) {
+				((Function)propVal).call(Context.getCurrentContext(), thisObj.getParentScope(), thisObj, new Object[]{wrappedEvent});
+			}
+		}
 	}
 
 }
