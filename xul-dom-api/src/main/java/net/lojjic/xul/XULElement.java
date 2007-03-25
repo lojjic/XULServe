@@ -4,6 +4,8 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.css.CSSStyleDeclaration;
 import org.w3c.dom.events.EventTarget;
+import net.lojjic.xul.rdf.RDFCompositeDataSource;
+import net.lojjic.xul.rdf.RDFResource;
 
 public interface XULElement extends Element, EventTarget {
 	
@@ -115,11 +117,12 @@ public interface XULElement extends Element, EventTarget {
 	CSSStyleDeclaration getStyle(); //readonly
 	
 	
-	// RDFCompositeDataSource getDatabase(); //readonly
-	// XULTemplateBuilder getBuilder(); //readonly
-	// RDFResource getResource(); //readonly
-	// Controllers getControllers(); //readonly
-	// BoxObject getBoxObject(); //readonly
+	RDFCompositeDataSource getDatabase(); //readonly
+	XULTemplateBuilder getBuilder(); //readonly
+	RDFResource getResource(); //readonly
+	
+	//Controllers getControllers(); //readonly
+	//BoxObject getBoxObject(); //readonly
 	
 	
 	void focus();

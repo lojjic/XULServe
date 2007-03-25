@@ -297,10 +297,21 @@ public class ScriptableXULElement extends ScriptableElement {
 		return Context.javaToJS(delegateXULElement.getStyle(), getParentScope());
 	}
 	
-	
-	// RDFCompositeDataSource getDatabase(); //readonly
-	// XULTemplateBuilder getBuilder(); //readonly
-	// RDFResource getResource(); //readonly
+	@JSGetter("database")
+	public Object getDatabase() {
+		return Context.javaToJS(delegateXULElement.getDatabase(), getParentScope());
+	}
+
+	@JSGetter("builder")
+	public Object getBuilder() {
+		return Context.javaToJS(delegateXULElement.getBuilder(), getParentScope());
+	}
+
+	@JSGetter("resource")
+	public Object getResource() {
+		return Context.javaToJS(delegateXULElement.getResource(), getParentScope());
+	}
+
 	// Controllers getControllers(); //readonly
 	// BoxObject getBoxObject(); //readonly
 	

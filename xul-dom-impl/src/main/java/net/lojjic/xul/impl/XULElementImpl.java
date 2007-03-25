@@ -6,12 +6,16 @@ import java.util.List;
 import net.lojjic.xul.XULConstants;
 import net.lojjic.xul.XULElement;
 import net.lojjic.xul.XULCommandEvent;
+import net.lojjic.xul.XULTemplateBuilder;
+import net.lojjic.xul.rdf.RDFCompositeDataSource;
+import net.lojjic.xul.rdf.RDFResource;
 import net.lojjic.xul.xbl.impl.ElementXBLImpl;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.events.MouseEvent;
+import org.w3c.dom.events.UIEvent;
 import org.w3c.dom.css.CSSStyleDeclaration;
 
 /**
@@ -19,8 +23,10 @@ import org.w3c.dom.css.CSSStyleDeclaration;
  */
 public class XULElementImpl extends ElementXBLImpl implements XULElement {
 
-	protected XULDOMImplementation implementation;
-	protected XULDocumentImpl ownerXULDocument;
+	private XULDocumentImpl ownerXULDocument;
+	private XULTemplateBuilder xulTemplateBuilder;
+	private RDFCompositeDataSource rdfCompositeDataSource;
+	private RDFResource rdfResource;
 	
 	
 	/**
@@ -248,18 +254,32 @@ public class XULElementImpl extends ElementXBLImpl implements XULElement {
 		return null; //TODO
 		//return getAttribute("style");
 	}
-	
-	public void setStyle(String style)
+
+	public XULTemplateBuilder getBuilder() //readonly
 	{
-		// TODO parse into declaration
+		return xulTemplateBuilder;
+	}
+
+	public RDFCompositeDataSource getDatabase() //readonly
+	{
+		return rdfCompositeDataSource;
+	}
+
+	public RDFResource getResource() //readonly
+	{
+		return rdfResource;
 	}
 
 	public void focus() {
-		// TODO
+		UIEvent evt = (UIEvent)ownerXULDocument.createEvent("UIEvents");
+		evt.initUIEvent("focus", true, true, ownerXULDocument.getDefaultView(), 0);
+		dispatchEvent(evt);
 	}
 
 	public void blur() {
-		// TODO		
+		UIEvent evt = (UIEvent)ownerXULDocument.createEvent("UIEvents");
+		evt.initUIEvent("blur", true, true, ownerXULDocument.getDefaultView(), 0);
+		dispatchEvent(evt);
 	}
 
 	public void click() {
