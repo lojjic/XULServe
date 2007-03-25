@@ -1,178 +1,216 @@
 package net.lojjic.xul.javascript;
 
+import net.lojjic.rhino.annotations.JSClassName;
+import net.lojjic.rhino.annotations.JSFunction;
+import net.lojjic.rhino.annotations.JSGetter;
+import net.lojjic.rhino.annotations.JSSetter;
 import net.lojjic.xml.javascript.ScriptableElement;
-import net.lojjic.xml.javascript.ScriptableNodeList;
 import net.lojjic.xul.XULElement;
-
+import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
-import org.w3c.dom.css.CSSStyleDeclaration;
 
 /**
- * Wrapper class for {@link XULElement} instances, that lets them
- * behave like normal JavaScript objects.
+ * Scriptable wrapper for {@link XULElement} instances.
  */
+@JSClassName("XULElement")
 public class ScriptableXULElement extends ScriptableElement {
 
 	protected XULElement delegateXULElement;
-	
+
+	public ScriptableXULElement() {
+		super();
+	}
+
 	public ScriptableXULElement(Scriptable scope, XULElement element) {
 		super(scope, element);
 		this.delegateXULElement = element;
 	}
 	
-	@Override
-	public String getClassName() {
-		return "XULElement";
-	}
-	
-	
-	
-	public String jsGet_id() {
+	@JSGetter("id")
+	public String getId() {
 		return delegateXULElement.getId();
 	}
-	
-	public void jsSet_id(String id) {
+
+	@JSSetter("id")
+	public void setId(String id) {
 		delegateXULElement.setId(id);
 	}
-	
-	public String jsGet_className() {
+
+	@JSGetter("className")
+	public String getCSSClassName() {
 		return delegateXULElement.getClassName();
 	}
-	public void jsSet_className(String className) {
+
+	@JSSetter("className")
+	public void setCSSClassName(String className) {
 		delegateXULElement.setClassName(className);
 	}
 	
 	
 	// Layout properties
 	
-	public String jsGet_align() {
+	@JSGetter("align")
+	public String getAlign() {
 		return delegateXULElement.getAlign();
 	}
-	public void jsSet_align(String align) {
+	@JSSetter("align")
+	public void setAlign(String align) {
 		delegateXULElement.setAlign(align);
 	}
 	
-	public String jsGet_dir() {
+	@JSGetter("dir")
+	public String getDir() {
 		return delegateXULElement.getDir();
 	}
-	public void jsSet_dir(String dir) {
+	@JSSetter("dir")
+	public void setDir(String dir) {
 		delegateXULElement.setDir(dir);
 	}
 	
-	public String jsGet_flex() {
+	@JSGetter("flex")
+	public String getFlex() {
 		return delegateXULElement.getFlex();
 	}
-	public void jsSet_flex(String flex) {
+	@JSSetter("flex")
+	public void setFlex(String flex) {
 		delegateXULElement.setFlex(flex);
 	}
 	
-	public String jsGet_flexGroup() {
+	@JSGetter("flexGroup")
+	public String getFlexGroup() {
 		return delegateXULElement.getFlexGroup();
 	}
-	public void jsSet_flexGroup(String flexGroup) {
+	@JSSetter("flexGroup")
+	public void setFlexGroup(String flexGroup) {
 		delegateXULElement.setFlexGroup(flexGroup);
 	}
 	
-	public String jsGet_ordinal() {
+	@JSGetter("ordinal")
+	public String getOrdinal() {
 		return delegateXULElement.getOrdinal();
 	}
-	public void jsSet_ordinal(String ordinal) {
+	@JSSetter("ordinal")
+	public void setOrdinal(String ordinal) {
 		delegateXULElement.setOrdinal(ordinal);
 	}
 	
-	public String jsGet_orient() {
+	@JSGetter("orient")
+	public String getOrient() {
 		return delegateXULElement.getOrient();
 	}
-	public void jsSet_orient(String orient) {
+	@JSSetter("orient")
+	public void setOrient(String orient) {
 		delegateXULElement.setOrient(orient);
 	}
 	
-	public String jsGet_pack() {
+	@JSGetter("pack")
+	public String getPack() {
 		return delegateXULElement.getPack();
 	}
-	public void jsSet_pack(String pack) {
+	@JSSetter("pack")
+	public void setPack(String pack) {
 		delegateXULElement.setPack(pack);
 	}
 	
 	
 	// Properties for hiding element
 	
-	public boolean jsGet_hidden() {
+	@JSGetter("hidden")
+	public boolean isHidden() {
 		return delegateXULElement.isHidden();
 	}
-	public void jsSet_hidden(boolean hidden) {
+	@JSSetter("hidden")
+	public void setHidden(boolean hidden) {
 		delegateXULElement.setHidden(hidden);
 	}
 	
-	public boolean jsGet_collapsed() {
+	@JSGetter("collapsed")
+	public boolean isCollapsed() {
 		return delegateXULElement.isCollapsed();
 	}
-	public void jsSet_collapsed(boolean collapsed) {
+	@JSSetter("collapsed")
+	public void setCollapsed(boolean collapsed) {
 		delegateXULElement.setCollapsed(collapsed);
 	}
 	
 	
 	// Property for hooking up to broadcasters
 	
-	public String jsGet_observes() {
+	@JSGetter("observes")
+	public String getObserves() {
 		return delegateXULElement.getObserves();
 	}
-	public void jsSet_observes(String observes) {
+	@JSSetter("observes")
+	public void setObserves(String observes) {
 		delegateXULElement.setObserves(observes);
 	}
 	
 	
 	// Properties for hooking up to popups
 	
-	public String jsGet_width() {
+	@JSGetter("width")
+	public String getWidth() {
 		return delegateXULElement.getWidth();
 	}
-	public void jsSet_width(String width) {
+	@JSSetter("width")
+	public void setWidth(String width) {
 		delegateXULElement.setWidth(width);
 	}
 	
-	public String jsGet_height() {
+	@JSGetter("height")
+	public String getHeight() {
 		return delegateXULElement.getHeight();
 	}
-	public void jsSet_height(String height) {
+	@JSSetter("height")
+	public void setHeight(String height) {
 		delegateXULElement.setHeight(height);
 	}
 	
-	public String jsGet_minWidth() {
+	@JSGetter("minWidth")
+	public String getMinWidth() {
 		return delegateXULElement.getMinWidth();
 	}
-	public void jsSet_minWidth(String minWidth) {
+	@JSSetter("minWidth")
+	public void setMinWidth(String minWidth) {
 		delegateXULElement.setMinWidth(minWidth);
 	}
 	
-	public String jsGet_minHeight() {
+	@JSGetter("minHeight")
+	public String getMinHeight() {
 		return delegateXULElement.getMinHeight();
 	}
-	public void jsSet_minHeight(String minHeight) {
+	@JSSetter("minHeight")
+	public void setMinHeight(String minHeight) {
 		delegateXULElement.setMinHeight(minHeight);
 	}
 	
-	public String jsGet_maxWidth() {
+	@JSGetter("maxWidth")
+	public String getMaxWidth() {
 		return delegateXULElement.getMaxWidth();
 	}
-	public void jsSet_maxWidth(String maxWidth) {
+	@JSSetter("maxWidth")
+	public void setMaxWidth(String maxWidth) {
 		delegateXULElement.setMaxWidth(maxWidth);
 	}
 	
-	public String jsGet_maxHeight() {
+	@JSGetter("maxHeight")
+	public String getMaxHeight() {
 		return delegateXULElement.getMaxHeight();
 	}
-	public void jsSet_maxHeight(String maxHeight) {
+	@JSSetter("maxHeight")
+	public void setMaxHeight(String maxHeight) {
 		delegateXULElement.setMaxHeight(maxHeight);
 	}
 	
 	
 	// Persistence
 	
-	public String jsGet_persist() {
+	@JSGetter("persist")
+	public String getPersist() {
 		return delegateXULElement.getPersist();
 	}
-	public void jsSet_persist(String persist) {
+	@JSSetter("persist")
+	public void setPersist(String persist) {
 		delegateXULElement.setPersist(persist);
 	}
 	
@@ -181,64 +219,79 @@ public class ScriptableXULElement extends ScriptableElement {
 	// * popups = these are screen coordinates
 	// * other elements - these are client coordinates relative to parent stack.
 	
-	public String jsGet_left() {
+	@JSGetter("left")
+	public String getLeft() {
 		return delegateXULElement.getLeft();
 	}
-	public void jsSet_left(String left) {
+	@JSSetter("left")
+	public void setLeft(String left) {
 		delegateXULElement.setLeft(left);
 	}
 	
-	public String jsGet_top() {
+	@JSGetter("top")
+	public String getTop() {
 		return delegateXULElement.getTop();
 	}
-	public void jsSet_top(String top) {
+	@JSSetter("top")
+	public void setTop(String top) {
 		delegateXULElement.setTop(top);
 	}
 	
 	
 	// XUL Template Builder
 	
-	public String jsGet_datasources() {
+	@JSGetter("datasources")
+	public String getDatasources() {
 		return delegateXULElement.getDatasources();
 	}
-	public void jsSet_datasources(String datasources) {
+	@JSSetter("datasources")
+	public void setDatasources(String datasources) {
 		delegateXULElement.setDatasources(datasources);
 	}
 	
-	public String jsGet_ref() {
+	@JSGetter("ref")
+	public String getRef() {
 		return delegateXULElement.getRef();
 	}
-	public void jsSet_ref(String ref) {
+	@JSSetter("ref")
+	public void setRef(String ref) {
 		delegateXULElement.setRef(ref);
 	}
 	
 	
 	// Tooltip and status info
 	
-	public String jsGet_tooltipText() {
+	@JSGetter("tooltipText")
+	public String getTooltipText() {
 		return delegateXULElement.getTooltipText();
 	}
-	public void jsSet_tooltipText(String tooltipText) {
+	@JSSetter("tooltipText")
+	public void setTooltipText(String tooltipText) {
 		delegateXULElement.setTooltipText(tooltipText);
 	}
 	
-	public String jsGet_statusText() {
+	@JSGetter("statusText")
+	public String getStatusText() {
 		return delegateXULElement.getStatusText();
 	}
-	public void jsSet_statusText(String statusText) {
+	@JSSetter("statusText")
+	public void setStatusText(String statusText) {
 		delegateXULElement.setStatusText(statusText);
 	}
 	
-	public boolean jsGet_allowEvents() {
+	@JSGetter("allowEvents")
+	public boolean isAllowEvents() {
 		return delegateXULElement.isAllowEvents();
 	}
-	public void jsSet_allowEvents(boolean allowEvents) {
+	@JSSetter("allowEvents")
+	public void setAllowEvents(boolean allowEvents) {
 		delegateXULElement.setAllowEvents(allowEvents);
 	}
 	
 	
-	public CSSStyleDeclaration jsGet_style() {
-		return delegateXULElement.getStyle();
+	@JSGetter("style")
+	public Object getStyle() {
+		return Context.javaToJS(delegateXULElement.getStyle(), getParentScope());
 	}
 	
 	
@@ -248,37 +301,30 @@ public class ScriptableXULElement extends ScriptableElement {
 	// Controllers getControllers(); //readonly
 	// BoxObject getBoxObject(); //readonly
 	
-	
-	public void jsFunction_focus() {
+
+	@JSFunction("focus")
+	public void focus() {
 		delegateXULElement.focus();
 	}
-	
-	public void jsFunction_blur() {
+
+	@JSFunction("blur")
+	public void blur() {
 		delegateXULElement.blur();
 	}
-	
-	public void jsFunction_click() {
+
+	@JSFunction("click")
+	public void click() {
 		delegateXULElement.click();
 	}
-	
-	public void jsFunction_doCommand() {
+
+	@JSFunction("doCommand")
+	public void doCommand() {
 		delegateXULElement.doCommand();
 	}
 	
-	
-	
-	/**
-	 * Retrieve all descdendant Elements for which the named attribute 
-	 * has the given value. A value of "*" is a wildcard signifying all 
-	 * elements with the attribute.
-	 * 
-	 * @param name The name of the attribute
-	 * @param value The value of the attribute. A value of "*" is a wildcard 
-	 * signifying all elements with the attribute.
-	 * @return A NodeList of matching Elements
-	 */
-	public ScriptableNodeList jsFunction_getElementsByAttribute(String name, String value) {
-		return new ScriptableNodeList(getParentScope(), delegateXULElement.getElementsByAttribute(name, value));
+	@JSFunction("getElementsByAttribute")
+	public Object getElementsByAttribute(String name, String value) {
+		return Context.javaToJS(delegateXULElement.getElementsByAttribute(name, value), getParentScope());
 	}
 
 }
