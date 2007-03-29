@@ -4,6 +4,7 @@ import net.lojjic.rhino.annotations.AnnotationScriptableObject;
 import net.lojjic.rhino.annotations.JSConstructor;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.Wrapper;
+import org.mozilla.javascript.Context;
 
 /**
  * Common abstract superclass for all the Scriptable DOM object wrappers
@@ -42,6 +43,13 @@ public abstract class ScriptableDOMObject extends AnnotationScriptableObject imp
 					+ ", got " + arg.getClass().getName());
 		}
 		return (T)arg;
+	}
+
+	/**
+	 * Convert the given Java object into a JS object suitable as a return value
+	 */
+	protected Object convertReturnValue(Object javaObject) {
+		return Context.javaToJS(javaObject, getParentScope());
 	}
 
 	@JSConstructor
