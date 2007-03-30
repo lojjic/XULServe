@@ -6,7 +6,7 @@ import net.lojjic.xul.XULElement;
 /**
  * {@link net.lojjic.xul.XULLabelElement} implementation
  */
-public class XULLabelElementImpl extends XULElementImpl implements XULLabelElement {
+public class XULLabelElementImpl extends XULDescriptionElementImpl implements XULLabelElement {
 
 	/**
 	 * Constructor

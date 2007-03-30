@@ -26,7 +26,7 @@ import org.apache.commons.lang.StringUtils;
  */
 public class XULElementImpl extends ElementXBLImpl implements XULElement {
 
-	private XULDocumentImpl ownerXULDocument;
+	protected XULDocumentImpl ownerXULDocument;
 	private XULTemplateBuilder xulTemplateBuilder;
 	private RDFCompositeDataSource rdfCompositeDataSource;
 	private RDFResource rdfResource;
