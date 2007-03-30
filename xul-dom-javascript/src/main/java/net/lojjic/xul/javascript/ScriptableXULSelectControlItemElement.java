@@ -2,12 +2,14 @@ package net.lojjic.xul.javascript;
 
 import net.lojjic.rhino.annotations.JSGetter;
 import net.lojjic.rhino.annotations.JSSetter;
+import net.lojjic.rhino.annotations.JSClassName;
 import net.lojjic.xul.XULSelectControlItemElement;
 import org.mozilla.javascript.Scriptable;
 
 /**
  * Scriptable wrapper for {@link net.lojjic.xul.XULSelectControlItemElement}
  */
+@JSClassName("XULSelectControlItemElement")
 public class ScriptableXULSelectControlItemElement extends ScriptableXULElement {
 
 	private XULSelectControlItemElement delegateXULSelectControlItemElement;

@@ -3,6 +3,7 @@ package net.lojjic.xul.javascript;
 import net.lojjic.rhino.annotations.JSFunction;
 import net.lojjic.rhino.annotations.JSGetter;
 import net.lojjic.rhino.annotations.JSSetter;
+import net.lojjic.rhino.annotations.JSClassName;
 import net.lojjic.xml.javascript.ScriptableDocument;
 import net.lojjic.xul.XULDocument;
 import org.mozilla.javascript.Scriptable;
@@ -14,6 +15,7 @@ import org.w3c.dom.views.DocumentView;
 /**
  * Scriptable wrapper for {@link net.lojjic.xul.XULDocument}
  */
+@JSClassName("XULDocument")
 public class ScriptableXULDocument extends ScriptableDocument {
 
 	private XULDocument delegateXULDocument;

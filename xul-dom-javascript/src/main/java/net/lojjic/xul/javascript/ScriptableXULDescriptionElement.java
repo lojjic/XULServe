@@ -2,12 +2,14 @@ package net.lojjic.xul.javascript;
 
 import net.lojjic.rhino.annotations.JSGetter;
 import net.lojjic.rhino.annotations.JSSetter;
+import net.lojjic.rhino.annotations.JSClassName;
 import net.lojjic.xul.XULDescriptionElement;
 import org.mozilla.javascript.Scriptable;
 
 /**
  * Scriptable wrapper for {@link net.lojjic.xul.XULDescriptionElement}
  */
+@JSClassName("XULDescriptionElement")
 public class ScriptableXULDescriptionElement extends ScriptableXULElement {
 
 	private XULDescriptionElement delegateXULDescriptionElement;

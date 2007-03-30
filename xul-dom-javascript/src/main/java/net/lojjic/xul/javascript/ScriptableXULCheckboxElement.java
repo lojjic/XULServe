@@ -2,12 +2,14 @@ package net.lojjic.xul.javascript;
 
 import net.lojjic.rhino.annotations.JSGetter;
 import net.lojjic.rhino.annotations.JSSetter;
+import net.lojjic.rhino.annotations.JSClassName;
 import net.lojjic.xul.XULCheckboxElement;
 import org.mozilla.javascript.Scriptable;
 
 /**
  * Scriptable wrapper for {@link net.lojjic.xul.XULCheckboxElement}
  */
+@JSClassName("XULCheckboxElement")
 public class ScriptableXULCheckboxElement extends ScriptableXULLabeledControlElement {
 
 	private XULCheckboxElement delegateXULCheckboxElement;

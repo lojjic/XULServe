@@ -2,6 +2,7 @@ package net.lojjic.xul.javascript;
 
 import net.lojjic.rhino.annotations.JSFunction;
 import net.lojjic.rhino.annotations.JSGetter;
+import net.lojjic.rhino.annotations.JSClassName;
 import net.lojjic.xml.javascript.ScriptableDOMObject;
 import net.lojjic.xul.Window;
 import org.mozilla.javascript.Context;
@@ -10,6 +11,7 @@ import org.mozilla.javascript.Scriptable;
 /**
  * Scriptable wrapper for {@link net.lojjic.xul.Window}
  */
+@JSClassName("Window")
 public class ScriptableWindow extends ScriptableDOMObject {
 
 	protected Window delegateWindow;

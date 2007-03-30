@@ -3,12 +3,14 @@ package net.lojjic.xul.javascript;
 import net.lojjic.rhino.annotations.JSFunction;
 import net.lojjic.rhino.annotations.JSGetter;
 import net.lojjic.rhino.annotations.JSSetter;
+import net.lojjic.rhino.annotations.JSClassName;
 import net.lojjic.xul.XULTextBoxElement;
 import org.mozilla.javascript.Scriptable;
 
 /**
  * Scriptable wrapper for {@link net.lojjic.xul.XULTextBoxElement}
  */
+@JSClassName("XULTextBoxElement")
 public class ScriptableXULTextBoxElement extends ScriptableXULControlElement {
 
 	private XULTextBoxElement delegateXULTextBoxElement;

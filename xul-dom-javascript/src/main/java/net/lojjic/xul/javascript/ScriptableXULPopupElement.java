@@ -3,6 +3,7 @@ package net.lojjic.xul.javascript;
 import net.lojjic.rhino.annotations.JSFunction;
 import net.lojjic.rhino.annotations.JSGetter;
 import net.lojjic.rhino.annotations.JSSetter;
+import net.lojjic.rhino.annotations.JSClassName;
 import net.lojjic.xul.XULPopupElement;
 import org.mozilla.javascript.Scriptable;
 import org.w3c.dom.Element;
@@ -10,6 +11,7 @@ import org.w3c.dom.Element;
 /**
  * Scriptable wrapper for {@link net.lojjic.xul.XULPopupElement}
  */
+@JSClassName("XULPopupElement")
 public class ScriptableXULPopupElement extends ScriptableXULElement {
 
 	private XULPopupElement delegateXULPopupElement;
