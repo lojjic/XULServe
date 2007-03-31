@@ -15,10 +15,13 @@ import net.lojjic.xml.javascript.views.*;
 
 public class DOMWrapFactory extends WrapFactory {
 
-	public static final String USER_DATA_KEY = "ScriptableDOMObject:UserDataKey";
+	public static final String NODE_USER_DATA_KEY = "ScriptableDOMObject:UserDataKey";
 
-	private HashMap<Class, Class<? extends ScriptableDOMObject>> mappings = new HashMap<Class, Class<? extends ScriptableDOMObject>>();
+	private HashMap<Class, Class<? extends Scriptable>> mappings =
+			new HashMap<Class, Class<? extends Scriptable>>();
 
+	private HashMap<Class, KeyValue<Class, Class<? extends Scriptable>>> cache =
+			new HashMap<Class, KeyValue<Class, Class<? extends Scriptable>>>();
 
 	/**
 	 * Add a mapping from a DOM class/interface to its Scriptable wrapper class.
@@ -28,6 +31,7 @@ public class DOMWrapFactory extends WrapFactory {
 	 */
 	public void addWrapMapping(Class domClass, Class<? extends ScriptableDOMObject> scriptableClass) {
 		mappings.put(domClass, scriptableClass);
+		cache.clear(); //clear cache
 	}
 
 
@@ -49,22 +53,22 @@ public class DOMWrapFactory extends WrapFactory {
 	public Scriptable wrapAsJavaObject(Context cx, Scriptable scope, Object javaObject, Class staticType) {
 		Scriptable wrapper = null;
 
-		// If javaObject is a DOM Node, check the user data for an existing wrapper:
+		// If javaObject is a DOM Node, check the user data for an existing wrapper instance:
 		if(javaObject instanceof Node) {
-			wrapper = (Scriptable)((Node)javaObject).getUserData(USER_DATA_KEY);
+			wrapper = (Scriptable)((Node)javaObject).getUserData(NODE_USER_DATA_KEY);
 			if(wrapper != null) {
 				return wrapper;
 			}
 		}
 
 		// If a matching wrapper class is defined in the mappings, create an instance:
-		Class javaClass = javaObject.getClass();
-		Class wrappedClass = findMappedClass(javaClass);
-		if(wrappedClass != null) {
+		KeyValue<Class, Class<? extends Scriptable>> mapping = findMappingForClass(javaObject.getClass());
+		if(mapping != null) {
 			try {
-				Class wrapperClass = mappings.get(wrappedClass);
-				Constructor constructor = wrapperClass.getConstructor(Scriptable.class, wrappedClass);
-				wrapper = (Scriptable)constructor.newInstance(scope, javaObject);
+				Class wrappedClass = mapping.getKey();
+				Class<? extends Scriptable> wrapperClass = mapping.getValue();
+				Constructor<? extends Scriptable> constructor = wrapperClass.getConstructor(Scriptable.class, wrappedClass);
+				wrapper = constructor.newInstance(scope, javaObject);
 			}
 			catch(Exception e) {
 				Context.throwAsScriptRuntimeEx(e);
@@ -79,7 +83,7 @@ public class DOMWrapFactory extends WrapFactory {
 		// If javaObject is a DOM Node, save the wrapper as a user data attribute
 		// so the same instance can be reused next time:
 		if(javaObject instanceof Node) {
-			((Node)javaObject).setUserData(USER_DATA_KEY, wrapper, null);
+			((Node)javaObject).setUserData(NODE_USER_DATA_KEY, wrapper, null);
 		}
 
 		return wrapper;
@@ -87,26 +91,71 @@ public class DOMWrapFactory extends WrapFactory {
 
 
 	/**
-	 * Find the most specific class/interface for which a wrap mapping exists for the given Class.
-	 * Walks the inheritance line, checking each class and its explicitly declared interfaces
-	 * for a match in the mappings. If no mapping is found, null is returned.
+	 * Find a JS wrapper to use for the given Java class defined in the mappings, if
+	 * one exists. A mapping may be defined for one of the class's implemented interfaces
+	 * or superclasses, so the interface/inheritance chain is walked until a match is
+	 * found. The result is cached for fast access later.
+	 * @param javaClass The Java class which will be wrapped
+	 * @return A {@link KeyValue} mapping whose key is the interface/superclass for which
+	 *         the mapping was found, and whose value is the JavaScript wrapper class to
+	 *         use. If no mapping was found, null will be returned.
 	 */
-	private Class findMappedClass(Class clazz) {
-		while(clazz != null) {
+	private KeyValue<Class, Class<? extends Scriptable>> findMappingForClass(Class javaClass) {
+		KeyValue<Class, Class<? extends Scriptable>> result = null;
+
+		// Check the cache - can have a null value so need to check for key existence:
+		if(cache.containsKey(javaClass)) {
+			return cache.get(javaClass);
+		}
+
+		// Check the mappings:
+		Class wrappedClass = javaClass;
+		loop: while(wrappedClass != null) {
 			// Try the class directly:
-			if(mappings.containsKey(clazz)) {
-				return clazz;
+			if(mappings.containsKey(wrappedClass)) {
+				break;
 			}
 			// Try the class's interfaces:
-			for(Class iface : clazz.getInterfaces()) {
+			for(Class iface : wrappedClass.getInterfaces()) {
 				if(mappings.containsKey(iface)) {
-					return iface;
+					wrappedClass = iface;
+					break loop;
 				}
 			}
-			clazz = clazz.getSuperclass();
+			// Walk up the inheritance chain:
+			wrappedClass = wrappedClass.getSuperclass();
 		}
-		return null;
+
+		if(wrappedClass != null) {
+			Class<? extends Scriptable> wrapperClass = mappings.get(wrappedClass);
+			result = new KeyValue<Class,Class<? extends Scriptable>>(wrappedClass, wrapperClass);
+		}
+
+		// Add the result to the cache:
+		cache.put(javaClass, result);
+
+		return result;
 	}
+
+
+	/**
+	 * Simple container for a single key-value mapping
+	 */
+	private static class KeyValue<K, V> {
+		private K key;
+		private V val;
+		public KeyValue(K key, V val) {
+			this.key = key;
+			this.val = val;
+		}
+		public K getKey() {
+			return key;
+		}
+		public V getValue() {
+			return val;
+		}
+	}
+
 
 
 	/**
