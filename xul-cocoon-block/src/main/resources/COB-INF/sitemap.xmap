@@ -27,6 +27,10 @@
 		</map:pipeline>
 
 		<map:pipeline type="caching">
+			<map:match pattern="__resource__/**">
+				<map:read src="resource://{1}" />
+			</map:match>
+
 			<map:match pattern="**">
 				<map:read src="context://{1}" />
 			</map:match>
