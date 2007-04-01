@@ -40,51 +40,11 @@
 			<artifactId>commons-lang</artifactId>
 			<version>2.2</version>
 		</dependency>
-
-		<!-- Need cocoon-pipeline-impl for DOMStreamer only; exclude most transitive dependencies:
 		<dependency>
-			<groupId>org.apache.cocoon</groupId>
-			<artifactId>cocoon-pipeline-impl</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.apache.cocoon</groupId>
-					<artifactId>cocoon-configuration-api</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.apache.cocoon</groupId>
-					<artifactId>cocoon-util</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.apache.excalibur.components.sourceresolve</groupId>
-					<artifactId>excalibur-sourceresolve</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.apache.excalibur.components.store</groupId>
-					<artifactId>excalibur-store</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.apache.excalibur.containerkit.instrument</groupId>
-					<artifactId>excalibur-instrument-api</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>commons-collections</groupId>
-					<artifactId>commons-collections</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>jakarta-regexp</groupId>
-					<artifactId>jakarta-regexp</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.springframework</groupId>
-					<artifactId>spring-beans</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.springframework</groupId>
-					<artifactId>spring-core</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency> -->
+			<groupId>org.apache.excalibur.components.sourceresolve</groupId>
+			<artifactId>excalibur-sourceresolve</artifactId>
+			<version>2.1</version>
+		</dependency>
 
 		<dependency>
 			<groupId>junit</groupId>

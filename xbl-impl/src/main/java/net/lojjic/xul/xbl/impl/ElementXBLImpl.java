@@ -237,18 +237,17 @@ public class ElementXBLImpl extends ElementNSImpl implements ElementXBL {
 					// Set bindingOwner:
 					elt.bindingOwner = this;
 
-					// For top-level nodes, flag them as such so that they will return
-					// the binding owner as parentNode:
-					if(parent == clone) {
-						elt.isTopLevelAnonymousNode = true;
-					}
-
 					// Handle <children/> insertion points:
 					if(BindingBuilder.XBL_NAMESPACE.equals(elt.getNamespaceURI()) &&
 							"children".equals(elt.getLocalName())) {
+						XBLChildrenInsertionPoint insPt = new XBLChildrenInsertionPoint(elt);
 						for(Node kid = getFirstChild(); kid != null; kid = kid.getNextSibling()) {
-							// TODO
+							if(kid.getNodeType() == ELEMENT_NODE && kid instanceof ElementXBLImpl && insPt.handlesNode(kid)) {
+								linkElements(clone, parent, (ElementXBLImpl)kid);
+							}
 						}
+					} else {
+						linkElements(clone, parent, elt);
 					}
 				}
 			}
@@ -259,6 +258,29 @@ public class ElementXBLImpl extends ElementNSImpl implements ElementXBL {
 			dispatchEvent(event);
 		}
 	}
+
+	/**
+	 * Utility to link together the given XBL parent and child elements.
+	 */
+	private void linkElements(ElementXBLImpl templateRoot, ElementXBLImpl parent, ElementXBLImpl child) {
+		// For top-level nodes, flag them as such so that they will return
+		// the binding owner as parentNode:
+		if(parent == templateRoot) {
+			child.isTopLevelAnonymousNode = true;
+		}
+
+		// If child is a document-level node being repositioned, set its anonymousParent:
+		if(child.getOwnerDocument() == this.getOwnerDocument()) {
+			child.anonymousParent = parent;
+		}
+
+		// Add the child to the parent's xblChildNodes list:
+		if(parent.xblChildNodes == null) {
+			parent.xblChildNodes = new ArrayList<Node>();
+		}
+		parent.xblChildNodes.add(child);
+	}
+
 
 	/**
 	 * Determine if the given XBL content template contains &lt;children/> insertion points
