@@ -23,7 +23,7 @@ public class ElementXBLImpl extends ElementNSImpl implements ElementXBL {
 	protected ElementXBLImpl anonymousParent;
 	protected List<Node> xblChildNodes;
 	protected boolean isTopLevelAnonymousNode = false;
-	protected List<XBLBinding> appliedBindings;
+	public List<XBLBinding> appliedBindings;
 
 	/**
 	 * Constructor.

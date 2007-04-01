@@ -1,13 +1,18 @@
 package net.lojjic.xul.xbl.impl;
 
 /**
- * XBL method
+ * Representation of a XBL method
+ * <p>
+ * The method body is initially stored simply as a String. It is expected
+ * that the consumer of the method (i.e. scripting environment) will
+ * compile that String into its executable form when first requested,
+ * and then replace the String with that compiled form.
  */
 public class XBLMethod {
 
 	private String name;
 	private String[] parameters;
-	private Object body; //TODO make a Javascript function
+	private Object body;
 	private String type;
 
 

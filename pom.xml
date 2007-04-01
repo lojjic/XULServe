@@ -26,6 +26,7 @@
 		<module>xpcom</module>
 		<module>xbl-api</module>
 		<module>xbl-impl</module>
+		<module>xbl-javascript</module>
 		<module>xul-rdf-api</module>
 		<module>xul-rdf-impl</module>
 		<module>xul-dom-api</module>

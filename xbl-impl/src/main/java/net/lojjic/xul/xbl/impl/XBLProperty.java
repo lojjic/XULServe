@@ -2,13 +2,18 @@ package net.lojjic.xul.xbl.impl;
 
 /**
  * XBL property with getter/setter
+ * <p>
+ * The getter and setter are initially stored simply as Strings. It is expected
+ * that the consumer of the getter/setter (i.e. scripting environment) will
+ * compile those Strings into their executable form when first requested,
+ * and then replace the Strings with the compiled form.
  */
 public class XBLProperty {
 
 	private String name;
 	private boolean readonly;
-	private Object getter; // TODO make Javascript function
-	private Object setter; // TODO make Javascript function
+	private Object getter;
+	private Object setter;
 
 
 	public String getName() {
