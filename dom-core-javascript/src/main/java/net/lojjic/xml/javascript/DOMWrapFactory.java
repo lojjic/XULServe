@@ -87,7 +87,7 @@ public class DOMWrapFactory extends WrapFactory {
 
 		// Fall back to inherited behavior:
 		if(wrapper == null) {
-			wrapper = super.wrapAsJavaObject(cx, scope, javaObject, staticType);
+			return super.wrapAsJavaObject(cx, scope, javaObject, staticType);
 		}
 
 		// Save wrapper instance to the cache:
