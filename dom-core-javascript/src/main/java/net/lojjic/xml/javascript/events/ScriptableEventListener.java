@@ -11,25 +11,19 @@ import org.w3c.dom.events.EventListener;
  * Scriptable wrapper for {@link org.w3c.dom.events.EventListener}
  */
 @JSClassName("EventListener")
-public class ScriptableEventListener extends ScriptableDOMObject {
-	
-	protected EventListener delegateEventListener;
+public class ScriptableEventListener<T extends EventListener> extends ScriptableDOMObject<T> {
 
 	public ScriptableEventListener() {
 		super();
 	}
 
-	public ScriptableEventListener(Scriptable scope, EventListener eventListener) {
+	public ScriptableEventListener(Scriptable scope, T eventListener) {
 		super(scope, eventListener);
-		this.delegateEventListener = eventListener;
 	}
 	
 	@JSFunction("handleEvent")
 	public void handleEvent(Object event) {
-		delegateEventListener.handleEvent(convertArg(event, Event.class));
+		unwrap().handleEvent(convertArg(event, Event.class));
 	}
 
-	public EventListener getDelegateEventListener() {
-		return delegateEventListener;
-	}
 }

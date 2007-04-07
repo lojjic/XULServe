@@ -10,66 +10,63 @@ import org.mozilla.javascript.Scriptable;
  * Scriptable wrapper for {@link net.lojjic.xul.XULLabeledControlElement}
  */
 @JSClassName("XULLabeledControlElement")
-public class ScriptableXULLabeledControlElement extends ScriptableXULControlElement {
-
-	private XULLabeledControlElement delegateXULLabeledControlElement;
+public class ScriptableXULLabeledControlElement<T extends XULLabeledControlElement> extends ScriptableXULControlElement<T> {
 
 	public ScriptableXULLabeledControlElement() {
 		super();
 	}
 
-	public ScriptableXULLabeledControlElement(Scriptable scope, XULLabeledControlElement delegateXULLabeledControlElement) {
-		super(scope, delegateXULLabeledControlElement);
-		this.delegateXULLabeledControlElement = delegateXULLabeledControlElement;
+	public ScriptableXULLabeledControlElement(Scriptable scope, T xulLabeledControlElement) {
+		super(scope, xulLabeledControlElement);
 	}
 
 	@JSGetter("accesskey")
 	public String getAccessKey() {
-		return delegateXULLabeledControlElement.getAccessKey();
+		return unwrap().getAccessKey();
 	}
 
 	@JSGetter("command")
 	public String getCommand() {
-		return delegateXULLabeledControlElement.getCommand();
+		return unwrap().getCommand();
 	}
 
 	@JSGetter("crop")
 	public String getCrop() {
-		return delegateXULLabeledControlElement.getCrop();
+		return unwrap().getCrop();
 	}
 
 	@JSGetter("image")
 	public String getImage() {
-		return delegateXULLabeledControlElement.getImage();
+		return unwrap().getImage();
 	}
 
 	@JSGetter("label")
 	public String getLabel() {
-		return delegateXULLabeledControlElement.getLabel();
+		return unwrap().getLabel();
 	}
 
 	@JSSetter("accesskey")
 	public void setAccessKey(String accessKey) {
-		delegateXULLabeledControlElement.setAccessKey(accessKey);
+		unwrap().setAccessKey(accessKey);
 	}
 
 	@JSSetter("command")
 	public void setCommand(String command) {
-		delegateXULLabeledControlElement.setCommand(command);
+		unwrap().setCommand(command);
 	}
 
 	@JSSetter("crop")
 	public void setCrop(String crop) {
-		delegateXULLabeledControlElement.setCrop(crop);
+		unwrap().setCrop(crop);
 	}
 
 	@JSSetter("image")
 	public void setImage(String image) {
-		delegateXULLabeledControlElement.setImage(image);
+		unwrap().setImage(image);
 	}
 
 	@JSSetter("label")
 	public void setLabel(String label) {
-		delegateXULLabeledControlElement.setLabel(label);
+		unwrap().setLabel(label);
 	}
 }

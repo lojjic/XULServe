@@ -10,32 +10,29 @@ import net.lojjic.rhino.annotations.JSGetter;
  * Scriptable wrapper for {@link org.w3c.dom.DOMStringList}
  */
 @JSClassName("DOMStringList")
-public class ScriptableDOMStringList extends ScriptableDOMObject {
-
-	private DOMStringList delegateDOMStringList;
+public class ScriptableDOMStringList<T extends DOMStringList> extends ScriptableDOMObject<T> {
 
 	public ScriptableDOMStringList() {
 		super();
 	}
 
-	public ScriptableDOMStringList(Scriptable scope, DOMStringList delegateDOMStringList) {
-		super(scope, delegateDOMStringList);
-		this.delegateDOMStringList = delegateDOMStringList;
+	public ScriptableDOMStringList(Scriptable scope, T domStringList) {
+		super(scope, domStringList);
 	}
 
 	@JSFunction("contains")
 	public boolean contains(String str) {
-		return delegateDOMStringList.contains(str);
+		return unwrap().contains(str);
 	}
 
 	@JSGetter("length")
 	public int getLength() {
-		return delegateDOMStringList.getLength();
+		return unwrap().getLength();
 	}
 
 	@JSFunction("item")
 	public String item(int index) {
-		return delegateDOMStringList.item(index);
+		return unwrap().item(index);
 	}
 
 	/**

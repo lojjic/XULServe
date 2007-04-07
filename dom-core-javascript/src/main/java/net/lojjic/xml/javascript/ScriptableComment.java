@@ -8,17 +8,14 @@ import org.w3c.dom.Comment;
  * Scriptable wrapper for {@link org.w3c.dom.Comment}
  */
 @JSClassName("Comment")
-public class ScriptableComment extends ScriptableCharacterData {
-
-	private Comment delegateComment;
+public class ScriptableComment<T extends Comment> extends ScriptableCharacterData<T> {
 
 	public ScriptableComment() {
 		super();
 	}
 
-	public ScriptableComment(Scriptable scope, Comment delegateComment) {
+	public ScriptableComment(Scriptable scope, T delegateComment) {
 		super(scope, delegateComment);
-		this.delegateComment = delegateComment;
 	}
 
 }

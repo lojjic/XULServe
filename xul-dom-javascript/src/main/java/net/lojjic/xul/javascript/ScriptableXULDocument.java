@@ -16,109 +16,106 @@ import org.w3c.dom.views.DocumentView;
  * Scriptable wrapper for {@link net.lojjic.xul.XULDocument}
  */
 @JSClassName("XULDocument")
-public class ScriptableXULDocument extends ScriptableDocument {
-
-	private XULDocument delegateXULDocument;
+public class ScriptableXULDocument<T extends XULDocument> extends ScriptableDocument<T> {
 
 	public ScriptableXULDocument() {
 		super();
 	}
 
-	public ScriptableXULDocument(Scriptable scope, XULDocument delegateXULDocument) {
-		super(scope, delegateXULDocument);
-		this.delegateXULDocument = delegateXULDocument;
+	public ScriptableXULDocument(Scriptable scope, T xulDocument) {
+		super(scope, xulDocument);
 	}
 
 	@JSFunction("addBroadcastListenerFor")
 	public void addBroadcastListenerFor(Object broadcaster, Object observer, String attr) {
-		delegateXULDocument.addBroadcastListenerFor(
+		unwrap().addBroadcastListenerFor(
 				convertArg(broadcaster, Element.class), convertArg(observer, Element.class), attr);
 	}
 
 	@JSGetter("commandDispatcher")
 	public Object getCommandDispatcher() {
-		return convertReturnValue(delegateXULDocument.getCommandDispatcher());
+		return convertReturnValue(unwrap().getCommandDispatcher());
 	}
 
 	@JSFunction("getElementsByAttribute")
 	public Object getElementsByAttribute(String name, String value) {
-		return convertReturnValue(delegateXULDocument.getElementsByAttribute(name, value));
+		return convertReturnValue(unwrap().getElementsByAttribute(name, value));
 	}
 
 	@JSGetter("height")
 	public long getHeight() {
-		return delegateXULDocument.getHeight();
+		return unwrap().getHeight();
 	}
 
 	@JSGetter("popupNode")
 	public Object getPopupNode() {
-		return convertReturnValue(delegateXULDocument.getPopupNode());
+		return convertReturnValue(unwrap().getPopupNode());
 	}
 
 	@JSGetter("popupRangeOffset")
 	public long getPopupRangeOffset() {
-		return delegateXULDocument.getPopupRangeOffset();
+		return unwrap().getPopupRangeOffset();
 	}
 
 	@JSGetter("popupRangeParent")
 	public Object getPopupRangeParent() {
-		return convertReturnValue(delegateXULDocument.getPopupRangeParent());
+		return convertReturnValue(unwrap().getPopupRangeParent());
 	}
 
 	@JSGetter("tooltipNode")
 	public Object getTooltipNode() {
-		return convertReturnValue(delegateXULDocument.getTooltipNode());
+		return convertReturnValue(unwrap().getTooltipNode());
 	}
 
 	@JSGetter("trustedPopupEvent")
 	public Object getTrustedPopupEvent() {
-		return convertReturnValue(delegateXULDocument.getTrustedPopupEvent());
+		return convertReturnValue(unwrap().getTrustedPopupEvent());
 	}
 
 	@JSGetter("width")
 	public long getWidth() {
-		return delegateXULDocument.getWidth();
+		return unwrap().getWidth();
 	}
 
 	@JSFunction("loadOverlay")
 	public void loadOverlay(String url) {
-		delegateXULDocument.loadOverlay(url);
+		unwrap().loadOverlay(url);
 	}
 
 	@JSFunction("persist")
 	public void persist(String id, String attr) {
-		delegateXULDocument.persist(id, attr);
+		unwrap().persist(id, attr);
 	}
 
 	@JSFunction("removeBroadcastListenerFor")
 	public void removeBroadcastListenerFor(Object broadcaster, Object observer, String attr) {
-		delegateXULDocument.removeBroadcastListenerFor(
+		unwrap().removeBroadcastListenerFor(
 				convertArg(broadcaster, Element.class), convertArg(observer, Element.class), attr);
 	}
 
 	@JSSetter("popupNode")
 	public void setPopupNode(Object node) {
-		delegateXULDocument.setPopupNode(convertArg(node, Node.class));
+		unwrap().setPopupNode(convertArg(node, Node.class));
 	}
 
 	@JSSetter("tooltipNode")
 	public void setTooltipNode(Object node) {
-		delegateXULDocument.setTooltipNode(convertArg(node, Node.class));
+		unwrap().setTooltipNode(convertArg(node, Node.class));
 	}
 
 	@JSSetter("trustedPopupEvent")
 	public void setTrustedPopupEvent(Object event) {
-		delegateXULDocument.setTrustedPopupEvent(convertArg(event, Event.class));
+		unwrap().setTrustedPopupEvent(convertArg(event, Event.class));
 	}
 
 	@JSFunction("trustedGetPopupNode")
 	public Object trustedGetPopupNode() {
-		return convertReturnValue(delegateXULDocument.trustedGetPopupNode());
+		return convertReturnValue(unwrap().trustedGetPopupNode());
 	}
 
 	@JSFunction("trustedGetTooltipNode")
 	public Object trustedGetTooltipNode() {
-		return convertReturnValue(delegateXULDocument.trustedGetTooltipNode());
+		return convertReturnValue(unwrap().trustedGetTooltipNode());
 	}
 
 
@@ -126,9 +123,9 @@ public class ScriptableXULDocument extends ScriptableDocument {
 
 	@JSGetter("defaultView")
 	public Object getDefaultView() {
-		if(!(delegateXULDocument instanceof DocumentView)) {
+		if(!(unwrap() instanceof DocumentView)) {
 			return null;
 		}
-		return convertReturnValue(((DocumentView)delegateXULDocument).getDefaultView());
+		return convertReturnValue(((DocumentView)unwrap()).getDefaultView());
 	}
 }

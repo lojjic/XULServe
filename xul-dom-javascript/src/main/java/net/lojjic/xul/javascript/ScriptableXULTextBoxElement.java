@@ -11,90 +11,87 @@ import org.mozilla.javascript.Scriptable;
  * Scriptable wrapper for {@link net.lojjic.xul.XULTextBoxElement}
  */
 @JSClassName("XULTextBoxElement")
-public class ScriptableXULTextBoxElement extends ScriptableXULControlElement {
-
-	private XULTextBoxElement delegateXULTextBoxElement;
+public class ScriptableXULTextBoxElement<T extends XULTextBoxElement> extends ScriptableXULControlElement<T> {
 
 	public ScriptableXULTextBoxElement() {
 		super();
 	}
 
-	public ScriptableXULTextBoxElement(Scriptable scope, XULTextBoxElement delegateXULTextBoxElement) {
-		super(scope, delegateXULTextBoxElement);
-		this.delegateXULTextBoxElement = delegateXULTextBoxElement;
+	public ScriptableXULTextBoxElement(Scriptable scope, T xulTextBoxElement) {
+		super(scope, xulTextBoxElement);
 	}
 
 	@JSGetter("inputField")
 	public Object getInputField() {
-		return convertReturnValue(delegateXULTextBoxElement.getInputField());
+		return convertReturnValue(unwrap().getInputField());
 	}
 
 	@JSGetter("maxLength")
 	public int getMaxLength() {
 		// TODO FIXME casting loses precision
-		return (int)delegateXULTextBoxElement.getMaxLength();
+		return (int)unwrap().getMaxLength();
 	}
 
 	@JSGetter("selectionEnd")
 	public int getSelectionEnd() {
 		// TODO FIXME casting loses precision
-		return (int)delegateXULTextBoxElement.getSelectionEnd();
+		return (int)unwrap().getSelectionEnd();
 	}
 
 	@JSGetter("selectionStart")
 	public int getSelectionStart() {
 		// TODO FIXME casting loses precision
-		return (int)delegateXULTextBoxElement.getSelectionStart();
+		return (int)unwrap().getSelectionStart();
 	}
 
 	@JSGetter("textLength")
 	public int getTextLength() {
 		// TODO FIXME casting loses precision
-		return (int)delegateXULTextBoxElement.getTextLength();
+		return (int)unwrap().getTextLength();
 	}
 
 	@JSGetter("type")
 	public String getType() {
-		return delegateXULTextBoxElement.getType();
+		return unwrap().getType();
 	}
 
 	@JSGetter("value")
 	public String getValue() {
-		return delegateXULTextBoxElement.getValue();
+		return unwrap().getValue();
 	}
 
 	@JSFunction("select")
 	public void select() {
-		delegateXULTextBoxElement.select();
+		unwrap().select();
 	}
 
 	@JSSetter("maxLength")
 	public void setMaxLength(int maxLength) {
-		delegateXULTextBoxElement.setMaxLength(maxLength);
+		unwrap().setMaxLength(maxLength);
 	}
 
 	@JSSetter("selectionEnd")
 	public void setSelectionEnd(int selectionEnd) {
-		delegateXULTextBoxElement.setSelectionEnd(selectionEnd);
+		unwrap().setSelectionEnd(selectionEnd);
 	}
 
 	@JSSetter("setSelectionRange")
 	public void setSelectionRange(int selectionStart, int selectionEnd) {
-		delegateXULTextBoxElement.setSelectionRange(selectionStart, selectionEnd);
+		unwrap().setSelectionRange(selectionStart, selectionEnd);
 	}
 
 	@JSSetter("selectionStart")
 	public void setSelectionStart(int selectionStart) {
-		delegateXULTextBoxElement.setSelectionStart(selectionStart);
+		unwrap().setSelectionStart(selectionStart);
 	}
 
 	@JSSetter("type")
 	public void setType(String type) {
-		delegateXULTextBoxElement.setType(type);
+		unwrap().setType(type);
 	}
 
 	@JSSetter("value")
 	public void setValue(String value) {
-		delegateXULTextBoxElement.setValue(value);
+		unwrap().setValue(value);
 	}
 }

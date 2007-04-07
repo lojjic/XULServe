@@ -15,17 +15,14 @@ import org.w3c.dom.events.EventTarget;
  * Scriptable wrapper for {@link org.w3c.dom.Node}
  */
 @JSClassName("Node")
-public class ScriptableNode extends ScriptableDOMObject {
-
-	protected Node delegateNode;
+public class ScriptableNode<T extends Node> extends ScriptableDOMObject<T> {
 
 	public ScriptableNode() {
 		super();
 	}
 
-	public ScriptableNode(Scriptable scope, Node node) {
+	public ScriptableNode(Scriptable scope, T node) {
 		super(scope, node);
-		this.delegateNode = node;
 	}
 
 	@JSStatic @JSGetter("ELEMENT_NODE")
@@ -120,27 +117,27 @@ public class ScriptableNode extends ScriptableDOMObject {
 
 	@JSGetter("nodeName")
 	public String getNodeName() {
-		return delegateNode.getNodeName();
+		return unwrap().getNodeName();
 	}
 
 	@JSGetter("nodeValue")
 	public String getNodeValue() {
-		return delegateNode.getNodeValue();
+		return unwrap().getNodeValue();
 	}
 
 	@JSSetter("nodeValue")
 	public void setNodeValue(String val) {
-		delegateNode.setNodeValue(val);
+		unwrap().setNodeValue(val);
 	}
 
 	@JSGetter("nodeType")
 	public int getNodeType() {
-		return delegateNode.getNodeType();
+		return unwrap().getNodeType();
 	}
 	
 	@JSGetter("parentNode")
 	public Object getParentNode() {
-		return Context.javaToJS(delegateNode.getParentNode(), getParentScope());
+		return Context.javaToJS(unwrap().getParentNode(), getParentScope());
 	}
 	
 	@JSGetter("childNodes")
@@ -148,7 +145,7 @@ public class ScriptableNode extends ScriptableDOMObject {
 		// Xerces' NodeImpl also implements NodeList, so getChildNodes() returns
 		// the node itself, causing the wrong wrapper to be chosen by javaToJS().
 		// To avoid this we wrap it in something that only implements NodeList.
-		final NodeList origNodeList = delegateNode.getChildNodes();
+		final NodeList origNodeList = unwrap().getChildNodes();
 		NodeList nodeList = new NodeList() {
 			public int getLength() {
 				return origNodeList.getLength();
@@ -162,160 +159,160 @@ public class ScriptableNode extends ScriptableDOMObject {
 	
 	@JSGetter("firstChild")
 	public Object getFirstChild() {
-		return Context.javaToJS(delegateNode.getFirstChild(), getParentScope());
+		return Context.javaToJS(unwrap().getFirstChild(), getParentScope());
 	}
 	
 	@JSGetter("lastChild")
 	public Object getLastChild() {
-		return Context.javaToJS(delegateNode.getLastChild(), getParentScope());
+		return Context.javaToJS(unwrap().getLastChild(), getParentScope());
 	}
 	
 	@JSGetter("previousSibling")
 	public Object getPreviousSibling() {
-		return Context.javaToJS(delegateNode.getPreviousSibling(), getParentScope());
+		return Context.javaToJS(unwrap().getPreviousSibling(), getParentScope());
 	}
 	
 	@JSGetter("nextSibling")
 	public Object getNextSibling() {
-		return Context.javaToJS(delegateNode.getNextSibling(), getParentScope());
+		return Context.javaToJS(unwrap().getNextSibling(), getParentScope());
 	}
 	
 	@JSGetter("attributes")
 	public Object getAttributes() {
-		return Context.javaToJS(delegateNode.getAttributes(), getParentScope());
+		return Context.javaToJS(unwrap().getAttributes(), getParentScope());
 	}
 	
 	@JSGetter("ownerDocument")
 	public Object getOwnerDocument() {
-		return Context.javaToJS(delegateNode.getOwnerDocument(), getParentScope());
+		return Context.javaToJS(unwrap().getOwnerDocument(), getParentScope());
 	}
 
 	@JSFunction("insertBefore")
 	public Object insertBefore(Object newNode, Object refNode) {
-		Node result = delegateNode.insertBefore(convertArg(newNode, Node.class), convertArg(refNode, Node.class));
+		Node result = unwrap().insertBefore(convertArg(newNode, Node.class), convertArg(refNode, Node.class));
 		return Context.javaToJS(result, getParentScope());
 	}
 
 	@JSFunction("replaceChild")
 	public Object replaceChild(Object newNode, Object refNode) {
-		Node result = delegateNode.replaceChild(convertArg(newNode, Node.class), convertArg(refNode, Node.class));
+		Node result = unwrap().replaceChild(convertArg(newNode, Node.class), convertArg(refNode, Node.class));
 		return Context.javaToJS(result, getParentScope());
 	}
 
 	@JSFunction("removeChild")
 	public Object removeChild(Object node) {
-		return Context.javaToJS(delegateNode.removeChild(convertArg(node, Node.class)), getParentScope());
+		return Context.javaToJS(unwrap().removeChild(convertArg(node, Node.class)), getParentScope());
 	}
 
 	@JSFunction("appendChild")
 	public Object appendChild(Object node) {
-		return Context.javaToJS(delegateNode.appendChild(convertArg(node, Node.class)), getParentScope());
+		return Context.javaToJS(unwrap().appendChild(convertArg(node, Node.class)), getParentScope());
 	}
 	
 	@JSFunction("hasChildNodes")
 	public boolean hasChildNodes() {
-		return delegateNode.hasChildNodes();
+		return unwrap().hasChildNodes();
 	}
 	
 	@JSFunction("cloneNode")
 	public Object cloneNode(boolean deep) {
-		return Context.javaToJS(delegateNode.cloneNode(deep), getParentScope());
+		return Context.javaToJS(unwrap().cloneNode(deep), getParentScope());
 	}
 	
 	@JSFunction("normalize")
 	public void normalize() {
-		delegateNode.normalize();
+		unwrap().normalize();
 	}
 	
 	@JSFunction("isSupported")
 	public boolean isSupported(String feature, String version) {
-		return delegateNode.isSupported(feature, version);
+		return unwrap().isSupported(feature, version);
 	}
 
 	@JSGetter("namespaceURI")
 	public String getNamespaceURI() {
-		return delegateNode.getNamespaceURI();
+		return unwrap().getNamespaceURI();
 	}
 	
 	@JSGetter("prefix")
 	public String getPrefix() {
-		return delegateNode.getPrefix();
+		return unwrap().getPrefix();
 	}
 	
 	@JSSetter("prefix")
 	public void setPrefix(String prefix) {
-		delegateNode.setPrefix(prefix);
+		unwrap().setPrefix(prefix);
 	}
 	
 	@JSGetter("localName")
 	public String getLocalName() {
-		return delegateNode.getLocalName();
+		return unwrap().getLocalName();
 	}
 	
 	@JSFunction("hasAttributes")
 	public boolean hasAttributes() {
-		return delegateNode.hasAttributes();
+		return unwrap().hasAttributes();
 	}
 	
 	@JSGetter("baseURI")
 	public String getBaseURI() {
-		return delegateNode.getBaseURI();
+		return unwrap().getBaseURI();
 	}
 	
 	@JSFunction("compareDocumentPosition")
 	public int compareDocumentPosition(Object node) {
-		return delegateNode.compareDocumentPosition(convertArg(node, Node.class));
+		return unwrap().compareDocumentPosition(convertArg(node, Node.class));
 	}
 	
 	@JSGetter("textContent")
 	public String getTextContent() {
-		return delegateNode.getTextContent();
+		return unwrap().getTextContent();
 	}
 	
 	@JSSetter("textContent")
 	public void setTextContent(String text) {
-		delegateNode.setTextContent(text);
+		unwrap().setTextContent(text);
 	}
 	
 	@JSFunction("isSameNode")
 	public boolean isSameNode(Object node) {
-		return delegateNode.isSameNode(convertArg(node, Node.class));
+		return unwrap().isSameNode(convertArg(node, Node.class));
 	}
 	
 	@JSFunction("lookupNamespaceURI")
 	public String lookupNamespaceURI(String uri) {
-		return delegateNode.lookupNamespaceURI(uri);
+		return unwrap().lookupNamespaceURI(uri);
 	}
 	
 	@JSFunction("isEqualNode")
 	public boolean isEqualNode(Object node) {
-		return delegateNode.isEqualNode(convertArg(node, Node.class));
+		return unwrap().isEqualNode(convertArg(node, Node.class));
 	}
 	
 	@JSFunction("getFeature")
 	public Object getFeature(String feature, String version) {
-		return Context.javaToJS(delegateNode.getFeature(feature, version), getParentScope());
+		return Context.javaToJS(unwrap().getFeature(feature, version), getParentScope());
 	}
 
 	@JSFunction("isDefaultNamespace")
 	public boolean isDefaultNamespace(String namespaceURI) {
-		return delegateNode.isDefaultNamespace(namespaceURI);
+		return unwrap().isDefaultNamespace(namespaceURI);
 	}
 
 	@JSFunction("lookupPrefix")
 	public String lookupPrefix(String namespaceURI) {
-		return delegateNode.lookupPrefix(namespaceURI);
+		return unwrap().lookupPrefix(namespaceURI);
 	}
 
 	@JSFunction("setUserData")
 	public Object setUserData(String key, Object data, Object handler) {
-		Object result = delegateNode.setUserData(key, data, convertArg(handler, UserDataHandler.class));
+		Object result = unwrap().setUserData(key, data, convertArg(handler, UserDataHandler.class));
 		return Context.javaToJS(result, getParentScope());
 	}
 
 	@JSFunction("getUserData")
 	public Object getUserData(String key) {
-		return Context.javaToJS(delegateNode.getUserData(key), getParentScope());
+		return Context.javaToJS(unwrap().getUserData(key), getParentScope());
 	}
 
 
@@ -329,34 +326,34 @@ public class ScriptableNode extends ScriptableDOMObject {
 			listener = new JSFunctionEventListener(this, (Function)listener);
 		}
 		if(listener instanceof ScriptableEventListener) {
-			listener = ((ScriptableEventListener)listener).getDelegateEventListener();
+			listener = ((ScriptableEventListener)listener).unwrap();
 		}
 		if(!(listener instanceof EventListener)) {
 			throw new DOMException(DOMException.TYPE_MISMATCH_ERR, "Must supply an EventListener or JavaScript function object.");
 		}
-		((EventTarget)delegateNode).addEventListener(type, (EventListener)listener, useCapture);
+		((EventTarget)unwrap()).addEventListener(type, (EventListener)listener, useCapture);
 	}
 	
 	@JSFunction("dispatchEvent")
 	public boolean dispatchEvent(Object event) {
 		checkEventsSupported();
-		return ((EventTarget)delegateNode).dispatchEvent((Event)event);
+		return ((EventTarget)unwrap()).dispatchEvent((Event)event);
 	}
 	
 	@JSFunction("removeEventListener")
 	public void removeEventListener(String type, Object listener, boolean useCapture) {
 		checkEventsSupported();
 		if(listener instanceof ScriptableEventListener) {
-			listener = ((ScriptableEventListener)listener).getDelegateEventListener();
+			listener = ((ScriptableEventListener)listener).unwrap();
 		}
 		if(!(listener instanceof EventListener)) {
 			throw new DOMException(DOMException.TYPE_MISMATCH_ERR, "Must supply an EventListener or JavaScript function object.");
 		}
-		((EventTarget)delegateNode).removeEventListener(type, (EventListener)listener, useCapture);
+		((EventTarget)unwrap()).removeEventListener(type, (EventListener)listener, useCapture);
 	}
 	
 	private void checkEventsSupported() {
-		if(!(delegateNode instanceof EventTarget)) {
+		if(!(unwrap() instanceof EventTarget)) {
 			throw new DOMException(DOMException.NOT_SUPPORTED_ERR, 
 					"This DOM node does not support EventTarget interface methods.");
 		}

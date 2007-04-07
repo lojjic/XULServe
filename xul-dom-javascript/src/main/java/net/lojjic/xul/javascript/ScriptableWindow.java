@@ -12,82 +12,79 @@ import org.mozilla.javascript.Scriptable;
  * Scriptable wrapper for {@link net.lojjic.xul.Window}
  */
 @JSClassName("Window")
-public class ScriptableWindow extends ScriptableDOMObject {
-
-	protected Window delegateWindow;
+public class ScriptableWindow<T extends Window> extends ScriptableDOMObject<T> {
 
 	public ScriptableWindow() {
 		super();
 	}
 
-	public ScriptableWindow(Scriptable scope, Window delegateWindow) {
-		super(scope, delegateWindow);
-		this.delegateWindow = delegateWindow;
+	public ScriptableWindow(Scriptable scope, T window) {
+		super(scope, window);
 	}
 
 	@JSGetter("name")
 	public String getName() {
-		return delegateWindow.getName();
+		return unwrap().getName();
 	}
 
 	@JSGetter("parent")
 	public Window getParent() {
-		return delegateWindow.getParent();
+		return unwrap().getParent();
 	}
 
 	@JSGetter("scrollX")
 	public long getScrollX() {
-		return delegateWindow.getScrollX();
+		return unwrap().getScrollX();
 	}
 
 	@JSGetter("scrollY")
 	public long getScrollY() {
-		return delegateWindow.getScrollY();
+		return unwrap().getScrollY();
 	}
 
 	@JSGetter("textZoom")
 	public float getTextZoom() {
-		return delegateWindow.getTextZoom();
+		return unwrap().getTextZoom();
 	}
 
 	@JSGetter("top")
 	public Object getTop() {
-		return Context.javaToJS(delegateWindow.getTop(), getParentScope());
+		return Context.javaToJS(unwrap().getTop(), getParentScope());
 	}
 
 	@JSFunction("scrollBy")
 	public void scrollBy(long xScrollDif, long yScrollDif) {
-		delegateWindow.scrollBy(xScrollDif, yScrollDif);
+		unwrap().scrollBy(xScrollDif, yScrollDif);
 	}
 
 	@JSFunction("scrollByLines")
 	public void scrollByLines(long numLines) {
-		delegateWindow.scrollByLines(numLines);
+		unwrap().scrollByLines(numLines);
 	}
 
 	@JSFunction("scrollByPages")
 	public void scrollByPages(long numPages) {
-		delegateWindow.scrollByPages(numPages);
+		unwrap().scrollByPages(numPages);
 	}
 
 	@JSFunction("scrollTo")
 	public void scrollTo(long xScroll, long yScroll) {
-		delegateWindow.scrollTo(xScroll, yScroll);
+		unwrap().scrollTo(xScroll, yScroll);
 	}
 
 	@JSFunction("setTextZoom")
 	@JSGetter("textZoom")
 	public void setTextZoom(float textZoom) {
-		delegateWindow.setTextZoom(textZoom);
+		unwrap().setTextZoom(textZoom);
 	}
 
 	@JSFunction("sizeToContent")
 	public void sizeToContent() {
-		delegateWindow.sizeToContent();
+		unwrap().sizeToContent();
 	}
 
 	@JSGetter("document")
 	public Object getDocument() {
-		return Context.javaToJS(delegateWindow.getDocument(), getParentScope());
+		return Context.javaToJS(unwrap().getDocument(), getParentScope());
 	}
 }

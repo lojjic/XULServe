@@ -10,66 +10,63 @@ import org.mozilla.javascript.Scriptable;
  * Scriptable wrapper for {@link net.lojjic.xul.XULMenuListElement}
  */
 @JSClassName("XULMenuListElement")
-public class ScriptableXULMenuListElement extends ScriptableXULSelectControlElement {
-
-	private XULMenuListElement delegateXULMenuListElement;
+public class ScriptableXULMenuListElement<T extends XULMenuListElement> extends ScriptableXULSelectControlElement<T> {
 
 	public ScriptableXULMenuListElement() {
 		super();
 	}
 
-	public ScriptableXULMenuListElement(Scriptable scope, XULMenuListElement delegateXULMenuListElement) {
-		super(scope, delegateXULMenuListElement);
-		this.delegateXULMenuListElement = delegateXULMenuListElement;
+	public ScriptableXULMenuListElement(Scriptable scope, T xulMenuListElement) {
+		super(scope, xulMenuListElement);
 	}
 
 	@JSGetter("crop")
 	public String getCrop() {
-		return delegateXULMenuListElement.getCrop();
+		return unwrap().getCrop();
 	}
 
 	@JSGetter("image")
 	public String getImage() {
-		return delegateXULMenuListElement.getImage();
+		return unwrap().getImage();
 	}
 
 	@JSGetter("inputField")
 	public Object getInputField() {
-		return convertReturnValue(delegateXULMenuListElement.getInputField());
+		return convertReturnValue(unwrap().getInputField());
 	}
 
 	@JSGetter("label")
 	public String getLabel() {
-		return delegateXULMenuListElement.getLabel();
+		return unwrap().getLabel();
 	}
 
 	@JSGetter("editable")
 	public boolean isEditable() {
-		return delegateXULMenuListElement.isEditable();
+		return unwrap().isEditable();
 	}
 
 	@JSGetter("open")
 	public boolean isOpen() {
-		return delegateXULMenuListElement.isOpen();
+		return unwrap().isOpen();
 	}
 
 	@JSSetter("crop")
 	public void setCrop(String crop) {
-		delegateXULMenuListElement.setCrop(crop);
+		unwrap().setCrop(crop);
 	}
 
 	@JSSetter("editable")
 	public void setEditable(boolean editable) {
-		delegateXULMenuListElement.setEditable(editable);
+		unwrap().setEditable(editable);
 	}
 
 	@JSSetter("image")
 	public void setImage(String image) {
-		delegateXULMenuListElement.setImage(image);
+		unwrap().setImage(image);
 	}
 
 	@JSSetter("open")
 	public void setOpen(boolean open) {
-		delegateXULMenuListElement.setOpen(open);
+		unwrap().setOpen(open);
 	}
 }

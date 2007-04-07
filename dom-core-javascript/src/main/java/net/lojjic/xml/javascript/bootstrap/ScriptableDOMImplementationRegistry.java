@@ -30,7 +30,7 @@ public class ScriptableDOMImplementationRegistry extends AnnotationScriptableObj
 	public static ScriptableDOMImplementation getDOMImplementation(ScriptableObject scope, String features) {
 		try {
 			DOMImplementation result = DOMImplementationRegistry.newInstance().getDOMImplementation(features);
-			return new ScriptableDOMImplementation(scope, result);
+			return new ScriptableDOMImplementation<DOMImplementation>(scope, result);
 		}
 		catch(Exception e) {
 			throw new RuntimeException(e);
@@ -41,7 +41,7 @@ public class ScriptableDOMImplementationRegistry extends AnnotationScriptableObj
 	public static ScriptableDOMImplementationList getDOMImplementationList(ScriptableObject scope, String features) {
 		try {
 			DOMImplementationList result = DOMImplementationRegistry.newInstance().getDOMImplementationList(features);
-			return new ScriptableDOMImplementationList(scope, result);
+			return new ScriptableDOMImplementationList<DOMImplementationList>(scope, result);
 		}
 		catch(Exception e) {
 			throw new RuntimeException(e);

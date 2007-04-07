@@ -11,37 +11,34 @@ import org.w3c.dom.Text;
  * Scriptable wrapper for {@link org.w3c.dom.Text}
  */
 @JSClassName("Text")
-public class ScriptableText extends ScriptableCharacterData {
-
-	private Text delegateText;
+public class ScriptableText<T extends Text> extends ScriptableCharacterData<T> {
 
 	public ScriptableText() {
 		super();
 	}
 
-	public ScriptableText(Scriptable scope, Text text) {
+	public ScriptableText(Scriptable scope, T text) {
 		super(scope, text);
-		this.delegateText = text;
 	}
 	
 	@JSGetter("wholeText")
 	public String getWholeText() {
-		return delegateText.getWholeText();
+		return unwrap().getWholeText();
 	}
 
 	@JSGetter("isElementContentWhitespace")
 	public boolean isElementContentWhitespace() {
-		return delegateText.isElementContentWhitespace();
+		return unwrap().isElementContentWhitespace();
 	}
 
 	@JSFunction("replaceWholeText")
 	public Object replaceWholeText(String content) {
-		return Context.javaToJS(delegateText.replaceWholeText(content), getParentScope());
+		return Context.javaToJS(unwrap().replaceWholeText(content), getParentScope());
 	}
 	
 	@JSFunction("splitText")
 	public Object splitText(int offset) {
-		return Context.javaToJS(delegateText.splitText(offset), getParentScope());
+		return Context.javaToJS(unwrap().splitText(offset), getParentScope());
 	}
 
 }

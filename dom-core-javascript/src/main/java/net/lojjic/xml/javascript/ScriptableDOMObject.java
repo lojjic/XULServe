@@ -6,35 +6,37 @@ import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.Wrapper;
 import org.mozilla.javascript.Context;
 
+import java.lang.ref.WeakReference;
+
 /**
  * Common abstract superclass for all the Scriptable DOM object wrappers
  */
-public abstract class ScriptableDOMObject extends AnnotationScriptableObject implements Wrapper {
+public abstract class ScriptableDOMObject<T> extends AnnotationScriptableObject implements Wrapper {
 
-	private Object wrappedObject;
+	private WeakReference<T> wrappedObject;
 
 	protected ScriptableDOMObject() {
 		super();
 	}
 
-	protected ScriptableDOMObject(Scriptable scope, Object wrappedObject) {
+	protected ScriptableDOMObject(Scriptable scope, T wrappedObject) {
 		super(scope);
-		this.wrappedObject = wrappedObject;
+		this.wrappedObject = new WeakReference<T>(wrappedObject);
 	}
 
 	/**
 	 * @see org.mozilla.javascript.Wrapper#unwrap()
 	 * @return the wrapped Java object
 	 */
-	public Object unwrap() {
-		return wrappedObject;
+	public T unwrap() {
+		return wrappedObject.get();
 	}
 
 	/**
 	 * Cast/convert the given argument Object to the given Class.
 	 */
 	@SuppressWarnings({"unchecked"})
-	protected <T> T convertArg(Object arg, Class<T> type) {
+	protected <A> A convertArg(Object arg, Class<A> type) {
 		while(arg instanceof Wrapper) {
 			arg = ((Wrapper)arg).unwrap();
 		}
@@ -42,7 +44,7 @@ public abstract class ScriptableDOMObject extends AnnotationScriptableObject imp
 			throw new IllegalArgumentException("Expected argument of type " + type.getName()
 					+ ", got " + arg.getClass().getName());
 		}
-		return (T)arg;
+		return (A)arg;
 	}
 
 	/**

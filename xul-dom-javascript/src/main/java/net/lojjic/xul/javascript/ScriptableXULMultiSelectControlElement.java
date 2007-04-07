@@ -12,82 +12,80 @@ import org.mozilla.javascript.Scriptable;
  * Scriptable wrapper for {@link net.lojjic.xul.XULMultiSelectControlElement}
  */
 @JSClassName("XULMultiSelectControlElement")
-public class ScriptableXULMultiSelectControlElement extends ScriptableXULSelectControlElement {
-
-	private XULMultiSelectControlElement delegateXULMultiSelectControlElement;
+public class ScriptableXULMultiSelectControlElement<T extends XULMultiSelectControlElement>
+		extends ScriptableXULSelectControlElement<T> {
 
 	public ScriptableXULMultiSelectControlElement() {
 		super();
 	}
 
-	public ScriptableXULMultiSelectControlElement(Scriptable scope, XULMultiSelectControlElement delegateXULMultiSelectControlElement) {
-		super(scope, delegateXULMultiSelectControlElement);
-		this.delegateXULMultiSelectControlElement = delegateXULMultiSelectControlElement;
+	public ScriptableXULMultiSelectControlElement(Scriptable scope, T xulMultiSelectControlElement) {
+		super(scope, xulMultiSelectControlElement);
 	}
 
 	@JSFunction("addItemToSelection")
 	public void addItemToSelection(Object item) {
-		delegateXULMultiSelectControlElement.addItemToSelection(convertArg(item, XULSelectControlItemElement.class));
+		unwrap().addItemToSelection(convertArg(item, XULSelectControlItemElement.class));
 	}
 
 	@JSFunction("clearSelection")
 	public void clearSelection() {
-		delegateXULMultiSelectControlElement.clearSelection();
+		unwrap().clearSelection();
 	}
 
 	@JSGetter("currentIndex")
 	public int getCurrentIndex() {
-		return delegateXULMultiSelectControlElement.getCurrentIndex();
+		return unwrap().getCurrentIndex();
 	}
 
 	@JSGetter("currentItem")
 	public Object getCurrentItem() {
-		return convertReturnValue(delegateXULMultiSelectControlElement.getCurrentItem());
+		return convertReturnValue(unwrap().getCurrentItem());
 	}
 
 	@JSGetter("selectedCount")
 	public int getSelectedCount() {
-		return delegateXULMultiSelectControlElement.getSelectedCount();
+		return unwrap().getSelectedCount();
 	}
 
 	@JSGetter("selectedItem")
 	public Object getSelectedItem(int index) {
-		return convertReturnValue(delegateXULMultiSelectControlElement.getSelectedItem(index));
+		return convertReturnValue(unwrap().getSelectedItem(index));
 	}
 
 	@JSGetter("selectedItems")
 	public Object getSelectedItems() {
-		return convertReturnValue(delegateXULMultiSelectControlElement.getSelectedItems());
+		return convertReturnValue(unwrap().getSelectedItems());
 	}
 
 	@JSGetter("selType")
 	public String getSelType() {
-		return delegateXULMultiSelectControlElement.getSelType();
+		return unwrap().getSelType();
 	}
 
 	@JSFunction("invertSelection")
 	public void invertSelection() {
-		delegateXULMultiSelectControlElement.invertSelection();
+		unwrap().invertSelection();
 	}
 
 	@JSFunction("removeItemFromSelection")
 	public void removeItemFromSelection(Object item) {
-		delegateXULMultiSelectControlElement.removeItemFromSelection(convertArg(item, XULSelectControlItemElement.class));
+		unwrap().removeItemFromSelection(convertArg(item, XULSelectControlItemElement.class));
 	}
 
 	@JSFunction("selectAll")
 	public void selectAll() {
-		delegateXULMultiSelectControlElement.selectAll();
+		unwrap().selectAll();
 	}
 
 	@JSFunction("selectItem")
 	public void selectItem(Object item) {
-		delegateXULMultiSelectControlElement.selectItem(convertArg(item, XULSelectControlItemElement.class));
+		unwrap().selectItem(convertArg(item, XULSelectControlItemElement.class));
 	}
 
 	@JSFunction("selectItemRange")
 	public void selectItemRange(Object startItem, Object endItem) {
-		delegateXULMultiSelectControlElement.selectItemRange(
+		unwrap().selectItemRange(
 				convertArg(startItem, XULSelectControlItemElement.class),
 				convertArg(endItem, XULSelectControlItemElement.class)
 		);
@@ -95,21 +93,21 @@ public class ScriptableXULMultiSelectControlElement extends ScriptableXULSelectC
 
 	@JSSetter("currentIndex")
 	public void setCurrentIndex(int currentIndex) {
-		delegateXULMultiSelectControlElement.setCurrentIndex(currentIndex);
+		unwrap().setCurrentIndex(currentIndex);
 	}
 
 	@JSSetter("currentItem")
 	public void setCurrentItem(Object currentItem) {
-		delegateXULMultiSelectControlElement.setCurrentItem(convertArg(currentItem, XULSelectControlItemElement.class));
+		unwrap().setCurrentItem(convertArg(currentItem, XULSelectControlItemElement.class));
 	}
 
 	@JSSetter("selType")
 	public void setSelType(String selType) {
-		delegateXULMultiSelectControlElement.setSelType(selType);
+		unwrap().setSelType(selType);
 	}
 
 	@JSFunction("toggleItemSelection")
 	public void toggleItemSelection(Object item) {
-		delegateXULMultiSelectControlElement.toggleItemSelection(convertArg(item, XULSelectControlItemElement.class));
+		unwrap().toggleItemSelection(convertArg(item, XULSelectControlItemElement.class));
 	}
 }

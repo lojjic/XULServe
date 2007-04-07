@@ -14,17 +14,14 @@ import org.w3c.dom.events.Event;
  * Scriptable wrapper for {@link org.w3c.dom.events.Event}
  */
 @JSClassName("Event")
-public class ScriptableEvent extends ScriptableDOMObject {
-	
-	protected Event delegateEvent;
+public class ScriptableEvent<T extends Event> extends ScriptableDOMObject<T> {
 
 	public ScriptableEvent() {
 		super();
 	}
 
-	public ScriptableEvent(Scriptable scope, Event event) {
+	public ScriptableEvent(Scriptable scope, T event) {
 		super(scope, event);
-		this.delegateEvent = event;
 	}
 
 	@JSStatic @JSGetter("AT_TARGET")
@@ -44,52 +41,52 @@ public class ScriptableEvent extends ScriptableDOMObject {
 
 	@JSGetter("bubbles")
 	public boolean getBubbles() {
-		return delegateEvent.getBubbles();
+		return unwrap().getBubbles();
 	}
 	
 	@JSGetter("cancelable")
 	public boolean getCancelable() {
-		return delegateEvent.getCancelable();
+		return unwrap().getCancelable();
 	}
 	
 	@JSGetter("currentTarget")
 	public Object getCurrentTarget() {
-		return Context.javaToJS(delegateEvent.getCurrentTarget(), getParentScope());
+		return Context.javaToJS(unwrap().getCurrentTarget(), getParentScope());
 	}
 	
 	@JSGetter("eventPhase")
 	public int getEventPhase() {
-		return delegateEvent.getEventPhase();
+		return unwrap().getEventPhase();
 	}
 	
 	@JSGetter("target")
 	public Object getTarget() {
-		return Context.javaToJS(delegateEvent.getTarget(), getParentScope());
+		return Context.javaToJS(unwrap().getTarget(), getParentScope());
 	}
 	
 	@JSGetter("timestamp")
 	public long getTimeStamp() {
-		return delegateEvent.getTimeStamp();
+		return unwrap().getTimeStamp();
 	}
 	
 	@JSGetter("type")
 	public String getType() {
-		return delegateEvent.getType();
+		return unwrap().getType();
 	}
 
 	@JSFunction("initEvent")
 	public void initEvent(String eventType, boolean canBubble, boolean cancelable) {
-		delegateEvent.initEvent(eventType, canBubble, cancelable);
+		unwrap().initEvent(eventType, canBubble, cancelable);
 	}
 	
 	@JSFunction("preventDefault")
 	public void preventDefault() {
-		delegateEvent.preventDefault();
+		unwrap().preventDefault();
 	}
 
 	@JSFunction("stopPropagation")
 	public void stopPropagation() {
-		delegateEvent.stopPropagation();
+		unwrap().stopPropagation();
 	}
 
 }

@@ -10,86 +10,83 @@ import org.mozilla.javascript.Scriptable;
  * Scriptable wrapper for {@link net.lojjic.xul.XULButtonElement}
  */
 @JSClassName("XULButtonElement")
-public class ScriptableXULButtonElement extends ScriptableXULLabeledControlElement {
-
-	private XULButtonElement delegateXULButtonElement;
+public class ScriptableXULButtonElement<T extends XULButtonElement> extends ScriptableXULLabeledControlElement<T> {
 
 	public ScriptableXULButtonElement() {
 		super();
 	}
 
-	public ScriptableXULButtonElement(Scriptable scope, XULButtonElement delegateXULButtonElement) {
-		super(scope, delegateXULButtonElement);
-		this.delegateXULButtonElement = delegateXULButtonElement;
+	public ScriptableXULButtonElement(Scriptable scope, T xulButtonElement) {
+		super(scope, xulButtonElement);
 	}
 
 	@JSGetter("checkState")
 	public int getCheckState() {
-		return delegateXULButtonElement.getCheckState();
+		return unwrap().getCheckState();
 	}
 
 	@JSGetter("dlgType")
 	public String getDlgType() {
-		return delegateXULButtonElement.getDlgType();
+		return unwrap().getDlgType();
 	}
 
 	@JSGetter("group")
 	public String getGroup() {
-		return delegateXULButtonElement.getGroup();
+		return unwrap().getGroup();
 	}
 
 	@JSGetter("type")
 	public String getType() {
-		return delegateXULButtonElement.getType();
+		return unwrap().getType();
 	}
 
 	@JSGetter("autoCheck")
 	public boolean isAutoCheck() {
-		return delegateXULButtonElement.isAutoCheck();
+		return unwrap().isAutoCheck();
 	}
 
 	@JSGetter("checked")
 	public boolean isChecked() {
-		return delegateXULButtonElement.isChecked();
+		return unwrap().isChecked();
 	}
 
 	@JSGetter("open")
 	public boolean isOpen() {
-		return delegateXULButtonElement.isOpen();
+		return unwrap().isOpen();
 	}
 
 	@JSSetter("autoCheck")
 	public void setAutoCheck(boolean autoCheck) {
-		delegateXULButtonElement.setAutoCheck(autoCheck);
+		unwrap().setAutoCheck(autoCheck);
 	}
 
 	@JSSetter("checked")
 	public void setChecked(boolean checked) {
-		delegateXULButtonElement.setChecked(checked);
+		unwrap().setChecked(checked);
 	}
 
 	@JSSetter("checkState")
 	public void setCheckState(int checkState) {
-		delegateXULButtonElement.setCheckState((short)checkState);
+		unwrap().setCheckState((short)checkState);
 	}
 
 	@JSSetter("dlgType")
 	public void setDlgType(String dlgType) {
-		delegateXULButtonElement.setDlgType(dlgType);
+		unwrap().setDlgType(dlgType);
 	}
 
 	@JSSetter("group")
 	public void setGroup(String group) {
-		delegateXULButtonElement.setGroup(group);
+		unwrap().setGroup(group);
 	}
 
 	@JSSetter("open")
 	public void setOpen(boolean open) {
-		delegateXULButtonElement.setOpen(open);
+		unwrap().setOpen(open);
 	}
 
 	@JSSetter("type")
 	public void setType(String type) {
-		delegateXULButtonElement.setType(type);
+		unwrap().setType(type);
 	}
 }

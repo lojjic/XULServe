@@ -12,37 +12,34 @@ import org.w3c.dom.Document;
  * Scriptable wrapper for {@link org.w3c.dom.DOMImplementation}
  */
 @JSClassName("DOMImplementation")
-public class ScriptableDOMImplementation extends ScriptableDOMObject {
-
-	private DOMImplementation delegateDOMImplementation;
+public class ScriptableDOMImplementation<T extends DOMImplementation> extends ScriptableDOMObject<T> {
 
 	public ScriptableDOMImplementation() {
 		super();
 	}
 
-	public ScriptableDOMImplementation(Scriptable scope, DOMImplementation delegateDOMImplementation) {
-		super(scope, delegateDOMImplementation);
-		this.delegateDOMImplementation = delegateDOMImplementation;
+	public ScriptableDOMImplementation(Scriptable scope, T domImplementation) {
+		super(scope, domImplementation);
 	}
 
 	@JSFunction("createDocument")
 	public Object createDocument(String namespaceURI, String qualifiedName, Object doctype) {
-		Document result = delegateDOMImplementation.createDocument(namespaceURI, qualifiedName, convertArg(doctype, DocumentType.class));
+		Document result = unwrap().createDocument(namespaceURI, qualifiedName, convertArg(doctype, DocumentType.class));
 		return Context.javaToJS(result, getParentScope());
 	}
 
 	@JSFunction("createDocumentType")
 	public Object createDocumentType(String qualifiedName, String publicId, String systemId) {
-		return Context.javaToJS(delegateDOMImplementation.createDocumentType(qualifiedName, publicId, systemId), getParentScope());
+		return Context.javaToJS(unwrap().createDocumentType(qualifiedName, publicId, systemId), getParentScope());
 	}
 
 	@JSFunction("getFeature")
 	public Object getFeature(String feature, String version) {
-		return Context.javaToJS(delegateDOMImplementation.getFeature(feature, version), getParentScope());
+		return Context.javaToJS(unwrap().getFeature(feature, version), getParentScope());
 	}
 
 	@JSFunction("hasFeature")
 	public boolean hasFeature(String feature, String version) {
-		return delegateDOMImplementation.hasFeature(feature, version);
+		return unwrap().hasFeature(feature, version);
 	}
 }

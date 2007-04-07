@@ -12,61 +12,58 @@ import org.mozilla.javascript.Scriptable;
  * Scriptable wrapper for {@link net.lojjic.xul.XULSelectControlElement}
  */
 @JSClassName("XULSelectControlElement")
-public class ScriptableXULSelectControlElement extends ScriptableXULControlElement {
-
-	private XULSelectControlElement delegateXULSelectControlElement;
+public class ScriptableXULSelectControlElement<T extends XULSelectControlElement> extends ScriptableXULControlElement<T> {
 
 	public ScriptableXULSelectControlElement() {
 		super();
 	}
 
-	public ScriptableXULSelectControlElement(Scriptable scope, XULSelectControlElement delegateXULSelectControlElement) {
-		super(scope, delegateXULSelectControlElement);
-		this.delegateXULSelectControlElement = delegateXULSelectControlElement;
+	public ScriptableXULSelectControlElement(Scriptable scope, T xulSelectControlElement) {
+		super(scope, xulSelectControlElement);
 	}
 
 	@JSFunction("appendItem")
 	public Object appendItem(String label, String value) {
-		return convertReturnValue(delegateXULSelectControlElement.appendItem(label, value));
+		return convertReturnValue(unwrap().appendItem(label, value));
 	}
 
 	@JSGetter("selectedIndex")
 	public int getSelectedIndex() {
-		return delegateXULSelectControlElement.getSelectedIndex();
+		return unwrap().getSelectedIndex();
 	}
 
 	@JSGetter("selectedItem")
 	public Object getSelectedItem() {
-		return convertReturnValue(delegateXULSelectControlElement.getSelectedItem());
+		return convertReturnValue(unwrap().getSelectedItem());
 	}
 
 	@JSGetter("value")
 	public String getValue() {
-		return delegateXULSelectControlElement.getValue();
+		return unwrap().getValue();
 	}
 
 	@JSFunction("insertItemAt")
 	public Object insertItemAt(int index, String label, String value) {
-		return convertReturnValue(delegateXULSelectControlElement.insertItemAt(index, label, value));
+		return convertReturnValue(unwrap().insertItemAt(index, label, value));
 	}
 
 	@JSFunction("removeItemAt")
 	public Object removeItemAt(int index) {
-		return convertReturnValue(delegateXULSelectControlElement.removeItemAt(index));
+		return convertReturnValue(unwrap().removeItemAt(index));
 	}
 
 	@JSSetter("selectedIndex")
 	public void setSelectedIndex(int selectedIndex) {
-		delegateXULSelectControlElement.setSelectedIndex(selectedIndex);
+		unwrap().setSelectedIndex(selectedIndex);
 	}
 
 	@JSSetter("selectedItem")
 	public void setSelectedItem(Object selectedItem) {
-		delegateXULSelectControlElement.setSelectedItem(convertArg(selectedItem, XULSelectControlItemElement.class));
+		unwrap().setSelectedItem(convertArg(selectedItem, XULSelectControlItemElement.class));
 	}
 
 	@JSSetter("value")
 	public void setValue(String value) {
-		delegateXULSelectControlElement.setValue(value);
+		unwrap().setValue(value);
 	}
 }

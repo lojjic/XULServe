@@ -10,26 +10,23 @@ import org.w3c.dom.DOMImplementationSource;
  * Scriptable wrapper for {@link org.w3c.dom.DOMImplementationSource}
  */
 @JSClassName("DOMImplementationSource")
-public class ScriptableDOMImplementationSource extends ScriptableDOMObject {
-
-	private DOMImplementationSource delegateDOMImplementationSource;
+public class ScriptableDOMImplementationSource<T extends DOMImplementationSource> extends ScriptableDOMObject<T> {
 
 	public ScriptableDOMImplementationSource() {
 		super();
 	}
 
-	public ScriptableDOMImplementationSource(Scriptable scope, DOMImplementationSource delegateDOMImplementationSource) {
-		super(scope, delegateDOMImplementationSource);
-		this.delegateDOMImplementationSource = delegateDOMImplementationSource;
+	public ScriptableDOMImplementationSource(Scriptable scope, T domImplementationSource) {
+		super(scope, domImplementationSource);
 	}
 
 	@JSFunction("getDOMImplementation")
 	public Object getDOMImplementation(String features) {
-		return Context.javaToJS(delegateDOMImplementationSource.getDOMImplementation(features), getParentScope());
+		return Context.javaToJS(unwrap().getDOMImplementation(features), getParentScope());
 	}
 
 	@JSFunction("getDOMImplementationList")
 	public Object getDOMImplementationList(String features) {
-		return Context.javaToJS(delegateDOMImplementationSource.getDOMImplementationList(features), getParentScope());
+		return Context.javaToJS(unwrap().getDOMImplementationList(features), getParentScope());
 	}
 }

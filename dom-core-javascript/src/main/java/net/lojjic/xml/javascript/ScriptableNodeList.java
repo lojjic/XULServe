@@ -11,17 +11,14 @@ import org.w3c.dom.NodeList;
  * Scriptable wrapper for {@link org.w3c.dom.NodeList}
  */
 @JSClassName("NodeList")
-public class ScriptableNodeList extends ScriptableDOMObject {
-
-	NodeList delegateNodeList;
+public class ScriptableNodeList<T extends NodeList> extends ScriptableDOMObject<T> {
 
 	public ScriptableNodeList() {
 		super();
 	}
 
-	public ScriptableNodeList(Scriptable scope, NodeList nodeList) {
+	public ScriptableNodeList(Scriptable scope, T nodeList) {
 		super(scope, nodeList);
-		this.delegateNodeList = nodeList;
 	}
 	
 	/**
@@ -29,7 +26,7 @@ public class ScriptableNodeList extends ScriptableDOMObject {
 	 */
 	@JSGetter("length")
 	public int getLength() {
-		return delegateNodeList.getLength();
+		return unwrap().getLength();
 	}
 
 	/**
@@ -37,7 +34,7 @@ public class ScriptableNodeList extends ScriptableDOMObject {
 	 */
 	@JSFunction("item")
 	public Object item(int index) {
-		return Context.javaToJS(delegateNodeList.item(index), getParentScope());
+		return Context.javaToJS(unwrap().item(index), getParentScope());
 	}
 	
 	/**

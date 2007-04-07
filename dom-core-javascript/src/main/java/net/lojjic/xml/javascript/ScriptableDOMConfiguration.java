@@ -11,37 +11,34 @@ import org.w3c.dom.DOMConfiguration;
  * Scriptable wrapper for {@link org.w3c.dom.DOMConfiguration}
  */
 @JSClassName("DOMConfiguration")
-public class ScriptableDOMConfiguration extends ScriptableDOMObject {
-
-	private DOMConfiguration delegateDOMConfiguration;
+public class ScriptableDOMConfiguration<T extends DOMConfiguration> extends ScriptableDOMObject<T> {
 
 	public ScriptableDOMConfiguration() {
 		super();
 	}
 
-	public ScriptableDOMConfiguration(Scriptable scope, DOMConfiguration delegateDOMConfiguration) {
-		super(scope, delegateDOMConfiguration);
-		this.delegateDOMConfiguration = delegateDOMConfiguration;
+	public ScriptableDOMConfiguration(Scriptable scope, T domConfiguration) {
+		super(scope, domConfiguration);
 	}
 
 	@JSFunction("canSetParameter")
 	public boolean canSetParameter(String name, Object value) {
-		return delegateDOMConfiguration.canSetParameter(name, value);
+		return unwrap().canSetParameter(name, value);
 	}
 
 	@JSFunction("getParameter")
 	public Object getParameter(String name) {
-		return Context.javaToJS(delegateDOMConfiguration.getParameter(name), getParentScope());
+		return Context.javaToJS(unwrap().getParameter(name), getParentScope());
 	}
 
 	@JSGetter("parameterNames")
 	public Object getParameterNames() {
-		return Context.javaToJS(delegateDOMConfiguration.getParameterNames(), getParentScope());
+		return Context.javaToJS(unwrap().getParameterNames(), getParentScope());
 	}
 
 	@JSFunction("setParameter")
 	public void setParameter(String name, Object value) {
-		delegateDOMConfiguration.setParameter(name, value);
+		unwrap().setParameter(name, value);
 	}
 
 	// TODO expose parameters as camel-cased properties

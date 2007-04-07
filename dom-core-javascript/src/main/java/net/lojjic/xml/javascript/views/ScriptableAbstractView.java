@@ -11,22 +11,19 @@ import org.w3c.dom.views.AbstractView;
  * Scriptable wrapper for {@link org.w3c.dom.views.AbstractView}
  */
 @JSClassName("AbstractView")
-public class ScriptableAbstractView extends ScriptableDOMObject {
-
-	protected AbstractView delegateAbstractView;
+public class ScriptableAbstractView<T extends AbstractView> extends ScriptableDOMObject<T> {
 
 	public ScriptableAbstractView() {
 		super();
 	}
 
-	public ScriptableAbstractView(Scriptable scope, AbstractView view) {
-		super(scope, view);
-		this.delegateAbstractView = view;
+	public ScriptableAbstractView(Scriptable scope, T abstractView) {
+		super(scope, abstractView);
 	}
 
 	@JSGetter("document")
 	public Object getDocument() {
-		return Context.javaToJS(delegateAbstractView.getDocument(), getParentScope());
+		return Context.javaToJS(unwrap().getDocument(), getParentScope());
 	}
 
 }

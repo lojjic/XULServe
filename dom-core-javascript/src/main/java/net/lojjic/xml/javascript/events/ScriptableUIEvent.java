@@ -12,32 +12,29 @@ import org.w3c.dom.views.AbstractView;
  * Scriptable wrapper for {@link org.w3c.dom.events.UIEvent}
  */
 @JSClassName("UIEvent")
-public class ScriptableUIEvent extends ScriptableEvent {
-	
-	protected UIEvent delegateUIEvent;
+public class ScriptableUIEvent<T extends UIEvent> extends ScriptableEvent<T> {
 
 	public ScriptableUIEvent() {
 		super();
 	}
 
-	public ScriptableUIEvent(Scriptable scope, UIEvent event) {
+	public ScriptableUIEvent(Scriptable scope, T event) {
 		super(scope, event);
-		this.delegateUIEvent = event;
 	}
 	
 	@JSGetter("detail")
 	public int getDetail() {
-		return delegateUIEvent.getDetail();
+		return unwrap().getDetail();
 	}
 
 	@JSGetter("view")
 	public Object getView() {
-		return Context.javaToJS(delegateUIEvent.getView(), getParentScope());
+		return Context.javaToJS(unwrap().getView(), getParentScope());
 	}
 
 	@JSFunction("initUIEvent")
 	public void initUIEvent(String type, boolean canBubble, boolean cancelable, Object view, int detail) {
-		delegateUIEvent.initUIEvent(type, canBubble, cancelable, convertArg(view, AbstractView.class), detail);
+		unwrap().initUIEvent(type, canBubble, cancelable, convertArg(view, AbstractView.class), detail);
 	}
 
 }

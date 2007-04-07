@@ -1,27 +1,40 @@
 package net.lojjic.xml.javascript;
 
+import net.lojjic.xml.javascript.events.*;
+import net.lojjic.xml.javascript.views.ScriptableAbstractView;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.WrapFactory;
 import org.w3c.dom.*;
 import org.w3c.dom.events.*;
-import org.w3c.dom.views.*;
+import org.w3c.dom.views.AbstractView;
 
-import java.util.HashMap;
 import java.lang.reflect.Constructor;
-
-import net.lojjic.xml.javascript.events.*;
-import net.lojjic.xml.javascript.views.*;
+import java.util.HashMap;
+import java.util.WeakHashMap;
 
 public class DOMWrapFactory extends WrapFactory {
-
-	public static final String NODE_USER_DATA_KEY = "ScriptableDOMObject:UserDataKey";
 
 	private HashMap<Class, Class<? extends Scriptable>> mappings =
 			new HashMap<Class, Class<? extends Scriptable>>();
 
-	private HashMap<Class, KeyValue<Class, Class<? extends Scriptable>>> cache =
+	private HashMap<Class, KeyValue<Class, Class<? extends Scriptable>>> classCache =
 			new HashMap<Class, KeyValue<Class, Class<? extends Scriptable>>>();
+
+	/**
+	 * Cache mapping Java object instances to Scriptable wrapper object instances. This
+	 * allows the same wrapper instance to be used for each call of #wrapAsJavaObject
+	 * for a given Java object instance, which is necessary for e.g. setting custom
+	 * JS properties on a given DOM node.
+	 * <p>
+	 * The cache uses weak references so that the wrapper instance will be automatically
+	 * garbage collected when the Java object is garbage collected. It is important that
+	 * the wrapper object itself maintains only a weak reference to the java object, to
+	 * avoid a strong circular dependency that would prevent garbage collection (see the
+	 * javadocs for {@link WeakHashMap}).
+	 */
+	private WeakHashMap<Object, Scriptable> wrapperCache =
+			new WeakHashMap<Object, Scriptable>();
 
 	/**
 	 * Add a mapping from a DOM class/interface to its Scriptable wrapper class.
@@ -31,7 +44,7 @@ public class DOMWrapFactory extends WrapFactory {
 	 */
 	public void addWrapMapping(Class domClass, Class<? extends ScriptableDOMObject> scriptableClass) {
 		mappings.put(domClass, scriptableClass);
-		cache.clear(); //clear cache
+		classCache.clear(); //clear cache
 	}
 
 
@@ -51,14 +64,11 @@ public class DOMWrapFactory extends WrapFactory {
 	 */
 	@Override
 	public Scriptable wrapAsJavaObject(Context cx, Scriptable scope, Object javaObject, Class staticType) {
-		Scriptable wrapper = null;
 
-		// If javaObject is a DOM Node, check the user data for an existing wrapper instance:
-		if(javaObject instanceof Node) {
-			wrapper = (Scriptable)((Node)javaObject).getUserData(NODE_USER_DATA_KEY);
-			if(wrapper != null) {
-				return wrapper;
-			}
+		// First check the cache for an existing wrapper instance:
+		Scriptable wrapper = wrapperCache.get(javaObject);
+		if(wrapper != null) {
+			return wrapper;
 		}
 
 		// If a matching wrapper class is defined in the mappings, create an instance:
@@ -80,11 +90,8 @@ public class DOMWrapFactory extends WrapFactory {
 			wrapper = super.wrapAsJavaObject(cx, scope, javaObject, staticType);
 		}
 
-		// If javaObject is a DOM Node, save the wrapper as a user data attribute
-		// so the same instance can be reused next time:
-		if(javaObject instanceof Node) {
-			((Node)javaObject).setUserData(NODE_USER_DATA_KEY, wrapper, null);
-		}
+		// Save wrapper instance to the cache:
+		wrapperCache.put(javaObject, wrapper);
 
 		return wrapper;
 	}
@@ -104,8 +111,8 @@ public class DOMWrapFactory extends WrapFactory {
 		KeyValue<Class, Class<? extends Scriptable>> result = null;
 
 		// Check the cache - can have a null value so need to check for key existence:
-		if(cache.containsKey(javaClass)) {
-			return cache.get(javaClass);
+		if(classCache.containsKey(javaClass)) {
+			return classCache.get(javaClass);
 		}
 
 		// Check the mappings:
@@ -132,7 +139,7 @@ public class DOMWrapFactory extends WrapFactory {
 		}
 
 		// Add the result to the cache:
-		cache.put(javaClass, result);
+		classCache.put(javaClass, result);
 
 		return result;
 	}

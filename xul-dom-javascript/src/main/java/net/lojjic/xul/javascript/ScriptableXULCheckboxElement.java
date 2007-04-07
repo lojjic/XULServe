@@ -10,46 +10,43 @@ import org.mozilla.javascript.Scriptable;
  * Scriptable wrapper for {@link net.lojjic.xul.XULCheckboxElement}
  */
 @JSClassName("XULCheckboxElement")
-public class ScriptableXULCheckboxElement extends ScriptableXULLabeledControlElement {
-
-	private XULCheckboxElement delegateXULCheckboxElement;
+public class ScriptableXULCheckboxElement<T extends XULCheckboxElement> extends ScriptableXULLabeledControlElement<T> {
 
 	public ScriptableXULCheckboxElement() {
 		super();
 	}
 
-	public ScriptableXULCheckboxElement(Scriptable scope, XULCheckboxElement delegateXULCheckboxElement) {
-		super(scope, delegateXULCheckboxElement);
-		this.delegateXULCheckboxElement = delegateXULCheckboxElement;
+	public ScriptableXULCheckboxElement(Scriptable scope, T xulCheckboxElement) {
+		super(scope, xulCheckboxElement);
 	}
 
 	@JSGetter("checkState")
 	public int getCheckState() {
-		return delegateXULCheckboxElement.getCheckState();
+		return unwrap().getCheckState();
 	}
 
 	@JSGetter("autoCheck")
 	public boolean isAutoCheck() {
-		return delegateXULCheckboxElement.isAutoCheck();
+		return unwrap().isAutoCheck();
 	}
 
 	@JSGetter("checked")
 	public boolean isChecked() {
-		return delegateXULCheckboxElement.isChecked();
+		return unwrap().isChecked();
 	}
 
 	@JSSetter("autoCheck")
 	public void setAutoCheck(boolean autoCheck) {
-		delegateXULCheckboxElement.setAutoCheck(autoCheck);
+		unwrap().setAutoCheck(autoCheck);
 	}
 
 	@JSSetter("checked")
 	public void setChecked(boolean checked) {
-		delegateXULCheckboxElement.setChecked(checked);
+		unwrap().setChecked(checked);
 	}
 
 	@JSSetter("checkState")
 	public void setCheckState(int checkState) {
-		delegateXULCheckboxElement.setCheckState((short)checkState);
+		unwrap().setCheckState((short)checkState);
 	}
 }

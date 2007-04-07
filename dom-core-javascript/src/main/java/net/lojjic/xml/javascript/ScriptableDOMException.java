@@ -10,27 +10,24 @@ import org.w3c.dom.DOMException;
 /**
  * Scriptable wrapper for {@link org.w3c.dom.DOMException}
  */
-public class ScriptableDOMException extends ScriptableDOMObject {
-
-	private DOMException delegateDOMException;
+public class ScriptableDOMException<T extends DOMException> extends ScriptableDOMObject<T> {
 
 	public ScriptableDOMException() {
 		super();
 	}
 
-	public ScriptableDOMException(Scriptable scope, DOMException delegateDOMException) {
-		super(scope, delegateDOMException);
-		this.delegateDOMException = delegateDOMException;
+	public ScriptableDOMException(Scriptable scope, T domException) {
+		super(scope, domException);
 	}
 
 	@JSGetter("code")
 	public int getCode() {
-		return delegateDOMException.code;
+		return unwrap().code;
 	}
 
 	@JSSetter("code")
 	public void setCode(int code) {
-		delegateDOMException.code = (short)code;
+		unwrap().code = (short)code;
 	}
 
 	@JSStatic @JSGetter("INDEX_SIZE_ERR")

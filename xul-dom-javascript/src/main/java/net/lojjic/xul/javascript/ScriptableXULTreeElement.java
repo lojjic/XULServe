@@ -10,36 +10,33 @@ import org.mozilla.javascript.Scriptable;
  * Scriptable wrapper for {@link net.lojjic.xul.XULTreeElement}
  */
 @JSClassName("XULTreeElement")
-public class ScriptableXULTreeElement extends ScriptableXULElement {
-
-	private XULTreeElement delegateXULTreeElement;
+public class ScriptableXULTreeElement<T extends XULTreeElement> extends ScriptableXULElement<T> {
 
 	public ScriptableXULTreeElement() {
 		super();
 	}
 
-	public ScriptableXULTreeElement(Scriptable scope, XULTreeElement delegateXULTreeElement) {
-		super(scope, delegateXULTreeElement);
-		this.delegateXULTreeElement = delegateXULTreeElement;
+	public ScriptableXULTreeElement(Scriptable scope, T xulTreeElement) {
+		super(scope, xulTreeElement);
 	}
 
 	@JSGetter("body")
 	public Object getBody() {
-		return convertReturnValue(delegateXULTreeElement.getBody());
+		return convertReturnValue(unwrap().getBody());
 	}
 
 	@JSGetter("inputField")
 	public Object getInputField() {
-		return convertReturnValue(delegateXULTreeElement.getInputField());
+		return convertReturnValue(unwrap().getInputField());
 	}
 
 	@JSGetter("editable")
 	public boolean isEditable() {
-		return delegateXULTreeElement.isEditable();
+		return unwrap().isEditable();
 	}
 
 	@JSSetter("editable")
 	public void setEditable(boolean editable) {
-		delegateXULTreeElement.setEditable(editable);
+		unwrap().setEditable(editable);
 	}
 }

@@ -10,46 +10,43 @@ import org.w3c.dom.DocumentType;
  * Scriptable wrapper for {@link org.w3c.dom.DocumentType}
  */
 @JSClassName("DocumentType")
-public class ScriptableDocumentType extends ScriptableNode {
-
-	private DocumentType delegateDocumentType;
+public class ScriptableDocumentType<T extends DocumentType> extends ScriptableNode<T> {
 
 	public ScriptableDocumentType() {
 		super();
 	}
 
-	public ScriptableDocumentType(Scriptable scope, DocumentType delegateDocumentType) {
-		super(scope, delegateDocumentType);
-		this.delegateDocumentType = delegateDocumentType;
+	public ScriptableDocumentType(Scriptable scope, T documentType) {
+		super(scope, documentType);
 	}
 
 	@JSGetter("entities")
 	public Object getEntities() {
-		return Context.javaToJS(delegateDocumentType.getEntities(), getParentScope());
+		return Context.javaToJS(unwrap().getEntities(), getParentScope());
 	}
 
 	@JSGetter("internalSubset")
 	public String getInternalSubset() {
-		return delegateDocumentType.getInternalSubset();
+		return unwrap().getInternalSubset();
 	}
 
 	@JSGetter("name")
 	public String getName() {
-		return delegateDocumentType.getName();
+		return unwrap().getName();
 	}
 
 	@JSGetter("notations")
 	public Object getNotations() {
-		return Context.javaToJS(delegateDocumentType.getNotations(), getParentScope());
+		return Context.javaToJS(unwrap().getNotations(), getParentScope());
 	}
 
 	@JSGetter("publicId")
 	public String getPublicId() {
-		return delegateDocumentType.getPublicId();
+		return unwrap().getPublicId();
 	}
 
 	@JSGetter("systemId")
 	public String getSystemId() {
-		return delegateDocumentType.getSystemId();
+		return unwrap().getSystemId();
 	}
 }

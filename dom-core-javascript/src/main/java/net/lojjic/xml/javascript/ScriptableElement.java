@@ -12,116 +12,113 @@ import org.w3c.dom.Element;
  * Scriptable wrapper for {@link org.w3c.dom.Element}
  */
 @JSClassName("Element")
-public class ScriptableElement extends ScriptableNode {
-
-	protected Element delegateElement;
+public class ScriptableElement<T extends Element> extends ScriptableNode<T> {
 
 	public ScriptableElement() {
 		super();
 	}
 
-	public ScriptableElement(Scriptable scope, Element element) {
+	public ScriptableElement(Scriptable scope, T element) {
 		super(scope, element);
-		this.delegateElement = element;
 	}
 	
 	@JSGetter("tagName")
 	public String getTagName() {
-		return delegateElement.getTagName();
+		return unwrap().getTagName();
 	}
 
 	@JSFunction("getAttribute")
 	public String getAttribute(String name) {
-		return delegateElement.getAttribute(name);
+		return unwrap().getAttribute(name);
 	}
 	
 	@JSFunction("setAttribute")
 	public void setAttribute(String name, String value) {
-		delegateElement.setAttribute(name, value);
+		unwrap().setAttribute(name, value);
 	}
 	
 	@JSFunction("removeAttribute")
 	public void removeAttribute(String name) {
-		delegateElement.removeAttribute(name);
+		unwrap().removeAttribute(name);
 	}
 	
 	@JSFunction("getAttributeNode")
 	public Object getAttributeNode(String name) {
-		return Context.javaToJS(delegateElement.getAttributeNode(name), getParentScope());
+		return Context.javaToJS(unwrap().getAttributeNode(name), getParentScope());
 	}
 	
 	@JSFunction("setAttributeNode")
 	public Object setAttributeNode(Object attr) {
-		return Context.javaToJS(delegateElement.setAttributeNode(convertArg(attr, Attr.class)), getParentScope());
+		return Context.javaToJS(unwrap().setAttributeNode(convertArg(attr, Attr.class)), getParentScope());
 	}
 	
 	@JSFunction("removeAttributeNode")
 	public Object removeAttributeNode(Object attr) {
-		return Context.javaToJS(delegateElement.removeAttributeNode(convertArg(attr, Attr.class)), getParentScope());
+		return Context.javaToJS(unwrap().removeAttributeNode(convertArg(attr, Attr.class)), getParentScope());
 	}
 	
 	@JSFunction("getElementsByTagName")
 	public Object getElementsByTagName(String name) {
-		return Context.javaToJS(delegateElement.getElementsByTagName(name), getParentScope());
+		return Context.javaToJS(unwrap().getElementsByTagName(name), getParentScope());
 	}
 	
 	@JSFunction("getElementsByTagNameNS")
 	public Object getElementsByTagNameNS(String ns, String name) {
-		return Context.javaToJS(delegateElement.getElementsByTagNameNS(ns, name), getParentScope());
+		return Context.javaToJS(unwrap().getElementsByTagNameNS(ns, name), getParentScope());
 	}
 	
 	@JSFunction("getAttributeNS")
 	public String getAttributeNS(String ns, String name) {
-		return delegateElement.getAttributeNS(ns, name);
+		return unwrap().getAttributeNS(ns, name);
 	}
 	
 	@JSFunction("setAttributeNS")
 	public void setAttributeNS(String ns, String name, String value) {
-		delegateElement.setAttributeNS(ns, name, value);
+		unwrap().setAttributeNS(ns, name, value);
 	}
 	
 	@JSFunction("removeAttributeNS")
 	public void removeAttributeNS(String ns, String name) {
-		delegateElement.removeAttributeNS(ns, name);
+		unwrap().removeAttributeNS(ns, name);
 	}
 	
 	@JSFunction("getAttributeNodeNS")
 	public Object getAttributeNodeNS(String ns, String name) {
-		return Context.javaToJS(delegateElement.getAttributeNodeNS(ns, name), getParentScope());
+		return Context.javaToJS(unwrap().getAttributeNodeNS(ns, name), getParentScope());
 	}
 	
 	@JSFunction("setAttributeNodeNS")
 	public Object setAttributeNodeNS(Object attr) {
-		return Context.javaToJS(delegateElement.setAttributeNodeNS(convertArg(attr, Attr.class)), getParentScope());
+		return Context.javaToJS(unwrap().setAttributeNodeNS(convertArg(attr, Attr.class)), getParentScope());
 	}
 	
 	@JSFunction("hasAttribute")
 	public boolean hasAttribute(String name) {
-		return delegateElement.hasAttribute(name);
+		return unwrap().hasAttribute(name);
 	}
 	
 	@JSFunction("hasAttributeNS")
 	public boolean hasAttributeNS(String ns, String name) {
-		return delegateElement.hasAttributeNS(ns, name);
+		return unwrap().hasAttributeNS(ns, name);
 	}
 	
 	@JSGetter("schemaTypeInfo")
 	public Object getSchemaTypeInfo() {
-		return Context.javaToJS(delegateElement.getSchemaTypeInfo(), getParentScope());
+		return Context.javaToJS(unwrap().getSchemaTypeInfo(), getParentScope());
 	}
 
 	@JSFunction("setIdAttribute")
 	public void setIdAttribute(String name, boolean makeId) {
-		delegateElement.setIdAttribute(name, makeId);
+		unwrap().setIdAttribute(name, makeId);
 	}
 	
 	@JSFunction("setIdAttributeNS")
 	public void setIdAttributeNS(String ns, String name, boolean makeId) {
-		delegateElement.setIdAttributeNS(ns, name, makeId);
+		unwrap().setIdAttributeNS(ns, name, makeId);
 	}
 	
 	@JSFunction("setIdAttributeNode")
 	public void setIdAttributeNode(Object attr, boolean makeId) {
-		delegateElement.setIdAttributeNode(convertArg(attr, Attr.class), makeId);
+		unwrap().setIdAttributeNode(convertArg(attr, Attr.class), makeId);
 	}
 }

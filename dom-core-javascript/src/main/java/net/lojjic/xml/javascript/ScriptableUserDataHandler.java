@@ -13,17 +13,14 @@ import org.w3c.dom.UserDataHandler;
  * Scriptable wrapper for {@link org.w3c.dom.UserDataHandler}
  */
 @JSClassName("UserDataHandler")
-public class ScriptableUserDataHandler extends ScriptableDOMObject {
-
-	private UserDataHandler delegateUserDataHandler;
+public class ScriptableUserDataHandler<T extends UserDataHandler> extends ScriptableDOMObject<T> {
 
 	public ScriptableUserDataHandler() {
 		super();
 	}
 
-	public ScriptableUserDataHandler(Scriptable scope, UserDataHandler delegateUserDataHandler) {
-		super(scope, delegateUserDataHandler);
-		this.delegateUserDataHandler = delegateUserDataHandler;
+	public ScriptableUserDataHandler(Scriptable scope, T userDataHandler) {
+		super(scope, userDataHandler);
 	}
 	
 	// TODO JS Constructor
@@ -55,6 +52,6 @@ public class ScriptableUserDataHandler extends ScriptableDOMObject {
 
 	@JSFunction("handle")
 	public void handle(int operation, String key, Object data, Object src, Object dst) {
-		delegateUserDataHandler.handle((short)operation, key, data, convertArg(src, Node.class), convertArg(dst, Node.class));
+		unwrap().handle((short)operation, key, data, convertArg(src, Node.class), convertArg(dst, Node.class));
 	}
 }

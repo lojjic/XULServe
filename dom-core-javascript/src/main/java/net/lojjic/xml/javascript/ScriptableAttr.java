@@ -11,50 +11,47 @@ import org.w3c.dom.Attr;
  * Scriptable wrapper for {@link org.w3c.dom.Attr}
  */
 @JSClassName("Attr")
-public class ScriptableAttr extends ScriptableNode {
-
-	protected Attr delegateAttr;
+public class ScriptableAttr<T extends Attr> extends ScriptableNode<T> {
 
 	public ScriptableAttr() {
 		super();
 	}
 
-	public ScriptableAttr(Scriptable scope, Attr attr) {
+	public ScriptableAttr(Scriptable scope, T attr) {
 		super(scope, attr);
-		this.delegateAttr = attr;
 	}
 
 	@JSGetter("name")
 	public String getName() {
-		return delegateAttr.getName();
+		return unwrap().getName();
 	}
 
 	@JSGetter("ownerElement")
 	public Object getOwnerElement() {
-		return Context.javaToJS(delegateAttr.getOwnerElement(), getParentScope());
+		return Context.javaToJS(unwrap().getOwnerElement(), getParentScope());
 	}
 
 	@JSGetter("schemaTypeInfo")
 	public Object getSchemaTypeInfo() {
-		return Context.javaToJS(delegateAttr.getSchemaTypeInfo(), getParentScope());
+		return Context.javaToJS(unwrap().getSchemaTypeInfo(), getParentScope());
 	}
 
 	@JSGetter("specified")
 	public boolean getSpecified() {
-		return delegateAttr.getSpecified();
+		return unwrap().getSpecified();
 	}
 	@JSGetter("isId")
 	public boolean isId() {
-		return delegateAttr.isId();
+		return unwrap().isId();
 	}
 
 	@JSGetter("value")
 	public String getValue() {
-		return delegateAttr.getValue();
+		return unwrap().getValue();
 	}
 
 	@JSSetter("value")
 	public void setValue(String value) {
-		delegateAttr.setValue(value);
+		unwrap().setValue(value);
 	}
 }

@@ -10,21 +10,18 @@ import net.lojjic.rhino.annotations.JSFunction;
  * Scriptable wrapper for {@link org.w3c.dom.DOMErrorHandler}
  */
 @JSClassName("DOMErrorHandler")
-public class ScriptableDOMErrorHandler extends ScriptableDOMObject {
-
-	private DOMErrorHandler delegateDOMErrorHandler;
+public class ScriptableDOMErrorHandler<T extends DOMErrorHandler> extends ScriptableDOMObject<T> {
 
 	public ScriptableDOMErrorHandler() {
 		super();
 	}
 
-	public ScriptableDOMErrorHandler(Scriptable scope, DOMErrorHandler delegateDOMErrorHandler) {
-		super(scope, delegateDOMErrorHandler);
-		this.delegateDOMErrorHandler = delegateDOMErrorHandler;
+	public ScriptableDOMErrorHandler(Scriptable scope, T domErrorHandler) {
+		super(scope, domErrorHandler);
 	}
 
 	@JSFunction("handleError")
 	public boolean handleError(Object error) {
-		return delegateDOMErrorHandler.handleError(convertArg(error, DOMError.class));
+		return unwrap().handleError(convertArg(error, DOMError.class));
 	}
 }

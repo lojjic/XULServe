@@ -10,36 +10,33 @@ import org.mozilla.javascript.Scriptable;
  * Scriptable wrapper for {@link net.lojjic.xul.XULLabelElement}
  */
 @JSClassName("XULLabelElement")
-public class ScriptableXULLabelElement extends ScriptableXULDescriptionElement {
-
-	private XULLabelElement delegateXULLabelElement;
+public class ScriptableXULLabelElement<T extends XULLabelElement> extends ScriptableXULDescriptionElement<T> {
 
 	public ScriptableXULLabelElement() {
 		super();
 	}
 
-	public ScriptableXULLabelElement(Scriptable scope, XULLabelElement delegateXULLabelElement) {
-		super(scope, delegateXULLabelElement);
-		this.delegateXULLabelElement = delegateXULLabelElement;
+	public ScriptableXULLabelElement(Scriptable scope, T xulLabelElement) {
+		super(scope, xulLabelElement);
 	}
 
 	@JSGetter("accessKey")
 	public String getAccessKey() {
-		return delegateXULLabelElement.getAccessKey();
+		return unwrap().getAccessKey();
 	}
 
 	@JSGetter("control")
 	public String getControl() {
-		return delegateXULLabelElement.getControl();
+		return unwrap().getControl();
 	}
 
 	@JSSetter("accessKey")
 	public void setAccessKey(String accessKey) {
-		delegateXULLabelElement.setAccessKey(accessKey);
+		unwrap().setAccessKey(accessKey);
 	}
 
 	@JSSetter("control")
 	public void setControl(String control) {
-		delegateXULLabelElement.setControl(control);
+		unwrap().setControl(control);
 	}
 }

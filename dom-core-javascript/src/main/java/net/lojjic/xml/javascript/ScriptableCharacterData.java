@@ -11,58 +11,55 @@ import net.lojjic.rhino.annotations.JSFunction;
  * Scriptable wrapper for {@link org.w3c.dom.CharacterData}
  */
 @JSClassName("CharacterData")
-public class ScriptableCharacterData extends ScriptableNode {
+public class ScriptableCharacterData<T extends CharacterData> extends ScriptableNode<T> {
 
-	CharacterData delegateCharacterData;
-	
 	public ScriptableCharacterData() {
 		super();
 	}
 
-	public ScriptableCharacterData(Scriptable scope, CharacterData cdata) {
+	public ScriptableCharacterData(Scriptable scope, T cdata) {
 		super(scope, cdata);
-		this.delegateCharacterData = cdata;
 	}
 
 
 	@JSGetter("data")
 	public String getData() {
-		return delegateCharacterData.getData();
+		return unwrap().getData();
 	}
 	
 	@JSSetter("data")
 	public void setData(String data) {
-		delegateCharacterData.setData(data);
+		unwrap().setData(data);
 	}
 	
 	@JSGetter("length")
 	public int getLength() {
-		return delegateCharacterData.getLength();
+		return unwrap().getLength();
 	}
 
 	@JSFunction("substringData")
 	public String substringData(int offset, int count) {
-		return delegateCharacterData.substringData(offset, count);
+		return unwrap().substringData(offset, count);
 	}
 	
 	@JSFunction("appendData")
 	public void appendData(String data) {
-		delegateCharacterData.appendData(data);
+		unwrap().appendData(data);
 	}
 	
 	@JSFunction("insertData")
 	public void insertData(int offset, String data) {
-		delegateCharacterData.insertData(offset, data);
+		unwrap().insertData(offset, data);
 	}
 	
 	@JSFunction("deleteData")
 	public void deleteData(int offset, int count) {
-		delegateCharacterData.deleteData(offset, count);
+		unwrap().deleteData(offset, count);
 	}
 	
 	@JSFunction("replaceData")
 	public void replaceData(int offset, int count, String data) {
-		delegateCharacterData.replaceData(offset, count, data);
+		unwrap().replaceData(offset, count, data);
 	}
 
 }

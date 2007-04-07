@@ -10,37 +10,33 @@ import org.mozilla.javascript.Scriptable;
  * Scriptable wrapper for {@link net.lojjic.xul.XULControlElement}
  */
 @JSClassName("XULControlElement")
-public class ScriptableXULControlElement extends ScriptableXULElement {
-
-	private XULControlElement delegateXULControlElement;
+public class ScriptableXULControlElement<T extends XULControlElement> extends ScriptableXULElement<T> {
 
 	public ScriptableXULControlElement() {
 		super();
 	}
 
-	public ScriptableXULControlElement(Scriptable scope, XULControlElement delegateXULControlElement) {
-		super(scope, delegateXULControlElement);
-		this.delegateXULControlElement = delegateXULControlElement;
+	public ScriptableXULControlElement(Scriptable scope, T xulControlElement) {
+		super(scope, xulControlElement);
 	}
-
 
 	@JSGetter("tabIndex")
 	public int getTabIndex() {
-		return delegateXULControlElement.getTabIndex();
+		return unwrap().getTabIndex();
 	}
 
 	@JSGetter("disabled")
 	public boolean isDisabled() {
-		return delegateXULControlElement.isDisabled();
+		return unwrap().isDisabled();
 	}
 
 	@JSSetter("disabled")
 	public void setDisabled(boolean disabled) {
-		delegateXULControlElement.setDisabled(disabled);
+		unwrap().setDisabled(disabled);
 	}
 
 	@JSSetter("tabIndex")
 	public void setTabIndex(int tabIndex) {
-		delegateXULControlElement.setTabIndex(tabIndex);
+		unwrap().setTabIndex(tabIndex);
 	}
 }

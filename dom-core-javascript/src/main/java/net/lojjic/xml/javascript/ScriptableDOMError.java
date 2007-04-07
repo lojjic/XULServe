@@ -12,17 +12,14 @@ import org.w3c.dom.DOMError;
  * Scriptable wrapper for {@link org.w3c.dom.DOMError}
  */
 @JSClassName("DOMError")
-public class ScriptableDOMError extends ScriptableDOMObject {
-
-	private DOMError delegateDOMError;
+public class ScriptableDOMError<T extends DOMError> extends ScriptableDOMObject<T> {
 
 	public ScriptableDOMError() {
 		super();
 	}
 
-	public ScriptableDOMError(Scriptable scope, DOMError delegateDOMError) {
-		super(scope, delegateDOMError);
-		this.delegateDOMError = delegateDOMError;
+	public ScriptableDOMError(Scriptable scope, T domError) {
+		super(scope, domError);
 	}
 
 	@JSStatic @JSGetter("SEVERITY_WARNING")
@@ -42,31 +39,31 @@ public class ScriptableDOMError extends ScriptableDOMObject {
 
 	@JSGetter("location")
 	public Object getLocation() {
-		return Context.javaToJS(delegateDOMError.getLocation(), getParentScope());
+		return Context.javaToJS(unwrap().getLocation(), getParentScope());
 	}
 
 	@JSGetter("message")
 	public String getMessage() {
-		return delegateDOMError.getMessage();
+		return unwrap().getMessage();
 	}
 
 	@JSGetter("relatedData")
 	public Object getRelatedData() {
-		return Context.javaToJS(delegateDOMError.getRelatedData(), getParentScope());
+		return Context.javaToJS(unwrap().getRelatedData(), getParentScope());
 	}
 
 	@JSGetter("relatedException")
 	public Object getRelatedException() {
-		return Context.javaToJS(delegateDOMError.getRelatedException(), getParentScope());
+		return Context.javaToJS(unwrap().getRelatedException(), getParentScope());
 	}
 
 	@JSGetter("severity")
 	public int getSeverity() {
-		return delegateDOMError.getSeverity();
+		return unwrap().getSeverity();
 	}
 
 	@JSGetter("type")
 	public String getType() {
-		return delegateDOMError.getType();
+		return unwrap().getType();
 	}
 }

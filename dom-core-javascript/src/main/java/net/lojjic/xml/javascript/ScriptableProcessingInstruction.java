@@ -10,31 +10,28 @@ import org.w3c.dom.ProcessingInstruction;
  * Scriptable wrapper for {@link org.w3c.dom.ProcessingInstruction}
  */
 @JSClassName("ProcessingInstruction")
-public class ScriptableProcessingInstruction extends ScriptableNode {
-
-	private ProcessingInstruction delegateProcessingInstruction;
+public class ScriptableProcessingInstruction<T extends ProcessingInstruction> extends ScriptableNode<T> {
 
 	public ScriptableProcessingInstruction() {
 		super();
 	}
 
-	public ScriptableProcessingInstruction(Scriptable scope, ProcessingInstruction delegateProcessingInstruction) {
-		super(scope, delegateProcessingInstruction);
-		this.delegateProcessingInstruction = delegateProcessingInstruction;
+	public ScriptableProcessingInstruction(Scriptable scope, T processingInstruction) {
+		super(scope, processingInstruction);
 	}
 
 	@JSGetter("data")
 	public String getData() {
-		return delegateProcessingInstruction.getData();
+		return unwrap().getData();
 	}
 
 	@JSGetter("target")
 	public String getTarget() {
-		return delegateProcessingInstruction.getTarget();
+		return unwrap().getTarget();
 	}
 
 	@JSSetter("data")
 	public void setData(String data) {
-		delegateProcessingInstruction.setData(data);
+		unwrap().setData(data);
 	}
 }

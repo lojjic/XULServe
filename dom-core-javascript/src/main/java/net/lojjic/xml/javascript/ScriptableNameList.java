@@ -10,41 +10,38 @@ import net.lojjic.rhino.annotations.JSGetter;
  * Scriptable wrapper for {@link org.w3c.dom.NameList}
  */
 @JSClassName("NameList")
-public class ScriptableNameList extends ScriptableDOMObject {
-
-	private NameList delegateNameList;
+public class ScriptableNameList<T extends NameList> extends ScriptableDOMObject<T> {
 
 	public ScriptableNameList() {
 		super();
 	}
 
-	public ScriptableNameList(Scriptable scope, NameList delegateNameList) {
-		super(scope, delegateNameList);
-		this.delegateNameList = delegateNameList;
+	public ScriptableNameList(Scriptable scope, T nameList) {
+		super(scope, nameList);
 	}
 
 	@JSFunction("contains")
 	public boolean contains(String str) {
-		return delegateNameList.contains(str);
+		return unwrap().contains(str);
 	}
 
 	@JSFunction("containsNS")
 	public boolean containsNS(String namespaceURI, String name) {
-		return delegateNameList.containsNS(namespaceURI, name);
+		return unwrap().containsNS(namespaceURI, name);
 	}
 
 	@JSGetter("length")
 	public int getLength() {
-		return delegateNameList.getLength();
+		return unwrap().getLength();
 	}
 
 	@JSFunction("getName")
 	public String getName(int index) {
-		return delegateNameList.getName(index);
+		return unwrap().getName(index);
 	}
 
 	@JSFunction("getNamespaceURI")
 	public String getNamespaceURI(int index) {
-		return delegateNameList.getNamespaceURI(index);
+		return unwrap().getNamespaceURI(index);
 	}
 }

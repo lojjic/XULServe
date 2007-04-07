@@ -10,96 +10,94 @@ import org.mozilla.javascript.Scriptable;
  * Scriptable wrapper for {@link net.lojjic.xul.XULSelectControlItemElement}
  */
 @JSClassName("XULSelectControlItemElement")
-public class ScriptableXULSelectControlItemElement extends ScriptableXULElement {
-
-	private XULSelectControlItemElement delegateXULSelectControlItemElement;
+public class ScriptableXULSelectControlItemElement<T extends XULSelectControlItemElement>
+		extends ScriptableXULElement<T> {
 
 	public ScriptableXULSelectControlItemElement() {
 		super();
 	}
 
-	public ScriptableXULSelectControlItemElement(Scriptable scope, XULSelectControlItemElement delegateXULSelectControlItemElement) {
-		super(scope, delegateXULSelectControlItemElement);
-		this.delegateXULSelectControlItemElement = delegateXULSelectControlItemElement;
+	public ScriptableXULSelectControlItemElement(Scriptable scope, T xulSelectControlItemElement) {
+		super(scope, xulSelectControlItemElement);
 	}
 
 	@JSGetter("accessKey")
 	public String getAccessKey() {
-		return delegateXULSelectControlItemElement.getAccessKey();
+		return unwrap().getAccessKey();
 	}
 
 	@JSGetter("command")
 	public String getCommand() {
-		return delegateXULSelectControlItemElement.getCommand();
+		return unwrap().getCommand();
 	}
 
 	@JSGetter("control")
 	public Object getControl() {
-		return convertReturnValue(delegateXULSelectControlItemElement.getControl());
+		return convertReturnValue(unwrap().getControl());
 	}
 
 	@JSGetter("crop")
 	public String getCrop() {
-		return delegateXULSelectControlItemElement.getCrop();
+		return unwrap().getCrop();
 	}
 
 	@JSGetter("image")
 	public String getImage() {
-		return delegateXULSelectControlItemElement.getImage();
+		return unwrap().getImage();
 	}
 
 	@JSGetter("label")
 	public String getLabel() {
-		return delegateXULSelectControlItemElement.getLabel();
+		return unwrap().getLabel();
 	}
 
 	@JSGetter("value")
 	public String getValue() {
-		return delegateXULSelectControlItemElement.getValue();
+		return unwrap().getValue();
 	}
 
 	@JSGetter("disabled")
 	public boolean isDisabled() {
-		return delegateXULSelectControlItemElement.isDisabled();
+		return unwrap().isDisabled();
 	}
 
 	@JSGetter("selected")
 	public boolean isSelected() {
-		return delegateXULSelectControlItemElement.isSelected();
+		return unwrap().isSelected();
 	}
 
 	@JSSetter("accessKey")
 	public void setAccessKey(String accessKey) {
-		delegateXULSelectControlItemElement.setAccessKey(accessKey);
+		unwrap().setAccessKey(accessKey);
 	}
 
 	@JSSetter("command")
 	public void setCommand(String command) {
-		delegateXULSelectControlItemElement.setCommand(command);
+		unwrap().setCommand(command);
 	}
 
 	@JSSetter("crop")
 	public void setCrop(String crop) {
-		delegateXULSelectControlItemElement.setCrop(crop);
+		unwrap().setCrop(crop);
 	}
 
 	@JSSetter("disabled")
 	public void setDisabled(boolean disabled) {
-		delegateXULSelectControlItemElement.setDisabled(disabled);
+		unwrap().setDisabled(disabled);
 	}
 
 	@JSSetter("image")
 	public void setImage(String image) {
-		delegateXULSelectControlItemElement.setImage(image);
+		unwrap().setImage(image);
 	}
 
 	@JSSetter("label")
 	public void setLabel(String label) {
-		delegateXULSelectControlItemElement.setLabel(label);
+		unwrap().setLabel(label);
 	}
 
 	@JSSetter("value")
 	public void setValue(String value) {
-		delegateXULSelectControlItemElement.setValue(value);
+		unwrap().setValue(value);
 	}
 }

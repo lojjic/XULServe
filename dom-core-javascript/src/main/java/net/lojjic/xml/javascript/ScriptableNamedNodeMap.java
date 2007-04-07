@@ -12,57 +12,54 @@ import org.w3c.dom.Node;
  * Scriptable wrapper for {@link org.w3c.dom.NamedNodeMap}
  */
 @JSClassName("NamedNodeMap")
-public class ScriptableNamedNodeMap extends ScriptableDOMObject {
-
-	private NamedNodeMap delegateNamedNodeMap;
+public class ScriptableNamedNodeMap<T extends NamedNodeMap> extends ScriptableDOMObject<T> {
 
 	public ScriptableNamedNodeMap() {
 		super();
 	}
 
-	public ScriptableNamedNodeMap(Scriptable scope, NamedNodeMap delegateNamedNodeMap) {
-		super(scope, delegateNamedNodeMap);
-		this.delegateNamedNodeMap = delegateNamedNodeMap;
+	public ScriptableNamedNodeMap(Scriptable scope, T namedNodeMap) {
+		super(scope, namedNodeMap);
 	}
 
 	@JSGetter("length")
 	public int getLength() {
-		return delegateNamedNodeMap.getLength();
+		return unwrap().getLength();
 	}
 
 	@JSFunction("getNamedItem")
 	public Object getNamedItem(String name) {
-		return Context.javaToJS(delegateNamedNodeMap.getNamedItem(name), getParentScope());
+		return Context.javaToJS(unwrap().getNamedItem(name), getParentScope());
 	}
 
 	@JSFunction("getNamedItemNS")
 	public Object getNamedItemNS(String namespaceURI, String localName) {
-		return Context.javaToJS(delegateNamedNodeMap.getNamedItemNS(namespaceURI, localName), getParentScope());
+		return Context.javaToJS(unwrap().getNamedItemNS(namespaceURI, localName), getParentScope());
 	}
 
 	@JSFunction("item")
 	public Object item(int index) {
-		return Context.javaToJS(delegateNamedNodeMap.item(index), getParentScope());
+		return Context.javaToJS(unwrap().item(index), getParentScope());
 	}
 
 	@JSFunction("removeNamedItem")
 	public Object removeNamedItem(String name) {
-		return Context.javaToJS(delegateNamedNodeMap.removeNamedItem(name), getParentScope());
+		return Context.javaToJS(unwrap().removeNamedItem(name), getParentScope());
 	}
 
 	@JSFunction("removeNamedItemNS")
 	public Object removeNamedItemNS(String namespaceURI, String localName) {
-		return Context.javaToJS(delegateNamedNodeMap.removeNamedItemNS(namespaceURI, localName), getParentScope());
+		return Context.javaToJS(unwrap().removeNamedItemNS(namespaceURI, localName), getParentScope());
 	}
 
 	@JSFunction("setNamedItem")
 	public Object setNamedItem(Object arg) {
-		return Context.javaToJS(delegateNamedNodeMap.setNamedItem(convertArg(arg, Node.class)), getParentScope());
+		return Context.javaToJS(unwrap().setNamedItem(convertArg(arg, Node.class)), getParentScope());
 	}
 
 	@JSFunction("setNamedItemNS")
 	public Object setNamedItemNS(Object arg) {
-		return Context.javaToJS(delegateNamedNodeMap.setNamedItemNS(convertArg(arg, Node.class)), getParentScope());
+		return Context.javaToJS(unwrap().setNamedItemNS(convertArg(arg, Node.class)), getParentScope());
 	}
 
 	/**

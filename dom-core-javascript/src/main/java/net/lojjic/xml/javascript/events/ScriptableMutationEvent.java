@@ -14,17 +14,14 @@ import org.w3c.dom.events.MutationEvent;
  * Scriptable wrapper for {@link org.w3c.dom.events.MutationEvent}
  */
 @JSClassName("MutationEvent")
-public class ScriptableMutationEvent extends ScriptableEvent {
-	
-	protected MutationEvent delegateMutationEvent;
+public class ScriptableMutationEvent<T extends MutationEvent> extends ScriptableEvent<T> {
 
 	public ScriptableMutationEvent() {
 		super();
 	}
 
-	public ScriptableMutationEvent(Scriptable scope, MutationEvent event) {
+	public ScriptableMutationEvent(Scriptable scope, T event) {
 		super(scope, event);
-		this.delegateMutationEvent = event;
 	}
 
 	@JSStatic @JSGetter("ADDITION")
@@ -44,33 +41,33 @@ public class ScriptableMutationEvent extends ScriptableEvent {
 
 	@JSGetter("attrChange")
 	public int getAttrChange() {
-		return delegateMutationEvent.getAttrChange();
+		return unwrap().getAttrChange();
 	}
 	
 	@JSGetter("attrName")
 	public String getAttrName() {
-		return delegateMutationEvent.getAttrName();
+		return unwrap().getAttrName();
 	}
 	
 	@JSGetter("newValue")
 	public String getNewValue() {
-		return delegateMutationEvent.getNewValue();
+		return unwrap().getNewValue();
 	}
 	
 	@JSGetter("prevValue")
 	public String getPrevValue() {
-		return delegateMutationEvent.getPrevValue();
+		return unwrap().getPrevValue();
 	}
 	
 	@JSGetter("relatedNode")
 	public Object getRelatedNode() {
-		return Context.javaToJS(delegateMutationEvent.getRelatedNode(), getParentScope());
+		return Context.javaToJS(unwrap().getRelatedNode(), getParentScope());
 	}
 
 	@JSFunction("initMutationEvent")
 	public void initMutationEvent(String type, boolean canBubble, boolean cancelable,
 			Object relatedNode, String prevValue, String newValue, String attrName, int attrChange) {
-		delegateMutationEvent.initMutationEvent(type, canBubble, cancelable,
+		unwrap().initMutationEvent(type, canBubble, cancelable,
 				convertArg(relatedNode, Node.class), prevValue, newValue, attrName, (short)attrChange);
 	}
 	

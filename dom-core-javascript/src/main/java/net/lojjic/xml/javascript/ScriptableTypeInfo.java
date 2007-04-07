@@ -12,17 +12,14 @@ import net.lojjic.rhino.annotations.JSStatic;
  * Scriptable wrapper for {@link org.w3c.dom.TypeInfo}
  */
 @JSClassName("TypeInfo")
-public class ScriptableTypeInfo extends ScriptableDOMObject {
-
-	private TypeInfo delegateTypeInfo;
+public class ScriptableTypeInfo<T extends TypeInfo> extends ScriptableDOMObject<T> {
 
 	public ScriptableTypeInfo() {
 		super();
 	}
 
-	public ScriptableTypeInfo(Scriptable scope, TypeInfo delegateTypeInfo) {
-		super(scope, delegateTypeInfo);
-		this.delegateTypeInfo = delegateTypeInfo;
+	public ScriptableTypeInfo(Scriptable scope, T typeInfo) {
+		super(scope, typeInfo);
 	}
 
 	@JSStatic @JSGetter("DERIVATION_RESTRICTION")
@@ -47,16 +44,16 @@ public class ScriptableTypeInfo extends ScriptableDOMObject {
 
 	@JSGetter("typeName")
 	public String getTypeName() {
-		return delegateTypeInfo.getTypeName();
+		return unwrap().getTypeName();
 	}
 
 	@JSGetter("typeNamespace")
 	public String getTypeNamespace() {
-		return delegateTypeInfo.getTypeNamespace();
+		return unwrap().getTypeNamespace();
 	}
 
 	@JSFunction("isDerivedFrom")
 	public boolean isDerivedFrom(String typeNamespaceArg, String typeNameArg, int derivationMethod) {
-		return delegateTypeInfo.isDerivedFrom(typeNamespaceArg, typeNameArg, derivationMethod);
+		return unwrap().isDerivedFrom(typeNamespaceArg, typeNameArg, derivationMethod);
 	}
 }

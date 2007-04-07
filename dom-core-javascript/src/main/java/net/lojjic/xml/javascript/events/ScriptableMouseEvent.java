@@ -13,75 +13,72 @@ import org.w3c.dom.views.AbstractView;
  * Scriptable wrapper for {@link org.w3c.dom.events.MouseEvent}
  */
 @JSClassName("MouseEvent")
-public class ScriptableMouseEvent extends ScriptableUIEvent {
-	
-	protected MouseEvent delegateMouseEvent;
+public class ScriptableMouseEvent<T extends MouseEvent> extends ScriptableUIEvent<T> {
 
 	public ScriptableMouseEvent() {
 		super();
 	}
 
-	public ScriptableMouseEvent(Scriptable scope, MouseEvent event) {
+	public ScriptableMouseEvent(Scriptable scope, T event) {
 		super(scope, event);
-		this.delegateMouseEvent = event;
 	}
 	
 
 	@JSGetter("altKey")
 	public boolean getAltKey() {
-		return delegateMouseEvent.getAltKey();
+		return unwrap().getAltKey();
 	}
 
 	@JSGetter("button")
 	public int getButton() {
-		return delegateMouseEvent.getButton();
+		return unwrap().getButton();
 	}
 
 	@JSGetter("clientX")
 	public int getClientX() {
-		return delegateMouseEvent.getClientX();
+		return unwrap().getClientX();
 	}
 
 	@JSGetter("clientY")
 	public int getClientY() {
-		return delegateMouseEvent.getClientY();
+		return unwrap().getClientY();
 	}
 
 	@JSGetter("ctrlKey")
 	public boolean getCtrlKey() {
-		return delegateMouseEvent.getCtrlKey();
+		return unwrap().getCtrlKey();
 	}
 
 	@JSGetter("metaKey")
 	public boolean getMetaKey() {
-		return delegateMouseEvent.getMetaKey();
+		return unwrap().getMetaKey();
 	}
 
 	@JSGetter("relatedTarget")
 	public Object getRelatedTarget() {
-		return Context.javaToJS(delegateMouseEvent.getRelatedTarget(), getParentScope());
+		return Context.javaToJS(unwrap().getRelatedTarget(), getParentScope());
 	}
 
 	@JSGetter("screenX")
 	public int getScreenX() {
-		return delegateMouseEvent.getScreenX();
+		return unwrap().getScreenX();
 	}
 
 	@JSGetter("screenY")
 	public int getScreenY() {
-		return delegateMouseEvent.getScreenY();
+		return unwrap().getScreenY();
 	}
 
 	@JSGetter("shiftKey")
 	public boolean getShiftKey() {
-		return delegateMouseEvent.getShiftKey();
+		return unwrap().getShiftKey();
 	}
 	
 	@JSFunction("initMouseEvent")
 	public void initMouseEvent(String type, boolean canBubble, boolean cancelable, Object view,
 			int detail, int screenX, int screenY, int clientX, int clientY, boolean ctrlKey, boolean altKey, 
 			boolean shiftKey, boolean metaKey, int button, Object relatedTarget) {
-		delegateMouseEvent.initMouseEvent(type, canBubble, cancelable, convertArg(view, AbstractView.class),
+		unwrap().initMouseEvent(type, canBubble, cancelable, convertArg(view, AbstractView.class),
 				detail, screenX, screenY, clientX, clientY, ctrlKey, altKey, shiftKey, metaKey,
 				(short)button, convertArg(relatedTarget, EventTarget.class));
 	}

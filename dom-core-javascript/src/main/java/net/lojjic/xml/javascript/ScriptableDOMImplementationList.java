@@ -11,27 +11,24 @@ import org.w3c.dom.DOMImplementationList;
  * Scriptable wrapper for {@link org.w3c.dom.DOMImplementationList}
  */
 @JSClassName("DOMImplementationList")
-public class ScriptableDOMImplementationList extends ScriptableDOMObject {
-
-	private DOMImplementationList delegateDOMImplementationList;
+public class ScriptableDOMImplementationList<T extends DOMImplementationList> extends ScriptableDOMObject<T> {
 
 	public ScriptableDOMImplementationList() {
 		super();
 	}
 
-	public ScriptableDOMImplementationList(Scriptable scope, DOMImplementationList delegateDOMImplementationList) {
-		super(scope, delegateDOMImplementationList);
-		this.delegateDOMImplementationList = delegateDOMImplementationList;
+	public ScriptableDOMImplementationList(Scriptable scope, T domImplementationList) {
+		super(scope, domImplementationList);
 	}
 
 	@JSGetter("length")
 	public int getLength() {
-		return delegateDOMImplementationList.getLength();
+		return unwrap().getLength();
 	}
 
 	@JSFunction("item")
 	public Object item(int index) {
-		return Context.javaToJS(delegateDOMImplementationList.item(index), getParentScope());
+		return Context.javaToJS(unwrap().item(index), getParentScope());
 	}
 
 	/**

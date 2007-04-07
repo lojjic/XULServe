@@ -16,37 +16,34 @@ import org.w3c.dom.events.EventListener;
  * Scriptable wrapper for {@link XULElement} instances.
  */
 @JSClassName("XULElement")
-public class ScriptableXULElement extends ScriptableElement {
-
-	protected XULElement delegateXULElement;
+public class ScriptableXULElement<T extends XULElement> extends ScriptableElement<T> {
 
 	public ScriptableXULElement() {
 		super();
 	}
 
-	public ScriptableXULElement(Scriptable scope, XULElement element) {
+	public ScriptableXULElement(Scriptable scope, T element) {
 		super(scope, element);
-		this.delegateXULElement = element;
 	}
 	
 	@JSGetter("id")
 	public String getId() {
-		return delegateXULElement.getId();
+		return unwrap().getId();
 	}
 
 	@JSSetter("id")
 	public void setId(String id) {
-		delegateXULElement.setId(id);
+		unwrap().setId(id);
 	}
 
 	@JSGetter("className")
 	public String getCSSClassName() {
-		return delegateXULElement.getClassName();
+		return unwrap().getClassName();
 	}
 
 	@JSSetter("className")
 	public void setCSSClassName(String className) {
-		delegateXULElement.setClassName(className);
+		unwrap().setClassName(className);
 	}
 	
 	
@@ -54,65 +51,65 @@ public class ScriptableXULElement extends ScriptableElement {
 	
 	@JSGetter("align")
 	public String getAlign() {
-		return delegateXULElement.getAlign();
+		return unwrap().getAlign();
 	}
 	@JSSetter("align")
 	public void setAlign(String align) {
-		delegateXULElement.setAlign(align);
+		unwrap().setAlign(align);
 	}
 	
 	@JSGetter("dir")
 	public String getDir() {
-		return delegateXULElement.getDir();
+		return unwrap().getDir();
 	}
 	@JSSetter("dir")
 	public void setDir(String dir) {
-		delegateXULElement.setDir(dir);
+		unwrap().setDir(dir);
 	}
 	
 	@JSGetter("flex")
 	public String getFlex() {
-		return delegateXULElement.getFlex();
+		return unwrap().getFlex();
 	}
 	@JSSetter("flex")
 	public void setFlex(String flex) {
-		delegateXULElement.setFlex(flex);
+		unwrap().setFlex(flex);
 	}
 	
 	@JSGetter("flexGroup")
 	public String getFlexGroup() {
-		return delegateXULElement.getFlexGroup();
+		return unwrap().getFlexGroup();
 	}
 	@JSSetter("flexGroup")
 	public void setFlexGroup(String flexGroup) {
-		delegateXULElement.setFlexGroup(flexGroup);
+		unwrap().setFlexGroup(flexGroup);
 	}
 	
 	@JSGetter("ordinal")
 	public String getOrdinal() {
-		return delegateXULElement.getOrdinal();
+		return unwrap().getOrdinal();
 	}
 	@JSSetter("ordinal")
 	public void setOrdinal(String ordinal) {
-		delegateXULElement.setOrdinal(ordinal);
+		unwrap().setOrdinal(ordinal);
 	}
 	
 	@JSGetter("orient")
 	public String getOrient() {
-		return delegateXULElement.getOrient();
+		return unwrap().getOrient();
 	}
 	@JSSetter("orient")
 	public void setOrient(String orient) {
-		delegateXULElement.setOrient(orient);
+		unwrap().setOrient(orient);
 	}
 	
 	@JSGetter("pack")
 	public String getPack() {
-		return delegateXULElement.getPack();
+		return unwrap().getPack();
 	}
 	@JSSetter("pack")
 	public void setPack(String pack) {
-		delegateXULElement.setPack(pack);
+		unwrap().setPack(pack);
 	}
 	
 	
@@ -120,20 +117,20 @@ public class ScriptableXULElement extends ScriptableElement {
 	
 	@JSGetter("hidden")
 	public boolean isHidden() {
-		return delegateXULElement.isHidden();
+		return unwrap().isHidden();
 	}
 	@JSSetter("hidden")
 	public void setHidden(boolean hidden) {
-		delegateXULElement.setHidden(hidden);
+		unwrap().setHidden(hidden);
 	}
 	
 	@JSGetter("collapsed")
 	public boolean isCollapsed() {
-		return delegateXULElement.isCollapsed();
+		return unwrap().isCollapsed();
 	}
 	@JSSetter("collapsed")
 	public void setCollapsed(boolean collapsed) {
-		delegateXULElement.setCollapsed(collapsed);
+		unwrap().setCollapsed(collapsed);
 	}
 	
 	
@@ -141,11 +138,11 @@ public class ScriptableXULElement extends ScriptableElement {
 	
 	@JSGetter("observes")
 	public String getObserves() {
-		return delegateXULElement.getObserves();
+		return unwrap().getObserves();
 	}
 	@JSSetter("observes")
 	public void setObserves(String observes) {
-		delegateXULElement.setObserves(observes);
+		unwrap().setObserves(observes);
 	}
 	
 	
@@ -153,56 +150,56 @@ public class ScriptableXULElement extends ScriptableElement {
 	
 	@JSGetter("width")
 	public String getWidth() {
-		return delegateXULElement.getWidth();
+		return unwrap().getWidth();
 	}
 	@JSSetter("width")
 	public void setWidth(String width) {
-		delegateXULElement.setWidth(width);
+		unwrap().setWidth(width);
 	}
 	
 	@JSGetter("height")
 	public String getHeight() {
-		return delegateXULElement.getHeight();
+		return unwrap().getHeight();
 	}
 	@JSSetter("height")
 	public void setHeight(String height) {
-		delegateXULElement.setHeight(height);
+		unwrap().setHeight(height);
 	}
 	
 	@JSGetter("minWidth")
 	public String getMinWidth() {
-		return delegateXULElement.getMinWidth();
+		return unwrap().getMinWidth();
 	}
 	@JSSetter("minWidth")
 	public void setMinWidth(String minWidth) {
-		delegateXULElement.setMinWidth(minWidth);
+		unwrap().setMinWidth(minWidth);
 	}
 	
 	@JSGetter("minHeight")
 	public String getMinHeight() {
-		return delegateXULElement.getMinHeight();
+		return unwrap().getMinHeight();
 	}
 	@JSSetter("minHeight")
 	public void setMinHeight(String minHeight) {
-		delegateXULElement.setMinHeight(minHeight);
+		unwrap().setMinHeight(minHeight);
 	}
 	
 	@JSGetter("maxWidth")
 	public String getMaxWidth() {
-		return delegateXULElement.getMaxWidth();
+		return unwrap().getMaxWidth();
 	}
 	@JSSetter("maxWidth")
 	public void setMaxWidth(String maxWidth) {
-		delegateXULElement.setMaxWidth(maxWidth);
+		unwrap().setMaxWidth(maxWidth);
 	}
 	
 	@JSGetter("maxHeight")
 	public String getMaxHeight() {
-		return delegateXULElement.getMaxHeight();
+		return unwrap().getMaxHeight();
 	}
 	@JSSetter("maxHeight")
 	public void setMaxHeight(String maxHeight) {
-		delegateXULElement.setMaxHeight(maxHeight);
+		unwrap().setMaxHeight(maxHeight);
 	}
 	
 	
@@ -210,11 +207,11 @@ public class ScriptableXULElement extends ScriptableElement {
 	
 	@JSGetter("persist")
 	public String getPersist() {
-		return delegateXULElement.getPersist();
+		return unwrap().getPersist();
 	}
 	@JSSetter("persist")
 	public void setPersist(String persist) {
-		delegateXULElement.setPersist(persist);
+		unwrap().setPersist(persist);
 	}
 	
 	
@@ -224,20 +221,20 @@ public class ScriptableXULElement extends ScriptableElement {
 	
 	@JSGetter("left")
 	public String getLeft() {
-		return delegateXULElement.getLeft();
+		return unwrap().getLeft();
 	}
 	@JSSetter("left")
 	public void setLeft(String left) {
-		delegateXULElement.setLeft(left);
+		unwrap().setLeft(left);
 	}
 	
 	@JSGetter("top")
 	public String getTop() {
-		return delegateXULElement.getTop();
+		return unwrap().getTop();
 	}
 	@JSSetter("top")
 	public void setTop(String top) {
-		delegateXULElement.setTop(top);
+		unwrap().setTop(top);
 	}
 	
 	
@@ -245,20 +242,20 @@ public class ScriptableXULElement extends ScriptableElement {
 	
 	@JSGetter("datasources")
 	public String getDatasources() {
-		return delegateXULElement.getDatasources();
+		return unwrap().getDatasources();
 	}
 	@JSSetter("datasources")
 	public void setDatasources(String datasources) {
-		delegateXULElement.setDatasources(datasources);
+		unwrap().setDatasources(datasources);
 	}
 	
 	@JSGetter("ref")
 	public String getRef() {
-		return delegateXULElement.getRef();
+		return unwrap().getRef();
 	}
 	@JSSetter("ref")
 	public void setRef(String ref) {
-		delegateXULElement.setRef(ref);
+		unwrap().setRef(ref);
 	}
 	
 	
@@ -266,50 +263,50 @@ public class ScriptableXULElement extends ScriptableElement {
 	
 	@JSGetter("tooltipText")
 	public String getTooltipText() {
-		return delegateXULElement.getTooltipText();
+		return unwrap().getTooltipText();
 	}
 	@JSSetter("tooltipText")
 	public void setTooltipText(String tooltipText) {
-		delegateXULElement.setTooltipText(tooltipText);
+		unwrap().setTooltipText(tooltipText);
 	}
 	
 	@JSGetter("statusText")
 	public String getStatusText() {
-		return delegateXULElement.getStatusText();
+		return unwrap().getStatusText();
 	}
 	@JSSetter("statusText")
 	public void setStatusText(String statusText) {
-		delegateXULElement.setStatusText(statusText);
+		unwrap().setStatusText(statusText);
 	}
 	
 	@JSGetter("allowEvents")
 	public boolean isAllowEvents() {
-		return delegateXULElement.isAllowEvents();
+		return unwrap().isAllowEvents();
 	}
 	@JSSetter("allowEvents")
 	public void setAllowEvents(boolean allowEvents) {
-		delegateXULElement.setAllowEvents(allowEvents);
+		unwrap().setAllowEvents(allowEvents);
 	}
 	
 	
 	@JSGetter("style")
 	public Object getStyle() {
-		return Context.javaToJS(delegateXULElement.getStyle(), getParentScope());
+		return Context.javaToJS(unwrap().getStyle(), getParentScope());
 	}
 	
 	@JSGetter("database")
 	public Object getDatabase() {
-		return Context.javaToJS(delegateXULElement.getDatabase(), getParentScope());
+		return Context.javaToJS(unwrap().getDatabase(), getParentScope());
 	}
 
 	@JSGetter("builder")
 	public Object getBuilder() {
-		return Context.javaToJS(delegateXULElement.getBuilder(), getParentScope());
+		return Context.javaToJS(unwrap().getBuilder(), getParentScope());
 	}
 
 	@JSGetter("resource")
 	public Object getResource() {
-		return Context.javaToJS(delegateXULElement.getResource(), getParentScope());
+		return Context.javaToJS(unwrap().getResource(), getParentScope());
 	}
 
 	// Controllers getControllers(); //readonly
@@ -318,27 +315,27 @@ public class ScriptableXULElement extends ScriptableElement {
 
 	@JSFunction("focus")
 	public void focus() {
-		delegateXULElement.focus();
+		unwrap().focus();
 	}
 
 	@JSFunction("blur")
 	public void blur() {
-		delegateXULElement.blur();
+		unwrap().blur();
 	}
 
 	@JSFunction("click")
 	public void click() {
-		delegateXULElement.click();
+		unwrap().click();
 	}
 
 	@JSFunction("doCommand")
 	public void doCommand() {
-		delegateXULElement.doCommand();
+		unwrap().doCommand();
 	}
 	
 	@JSFunction("getElementsByAttribute")
 	public Object getElementsByAttribute(String name, String value) {
-		return Context.javaToJS(delegateXULElement.getElementsByAttribute(name, value), getParentScope());
+		return Context.javaToJS(unwrap().getElementsByAttribute(name, value), getParentScope());
 	}
 
 
@@ -352,7 +349,7 @@ public class ScriptableXULElement extends ScriptableElement {
 
 	@JSGetter("onclick")
 	public Function getOnclick() {
-		String attrValue = delegateXULElement.getAttribute("onclick");
+		String attrValue = unwrap().getAttribute("onclick");
 		if(attrValue != null && (onclickFunction == null || !attrValue.equals(lastOnclickAttributeValue))) {
 			onclickFunction = compileEventFunction(attrValue);
 			lastOnclickAttributeValue = attrValue;
@@ -362,9 +359,9 @@ public class ScriptableXULElement extends ScriptableElement {
 	@JSSetter("onclick")
 	public void setOnclick(Function function) {
 		if(function == null) {
-			delegateXULElement.removeEventListener("click", clickAttributeEventListener, false);
+			unwrap().removeEventListener("click", clickAttributeEventListener, false);
 		} else {
-			delegateXULElement.addEventListener("click", clickAttributeEventListener, false);
+			unwrap().addEventListener("click", clickAttributeEventListener, false);
 		}
 		onclickFunction = function;
 		// The DOM attribute does not get updated per the Mozilla implementation.
@@ -376,7 +373,7 @@ public class ScriptableXULElement extends ScriptableElement {
 	private Function compileEventFunction(String funcBody) {
 		String script = "function(event){" + funcBody + "}";
 		return Context.getCurrentContext().compileFunction(getParentScope(), script,
-					delegateXULElement.getOwnerDocument().getDocumentURI(), 0, null);
+					unwrap().getOwnerDocument().getDocumentURI(), 0, null);
 	}
 
 	/**

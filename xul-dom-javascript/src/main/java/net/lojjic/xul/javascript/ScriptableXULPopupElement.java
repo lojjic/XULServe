@@ -12,37 +12,33 @@ import org.w3c.dom.Element;
  * Scriptable wrapper for {@link net.lojjic.xul.XULPopupElement}
  */
 @JSClassName("XULPopupElement")
-public class ScriptableXULPopupElement extends ScriptableXULElement {
-
-	private XULPopupElement delegateXULPopupElement;
+public class ScriptableXULPopupElement<T extends XULPopupElement> extends ScriptableXULElement<T> {
 
 	public ScriptableXULPopupElement() {
 		super();
 	}
 
-	public ScriptableXULPopupElement(Scriptable scope, XULPopupElement delegateXULPopupElement) {
-		super(scope, delegateXULPopupElement);
-		this.delegateXULPopupElement = delegateXULPopupElement;
+	public ScriptableXULPopupElement(Scriptable scope, T xulPopupElement) {
+		super(scope, xulPopupElement);
 	}
 
 	@JSGetter("position")
 	public String getPosition() {
-		return delegateXULPopupElement.getPosition();
+		return unwrap().getPosition();
 	}
 
 	@JSFunction("hidePopup")
 	public void hidePopup() {
-		delegateXULPopupElement.hidePopup();
+		unwrap().hidePopup();
 	}
 
 	@JSSetter("position")
 	public void setPosition(String position) {
-		delegateXULPopupElement.setPosition(position);
+		unwrap().setPosition(position);
 	}
 
 	@JSFunction("showPopup")
 	public void showPopup(int alignment, Object target, Object anchor) {
-		delegateXULPopupElement.showPopup(
-				(short)alignment, convertArg(target, Element.class), convertArg(anchor, Element.class));
+		unwrap().showPopup((short)alignment, convertArg(target, Element.class), convertArg(anchor, Element.class));
 	}
 }
