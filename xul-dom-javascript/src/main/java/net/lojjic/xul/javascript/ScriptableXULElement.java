@@ -291,22 +291,22 @@ public class ScriptableXULElement<T extends XULElement> extends ScriptableElemen
 	
 	@JSGetter("style")
 	public Object getStyle() {
-		return Context.javaToJS(unwrap().getStyle(), getParentScope());
+		return convertReturnValue(unwrap().getStyle());
 	}
 	
 	@JSGetter("database")
 	public Object getDatabase() {
-		return Context.javaToJS(unwrap().getDatabase(), getParentScope());
+		return convertReturnValue(unwrap().getDatabase());
 	}
 
 	@JSGetter("builder")
 	public Object getBuilder() {
-		return Context.javaToJS(unwrap().getBuilder(), getParentScope());
+		return convertReturnValue(unwrap().getBuilder());
 	}
 
 	@JSGetter("resource")
 	public Object getResource() {
-		return Context.javaToJS(unwrap().getResource(), getParentScope());
+		return convertReturnValue(unwrap().getResource());
 	}
 
 	// Controllers getControllers(); //readonly
@@ -335,7 +335,7 @@ public class ScriptableXULElement<T extends XULElement> extends ScriptableElemen
 	
 	@JSFunction("getElementsByAttribute")
 	public Object getElementsByAttribute(String name, String value) {
-		return Context.javaToJS(unwrap().getElementsByAttribute(name, value), getParentScope());
+		return convertReturnValue(unwrap().getElementsByAttribute(name, value));
 	}
 
 

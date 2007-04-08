@@ -1,11 +1,10 @@
 package net.lojjic.xul.javascript;
 
+import net.lojjic.rhino.annotations.JSClassName;
 import net.lojjic.rhino.annotations.JSFunction;
 import net.lojjic.rhino.annotations.JSGetter;
-import net.lojjic.rhino.annotations.JSClassName;
 import net.lojjic.xml.javascript.ScriptableDOMObject;
 import net.lojjic.xul.Window;
-import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
 /**
@@ -49,7 +48,7 @@ public class ScriptableWindow<T extends Window> extends ScriptableDOMObject<T> {
 
 	@JSGetter("top")
 	public Object getTop() {
-		return Context.javaToJS(unwrap().getTop(), getParentScope());
+		return convertReturnValue(unwrap().getTop());
 	}
 
 	@JSFunction("scrollBy")
@@ -85,6 +84,6 @@ public class ScriptableWindow<T extends Window> extends ScriptableDOMObject<T> {
 
 	@JSGetter("document")
 	public Object getDocument() {
-		return Context.javaToJS(unwrap().getDocument(), getParentScope());
+		return convertReturnValue(unwrap().getDocument());
 	}
 }
