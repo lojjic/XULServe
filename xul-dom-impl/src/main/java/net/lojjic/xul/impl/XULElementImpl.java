@@ -1,30 +1,30 @@
 package net.lojjic.xul.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import net.lojjic.xul.XULCommandEvent;
 import net.lojjic.xul.XULConstants;
 import net.lojjic.xul.XULElement;
-import net.lojjic.xul.XULCommandEvent;
 import net.lojjic.xul.XULTemplateBuilder;
 import net.lojjic.xul.rdf.RDFCompositeDataSource;
 import net.lojjic.xul.rdf.RDFResource;
 import net.lojjic.xul.rdf.RDFService;
 import net.lojjic.xul.rdf.impl.RDFCompositeDataSourceImpl;
 import net.lojjic.xul.xbl.impl.ElementXBLImpl;
-
+import org.apache.commons.lang.StringUtils;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.w3c.dom.css.CSSStyleDeclaration;
+import org.w3c.dom.css.ElementCSSInlineStyle;
 import org.w3c.dom.events.MouseEvent;
 import org.w3c.dom.events.UIEvent;
-import org.w3c.dom.css.CSSStyleDeclaration;
-import org.apache.commons.lang.StringUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * {@link net.lojjic.xul.XULElement} implementation
  */
-public class XULElementImpl extends ElementXBLImpl implements XULElement {
+public class XULElementImpl extends ElementXBLImpl implements XULElement, ElementCSSInlineStyle {
 
 	protected XULDocumentImpl ownerXULDocument;
 	private XULTemplateBuilder xulTemplateBuilder;
