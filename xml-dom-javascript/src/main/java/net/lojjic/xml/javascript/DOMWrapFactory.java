@@ -2,6 +2,7 @@ package net.lojjic.xml.javascript;
 
 import net.lojjic.xml.javascript.events.*;
 import net.lojjic.xml.javascript.views.ScriptableAbstractView;
+import org.apache.commons.collections.map.ReferenceIdentityMap;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.WrapFactory;
@@ -11,7 +12,6 @@ import org.w3c.dom.views.AbstractView;
 
 import java.lang.reflect.Constructor;
 import java.util.HashMap;
-import java.util.WeakHashMap;
 
 public class DOMWrapFactory extends WrapFactory {
 
@@ -27,14 +27,13 @@ public class DOMWrapFactory extends WrapFactory {
 	 * for a given Java object instance, which is necessary for e.g. setting custom
 	 * JS properties on a given DOM node.
 	 * <p>
-	 * The cache uses weak references so that the wrapper instance will be automatically
+	 * The cache uses weak key references so that the wrapper instance will be automatically
 	 * garbage collected when the Java object is garbage collected. It is important that
 	 * the wrapper object itself maintains only a weak reference to the java object, to
-	 * avoid a strong circular dependency that would prevent garbage collection (see the
-	 * javadocs for {@link WeakHashMap}).
+	 * avoid a strong circular dependency that would prevent garbage collection.
 	 */
-	private WeakHashMap<Object, Scriptable> wrapperCache =
-			new WeakHashMap<Object, Scriptable>();
+	private ReferenceIdentityMap wrapperCache = new ReferenceIdentityMap(
+			ReferenceIdentityMap.WEAK, ReferenceIdentityMap.HARD);
 
 	/**
 	 * Add a mapping from a DOM class/interface to its Scriptable wrapper class.
@@ -66,7 +65,7 @@ public class DOMWrapFactory extends WrapFactory {
 	public Scriptable wrapAsJavaObject(Context cx, Scriptable scope, Object javaObject, Class staticType) {
 
 		// First check the cache for an existing wrapper instance:
-		Scriptable wrapper = wrapperCache.get(javaObject);
+		Scriptable wrapper = (Scriptable)wrapperCache.get(javaObject);
 		if(wrapper != null) {
 			return wrapper;
 		}
