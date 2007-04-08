@@ -1,13 +1,17 @@
 package net.lojjic.xml.javascript;
 
+import net.lojjic.xml.javascript.css.*;
 import net.lojjic.xml.javascript.events.*;
+import net.lojjic.xml.javascript.stylesheets.*;
 import net.lojjic.xml.javascript.views.ScriptableAbstractView;
 import org.apache.commons.collections.map.ReferenceIdentityMap;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.WrapFactory;
 import org.w3c.dom.*;
+import org.w3c.dom.css.*;
 import org.w3c.dom.events.*;
+import org.w3c.dom.stylesheets.*;
 import org.w3c.dom.views.AbstractView;
 
 import java.lang.reflect.Constructor;
@@ -206,6 +210,35 @@ public class DOMWrapFactory extends WrapFactory {
 
 		// Views:
 		addWrapMapping(AbstractView.class, ScriptableAbstractView.class);
+
+		// Stylesheets:
+		addWrapMapping(DocumentStyle.class, ScriptableDocumentStyle.class);
+		addWrapMapping(LinkStyle.class, ScriptableLinkStyle.class);
+		addWrapMapping(MediaList.class, ScriptableMediaList.class);
+		addWrapMapping(StyleSheet.class, ScriptableStyleSheet.class);
+		addWrapMapping(StyleSheetList.class, ScriptableStyleSheetList.class);
+
+		// CSS:
+		addWrapMapping(Counter.class, ScriptableCounter.class);
+		addWrapMapping(CSSCharsetRule.class, ScriptableCSSCharsetRule.class);
+		addWrapMapping(CSSFontFaceRule.class, ScriptableCSSFontFaceRule.class);
+		addWrapMapping(CSSImportRule.class, ScriptableCSSImportRule.class);
+		addWrapMapping(CSSMediaRule.class, ScriptableCSSMediaRule.class);
+		addWrapMapping(CSSPageRule.class, ScriptableCSSPageRule.class);
+		addWrapMapping(CSSPrimitiveValue.class, ScriptableCSSPrimitiveValue.class);
+		addWrapMapping(CSSRule.class, ScriptableCSSRule.class);
+		addWrapMapping(CSSRuleList.class, ScriptableCSSRuleList.class);
+		addWrapMapping(CSSStyleDeclaration.class, ScriptableCSSStyleDeclaration.class);
+		addWrapMapping(CSSStyleRule.class, ScriptableCSSStyleRule.class);
+		addWrapMapping(CSSStyleSheet.class, ScriptableCSSStyleSheet.class);
+		addWrapMapping(CSSUnknownRule.class, ScriptableCSSUnknownRule.class);
+		addWrapMapping(CSSValue.class, ScriptableCSSValue.class);
+		addWrapMapping(CSSValueList.class, ScriptableCSSValueList.class);
+		addWrapMapping(DocumentCSS.class, ScriptableDocumentCSS.class);
+		addWrapMapping(DOMImplementationCSS.class, ScriptableDOMImplementationCSS.class);
+		addWrapMapping(ElementCSSInlineStyle.class, ScriptableElementCSSInlineStyle.class);
+		addWrapMapping(Rect.class, ScriptableRect.class);
+		addWrapMapping(RGBColor.class, ScriptableRGBColor.class);
 	}
 
 }
