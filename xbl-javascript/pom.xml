@@ -21,7 +21,7 @@
 		</dependency>
 		<dependency>
 			<groupId>net.lojjic.xul</groupId>
-			<artifactId>dom-core-javascript</artifactId>
+			<artifactId>xml-dom-javascript</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 

@@ -22,7 +22,7 @@
 
 	<modules>
 		<module>rhino-annotations</module>
-		<module>dom-core-javascript</module>
+		<module>xml-dom-javascript</module>
 		<module>xpcom</module>
 		<module>xbl-api</module>
 		<module>xbl-impl</module>
