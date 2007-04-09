@@ -4,11 +4,19 @@ import net.lojjic.xml.javascript.css.*;
 import net.lojjic.xml.javascript.events.*;
 import net.lojjic.xml.javascript.stylesheets.*;
 import net.lojjic.xml.javascript.views.ScriptableAbstractView;
+import net.lojjic.xml.javascript.traversal.ScriptableNodeFilter;
+import net.lojjic.xml.javascript.traversal.ScriptableNodeIterator;
+import net.lojjic.xml.javascript.traversal.ScriptableTreeWalker;
+import net.lojjic.xml.javascript.ranges.ScriptableRange;
 import org.apache.commons.collections.map.ReferenceIdentityMap;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.WrapFactory;
 import org.w3c.dom.*;
+import org.w3c.dom.ranges.Range;
+import org.w3c.dom.traversal.NodeFilter;
+import org.w3c.dom.traversal.NodeIterator;
+import org.w3c.dom.traversal.TreeWalker;
 import org.w3c.dom.css.*;
 import org.w3c.dom.events.*;
 import org.w3c.dom.stylesheets.*;
@@ -239,6 +247,14 @@ public class DOMWrapFactory extends WrapFactory {
 		addWrapMapping(ElementCSSInlineStyle.class, ScriptableElementCSSInlineStyle.class);
 		addWrapMapping(Rect.class, ScriptableRect.class);
 		addWrapMapping(RGBColor.class, ScriptableRGBColor.class);
+
+		// Range:
+		addWrapMapping(Range.class, ScriptableRange.class);
+
+		// Traversal:
+		addWrapMapping(NodeFilter.class, ScriptableNodeFilter.class);
+		addWrapMapping(NodeIterator.class, ScriptableNodeIterator.class);
+		addWrapMapping(TreeWalker.class, ScriptableTreeWalker.class);
 	}
 
 }
