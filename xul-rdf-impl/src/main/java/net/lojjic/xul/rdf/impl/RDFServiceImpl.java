@@ -30,7 +30,8 @@ public class RDFServiceImpl implements RDFService {
 	public RDFDataSource getDataSourceBlocking(String uri) {
 		RDFDataSource dataSource = registeredDataSources.get(uri);
 		if(dataSource == null) {
-			// TODO instantiate the correct datasource class
+			// TODO choose the correct datasource class to instantiate.
+			dataSource = new RDFXMLDataSourceImpl(this, uri);
 		}
 		return dataSource;
 	}
