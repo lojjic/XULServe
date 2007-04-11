@@ -3,14 +3,11 @@ package net.lojjic.xul.rdf.impl;
 import net.lojjic.xul.rdf.RDFDataSource;
 import net.lojjic.xul.rdf.RDFRemoteDataSource;
 import net.lojjic.xul.rdf.RDFService;
-
-import java.net.URL;
-import java.io.InputStream;
-
-import org.openrdf.repository.Connection;
+import org.openrdf.repository.RepositoryConnection;
 import org.openrdf.rio.RDFFormat;
 import org.springframework.core.io.DefaultResourceLoader;
-import org.springframework.core.io.Resource;
+
+import java.io.InputStream;
 
 /**
  * RDF data source implementation that gets its data from a RDF-XML file.
@@ -57,6 +54,7 @@ public class RDFXMLDataSourceImpl extends RDFMemoryDataSourceImpl implements RDF
 	 */
 	public void flushTo(String uri) {
 		//TODO
+		throw new RuntimeException("flushTo() not yet implemented.");
 	}
 
 	/**
@@ -80,9 +78,10 @@ public class RDFXMLDataSourceImpl extends RDFMemoryDataSourceImpl implements RDF
 		if(!blocking) {
 			throw new UnsupportedOperationException("Non-blocking RDF-XML file loading is not supported by this implementation.");
 		}
+		loaded = false;
 		execute(
 			new ConnectionCallback<Object>() {
-				public Object doInConnection(Connection conn) throws Exception {
+				public Object doInConnection(RepositoryConnection conn) throws Exception {
 					DefaultResourceLoader loader = new DefaultResourceLoader();
 					InputStream stream = loader.getResource(uri).getInputStream();
 					try {
@@ -95,5 +94,6 @@ public class RDFXMLDataSourceImpl extends RDFMemoryDataSourceImpl implements RDF
 				}
 			}
 		);
+		loaded = true;
 	}
 }

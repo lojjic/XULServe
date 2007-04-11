@@ -1,16 +1,18 @@
 package net.lojjic.xul.rdf.impl;
 
+import info.aduna.iteration.Iterations;
 import net.lojjic.xul.rdf.*;
 import org.apache.xerces.impl.dv.util.Base64;
 import org.openrdf.model.*;
 import org.openrdf.model.vocabulary.XMLSchema;
 import org.openrdf.repository.Repository;
-import org.openrdf.repository.RepositoryImpl;
-import org.openrdf.repository.Connection;
+import org.openrdf.repository.RepositoryConnection;
+import org.openrdf.repository.RepositoryException;
+import org.openrdf.repository.sail.SailRepository;
 import org.openrdf.sail.memory.MemoryStore;
-import org.openrdf.util.iterator.Iterators;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * Implementation of {@link net.lojjic.xul.rdf.RDFDataSource} that stores
@@ -26,7 +28,7 @@ public class RDFMemoryDataSourceImpl extends AbstractDataSourceImpl implements R
 	public RDFMemoryDataSourceImpl(RDFService rdfService) {
 		super(rdfService);
 		try {
-			repository = new RepositoryImpl(new MemoryStore());
+			repository = new SailRepository(new MemoryStore());
 			repository.initialize();
 		}
 		catch (Exception e) {
@@ -43,12 +45,12 @@ public class RDFMemoryDataSourceImpl extends AbstractDataSourceImpl implements R
 	}
 
 	protected static interface ConnectionCallback<T> {
-		T doInConnection(Connection conn) throws Exception;
+		T doInConnection(RepositoryConnection conn) throws Exception;
 	}
 
 	protected <T> T execute(ConnectionCallback<T> callback) {
 		try {
-			Connection con = repository.getConnection();
+			RepositoryConnection con = repository.getConnection();
 			try {
 				return callback.doInConnection(con);
 			}
@@ -70,8 +72,8 @@ public class RDFMemoryDataSourceImpl extends AbstractDataSourceImpl implements R
 	public Iterator<RDFResource> arcLabelsIn(final RDFNode node) {
 		return execute(
 			new ConnectionCallback<Iterator<RDFResource>>() {
-				public Iterator<RDFResource> doInConnection(Connection con) {
-					final Iterator<Statement> iter = Iterators.addAll(
+				public Iterator<RDFResource> doInConnection(RepositoryConnection con) throws RepositoryException {
+					final Iterator<Statement> iter = Iterations.addAll(
 						con.getStatements(null, null, toValue(node), false),
 						new ArrayList<Statement>()
 					).iterator();
@@ -98,8 +100,8 @@ public class RDFMemoryDataSourceImpl extends AbstractDataSourceImpl implements R
 	public Iterator<RDFResource> arcLabelsOut(final RDFResource source) {
 		return execute(
 			new ConnectionCallback<Iterator<RDFResource>>() {
-				public Iterator<RDFResource> doInConnection(Connection con) {
-					final Iterator<Statement> iter = Iterators.addAll(
+				public Iterator<RDFResource> doInConnection(RepositoryConnection con) throws RepositoryException {
+					final Iterator<Statement> iter = Iterations.addAll(
 						con.getStatements(toResource(source), null, null, false),
 						new ArrayList<Statement>()
 					).iterator();
@@ -130,7 +132,7 @@ public class RDFMemoryDataSourceImpl extends AbstractDataSourceImpl implements R
 
 		execute(
 			new ConnectionCallback<Object>() {
-				public Object doInConnection(Connection conn) throws Exception {
+				public Object doInConnection(RepositoryConnection conn) throws Exception {
 					conn.add(toStatement(source, property, target));
 					return null;
 				}
@@ -185,8 +187,8 @@ public class RDFMemoryDataSourceImpl extends AbstractDataSourceImpl implements R
 	public Iterator<RDFResource> getAllResources() {
 		return execute(
 			new ConnectionCallback<Iterator<RDFResource>>() {
-				public Iterator<RDFResource> doInConnection(Connection conn) throws Exception {
-					final Iterator<Statement> iter = Iterators.addAll(
+				public Iterator<RDFResource> doInConnection(RepositoryConnection conn) throws Exception {
+					final Iterator<Statement> iter = Iterations.addAll(
 						conn.getStatements(null, null, null, false),
 						new ArrayList<Statement>()
 					).iterator();
@@ -224,8 +226,8 @@ public class RDFMemoryDataSourceImpl extends AbstractDataSourceImpl implements R
 		checkTruthValue(truthValue);
 		return execute(
 			new ConnectionCallback<Iterator<RDFResource>>() {
-				public Iterator<RDFResource> doInConnection(Connection conn) throws Exception {
-					final Iterator<Statement> iter = Iterators.addAll(
+				public Iterator<RDFResource> doInConnection(RepositoryConnection conn) throws RepositoryException {
+					final Iterator<Statement> iter = Iterations.addAll(
 						conn.getStatements(null, toURI(property), toValue(target), false),
 						new ArrayList<Statement>()
 					).iterator();
@@ -268,8 +270,8 @@ public class RDFMemoryDataSourceImpl extends AbstractDataSourceImpl implements R
 		checkTruthValue(truthValue);
 		return execute(
 			new ConnectionCallback<Iterator<RDFNode>>() {
-				public Iterator<RDFNode> doInConnection(Connection conn) throws Exception {
-					final Iterator<Statement> iter = Iterators.addAll(
+				public Iterator<RDFNode> doInConnection(RepositoryConnection conn) throws RepositoryException {
+					final Iterator<Statement> iter = Iterations.addAll(
 						conn.getStatements(toResource(source), toURI(property), null, false),
 						new ArrayList<Statement>()
 					).iterator();
@@ -295,8 +297,14 @@ public class RDFMemoryDataSourceImpl extends AbstractDataSourceImpl implements R
 	 * @param arc
 	 * @return
 	 */
-	public boolean hasArcIn(RDFNode node, RDFResource arc) {
-		return hasAssertion(null, arc, node, true);
+	public boolean hasArcIn(final RDFNode node, final RDFResource arc) {
+		return execute(
+			new ConnectionCallback<Boolean>() {
+				public Boolean doInConnection(RepositoryConnection conn) throws Exception {
+					return conn.hasStatement(null, toURI(arc), toValue(node), false);
+				}
+			}
+		);
 	}
 
 	/**
@@ -307,8 +315,14 @@ public class RDFMemoryDataSourceImpl extends AbstractDataSourceImpl implements R
 	 * @param arc
 	 * @return
 	 */
-	public boolean hasArcOut(RDFResource source, RDFResource arc) {
-		return hasAssertion(source, arc, null, true);
+	public boolean hasArcOut(final RDFResource source, final RDFResource arc) {
+		return execute(
+			new ConnectionCallback<Boolean>() {
+				public Boolean doInConnection(RepositoryConnection conn) throws Exception {
+					return conn.hasStatement(toResource(source), toURI(arc), null, false);
+				}
+			}
+		);
 	}
 
 	/**
@@ -323,9 +337,12 @@ public class RDFMemoryDataSourceImpl extends AbstractDataSourceImpl implements R
 	public boolean hasAssertion(final RDFResource source, final RDFResource property,
 	                            final RDFNode target, boolean truthValue) {
 		checkTruthValue(truthValue);
+		if(source == null || property == null || target == null) {
+			throw new IllegalArgumentException("The source, property, and target arguments must all be non-null.");
+		}
 		return execute(
 			new ConnectionCallback<Boolean>() {
-				public Boolean doInConnection(Connection conn) throws Exception {
+				public Boolean doInConnection(RepositoryConnection conn) throws Exception {
 					return conn.hasStatement(toStatement(source, property, target), false);
 				}
 			}
@@ -371,7 +388,7 @@ public class RDFMemoryDataSourceImpl extends AbstractDataSourceImpl implements R
 	public void unassert(final RDFResource source, final RDFResource property, final RDFNode target) {
 		execute(
 			new ConnectionCallback<Object>() {
-				public Object doInConnection(Connection conn) throws Exception {
+				public Object doInConnection(RepositoryConnection conn) throws Exception {
 					conn.remove(toStatement(source, property, target));
 					return null;
 				}
