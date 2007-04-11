@@ -5,9 +5,12 @@ import net.lojjic.xul.rdf.RDFRemoteDataSource;
 import net.lojjic.xul.rdf.RDFService;
 
 import java.net.URL;
+import java.io.InputStream;
 
 import org.openrdf.repository.Connection;
 import org.openrdf.rio.RDFFormat;
+import org.springframework.core.io.DefaultResourceLoader;
+import org.springframework.core.io.Resource;
 
 /**
  * RDF data source implementation that gets its data from a RDF-XML file.
@@ -80,7 +83,14 @@ public class RDFXMLDataSourceImpl extends RDFMemoryDataSourceImpl implements RDF
 		execute(
 			new ConnectionCallback<Object>() {
 				public Object doInConnection(Connection conn) throws Exception {
-					conn.add(new URL(uri), null, RDFFormat.RDFXML);
+					DefaultResourceLoader loader = new DefaultResourceLoader();
+					InputStream stream = loader.getResource(uri).getInputStream();
+					try {
+						conn.add(stream, uri, RDFFormat.RDFXML);
+					}
+					finally {
+						stream.close();
+					}
 					return null;
 				}
 			}
