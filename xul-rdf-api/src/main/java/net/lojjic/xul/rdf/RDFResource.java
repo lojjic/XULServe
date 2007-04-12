@@ -49,11 +49,11 @@ public interface RDFResource extends RDFNode {
 //	 */
 //	void getDelegate(String key, nsIIDRef IID, out nsQIResult*result);
 
-//	/**
-//	 * This method is called by the nsIRDFService after constructing a resource object to
-//	 * initialize it's URI. You would not normally call this method directly
-//	 */
-//	void init(String uri);
+	/**
+	 * This method is called by the RDFService after constructing a resource object to
+	 * initialize it's URI. You would not normally call this method directly.
+	 */
+	void init(String uri);
 
 //	/**
 //	 * <p>Force a delegate to be "unbound" from the resource.</p>
