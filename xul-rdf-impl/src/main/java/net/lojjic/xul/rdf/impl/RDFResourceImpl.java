@@ -14,14 +14,14 @@ public class RDFResourceImpl extends RDFNodeImpl implements RDFResource {
 	 * Constructor for an anonymous resource
 	 */
 	public RDFResourceImpl() {
-		this.uri = null;
+		init(null);
 	}
 
 	/**
 	 * Constructor for a URI (non-anonymous) resource
 	 */
 	public RDFResourceImpl(String uri) {
-		this.uri = uri;
+		init(uri);
 	}
 
 	/**
@@ -45,6 +45,14 @@ public class RDFResourceImpl extends RDFNodeImpl implements RDFResource {
 	public boolean equalsString(String uri) {
 		// XXX what should this return for blank node? Currently returns true if uri param is null.
 		return ((this.uri == null && uri == null) || (this.uri != null && this.uri.equals(uri)));
+	}
+
+	/**
+	 * This method is called by the RDFService after constructing a resource object to
+	 * initialize it's URI. You would not normally call this method directly.
+	 */
+	public void init(String uri) {
+		this.uri = uri;
 	}
 
 	/**

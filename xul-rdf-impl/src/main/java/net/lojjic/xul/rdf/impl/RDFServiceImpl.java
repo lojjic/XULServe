@@ -3,6 +3,9 @@ package net.lojjic.xul.rdf.impl;
 import net.lojjic.xul.rdf.*;
 
 import java.util.HashMap;
+import java.util.Map;
+
+import org.apache.commons.collections.map.ReferenceMap;
 
 /**
  * Implementation of {@link RDFService} that uses a Sesame repository/graph
@@ -10,7 +13,9 @@ import java.util.HashMap;
  */
 public class RDFServiceImpl implements RDFService {
 
-	private HashMap<String, RDFDataSource> registeredDataSources = new HashMap<String, RDFDataSource>();
+	private Map<String, RDFDataSource> registeredDataSources = new HashMap<String, RDFDataSource>();
+
+	private Map<String, RDFResource> registeredResources = new ReferenceMap(ReferenceMap.HARD, ReferenceMap.WEAK);
 
 	public RDFResource getAnonymousResource() {
 		return new RDFResourceImpl();
@@ -49,7 +54,12 @@ public class RDFServiceImpl implements RDFService {
 	}
 
 	public RDFResource getResource(String uri) {
-		return new RDFResourceImpl(uri);
+		RDFResource resource = registeredResources.get(uri);
+		if(resource == null) {
+			resource = new RDFResourceImpl(uri);
+			registerResource(resource, true);
+		}
+		return resource;
 	}
 
 	public RDFResource getUnicodeResource(String uri) {
@@ -72,16 +82,13 @@ public class RDFServiceImpl implements RDFService {
 	}
 
 	public void registerResource(RDFResource resource, boolean replace) {
-		// Unimplemented because in our architecture RDFResource instances
-		// do not maintain references to any low-level RDF data source
-		// resources. We therefore don't care if the same RDFResource
-		// instance is always returned or not.
+		if(!replace && registeredResources.containsKey(resource.getValue())) {
+			return;
+		}
+		registeredResources.put(resource.getValue(), resource);
 	}
 
 	public void unregisterResource(RDFResource resource) {
-		// Unimplemented because in our architecture RDFResource instances
-		// do not maintain references to any low-level RDF data source
-		// resources. We therefore don't care if the same RDFResource
-		// instance is always returned or not.
+		registeredResources.remove(resource.getValue());
 	}
 }

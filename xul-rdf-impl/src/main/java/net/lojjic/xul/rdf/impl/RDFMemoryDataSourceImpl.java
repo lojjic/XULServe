@@ -12,7 +12,9 @@ import org.openrdf.repository.sail.SailRepository;
 import org.openrdf.sail.memory.MemoryStore;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * Implementation of {@link net.lojjic.xul.rdf.RDFDataSource} that stores
@@ -188,19 +190,14 @@ public class RDFMemoryDataSourceImpl extends AbstractDataSourceImpl implements R
 		return execute(
 			new ConnectionCallback<Iterator<RDFResource>>() {
 				public Iterator<RDFResource> doInConnection(RepositoryConnection conn) throws Exception {
-					final Iterator<Statement> iter = Iterations.addAll(
-						conn.getStatements(null, null, null, false),
-						new ArrayList<Statement>()
-					).iterator();
-					return new Iterator<RDFResource>() {
-						public boolean hasNext() {
-							return iter.hasNext();
-						}
-						public RDFResource next() {
-							return toRDFResource(iter.next().getSubject());
-						}
-						public void remove() {}
-					};
+					List<Statement> statements = Iterations.asList(
+						conn.getStatements(null, null, null, false)
+					);
+					HashSet<RDFResource> resources = new HashSet<RDFResource>();
+					for(Statement stmt : statements) {
+						resources.add(toRDFResource(stmt.getSubject()));
+					}
+					return resources.iterator();
 				}
 			}
 		);
@@ -495,7 +492,7 @@ public class RDFMemoryDataSourceImpl extends AbstractDataSourceImpl implements R
 			byte[] bytes = Base64.decode(literal.getLabel());
 			return rdfService.getBlobLiteral(bytes, bytes.length);
 		}
-		throw new IllegalArgumentException("Cannot convert given object to an RDFNode.");
+		return rdfService.getLiteral(literal.getLabel());
 	}
 
 	/**
