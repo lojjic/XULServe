@@ -108,7 +108,7 @@ public class RDFContainerImpl implements RDFContainer {
 	private List<RDFNode> getElementsList() {
 		if(needsRefresh) {
 			elementsList.clear();
-			for(int i = 0; true; i++) {
+			for(int i = 1; true; i++) {
 				RDFResource arc = rdfContainerUtils.indexToOrdinalResource(i);
 				RDFNode target = dataSource.getTarget(resource, arc, true);
 				if(target == null) {
@@ -191,7 +191,7 @@ public class RDFContainerImpl implements RDFContainer {
 		if(renumber) {
 			// Shift all ordinal properties down one from the insertion point
 			for(long i = index; i < elements.size(); i++) {
-				RDFNode elt = elements.get((int)i - 1);
+				RDFNode elt = elements.get((int)i);
 				dataSource.unassert(resource, rdfContainerUtils.indexToOrdinalResource(i + 1), elt);
 				dataSource.doAssert(resource, rdfContainerUtils.indexToOrdinalResource(i), elt, true);
 			}
@@ -208,7 +208,8 @@ public class RDFContainerImpl implements RDFContainer {
 	 *         returns '-1'.
 	 */
 	public long indexOf(RDFNode element) {
-		return getElementsList().indexOf(element);
+		int index = getElementsList().indexOf(element);
+		return(index == -1 ? -1 : index + 1);
 	}
 
 
