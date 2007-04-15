@@ -79,8 +79,9 @@ public class RDFXMLDataSourceImpl extends RDFMemoryDataSourceImpl implements RDF
 			throw new UnsupportedOperationException("Non-blocking RDF-XML file loading is not supported by this implementation.");
 		}
 		loaded = false;
-		execute(
-			new ConnectionCallback<Object>() {
+		SesameUtils.execute(
+			getSesameRepository(),
+			new SesameConnectionCallback<Object>() {
 				public Object doInConnection(RepositoryConnection conn) throws Exception {
 					DefaultResourceLoader loader = new DefaultResourceLoader();
 					InputStream stream = loader.getResource(uri).getInputStream();

@@ -2,9 +2,7 @@ package net.lojjic.xul.rdf.impl;
 
 import info.aduna.iteration.Iterations;
 import net.lojjic.xul.rdf.*;
-import org.apache.xerces.impl.dv.util.Base64;
 import org.openrdf.model.*;
-import org.openrdf.model.vocabulary.XMLSchema;
 import org.openrdf.repository.Repository;
 import org.openrdf.repository.RepositoryConnection;
 import org.openrdf.repository.RepositoryException;
@@ -46,25 +44,6 @@ public class RDFMemoryDataSourceImpl extends AbstractDataSourceImpl implements R
 		return "mem-repo:" + hashCode();
 	}
 
-	protected static interface ConnectionCallback<T> {
-		T doInConnection(RepositoryConnection conn) throws Exception;
-	}
-
-	protected <T> T execute(ConnectionCallback<T> callback) {
-		try {
-			RepositoryConnection con = repository.getConnection();
-			try {
-				return callback.doInConnection(con);
-			}
-			finally {
-				con.close();
-			}
-		}
-		catch (Exception e) {
-			throw new RDFException(e);
-		}
-	}
-
 	/**
 	 * Get a cursor to iterate over all the arcs that point into a node.
 	 *
@@ -72,11 +51,11 @@ public class RDFMemoryDataSourceImpl extends AbstractDataSourceImpl implements R
 	 * @return Enumeration of RDFResources
 	 */
 	public Iterator<RDFResource> arcLabelsIn(final RDFNode node) {
-		return execute(
-			new ConnectionCallback<Iterator<RDFResource>>() {
+		return SesameUtils.execute(repository,
+			new SesameConnectionCallback<Iterator<RDFResource>>() {
 				public Iterator<RDFResource> doInConnection(RepositoryConnection con) throws RepositoryException {
 					final Iterator<Statement> iter = Iterations.addAll(
-						con.getStatements(null, null, toValue(node), false),
+						con.getStatements(null, null, SesameUtils.toValue(repository, node), false),
 						new ArrayList<Statement>()
 					).iterator();
 					return new Iterator<RDFResource>() {
@@ -84,7 +63,7 @@ public class RDFMemoryDataSourceImpl extends AbstractDataSourceImpl implements R
 							return iter.hasNext();
 						}
 						public RDFResource next() {
-							return toRDFResource(iter.next().getPredicate());
+							return SesameUtils.toRDFResource(rdfService, iter.next().getPredicate());
 						}
 						public void remove() {}
 					};
@@ -100,11 +79,11 @@ public class RDFMemoryDataSourceImpl extends AbstractDataSourceImpl implements R
 	 * @return Enumeration of RDFResources
 	 */
 	public Iterator<RDFResource> arcLabelsOut(final RDFResource source) {
-		return execute(
-			new ConnectionCallback<Iterator<RDFResource>>() {
+		return SesameUtils.execute(repository,
+			new SesameConnectionCallback<Iterator<RDFResource>>() {
 				public Iterator<RDFResource> doInConnection(RepositoryConnection con) throws RepositoryException {
 					final Iterator<Statement> iter = Iterations.addAll(
-						con.getStatements(toResource(source), null, null, false),
+						con.getStatements(SesameUtils.toResource(repository, source), null, null, false),
 						new ArrayList<Statement>()
 					).iterator();
 					return new Iterator<RDFResource>() {
@@ -112,7 +91,7 @@ public class RDFMemoryDataSourceImpl extends AbstractDataSourceImpl implements R
 							return iter.hasNext();
 						}
 						public RDFResource next() {
-							return toRDFResource(iter.next().getPredicate());
+							return SesameUtils.toRDFResource(rdfService, iter.next().getPredicate());
 						}
 						public void remove() {}
 					};
@@ -132,10 +111,10 @@ public class RDFMemoryDataSourceImpl extends AbstractDataSourceImpl implements R
 	public void doAssert(final RDFResource source, final RDFResource property, final RDFNode target, boolean truthValue) {
 		checkTruthValue(truthValue);
 
-		execute(
-			new ConnectionCallback<Object>() {
+		SesameUtils.execute(repository,
+			new SesameConnectionCallback<Object>() {
 				public Object doInConnection(RepositoryConnection conn) throws Exception {
-					conn.add(toStatement(source, property, target));
+					conn.add(SesameUtils.toStatement(repository, source, property, target));
 					return null;
 				}
 			}
@@ -187,15 +166,15 @@ public class RDFMemoryDataSourceImpl extends AbstractDataSourceImpl implements R
 	 * Retrieve all of the resources that the data source currently refers to.
 	 */
 	public Iterator<RDFResource> getAllResources() {
-		return execute(
-			new ConnectionCallback<Iterator<RDFResource>>() {
+		return SesameUtils.execute(repository,
+			new SesameConnectionCallback<Iterator<RDFResource>>() {
 				public Iterator<RDFResource> doInConnection(RepositoryConnection conn) throws Exception {
 					List<Statement> statements = Iterations.asList(
 						conn.getStatements(null, null, null, false)
 					);
 					HashSet<RDFResource> resources = new HashSet<RDFResource>();
 					for(Statement stmt : statements) {
-						resources.add(toRDFResource(stmt.getSubject()));
+						resources.add(SesameUtils.toRDFResource(rdfService, stmt.getSubject()));
 					}
 					return resources.iterator();
 				}
@@ -221,11 +200,14 @@ public class RDFMemoryDataSourceImpl extends AbstractDataSourceImpl implements R
 	 */
 	public Iterator<RDFResource> getSources(final RDFResource property, final RDFNode target, boolean truthValue) {
 		checkTruthValue(truthValue);
-		return execute(
-			new ConnectionCallback<Iterator<RDFResource>>() {
+		return SesameUtils.execute(repository,
+			new SesameConnectionCallback<Iterator<RDFResource>>() {
 				public Iterator<RDFResource> doInConnection(RepositoryConnection conn) throws RepositoryException {
 					final Iterator<Statement> iter = Iterations.addAll(
-						conn.getStatements(null, toURI(property), toValue(target), false),
+						conn.getStatements(
+								null, SesameUtils.toURI(repository, property),
+								SesameUtils.toValue(repository, target), false
+						),
 						new ArrayList<Statement>()
 					).iterator();
 					return new Iterator<RDFResource>() {
@@ -233,7 +215,7 @@ public class RDFMemoryDataSourceImpl extends AbstractDataSourceImpl implements R
 							return iter.hasNext();
 						}
 						public RDFResource next() {
-							return toRDFResource(iter.next().getSubject());
+							return SesameUtils.toRDFResource(rdfService, iter.next().getSubject());
 						}
 						public void remove() {}
 					};
@@ -265,11 +247,14 @@ public class RDFMemoryDataSourceImpl extends AbstractDataSourceImpl implements R
 	 */
 	public Iterator<RDFNode> getTargets(final RDFResource source, final RDFResource property, boolean truthValue) {
 		checkTruthValue(truthValue);
-		return execute(
-			new ConnectionCallback<Iterator<RDFNode>>() {
+		return SesameUtils.execute(repository,
+			new SesameConnectionCallback<Iterator<RDFNode>>() {
 				public Iterator<RDFNode> doInConnection(RepositoryConnection conn) throws RepositoryException {
 					final Iterator<Statement> iter = Iterations.addAll(
-						conn.getStatements(toResource(source), toURI(property), null, false),
+						conn.getStatements(
+								SesameUtils.toResource(repository, source),
+								SesameUtils.toURI(repository, property), null, false
+						),
 						new ArrayList<Statement>()
 					).iterator();
 					return new Iterator<RDFNode>() {
@@ -277,7 +262,7 @@ public class RDFMemoryDataSourceImpl extends AbstractDataSourceImpl implements R
 							return iter.hasNext();
 						}
 						public RDFNode next() {
-							return toRDFNode(iter.next().getObject());
+							return SesameUtils.toRDFNode(rdfService, iter.next().getObject());
 						}
 						public void remove() {}
 					};
@@ -295,10 +280,11 @@ public class RDFMemoryDataSourceImpl extends AbstractDataSourceImpl implements R
 	 * @return
 	 */
 	public boolean hasArcIn(final RDFNode node, final RDFResource arc) {
-		return execute(
-			new ConnectionCallback<Boolean>() {
+		return SesameUtils.execute(repository,
+			new SesameConnectionCallback<Boolean>() {
 				public Boolean doInConnection(RepositoryConnection conn) throws Exception {
-					return conn.hasStatement(null, toURI(arc), toValue(node), false);
+					return conn.hasStatement(null, SesameUtils.toURI(repository, arc),
+							SesameUtils.toValue(repository, node), false);
 				}
 			}
 		);
@@ -313,10 +299,11 @@ public class RDFMemoryDataSourceImpl extends AbstractDataSourceImpl implements R
 	 * @return
 	 */
 	public boolean hasArcOut(final RDFResource source, final RDFResource arc) {
-		return execute(
-			new ConnectionCallback<Boolean>() {
+		return SesameUtils.execute(repository,
+			new SesameConnectionCallback<Boolean>() {
 				public Boolean doInConnection(RepositoryConnection conn) throws Exception {
-					return conn.hasStatement(toResource(source), toURI(arc), null, false);
+					return conn.hasStatement(SesameUtils.toResource(repository, source),
+							SesameUtils.toURI(repository, arc), null, false);
 				}
 			}
 		);
@@ -337,10 +324,10 @@ public class RDFMemoryDataSourceImpl extends AbstractDataSourceImpl implements R
 		if(source == null || property == null || target == null) {
 			throw new IllegalArgumentException("The source, property, and target arguments must all be non-null.");
 		}
-		return execute(
-			new ConnectionCallback<Boolean>() {
+		return SesameUtils.execute(repository,
+			new SesameConnectionCallback<Boolean>() {
 				public Boolean doInConnection(RepositoryConnection conn) throws Exception {
-					return conn.hasStatement(toStatement(source, property, target), false);
+					return conn.hasStatement(SesameUtils.toStatement(repository, source, property, target), false);
 				}
 			}
 		);
@@ -383,116 +370,15 @@ public class RDFMemoryDataSourceImpl extends AbstractDataSourceImpl implements R
 	 * @param target
 	 */
 	public void unassert(final RDFResource source, final RDFResource property, final RDFNode target) {
-		execute(
-			new ConnectionCallback<Object>() {
+		SesameUtils.execute(repository,
+			new SesameConnectionCallback<Object>() {
 				public Object doInConnection(RepositoryConnection conn) throws Exception {
-					conn.remove(toStatement(source, property, target));
+					conn.remove(SesameUtils.toStatement(repository, source, property, target));
 					return null;
 				}
 			}
 		);
 		notifyUnassert(source, property, target);
-	}
-
-
-	/**
-	 * Utility to convert a Mozilla RDFNode to a Sesame Value of the appropriate type.
-	 */
-	protected Value toValue(RDFNode rdfNode) {
-		// Resources:
-		if(rdfNode instanceof RDFResource) {
-			return toResource((RDFResource)rdfNode);
-		}
-		// Literals:
-		return toLiteral(rdfNode);
-	}
-
-	/**
-	 * Utility to convert a Mozilla RDFNode to a Sesame Literal
-	 */
-	protected Literal toLiteral(RDFNode rdfNode) {
-		ValueFactory factory = repository.getValueFactory();
-		if(rdfNode instanceof RDFLiteral) {
-			return factory.createLiteral(((RDFLiteral)rdfNode).getValue());
-		}
-		if(rdfNode instanceof RDFInt) {
-			return factory.createLiteral(String.valueOf(((RDFInt)rdfNode).getValue()), XMLSchema.INT);
-		}
-		if(rdfNode instanceof RDFDate) {
-			URI datatype = XMLSchema.DATETIME;
-			return null; //TODO create literal with xsd:datetime-formatted string
-		}
-		if(rdfNode instanceof RDFBlob) {
-			String base64 = Base64.encode(((RDFBlob)rdfNode).getValue());
-			return factory.createLiteral(base64, XMLSchema.BASE64BINARY);
-		}
-		throw new IllegalArgumentException("Cannot convert given object to a Literal.");
-	}
-
-	/**
-	 * Utility to convert a Mozilla RDFResource to a Sesame Resource.
-	 * Same as toURI() but it can return a BNode.
-	 */
-	protected Resource toResource(RDFResource mozResource) {
-		// URI resource:
-		if(mozResource.getValue() != null) {
-			return toURI(mozResource);
-		}
-		// Blank node; use the object's hashcode as the bnode id
-		return repository.getValueFactory().createBNode(String.valueOf(mozResource.hashCode()));
-	}
-
-	/**
-	 * Utility to convert a Mozilla RDFResource to a Sesame URI
-	 */
-	protected URI toURI(RDFResource mozResource) {
-		if(mozResource.getValue() == null) {
-			throw new IllegalArgumentException("Cannot convert an anonymous resource to a URI.");
-		}
-		return repository.getValueFactory().createURI(mozResource.getValue());
-	}
-
-	/**
-	 * Utility to build a Sesame Statement from the given Mozilla triple parts
-	 */
-	protected Statement toStatement(RDFResource subject, RDFResource predicate, RDFNode object) {
-		return repository.getValueFactory().createStatement(toResource(subject), toURI(predicate), toValue(object));
-	}
-
-	/**
-	 * Utility to convert a Sesame Resource to a Mozilla RDFResource
-	 */
-	protected RDFResource toRDFResource(Resource resource) {
-		// Blank nodes:
-		if(resource instanceof BNode) {
-			// TODO figure out how to guarantee the same instance for the same logical bnode
-			return rdfService.getAnonymousResource();
-		}
-		// URI nodes:
-		return rdfService.getResource(resource.toString());
-	}
-
-	/**
-	 * Utility to convert a Sesame Value to a Mozilla RDFNode
-	 */
-	protected RDFNode toRDFNode(Value value) {
-		// Resources:
-		if(value instanceof Resource) {
-			return toRDFResource((Resource)value);
-		}
-		// Literals:
-		Literal literal = (Literal)value;
-		if(XMLSchema.INT.equals(literal.getDatatype())) {
-			return rdfService.getIntLiteral(Integer.parseInt(literal.getLabel()));
-		}
-		if(XMLSchema.DATETIME.equals(literal.getDatatype())) {
-			return rdfService.getDateLiteral(0); //TODO parse xsd:datetime string into time
-		}
-		if(XMLSchema.BASE64BINARY.equals(literal.getDatatype())) {
-			byte[] bytes = Base64.decode(literal.getLabel());
-			return rdfService.getBlobLiteral(bytes, bytes.length);
-		}
-		return rdfService.getLiteral(literal.getLabel());
 	}
 
 	/**
@@ -505,6 +391,12 @@ public class RDFMemoryDataSourceImpl extends AbstractDataSourceImpl implements R
 		}
 	}
 
-
+	/**
+	 * Return the underlying Sesame {@link Repository} being used.
+	 * Implementation-specific; use with caution.
+	 */
+	public Repository getSesameRepository() {
+		return repository;
+	}
 
 }

@@ -43,9 +43,9 @@ public class RDFMemoryDataSourceImplTest extends AbstractDataSourceImplTest<RDFM
 			Collection<Statement> statements = conn.getStatements(null, null, null, false).asCollection();
 			for(Statement statement : statements) {
 				dataSource.doAssert(
-						dataSource.toRDFResource(statement.getSubject()),
-						dataSource.toRDFResource(statement.getPredicate()),
-						dataSource.toRDFNode(statement.getObject()),
+						SesameUtils.toRDFResource(rdfService, statement.getSubject()),
+						SesameUtils.toRDFResource(rdfService, statement.getPredicate()),
+						SesameUtils.toRDFNode(rdfService, statement.getObject()),
 						true
 				);
 			}
