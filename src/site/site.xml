@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="XULServe">
+
+	<bannerLeft>
+		<name>XULServe</name>
+		<!--<src></src>-->
+		<href>http://xulserve.lojjic.net</href>
+	</bannerLeft>
+
+	<!--
+	<bannerRight>
+		<src></src>
+	</bannerRight>
+	-->
+
+	<body>
+
+		<!--
+		<links>
+			<item name="" href=""/>
+		</links>
+		-->
+
+		<menu name="XULServe">
+			<item name="Introduction" href="index.html"/>
+		</menu>
+
+		<menu ref="reports"/>
+		<menu ref="parent"/>
+		<menu ref="modules"/>
+
+	</body>
+</project>

@@ -6,6 +6,8 @@
 	<groupId>net.lojjic.xul</groupId>
 	<artifactId>xul</artifactId>
 	<version>1.0-SNAPSHOT</version>
+	<description>A server-side implementation of Mozilla's XUL (XML User Interface Language) that serves the view over the web as HTML/AJAX</description>
+	<url>http://xulserve.lojjic.net</url>
 
 	<scm>
 		<url>http://viewvc.lojjic.net/viewvc.cgi/svn/</url>
@@ -13,8 +15,17 @@
 		<developerConnection>scm:svn:https://svn.lojjic.net/xul/trunk</developerConnection>
 	</scm>
 
+	<distributionManagement>
+		<site>
+			<id>xulserve.lojjic.net</id>
+			<name>xulserve.lojjic.net</name>
+			<url>dav:http://xulserve.lojjic.net</url>
+		</site>
+	</distributionManagement>
+
 	<developers>
 		<developer>
+			<id>jj</id>
 			<name>Jason Johnston</name>
 			<url>http://lojjic.net</url>
 		</developer>
@@ -69,6 +80,13 @@
 				</configuration>
 			</plugin>
 		</plugins>
+
+		<extensions>
+			<extension>
+				<groupId>org.apache.maven.wagon</groupId>
+				<artifactId>wagon-webdav</artifactId>
+			</extension>
+		</extensions>
 	</build>
 
 	<reporting>
