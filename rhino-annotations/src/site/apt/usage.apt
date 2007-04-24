@@ -1,0 +1,83 @@
+   -----
+   Usage
+   -----
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Rhino Annotations Support - Usage
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+	For a class to get the benefit of the annotations support, it must extend
+	the <<<AnnotationScriptableObject>>> class.
+
++-------------------------------------------------------------
+public class MyScriptable extends AnnotationScriptableObject {
++-------------------------------------------------------------
+
+	It must also implement a default (zero-argument) constructor:
+
++-------------------------------------------------------------
+    public MyScriptable() {
+        //optionally do some stuff
+    }
++-------------------------------------------------------------
+
+	...and a constructor that accepts (at least) a <<<Scriptable>>> scope object:
+
++-------------------------------------------------------------
+    public MyScriptable(Scriptable scope) {
+        super(scope);
+        //optionally do some stuff
+    }
++-------------------------------------------------------------
+
+	We want to define that this Java class represents a certain JavaScript
+	"class".  The name we specify will be used to create a function at the
+	top level JS scope which will be the constructor function for our JS class.
+	For this, use the <<<@JSClassName>>> annotation on the class:
+
++-------------------------------------------------------------
+@JSClassName("MyJSClass")
+public class MyScriptable extends AnnotationScriptableObject {
++-------------------------------------------------------------
+
+	Now we can define the various members of our JavaScript class prototype.
+	The following annotations can be applied to any method we implement:
+
+		[@JSConstructor] specifies that a certain Java method or constructor will
+		be used as the body of the JavaScript constructor function.  The method
+		or constructor will be executed when the user calls <<<new MyJSClass()>>>
+		from a script.
+
+		[@JSFunction("name")] specifies that a certain Java method defines a JavaScript
+		member function of the given name.  The Java method's arguments must match one
+		of the forms defined by Rhino's <<<FunctionObject>>> class documentation.
+
+		[@JSGetter("name")] specifies that a certain Java method will function as a getter
+		method for a JavaScript property of the given name.  The method will be called
+		when a script attempts to access the named member property.  The allowed argument
+		and return types are defined in the API docs for Rhino's
+		<<<ScriptableObject#defineProperty(String, Object, Method, Method, int)>>> method
+
+		[@JSSetter("name")] specifies that a certain Java method will function as a setter
+		method for a JavaScript property of the given name. The method will be called
+		when a script attempts to assign a value to the named member property.
+		The allowed argument types are defined in the API docs for Rhino's
+		<<<ScriptableObject#defineProperty(String, Object, Method, Method, int)>>> method
+
+		[@JSStatic] can be used along with <<<@JSFunction>>>, <<<@JSGetter>>>, or <<<@JSSetter>>>
+		to indicate that function or property getter/setter should be added to the constructor
+		function object rather than the prototype object.  The target Java method must be static.
+
+	Now that our class has been implemented and annotated, we can add it to a JavaScript
+	scope:
+
++-------------------------------------------------------------
+Scriptable scope = ...
+AnnotationScriptableObject.defineClass(scope, MyScriptable.class, false, true);
++-------------------------------------------------------------
+
+	Now a script can instantiate our JavaScript class by calling:
+
++-------------------------------------------------------------
+var myobj = new MyScriptable();
++-------------------------------------------------------------

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="XULServe">
+
+	<bannerLeft>
+		<name>Rhino Annotations Support</name>
+		<!--<src></src>-->
+		<!--<href>http://xulserve.lojjic.net</href>-->
+	</bannerLeft>
+
+	<!--
+	<bannerRight>
+		<src></src>
+	</bannerRight>
+	-->
+
+	<body>
+
+		<!--
+		<links>
+			<item name="" href=""/>
+		</links>
+		-->
+
+		<menu name="Rhino Annotations Support">
+			<item name="Introduction" href="index.html"/>
+			<item name="Usage" href="usage.html"/>
+		</menu>
+
+		<menu ref="reports"/>
+
+		<menu ref="parent"/>
+
+	</body>
+</project>

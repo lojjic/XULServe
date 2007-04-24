@@ -1,0 +1,26 @@
+   ------------
+   Introduction
+   ------------
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Rhino Annotations Support - Introduction
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+	This module provides tools for defining Rhino JavaScript objects using
+	Java 5 annotations.
+
+	The primary class is AnnotationScriptableObject, which gives its subclasses
+	the ability to define their JavaScript members via annotations.  This is
+	very similar to the ScriptableObject class provided by the main Rhino
+	distribution, but the JavaScript members are specified using annotations
+	rather than specially-named methods.
+
+	Some advantages of the annotations-based approach are:
+
+		* Places no restrictions on the naming of methods, making it easier for a class
+		  to serve both as a JavaScript host object and a plain old Java object.
+
+		* Allows a single method to be annotated in more than one way, e.g. a method
+		  can serve as both a property getter and a function
+
+	See the {{{usage.html}Usage Instructions}} for more details.
