@@ -6,16 +6,41 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.collections.map.ReferenceMap;
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.BeanFactoryAware;
+import org.springframework.beans.BeansException;
 
 /**
- * Implementation of {@link RDFService} that uses a Sesame repository/graph
- * to manage the RDF statement data.
+ * <p>Implementation of {@link RDFService}.</p>
+ * <p>This class implements {@link BeanFactoryAware} so it can lookup beans
+ * registered in the Spring application context.  Custom built-in RDF datasources
+ * can be registered by defining Spring-managed beans with the special name
+ * prefix "net.lojjic.xul.rdf.RDFDataSource/".  For instance:</p>
+ * <pre><code>&lt;bean name="net.lojjic.xul.rdf.RDFDataSource/my-datasource" /></code></pre>
+ * <p>That bean can then be used by referring to it with the URI "rdf:my-datasource".</p>
  */
-public class RDFServiceImpl implements RDFService {
+public class RDFServiceImpl implements RDFService, BeanFactoryAware {
+
+	/**
+	 * Prefix for URIs for custom built-in datasources. URIs starting with this
+	 * prefix will be looked for in the Spring application context, others will
+	 * be treated as URLs to RDF-XML files.
+	 */
+	public static final String CUSTOM_DATASOURCE_URI_PREFIX = "rdf:";
+
+	/**
+	 * The common prefix for bean names registered in the Spring application context.
+	 */
+	public static final String BEAN_NAME_PREFIX = "net.lojjic.xul.rdf.RDFDataSource/";
+
 
 	private Map<String, RDFDataSource> registeredDataSources = new HashMap<String, RDFDataSource>();
 
+	@SuppressWarnings({"unchecked"})
 	private Map<String, RDFResource> registeredResources = new ReferenceMap(ReferenceMap.HARD, ReferenceMap.WEAK);
+
+	private BeanFactory beanFactory;
+
 
 	public RDFResource getAnonymousResource() {
 		return new RDFResourceImpl();
@@ -35,8 +60,7 @@ public class RDFServiceImpl implements RDFService {
 	public RDFDataSource getDataSourceBlocking(String uri) {
 		RDFDataSource dataSource = registeredDataSources.get(uri);
 		if(dataSource == null) {
-			// TODO choose the correct datasource class to instantiate.
-			dataSource = new RDFXMLDataSourceImpl(this, uri);
+			dataSource = resolveDataSource(uri);
 		}
 		return dataSource;
 	}
@@ -91,4 +115,33 @@ public class RDFServiceImpl implements RDFService {
 	public void unregisterResource(RDFResource resource) {
 		registeredResources.remove(resource.getValue());
 	}
+
+	/**
+	 * @see org.springframework.beans.factory.BeanFactoryAware#setBeanFactory(org.springframework.beans.factory.BeanFactory)
+	 */
+	public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
+		this.beanFactory = beanFactory;
+	}
+
+	/**
+	 * Resolve and return the RDF datasource for the given uri.
+	 * @param uri - The uri of the datasource, e.g. "http://domain.com/blah.rdf" or "rdf:my-builtin-datasource".
+	 * @return - The RDFDataSource instance for the given URI.
+	 * @throws RDFException if the datasource cannot be resolved.
+	 */
+	private RDFDataSource resolveDataSource(String uri) throws RDFException {
+		if(uri.startsWith(CUSTOM_DATASOURCE_URI_PREFIX)) {
+			String beanName = BEAN_NAME_PREFIX + uri;
+			if(!beanFactory.containsBean(beanName)) {
+				throw new RDFException("Could not find any registered RDF datasource with uri " + uri);
+			}
+			Object bean = beanFactory.getBean(beanName);
+			if(!(bean instanceof RDFDataSource)) {
+				throw new RDFException("Registered bean " + beanName + " is not of type RDFDataSource.");
+			}
+			return (RDFDataSource)bean;
+		}
+		return new RDFXMLDataSourceImpl(this, uri);
+	}
+
 }
