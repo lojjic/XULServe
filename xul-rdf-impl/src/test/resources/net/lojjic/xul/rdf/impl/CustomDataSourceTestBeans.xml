@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<!-- The RDFService singleton: -->
+	<bean id="rdfService" class="net.lojjic.xul.rdf.impl.RDFServiceImpl" />
+
+	<!-- The custom datasource implementation: -->
+	<bean name="net.lojjic.xul.rdf.RDFDataSource/my-kickass-custom-datasource"
+	      class="net.lojjic.xul.rdf.impl.CustomDataSourceTest$CustomDataSource">
+		<constructor-arg ref="rdfService" />
+	</bean>
+
+</beans>

@@ -131,9 +131,9 @@ public class RDFServiceImpl implements RDFService, BeanFactoryAware {
 	 */
 	private RDFDataSource resolveDataSource(String uri) throws RDFException {
 		if(uri.startsWith(CUSTOM_DATASOURCE_URI_PREFIX)) {
-			String beanName = BEAN_NAME_PREFIX + uri;
+			String beanName = BEAN_NAME_PREFIX + uri.replaceFirst(CUSTOM_DATASOURCE_URI_PREFIX, "");
 			if(!beanFactory.containsBean(beanName)) {
-				throw new RDFException("Could not find any registered RDF datasource with uri " + uri);
+				throw new RDFException("Could not find bean with name " + beanName);
 			}
 			Object bean = beanFactory.getBean(beanName);
 			if(!(bean instanceof RDFDataSource)) {
