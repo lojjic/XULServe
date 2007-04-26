@@ -32,8 +32,8 @@ public class RDFSerializerImpl implements RDFSerializer {
 
 		// Optimization for RDFMemoryDataSourceImpl implementation; use
 		// the underlying Sesame repository directly to avoid translations:
-		if(dataSource instanceof RDFMemoryDataSourceImpl) {
-			repository = ((RDFMemoryDataSourceImpl)dataSource).getSesameRepository();
+		if(dataSource instanceof SesameDataSourceImpl) {
+			repository = ((SesameDataSourceImpl)dataSource).getSesameRepository();
 		}
 		// For other implementations, build an in-memory Sesame repository
 		// and copy each statement into it:
