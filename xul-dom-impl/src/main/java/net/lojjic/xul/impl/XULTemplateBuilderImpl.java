@@ -2,28 +2,30 @@ package net.lojjic.xul.impl;
 
 import net.lojjic.xul.XULBuilderListener;
 import net.lojjic.xul.XULTemplateBuilder;
-import net.lojjic.xul.rdf.impl.RDFCompositeDataSourceImpl;
 import net.lojjic.xul.rdf.*;
-import org.w3c.dom.Element;
+import net.lojjic.xul.rdf.impl.RDFCompositeDataSourceImpl;
 import org.w3c.dom.DocumentFragment;
+import org.w3c.dom.Element;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventListener;
 import org.w3c.dom.events.EventTarget;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * Implementation of {@link XULTemplateBuilder}
  */
-public class XULTemplateBuilderImpl implements XULTemplateBuilder {
+public class XULTemplateBuilderImpl implements XULTemplateBuilder, RDFObserver {
 
 	protected List<XULBuilderListener> listeners = new ArrayList<XULBuilderListener>();
 	protected Element rootElement;
 	protected Element builtElement;
 	protected RDFCompositeDataSource database;
 	protected RDFService rdfService;
+	private boolean datasourceChanged = false;
+	private boolean datasourceInBatchUpdate = false;
 
 	/**
 	 * Constructor
@@ -41,7 +43,7 @@ public class XULTemplateBuilderImpl implements XULTemplateBuilder {
 		parseDatasources(rootElement);
 
 		// Add observer to rebuild when datasource changes:
-		this.database.addObserver(new RebuildObserver());
+		this.database.addObserver(this);
 	}
 
 	/**
@@ -148,54 +150,66 @@ public class XULTemplateBuilderImpl implements XULTemplateBuilder {
 
 
 	/**
-	 * {@link RDFObserver} implementation that triggers a rebuild for any change to
-	 * the datasource.
+	 * @see net.lojjic.xul.rdf.RDFObserver#onBeginUpdateBatch(net.lojjic.xul.rdf.RDFDataSource)
 	 */
-	private class RebuildObserver implements RDFObserver {
-		private boolean changed = false;
-		private boolean inBatch = false;
+	public void onBeginUpdateBatch(RDFDataSource dataSource) {
+		datasourceInBatchUpdate = true;
+	}
 
-		public void onBeginUpdateBatch(RDFDataSource dataSource) {
-			inBatch = true;
+	/**
+	 * @see net.lojjic.xul.rdf.RDFObserver#onEndUpdateBatch(net.lojjic.xul.rdf.RDFDataSource)
+	 */
+	public void onEndUpdateBatch(RDFDataSource dataSource) {
+		if(datasourceChanged) {
+			rebuild();
 		}
-		public void onEndUpdateBatch(RDFDataSource dataSource) {
-			if(changed) {
-				rebuild();
-			}
-			changed = false;
-			inBatch = false;
-		}
+		datasourceChanged = false;
+		datasourceInBatchUpdate = false;
+	}
 
-		public void onAssert(RDFDataSource dataSource, RDFResource source, RDFResource property, RDFNode target) {
-			changed = true;
-			if(!inBatch) {
-				rebuild();
-				changed = false;
-			}
-		}
-		public void onChange(RDFDataSource dataSource, RDFResource source, RDFResource property, RDFNode oldTarget, RDFNode newTarget) {
-			changed = true;
-			if(!inBatch) {
-				rebuild();
-				changed = false;
-			}
-		}
-		public void onMove(RDFDataSource dataSource, RDFResource oldSource, RDFResource newSource, RDFResource property, RDFNode target) {
-			changed = true;
-			if(!inBatch) {
-				rebuild();
-				changed = false;
-			}
-		}
-		public void onUnassert(RDFDataSource dataSource, RDFResource source, RDFResource property, RDFNode target) {
-			changed = true;
-			if(!inBatch) {
-				rebuild();
-				changed = false;
-			}
+	/**
+	 * @see net.lojjic.xul.rdf.RDFObserver#onAssert(net.lojjic.xul.rdf.RDFDataSource, net.lojjic.xul.rdf.RDFResource, net.lojjic.xul.rdf.RDFResource, net.lojjic.xul.rdf.RDFNode)
+	 */
+	public void onAssert(RDFDataSource dataSource, RDFResource source, RDFResource property, RDFNode target) {
+		datasourceChanged = true;
+		if(!datasourceInBatchUpdate) {
+			rebuild();
+			datasourceChanged = false;
 		}
 	}
 
+	/**
+	 * @see net.lojjic.xul.rdf.RDFObserver#onChange(net.lojjic.xul.rdf.RDFDataSource, net.lojjic.xul.rdf.RDFResource, net.lojjic.xul.rdf.RDFResource, net.lojjic.xul.rdf.RDFNode, net.lojjic.xul.rdf.RDFNode)
+	 */
+	public void onChange(RDFDataSource dataSource, RDFResource source, RDFResource property, RDFNode oldTarget, RDFNode newTarget) {
+		datasourceChanged = true;
+		if(!datasourceInBatchUpdate) {
+			rebuild();
+			datasourceChanged = false;
+		}
+	}
+
+	/**
+	 * @see net.lojjic.xul.rdf.RDFObserver#onMove(net.lojjic.xul.rdf.RDFDataSource, net.lojjic.xul.rdf.RDFResource, net.lojjic.xul.rdf.RDFResource, net.lojjic.xul.rdf.RDFResource, net.lojjic.xul.rdf.RDFNode)
+	 */
+	public void onMove(RDFDataSource dataSource, RDFResource oldSource, RDFResource newSource, RDFResource property, RDFNode target) {
+		datasourceChanged = true;
+		if(!datasourceInBatchUpdate) {
+			rebuild();
+			datasourceChanged = false;
+		}
+	}
+
+	/**
+	 * @see net.lojjic.xul.rdf.RDFObserver#onUnassert(net.lojjic.xul.rdf.RDFDataSource, net.lojjic.xul.rdf.RDFResource, net.lojjic.xul.rdf.RDFResource, net.lojjic.xul.rdf.RDFNode)  
+	 */
+	public void onUnassert(RDFDataSource dataSource, RDFResource source, RDFResource property, RDFNode target) {
+		datasourceChanged = true;
+		if(!datasourceInBatchUpdate) {
+			rebuild();
+			datasourceChanged = false;
+		}
+	}
 
 	/**
 	 * Class that does the work of compiling the template and building the result
