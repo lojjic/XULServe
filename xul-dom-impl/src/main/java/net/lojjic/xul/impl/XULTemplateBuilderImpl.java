@@ -310,6 +310,8 @@ public class XULTemplateBuilderImpl implements XULTemplateBuilder, RDFObserver {
 										list.remove(vars);
 									}
 								}
+							} else {
+								list.remove(vars);
 							}
 						}
 						else if(childAttr.isVariable()) {
@@ -344,6 +346,8 @@ public class XULTemplateBuilderImpl implements XULTemplateBuilder, RDFObserver {
 										list.remove(vars);
 									}
 								}
+							} else {
+								list.remove(vars);
 							}
 						}
 						else {
@@ -377,6 +381,8 @@ public class XULTemplateBuilderImpl implements XULTemplateBuilder, RDFObserver {
 										list.remove(vars);
 									}
 								}
+							} else {
+								list.remove(vars);
 							}
 						}
 						else if(objectAttr.isVariable()) {
@@ -395,6 +401,8 @@ public class XULTemplateBuilderImpl implements XULTemplateBuilder, RDFObserver {
 										list.remove(vars);
 									}
 								}
+							} else {
+								list.remove(vars);
 							}
 						}
 						else {
