@@ -1,10 +1,7 @@
 package net.lojjic.xul;
 
-import org.w3c.dom.Element;
-import net.lojjic.xul.rdf.RDFDataSource;
-import net.lojjic.xul.rdf.RDFNode;
-import net.lojjic.xul.rdf.RDFResource;
 import net.lojjic.xul.rdf.RDFCompositeDataSource;
+import org.w3c.dom.Element;
 
 /**
  * XUL template builder interface.
@@ -27,20 +24,18 @@ public interface XULTemplateBuilder {
 	 */
 	void addListener(XULBuilderListener listener);
 
-// TODO
-//	/**
-//	 * Invoked lazily by a XUL element that needs its child content built.
-//	 */
-//	void createContents(Content_ptr element);
+	/**
+	 * Invoked lazily by a XUL element that needs its child content built.
+	 */
+	void createContents(Element element);
 
-// TODO
-//	/**
-//	 * Called to initialize a XUL content builder on a particular root element. This element presumably
-//	 * has a "datasources" attribute, which the builder will parse to set up the template builder's datasources.
-//	 *
-//	 * @param element
-//	 */
-//	void init(Content_ptr element);
+	/**
+	 * Called to initialize a XUL content builder on a particular root element. This element presumably
+	 * has a "datasources" attribute, which the builder will parse to set up the template builder's datasources.
+	 *
+	 * @param element
+	 */
+	void init(Element element);
 
 	/**
 	 * Force the template builder to rebuild its content.
