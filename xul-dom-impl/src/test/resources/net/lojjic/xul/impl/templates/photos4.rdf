@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+
+<!--+
+    | This sample RDF model is taken from the Mozilla Developer Center's
+    | XUL Template Guide. See http://developer.mozilla.org/en/docs/XUL:Template_Guide
+    +-->
+
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:dc="http://purl.org/dc/elements/1.1/"
+         xmlns:r="http://www.xulplanet.com/rdf/"
+         xmlns:nso="http://www.daml.org/2001/09/countries/country-ont#">
+
+  <rdf:Seq rdf:about="http://www.xulplanet.com/rdf/myphotos">
+    <rdf:li rdf:resource="http://www.xulplanet.com/ndeakin/images/t/palace.jpg"/>
+    <rdf:li rdf:resource="http://www.xulplanet.com/ndeakin/images/t/canal.jpg"/>
+    <rdf:li rdf:resource="http://www.xulplanet.com/ndeakin/images/t/obelisk.jpg"/>
+  </rdf:Seq>
+
+  <rdf:Description rdf:about="http://www.xulplanet.com/ndeakin/images/t/palace.jpg" dc:title="Palace from Above">
+    <r:country rdf:resource="http://www.daml.org/2001/09/countries/iso#IT"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.xulplanet.com/ndeakin/images/t/canal.jpg" dc:title="Canal">
+    <r:country rdf:resource="http://www.daml.org/2001/09/countries/iso#NL"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.xulplanet.com/ndeakin/images/t/obelisk.jpg" dc:title="Obelisk">
+    <r:country rdf:resource="http://www.daml.org/2001/09/countries/iso#IT"/>
+  </rdf:Description>
+
+  <nso:Country rdf:about="http://www.daml.org/2001/09/countries/iso#IT" dc:title="Italy"/>
+
+  <nso:Country rdf:about="http://www.daml.org/2001/09/countries/iso#NL" dc:title="Netherlands"/>
+</rdf:RDF>

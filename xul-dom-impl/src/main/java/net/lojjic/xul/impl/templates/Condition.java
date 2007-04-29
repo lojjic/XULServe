@@ -33,6 +33,10 @@ public abstract class Condition {
 			return value;
 		}
 
+		public boolean isURI() {
+			return value.indexOf(':') != -1;
+		}
+
 		public RDFResource getRDFResource() {
 			return rdfService.getResource(value);
 		}
