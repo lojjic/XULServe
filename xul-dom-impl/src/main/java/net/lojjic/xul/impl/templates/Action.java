@@ -173,14 +173,9 @@ public class Action {
 
 					case '^':
 						if(isInVar) { //if in var, caret serves to terminate var name
-							if(chars[i + 1] == '^') { //escaped
-								stringBuilder.append(chars[i]);
-								i++; //skip duplicate
-							} else {
-								parts.add(new Variable(stringBuilder.toString()));
-								isInVar = false;
-								stringBuilder.setLength(0);
-							}
+							parts.add(new Variable(stringBuilder.toString()));
+							isInVar = false;
+							stringBuilder.setLength(0);
 						} else {
 							stringBuilder.append(chars[i]);
 						}

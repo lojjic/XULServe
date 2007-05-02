@@ -23,8 +23,7 @@ public class ActionTest extends TestCase {
 		vars.put("?one", rdfService.getLiteral("foo"));
 		vars.put("?two", rdfService.getLiteral("bar"));
 		vars.put("?three", rdfService.getLiteral("baz"));
-		vars.put("?four^four", rdfService.getLiteral("boff"));
-		vars.put("?five", rdfService.getResource("http://lojjic.net/rdf/resource"));
+		vars.put("?four", rdfService.getResource("http://lojjic.net/rdf/resource"));
 
 		// No vars whatsoever:
 		Action.Expression expression = new Action.Expression("foo bar baz");
@@ -47,15 +46,15 @@ public class ActionTest extends TestCase {
 		assertEquals("foo? bar?bazbaz", expression.expand(vars));
 
 		// Escaped carets:
-		expression = new Action.Expression("?one ?two^?three ?four^^four");
-		assertEquals("foo barbaz boff", expression.expand(vars));
+		expression = new Action.Expression("?one^^?two^^baz");
+		assertEquals("foo^bar^baz", expression.expand(vars));
 
 		// Variables without matches:
 		expression = new Action.Expression("?one ?two ?thirty");
 		assertEquals("foo bar ?thirty", expression.expand(vars));
 
 		// Variables with RDF resource values:
-		expression = new Action.Expression("foo bar ?five baz");
+		expression = new Action.Expression("foo bar ?four baz");
 		assertEquals("foo bar http://lojjic.net/rdf/resource baz", expression.expand(vars));
 	}
 
