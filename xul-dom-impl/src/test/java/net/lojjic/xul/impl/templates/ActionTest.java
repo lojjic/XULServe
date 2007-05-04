@@ -26,35 +26,35 @@ public class ActionTest extends TestCase {
 		vars.put("?four", rdfService.getResource("http://lojjic.net/rdf/resource"));
 
 		// No vars whatsoever:
-		Action.Expression expression = new Action.Expression("foo bar baz");
+		Expression expression = new Expression("foo bar baz");
 		assertEquals("foo bar baz", expression.expand(vars));
 
 		// Vars separated by spaces:
-		expression = new Action.Expression("?one ?two ?three");
+		expression = new Expression("?one ?two ?three");
 		assertEquals("foo bar baz", expression.expand(vars));
 
 		// Vars with spaces after but no space before:
-		expression = new Action.Expression("foo?two ?three");
+		expression = new Expression("foo?two ?three");
 		assertEquals("foobar baz", expression.expand(vars));
 
 		// Vars all together separated by carets:
-		expression = new Action.Expression("foo?one^?two^baz?three");
+		expression = new Expression("foo?one^?two^baz?three");
 		assertEquals("foofoobarbazbaz", expression.expand(vars));
 
 		// Escaped question marks:
-		expression = new Action.Expression("foo?? bar??baz?three");
+		expression = new Expression("foo?? bar??baz?three");
 		assertEquals("foo? bar?bazbaz", expression.expand(vars));
 
 		// Escaped carets:
-		expression = new Action.Expression("?one^^?two^^baz");
+		expression = new Expression("?one^^?two^^baz");
 		assertEquals("foo^bar^baz", expression.expand(vars));
 
 		// Variables without matches:
-		expression = new Action.Expression("?one ?two ?thirty");
+		expression = new Expression("?one ?two ?thirty");
 		assertEquals("foo bar ?thirty", expression.expand(vars));
 
 		// Variables with RDF resource values:
-		expression = new Action.Expression("foo bar ?four baz");
+		expression = new Expression("foo bar ?four baz");
 		assertEquals("foo bar http://lojjic.net/rdf/resource baz", expression.expand(vars));
 	}
 
