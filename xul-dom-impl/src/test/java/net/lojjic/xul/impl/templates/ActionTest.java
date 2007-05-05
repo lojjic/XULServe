@@ -27,35 +27,35 @@ public class ActionTest extends TestCase {
 
 		// No vars whatsoever:
 		Expression expression = new Expression("foo bar baz");
-		assertEquals("foo bar baz", expression.expand(vars));
+		assertEquals("foo bar baz", expression.evaluate(vars));
 
 		// Vars separated by spaces:
 		expression = new Expression("?one ?two ?three");
-		assertEquals("foo bar baz", expression.expand(vars));
+		assertEquals("foo bar baz", expression.evaluate(vars));
 
 		// Vars with spaces after but no space before:
 		expression = new Expression("foo?two ?three");
-		assertEquals("foobar baz", expression.expand(vars));
+		assertEquals("foobar baz", expression.evaluate(vars));
 
 		// Vars all together separated by carets:
 		expression = new Expression("foo?one^?two^baz?three");
-		assertEquals("foofoobarbazbaz", expression.expand(vars));
+		assertEquals("foofoobarbazbaz", expression.evaluate(vars));
 
 		// Escaped question marks:
 		expression = new Expression("foo?? bar??baz?three");
-		assertEquals("foo? bar?bazbaz", expression.expand(vars));
+		assertEquals("foo? bar?bazbaz", expression.evaluate(vars));
 
 		// Escaped carets:
 		expression = new Expression("?one^^?two^^baz");
-		assertEquals("foo^bar^baz", expression.expand(vars));
+		assertEquals("foo^bar^baz", expression.evaluate(vars));
 
 		// Variables without matches:
 		expression = new Expression("?one ?two ?thirty");
-		assertEquals("foo bar ?thirty", expression.expand(vars));
+		assertEquals("foo bar ?thirty", expression.evaluate(vars));
 
 		// Variables with RDF resource values:
 		expression = new Expression("foo bar ?four baz");
-		assertEquals("foo bar http://lojjic.net/rdf/resource baz", expression.expand(vars));
+		assertEquals("foo bar http://lojjic.net/rdf/resource baz", expression.evaluate(vars));
 	}
 
 }

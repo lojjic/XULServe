@@ -9,15 +9,26 @@ import java.util.ArrayList;
 import java.util.Map;
 
 /**
- * A template action attribute expression
+ * A template action attribute expression.  Compiles an expression string
+ * into an internal form for efficient evaluation.  The
+ * {@link #evaluate(java.util.Map)} method can then be called to replace
+ * any variable references in the expression with certain values.
  */
 public class Expression {
 	private List<ExpressionPart> parts = new ArrayList<ExpressionPart>();
 
+	/**
+	 * Constructor
+	 * @param expression - The expression string
+	 */
 	public Expression(String expression) {
 		compile(expression);
 	}
 
+	/**
+	 * Compile the expression string into an internal structure for efficient evaluation.
+	 * @param expression - The expression string
+	 */
 	private void compile(String expression) {
 		char[] chars = expression.toCharArray();
 		boolean isInVar = false;
@@ -73,7 +84,12 @@ public class Expression {
 		}
 	}
 
-	public String expand(Map<String, RDFNode> vars) {
+	/**
+	 * Evaluate the expression given a map ov variables and return the result
+	 * @param vars - The map of variables to use for filling in variable placeholders
+	 * @return The
+	 */
+	public String evaluate(Map<String, RDFNode> vars) {
 		StringBuilder stringBuilder = new StringBuilder();
 		for(ExpressionPart part : parts) {
 			stringBuilder.append(part.expand(vars));
@@ -81,10 +97,18 @@ public class Expression {
 		return stringBuilder.toString();
 	}
 
+
+	/**
+	 * Common interface for parts of the expression
+	 */
 	private static interface ExpressionPart {
 		String expand(Map<String,RDFNode> vars);
 	}
 
+	/**
+	 * A {@link ExpressionPart} that represents literal characters, i.e. no
+	 * variable substitution when it is expanded.
+	 */
 	private static class Characters implements ExpressionPart {
 		private String value;
 		public Characters(String value) {
@@ -95,6 +119,10 @@ public class Expression {
 		}
 	}
 
+	/**
+	 * A {@link ExpressionPart} that represents a variable placeholder; when
+	 * expanded it returns the value of the variable in the given Map (if present).
+	 */
 	private static class Variable implements ExpressionPart {
 		private String name;
 		public Variable(String name) {

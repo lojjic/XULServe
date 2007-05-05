@@ -3,6 +3,9 @@ package net.lojjic.xul.impl.templates;
 import net.lojjic.xul.XULConstants;
 import net.lojjic.xul.rdf.RDFNode;
 import org.w3c.dom.*;
+import org.w3c.dom.events.Event;
+import org.w3c.dom.events.EventListener;
+import org.w3c.dom.events.EventTarget;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +21,21 @@ public class Action {
 
 	public Action(Element element) {
 		this.element = element;
+		addChangeListener();
 		compile();
+	}
+
+	/**
+	 * Hook up a listener to recompile the action if the DOM subtree of the
+	 * &lt;action/&gt; element is modified.
+	 */
+	private void addChangeListener() {
+		EventListener listener = new EventListener() {
+			public void handleEvent(Event evt) {
+				compile();
+			}
+		};
+		((EventTarget)element).addEventListener("DOMSubtreeModified", listener, false);
 	}
 
 	private void compile() {
@@ -110,7 +127,7 @@ public class Action {
 		}
 
 		public void expand(Node contextNode, Map<String, RDFNode> vars) {
-			contextNode.appendChild(contextNode.getOwnerDocument().createTextNode(expression.expand(vars)));
+			contextNode.appendChild(contextNode.getOwnerDocument().createTextNode(expression.evaluate(vars)));
 		}
 	}
 
@@ -133,7 +150,7 @@ public class Action {
 		}
 
 		public void expand(Node contextNode, Map<String, RDFNode> vars) {
-			((Element)contextNode).setAttributeNS(node.getNamespaceURI(), node.getLocalName(), expression.expand(vars));
+			((Element)contextNode).setAttributeNS(node.getNamespaceURI(), node.getLocalName(), expression.evaluate(vars));
 		}
 	}
 
