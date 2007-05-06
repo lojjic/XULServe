@@ -10,7 +10,7 @@
 	<url>http://xulserve.lojjic.net</url>
 
 	<scm>
-		<url>http://viewvc.lojjic.net/viewvc.cgi/svn/</url>
+		<url>http://viewvc.lojjic.net/viewvc.cgi/svn/xul/trunk</url>
 		<connection>scm:svn:https://svn.lojjic.net/xul/trunk</connection>
 		<developerConnection>scm:svn:https://svn.lojjic.net/xul/trunk</developerConnection>
 	</scm>
