@@ -5,6 +5,7 @@
 	<artifactId>xul-rdf-impl</artifactId>
 	<packaging>jar</packaging>
 	<name>XUL RDF API Implementation</name>
+	<description>Implementation of the XUL Resource Description Framework (RDF) API interfaces</description>
 	<version>1.0-SNAPSHOT</version>
 
 	<parent>

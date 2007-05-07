@@ -4,6 +4,7 @@
 	<groupId>net.lojjic.xul</groupId>
 	<artifactId>xul-dom-javascript</artifactId>
 	<name>XUL DOM JavaScript Support</name>
+	<description>Wrapper classes to expose XUL DOM objects in a JavaScript environment</description>
 	<version>1.0-SNAPSHOT</version>
 
 	<parent>

@@ -4,6 +4,7 @@
 	<groupId>net.lojjic.xul</groupId>
 	<artifactId>rhino-annotations</artifactId>
 	<name>Rhino Annotations Support</name>
+	<description>Provides tools for defining Rhino JavaScript objects using Java 5 annotations</description>
 	<version>1.0-SNAPSHOT</version>
 
 	<parent>

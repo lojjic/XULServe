@@ -3,6 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<packaging>jar</packaging>
 	<name>XBL Javascript</name>
+	<description>Support for using XML Binding Language (XBL) in a JavaScript environment</description>
 	<groupId>net.lojjic.xul</groupId>
 	<artifactId>xbl-javascript</artifactId>
 	<version>1.0-SNAPSHOT</version>

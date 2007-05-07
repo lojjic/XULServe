@@ -5,6 +5,7 @@
 	<artifactId>xul-dom-api</artifactId>
 	<packaging>jar</packaging>
 	<name>XUL DOM Interfaces</name>
+	<description>Interfaces for the XUL DOM</description>
 	<version>1.0-SNAPSHOT</version>
 
 	<parent>

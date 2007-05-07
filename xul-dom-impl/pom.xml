@@ -4,6 +4,7 @@
 	<groupId>net.lojjic.xul</groupId>
 	<artifactId>xul-dom-impl</artifactId>
 	<name>XUL DOM Implementation</name>
+	<description>Implementation of the XUL DOM interfaces</description>
 	<version>1.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	

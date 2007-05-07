@@ -4,6 +4,7 @@
 	<groupId>net.lojjic.xul</groupId>
 	<artifactId>xul-display</artifactId>
 	<name>XUL Display</name>
+	<description>Display layer for XUL documents</description>
 	<version>1.0-SNAPSHOT</version>
 
 	<parent>

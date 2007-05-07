@@ -4,6 +4,7 @@
 	<groupId>net.lojjic.xul</groupId>
 	<artifactId>xml-dom-javascript</artifactId>
 	<name>XML DOM JavaScript Support</name>
+	<description>Wrapper classes to expose W3C XML DOM objects in a JavaScript environment</description>
 	<version>1.0-SNAPSHOT</version>
 	
 	<parent>
