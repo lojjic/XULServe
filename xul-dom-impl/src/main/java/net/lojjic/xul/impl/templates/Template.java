@@ -3,7 +3,10 @@ package net.lojjic.xul.impl.templates;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Node;
+import org.w3c.dom.DocumentFragment;
 import net.lojjic.xul.rdf.RDFService;
+import net.lojjic.xul.rdf.RDFResource;
+import net.lojjic.xul.rdf.RDFDataSource;
 import net.lojjic.xul.XULConstants;
 
 import java.util.List;
@@ -26,15 +29,38 @@ public class Template {
 
 	private void parseRules() {
 		rules = new ArrayList<Rule>();
+
+		// Find all the direct child <rule/> elements:
+		List<Element> ruleElements = new ArrayList<Element>();
 		NodeList children = element.getChildNodes();
 		for(int i = 0; i < children.getLength(); i++) {
 			Node child = children.item(i);
-			if(child.getNodeType() == Node.ELEMENT_NODE && XULConstants.XUL_NAMESPACE.equals(child.getNamespaceURI()) && "rule".equals(child.getLocalName())) {
-				rules.add(new Rule(rdfService, (Element)child));
-			} else {
-				throw new RuntimeException("Element " + child.getNodeName() + " not allowed as child of <template/>.");
+			if(child.getNodeType() == Node.ELEMENT_NODE && XULConstants.XUL_NAMESPACE.equals(child.getNamespaceURI())
+					&& "rule".equals(child.getLocalName())) {
+				ruleElements.add((Element)child);
 			}
 		}
+
+		// If no <rule/>s are present, treat the <template/> as the rule (shorthand form):
+		if(ruleElements.size() == 0) {
+			rules.add(new Rule(rdfService, this.element));
+			return;
+		}
+
+		// Compile all rules:
+		for(Element ruleElement : ruleElements) {
+			rules.add(new Rule(rdfService, ruleElement));
+		}
+	}
+
+	public DocumentFragment generateContent(RDFDataSource dataSource, RDFResource start) {
+		for(Rule rule : rules) {
+			DocumentFragment result = rule.applyRule(dataSource, start);
+			if(result != null) {
+				return result;
+			}
+		}
+		return null;
 	}
 
 }
