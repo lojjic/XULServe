@@ -5,10 +5,7 @@ import net.lojjic.xul.rdf.RDFDataSource;
 import net.lojjic.xul.rdf.RDFNode;
 import net.lojjic.xul.rdf.RDFResource;
 import net.lojjic.xul.rdf.RDFService;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.w3c.dom.DocumentFragment;
+import org.w3c.dom.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,14 +37,36 @@ public class Rule {
 		conditions = new ArrayList<Condition>();
 
 		Node conditionsElement = element.getElementsByTagNameNS(XULConstants.XUL_NAMESPACE, "conditions").item(0);
+		if(conditionsElement == null) {
+			// simple rule format
+			parseSimpleConditions(element);
+		} else {
+			// extended rule format
+			parseExtendedConditions((Element)conditionsElement);
+		}
+	}
 
+	private void parseSimpleConditions(Element ruleElement) {
+		conditions.add(new ContentCondition(rdfService, "?1"));
+		NamedNodeMap attrs = ruleElement.getAttributes();
+		for(int i = 0, j = 2; i < attrs.getLength(); i++) {
+			Attr attr = (Attr)attrs.item(i);
+			conditions.add(new TripleCondition(rdfService, "?1", attr.getNamespaceURI() + attr.getLocalName(), "?" + j++));
+		}
+	}
+
+	private void parseExtendedConditions(Element conditionsElement) {
 		NodeList children = conditionsElement.getChildNodes();
 		for(int i = 0; i < children.getLength(); i++) {
 			Node node = children.item(i);
 			if(node instanceof Element) {
 				if(XULConstants.XUL_NAMESPACE.equals(node.getNamespaceURI())) {
 					if("content".equals(node.getLocalName())) {
-						conditions.add(new ContentCondition(rdfService, (Element)node));
+						String uri = ((Element)node).getAttribute("uri");
+						if(uri == null) {
+							throw new RuntimeException("Missing 'uri' attribute on <content/> condition.");
+						}
+						conditions.add(new ContentCondition(rdfService, uri));
 						continue;
 					}
 
@@ -56,12 +75,23 @@ public class Rule {
 					}
 
 					if("member".equals(node.getLocalName())) {
-						conditions.add(new MemberCondition(rdfService, (Element)node));
+						String container = ((Element)node).getAttribute("container");
+						String child = ((Element)node).getAttribute("child");
+						if(container == null || child == null) {
+							throw new RuntimeException("Missing 'container' or 'child' attribute on <member/> condition.");
+						}
+						conditions.add(new MemberCondition(rdfService, container, child));
 						continue;
 					}
 
 					if("triple".equals(node.getLocalName())) {
-						conditions.add(new TripleCondition(rdfService, (Element)node));
+						String subject = ((Element)node).getAttribute("subject");
+						String predicate = ((Element)node).getAttribute("predicate");
+						String object = ((Element)node).getAttribute("object");
+						if(subject == null || predicate == null || object == null) {
+							throw new RuntimeException("Missing 'subject', 'predicate', or 'object' attribute on <triple/> condition.");
+						}
+						conditions.add(new TripleCondition(rdfService, subject, predicate, object));
 						continue;
 					}
 				}

@@ -1,14 +1,13 @@
 package net.lojjic.xul.impl.templates;
 
-import net.lojjic.xul.rdf.RDFService;
-import net.lojjic.xul.rdf.RDFNode;
 import net.lojjic.xul.rdf.RDFDataSource;
+import net.lojjic.xul.rdf.RDFNode;
 import net.lojjic.xul.rdf.RDFResource;
-import org.w3c.dom.Element;
+import net.lojjic.xul.rdf.RDFService;
 
-import java.util.Map;
-import java.util.List;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * The &lt;content/&gt; template rule condition
@@ -17,21 +16,11 @@ public class ContentCondition extends Condition {
 
 	private ConditionAttr uriAttr;
 
-	public ContentCondition(RDFService rdfService, Element element) {
-		super(rdfService, element);
-		parseAttributes();
-	}
-
-	private void parseAttributes() {
-		String uri = element.getAttribute("uri");
-		if(uri == null) {
-			throw new RuntimeException("Missing 'uri' attribute on <content/> condition.");
-		}
-
+	public ContentCondition(RDFService rdfService, String uri) {
+		super(rdfService);
 		uriAttr = new ConditionAttr(uri);
-
 		if(!uriAttr.isVariable()) {
-			throw new RuntimeException("The 'uri' attribute of the <content /> condition must be a variable reference.");
+			throw new RuntimeException("The 'uri' attribute of the 'content' condition must be a variable reference.");
 		}
 	}
 

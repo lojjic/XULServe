@@ -11,11 +11,9 @@ import java.util.List;
  */
 public abstract class Condition {
 	protected RDFService rdfService;
-	protected Element element;
 
-	public Condition(RDFService rdfService, Element element) {
+	public Condition(RDFService rdfService) {
 		this.rdfService = rdfService;
-		this.element = element;
 	}
 
 	protected class ConditionAttr {

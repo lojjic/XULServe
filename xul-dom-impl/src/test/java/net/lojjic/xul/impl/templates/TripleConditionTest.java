@@ -1,18 +1,16 @@
 package net.lojjic.xul.impl.templates;
 
 import junit.framework.TestCase;
-import net.lojjic.xul.rdf.RDFService;
 import net.lojjic.xul.rdf.RDFDataSource;
 import net.lojjic.xul.rdf.RDFNode;
 import net.lojjic.xul.rdf.RDFResource;
+import net.lojjic.xul.rdf.RDFService;
 import net.lojjic.xul.rdf.impl.RDFServiceImpl;
-import org.w3c.dom.Element;
-import org.apache.xml.utils.UnImplNode;
 
-import java.util.Map;
-import java.util.List;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Unit test for {@link TripleCondition}
@@ -26,28 +24,13 @@ public class TripleConditionTest extends TestCase {
 		RDFService rdfService = new RDFServiceImpl();
 		RDFDataSource dataSource = rdfService.getDataSource("classpath:net/lojjic/xul/impl/templates/photos.rdf");
 
-		Element element = new UnImplNode() {
-			public String getAttribute(String name) {
-				if(name.equals("subject")) {
-					return "?start";
-				}
-				if(name.equals("predicate")) {
-					return "http://purl.org/dc/elements/1.1/title";
-				}
-				if(name.equals("object")) {
-					return "?title";
-				}
-				return super.getAttribute(name);
-			}
-		};
-
 		List<Map<String, RDFNode>> varsList = new ArrayList<Map<String, RDFNode>>();
 		Map<String, RDFNode> varsMap = new HashMap<String, RDFNode>();
 		RDFResource start = rdfService.getResource("http://www.xulplanet.com/ndeakin/images/t/palace.jpg");
 		varsMap.put("?start", start);
 		varsList.add(varsMap);
 
-		TripleCondition tripleCondition = new TripleCondition(rdfService, element);
+		TripleCondition tripleCondition = new TripleCondition(rdfService, "?start", "http://purl.org/dc/elements/1.1/title", "?title");
 		tripleCondition.applyToVariablesList(dataSource, varsList, start);
 
 		assertEquals(1, varsList.size());
@@ -63,28 +46,13 @@ public class TripleConditionTest extends TestCase {
 		RDFService rdfService = new RDFServiceImpl();
 		RDFDataSource dataSource = rdfService.getDataSource("classpath:net/lojjic/xul/impl/templates/photos.rdf");
 
-		Element element = new UnImplNode() {
-			public String getAttribute(String name) {
-				if(name.equals("subject")) {
-					return "?start";
-				}
-				if(name.equals("predicate")) {
-					return "http://purl.org/dc/elements/1.1/title";
-				}
-				if(name.equals("object")) {
-					return "Palace from Above";
-				}
-				return super.getAttribute(name);
-			}
-		};
-
 		List<Map<String, RDFNode>> varsList = new ArrayList<Map<String, RDFNode>>();
 		Map<String, RDFNode> varsMap = new HashMap<String, RDFNode>();
 		RDFResource start = rdfService.getResource("http://www.xulplanet.com/ndeakin/images/t/palace.jpg");
 		varsMap.put("?start", start);
 		varsList.add(varsMap);
 
-		TripleCondition tripleCondition = new TripleCondition(rdfService, element);
+		TripleCondition tripleCondition = new TripleCondition(rdfService, "?start", "http://purl.org/dc/elements/1.1/title", "Palace from Above");
 		tripleCondition.applyToVariablesList(dataSource, varsList, start);
 
 		assertEquals(1, varsList.size());
@@ -105,28 +73,13 @@ public class TripleConditionTest extends TestCase {
 		RDFService rdfService = new RDFServiceImpl();
 		RDFDataSource dataSource = rdfService.getDataSource("classpath:net/lojjic/xul/impl/templates/photos4.rdf");
 
-		Element element = new UnImplNode() {
-			public String getAttribute(String name) {
-				if(name.equals("subject")) {
-					return "?photo";
-				}
-				if(name.equals("predicate")) {
-					return "http://www.xulplanet.com/rdf/country";
-				}
-				if(name.equals("object")) {
-					return "?country";
-				}
-				return super.getAttribute(name);
-			}
-		};
-
 		List<Map<String, RDFNode>> varsList = new ArrayList<Map<String, RDFNode>>();
 		Map<String, RDFNode> varsMap = new HashMap<String, RDFNode>();
 		RDFResource country = rdfService.getResource("http://www.daml.org/2001/09/countries/iso#NL");
 		varsMap.put("?country", country);
 		varsList.add(varsMap);
 
-		TripleCondition tripleCondition = new TripleCondition(rdfService, element);
+		TripleCondition tripleCondition = new TripleCondition(rdfService, "?photo", "http://www.xulplanet.com/rdf/country", "?country");
 		tripleCondition.applyToVariablesList(dataSource, varsList, country);
 
 		assertEquals(1, varsList.size());
@@ -142,28 +95,13 @@ public class TripleConditionTest extends TestCase {
 		RDFService rdfService = new RDFServiceImpl();
 		RDFDataSource dataSource = rdfService.getDataSource("classpath:net/lojjic/xul/impl/templates/photos4.rdf");
 
-		Element element = new UnImplNode() {
-			public String getAttribute(String name) {
-				if(name.equals("subject")) {
-					return "http://www.xulplanet.com/ndeakin/images/t/obelisk.jpg";
-				}
-				if(name.equals("predicate")) {
-					return "http://www.xulplanet.com/rdf/country";
-				}
-				if(name.equals("object")) {
-					return "?country";
-				}
-				return super.getAttribute(name);
-			}
-		};
-
 		List<Map<String, RDFNode>> varsList = new ArrayList<Map<String, RDFNode>>();
 		Map<String, RDFNode> varsMap = new HashMap<String, RDFNode>();
 		RDFResource country = rdfService.getResource("http://www.daml.org/2001/09/countries/iso#IT");
 		varsMap.put("?country", country);
 		varsList.add(varsMap);
 
-		TripleCondition tripleCondition = new TripleCondition(rdfService, element);
+		TripleCondition tripleCondition = new TripleCondition(rdfService, "http://www.xulplanet.com/ndeakin/images/t/obelisk.jpg", "http://www.xulplanet.com/rdf/country", "?country");
 		tripleCondition.applyToVariablesList(dataSource, varsList, country);
 
 		assertEquals(1, varsList.size());

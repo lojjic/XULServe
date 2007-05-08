@@ -3,7 +3,6 @@ package net.lojjic.xul.impl.templates;
 import net.lojjic.xul.rdf.*;
 import net.lojjic.xul.rdf.impl.RDFContainerImpl;
 import net.lojjic.xul.rdf.impl.RDFContainerUtilsImpl;
-import org.w3c.dom.Element;
 
 import java.util.*;
 
@@ -15,26 +14,14 @@ public class MemberCondition extends Condition {
 	private ConditionAttr containerAttr;
 	private ConditionAttr childAttr;
 
-	public MemberCondition(RDFService rdfService, Element element) {
-		super(rdfService, element);
-		parseAttributes();
-	}
-
-	private void parseAttributes() {
-		String container = element.getAttribute("container");
-		String child = element.getAttribute("child");
-		if(container == null || child == null) {
-			throw new RuntimeException("Missing 'container' or 'child' attribute on <member/> condition.");
-		}
-
+	public MemberCondition(RDFService rdfService, String container, String child) {
+		super(rdfService);
 		containerAttr = new ConditionAttr(container);
 		childAttr = new ConditionAttr(child);
-
 		if(!containerAttr.isVariable() && !childAttr.isVariable()) {
 			throw new RuntimeException("Either the 'condition' or 'child' attribute of the <member /> must be a variable reference.");
 		}
 	}
-
 
 	public void applyToVariablesList(RDFDataSource dataSource, List<Map<String, RDFNode>> varsList, RDFResource start) {
 		RDFContainerUtils containerUtils = new RDFContainerUtilsImpl(rdfService);

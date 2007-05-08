@@ -26,19 +26,7 @@ public class MemberConditionTest extends TestCase {
 		RDFService rdfService = new RDFServiceImpl();
 		RDFDataSource dataSource = rdfService.getDataSource("classpath:net/lojjic/xul/impl/templates/photos.rdf");
 
-		Element element = new UnImplNode() {
-			public String getAttribute(String name) {
-				if(name.equals("container")) {
-					return "?start";
-				}
-				if(name.equals("child")) {
-					return "?photo";
-				}
-				return super.getAttribute(name);
-			}
-		};
-
-		MemberCondition memberCondition = new MemberCondition(rdfService, element);
+		MemberCondition memberCondition = new MemberCondition(rdfService, "?start", "?photo");
 		List<Map<String, RDFNode>> varsList = new ArrayList<Map<String, RDFNode>>();
 		Map<String, RDFNode> varsMap = new HashMap<String, RDFNode>();
 		RDFResource start = rdfService.getResource("http://www.xulplanet.com/rdf/myphotos");
@@ -66,19 +54,7 @@ public class MemberConditionTest extends TestCase {
 		RDFService rdfService = new RDFServiceImpl();
 		RDFDataSource dataSource = rdfService.getDataSource("classpath:net/lojjic/xul/impl/templates/photos.rdf");
 
-		Element element = new UnImplNode() {
-			public String getAttribute(String name) {
-				if(name.equals("container")) {
-					return "?start";
-				}
-				if(name.equals("child")) {
-					return "http://www.xulplanet.com/ndeakin/images/t/canal.jpg";
-				}
-				return super.getAttribute(name);
-			}
-		};
-
-		MemberCondition memberCondition = new MemberCondition(rdfService, element);
+		MemberCondition memberCondition = new MemberCondition(rdfService, "?start", "http://www.xulplanet.com/ndeakin/images/t/canal.jpg");
 		List<Map<String, RDFNode>> varsList = new ArrayList<Map<String, RDFNode>>();
 		Map<String, RDFNode> varsMap = new HashMap<String, RDFNode>();
 		RDFResource start = rdfService.getResource("http://www.xulplanet.com/rdf/myphotos");
@@ -106,19 +82,7 @@ public class MemberConditionTest extends TestCase {
 		RDFService rdfService = new RDFServiceImpl();
 		RDFDataSource dataSource = rdfService.getDataSource("classpath:net/lojjic/xul/impl/templates/photos.rdf");
 
-		Element element = new UnImplNode() {
-			public String getAttribute(String name) {
-				if(name.equals("container")) {
-					return "?container";
-				}
-				if(name.equals("child")) {
-					return "?start";
-				}
-				return super.getAttribute(name);
-			}
-		};
-
-		MemberCondition memberCondition = new MemberCondition(rdfService, element);
+		MemberCondition memberCondition = new MemberCondition(rdfService, "?container", "?start");
 		List<Map<String, RDFNode>> varsList = new ArrayList<Map<String, RDFNode>>();
 		Map<String, RDFNode> varsMap = new HashMap<String, RDFNode>();
 		RDFResource start = rdfService.getResource("http://www.xulplanet.com/ndeakin/images/t/palace.jpg");
@@ -140,19 +104,7 @@ public class MemberConditionTest extends TestCase {
 		RDFService rdfService = new RDFServiceImpl();
 		RDFDataSource dataSource = rdfService.getDataSource("classpath:net/lojjic/xul/impl/templates/photos.rdf");
 
-		Element element = new UnImplNode() {
-			public String getAttribute(String name) {
-				if(name.equals("container")) {
-					return "http://www.xulplanet.com/rdf/myphotos";
-				}
-				if(name.equals("child")) {
-					return "?start";
-				}
-				return super.getAttribute(name);
-			}
-		};
-
-		MemberCondition memberCondition = new MemberCondition(rdfService, element);
+		MemberCondition memberCondition = new MemberCondition(rdfService, "http://www.xulplanet.com/rdf/myphotos", "?start");
 		List<Map<String, RDFNode>> varsList = new ArrayList<Map<String, RDFNode>>();
 		Map<String, RDFNode> varsMap = new HashMap<String, RDFNode>();
 		RDFResource start = rdfService.getResource("http://www.xulplanet.com/ndeakin/images/t/palace.jpg");

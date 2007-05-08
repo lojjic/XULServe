@@ -1,10 +1,9 @@
 package net.lojjic.xul.impl.templates;
 
-import net.lojjic.xul.rdf.RDFService;
 import net.lojjic.xul.rdf.RDFDataSource;
 import net.lojjic.xul.rdf.RDFNode;
 import net.lojjic.xul.rdf.RDFResource;
-import org.w3c.dom.Element;
+import net.lojjic.xul.rdf.RDFService;
 
 import java.util.*;
 
@@ -17,28 +16,15 @@ public class TripleCondition extends Condition {
 	private ConditionAttr predicateAttr;
 	private ConditionAttr objectAttr;
 
-	public TripleCondition(RDFService rdfService, Element element) {
-		super(rdfService, element);
-		parseAttributes();
-	}
-
-	private void parseAttributes() {
-		String subject = element.getAttribute("subject");
-		String predicate = element.getAttribute("predicate");
-		String object = element.getAttribute("object");
-		if(subject == null || predicate == null || object == null) {
-			throw new RuntimeException("Missing 'subject', 'predicate', or 'object' attribute on <triple/> condition.");
-		}
-
+	public TripleCondition(RDFService rdfService, String subject, String predicate, String object) {
+		super(rdfService);
 		subjectAttr = new ConditionAttr(subject);
 		predicateAttr = new ConditionAttr(predicate);
 		objectAttr = new ConditionAttr(object);
-
 		if(!subjectAttr.isVariable() && !objectAttr.isVariable()) {
 			throw new RuntimeException("Either the 'subject' or 'object' attribute of the <triple/> must be a variable reference.");
 		}
 	}
-
 
 	public void applyToVariablesList(RDFDataSource dataSource, List<Map<String, RDFNode>> varsList, RDFResource start) {
 		for(Map<String, RDFNode> vars : new ArrayList<Map<String, RDFNode>>(varsList)) {
