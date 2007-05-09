@@ -46,14 +46,9 @@ public class XULTemplateBuilderImpl implements XULTemplateBuilder, RDFObserver {
 		// Set the root element, adding a mutation event listener to trigger
 		// a rebuild when the template DOM changes:
 		rootElement = element;
-		Element templateElement = (Element)element.getElementsByTagNameNS(XULConstants.XUL_NAMESPACE, "template").item(0);
-		EventListener listener = new EventListener() {
-			public void handleEvent(Event evt) {
-				rebuild();
-			}
-		};
-		((EventTarget)templateElement).addEventListener("DOMSubtreeModified", listener, false);
-		template = new Template(rdfService, templateElement);
+
+		// Create the template:
+		this.template = createTemplate();
 
 		// Create the composite datasource:
 		this.database = new RDFCompositeDataSourceImpl(rdfService);
@@ -69,6 +64,46 @@ public class XULTemplateBuilderImpl implements XULTemplateBuilder, RDFObserver {
 
 		// Add observer to rebuild when datasource changes:
 		this.database.addObserver(this);
+	}
+
+	private Template createTemplate() {
+		Element templateElement;
+
+		// If root element has a @template attribute, look for a <template/> element with that id:
+		String templateId = rootElement.getAttribute("template");
+		if(templateId != null) {
+			templateElement = rootElement.getOwnerDocument().getElementById(templateId);
+			if(templateElement == null || (XULConstants.XUL_NAMESPACE.equals(templateElement.getNamespaceURI())
+					&& "template".equals(templateElement.getLocalName()))) {
+				throw new RuntimeException("No <template/> element exists with id '" + templateId + "'.");
+			}
+		}
+		// Otherwise look for a child <template/> element:
+		else {
+			templateElement = (Element)rootElement.getElementsByTagNameNS(XULConstants.XUL_NAMESPACE, "template").item(0);
+			if(templateElement == null || templateElement.getParentNode() != rootElement) {
+				throw new RuntimeException("No child <template/> element was found.");
+			}
+		}
+
+		// Look for an already-compiled Template instance:
+		final String userDataKey = "XULTemplateBuilder#Template";
+		Template template = (Template)templateElement.getUserData(userDataKey);
+		if(template == null) {
+			// Add a mutation event listener to trigger a rebuild when the template DOM changes:
+			EventListener listener = new EventListener() {
+				public void handleEvent(Event evt) {
+					rebuild();
+				}
+			};
+			((EventTarget)templateElement).addEventListener("DOMSubtreeModified", listener, false);
+
+			// Create the Template and cache it:
+			template = new Template(rdfService, templateElement);
+			templateElement.setUserData(userDataKey, template, null);
+		}
+
+		return template;
 	}
 
 	/**
