@@ -7,9 +7,6 @@ import net.lojjic.xul.impl.templates.Template;
 import net.lojjic.xul.rdf.*;
 import net.lojjic.xul.rdf.impl.RDFCompositeDataSourceImpl;
 import org.w3c.dom.Element;
-import org.w3c.dom.events.Event;
-import org.w3c.dom.events.EventListener;
-import org.w3c.dom.events.EventTarget;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -47,9 +44,6 @@ public class XULTemplateBuilderImpl implements XULTemplateBuilder, RDFObserver {
 		// a rebuild when the template DOM changes:
 		rootElement = element;
 
-		// Create the template:
-		this.template = createTemplate();
-
 		// Create the composite datasource:
 		this.database = new RDFCompositeDataSourceImpl(rdfService);
 
@@ -64,46 +58,9 @@ public class XULTemplateBuilderImpl implements XULTemplateBuilder, RDFObserver {
 
 		// Add observer to rebuild when datasource changes:
 		this.database.addObserver(this);
-	}
 
-	private Template createTemplate() {
-		Element templateElement;
-
-		// If root element has a @template attribute, look for a <template/> element with that id:
-		String templateId = rootElement.getAttribute("template");
-		if(templateId != null) {
-			templateElement = rootElement.getOwnerDocument().getElementById(templateId);
-			if(templateElement == null || (XULConstants.XUL_NAMESPACE.equals(templateElement.getNamespaceURI())
-					&& "template".equals(templateElement.getLocalName()))) {
-				throw new RuntimeException("No <template/> element exists with id '" + templateId + "'.");
-			}
-		}
-		// Otherwise look for a child <template/> element:
-		else {
-			templateElement = (Element)rootElement.getElementsByTagNameNS(XULConstants.XUL_NAMESPACE, "template").item(0);
-			if(templateElement == null || templateElement.getParentNode() != rootElement) {
-				throw new RuntimeException("No child <template/> element was found.");
-			}
-		}
-
-		// Look for an already-compiled Template instance:
-		final String userDataKey = "XULTemplateBuilder#Template";
-		Template template = (Template)templateElement.getUserData(userDataKey);
-		if(template == null) {
-			// Add a mutation event listener to trigger a rebuild when the template DOM changes:
-			EventListener listener = new EventListener() {
-				public void handleEvent(Event evt) {
-					rebuild();
-				}
-			};
-			((EventTarget)templateElement).addEventListener("DOMSubtreeModified", listener, false);
-
-			// Create the Template and cache it:
-			template = new Template(rdfService, templateElement);
-			templateElement.setUserData(userDataKey, template, null);
-		}
-
-		return template;
+		// Compile the template:
+		rebuild();
 	}
 
 	/**
@@ -144,26 +101,6 @@ public class XULTemplateBuilderImpl implements XULTemplateBuilder, RDFObserver {
 	}
 
 	/**
-	 * Reload any of our RDF datasources that support RDFRemoteDatasource.
-	 */
-	public void refresh() {
-		Iterator<RDFDataSource> dataSources = database.getDataSources();
-		while(dataSources.hasNext()) {
-			RDFDataSource source = dataSources.next();
-			if(source instanceof RDFRemoteDataSource) {
-				((RDFRemoteDataSource)source).refresh(true);
-			}
-		}
-	}
-
-	/**
-	 * Remove a listener from this template builder.
-	 */
-	public void removeListener(XULBuilderListener listener) {
-		listeners.remove(listener);
-	}
-
-	/**
 	 * Notify listeners that rebuild is about to start
 	 */
 	private void notifyWillRebuild() {
@@ -185,9 +122,48 @@ public class XULTemplateBuilderImpl implements XULTemplateBuilder, RDFObserver {
 	 * Perform the rebuild.
 	 */
 	protected void doRebuild() {
-		// TODO
+		Element templateElement;
+
+		// If root element has a @template attribute, look for a <template/> element with that id:
+		String templateId = rootElement.getAttribute("template");
+		if(templateId != null) {
+			templateElement = rootElement.getOwnerDocument().getElementById(templateId);
+			if(templateElement == null || (XULConstants.XUL_NAMESPACE.equals(templateElement.getNamespaceURI())
+					&& "template".equals(templateElement.getLocalName()))) {
+				throw new RuntimeException("No <template/> element exists with id '" + templateId + "'.");
+			}
+		}
+		// Otherwise look for a child <template/> element:
+		else {
+			templateElement = (Element)rootElement.getElementsByTagNameNS(XULConstants.XUL_NAMESPACE, "template").item(0);
+			if(templateElement == null || templateElement.getParentNode() != rootElement) {
+				throw new RuntimeException("No child <template/> element was found.");
+			}
+		}
+
+		// Compile the template:
+		template = new Template(rdfService, templateElement);
 	}
 
+	/**
+	 * Reload any of our RDF datasources that support RDFRemoteDatasource.
+	 */
+	public void refresh() {
+		Iterator<RDFDataSource> dataSources = database.getDataSources();
+		while(dataSources.hasNext()) {
+			RDFDataSource source = dataSources.next();
+			if(source instanceof RDFRemoteDataSource) {
+				((RDFRemoteDataSource)source).refresh(true);
+			}
+		}
+	}
+
+	/**
+	 * Remove a listener from this template builder.
+	 */
+	public void removeListener(XULBuilderListener listener) {
+		listeners.remove(listener);
+	}
 
 	/**
 	 * @see net.lojjic.xul.rdf.RDFObserver#onBeginUpdateBatch(net.lojjic.xul.rdf.RDFDataSource)
