@@ -11,8 +11,21 @@ import org.openrdf.sail.memory.MemoryStore;
  */
 public class RDFMemoryDataSourceImpl extends SesameDataSourceImpl {
 
+
 	/**
-	 * Construct the instance, passing in the in-memory Sesame repository.
+	 * Default constructor; useful for configuration via bean setter injection.
+	 * <p>
+	 * Be sure to set the {@link net.lojjic.xul.rdf.RDFService}
+	 * by calling {@link #setRdfService(net.lojjic.xul.rdf.RDFService)}.
+	 */
+	public RDFMemoryDataSourceImpl() {
+		super();
+		setRepository(createRepository());
+	}
+
+	/**
+	 * Constructor passing in the {@link net.lojjic.xul.rdf.RDFService}
+	 * @param rdfService
 	 */
 	public RDFMemoryDataSourceImpl(RDFService rdfService) {
 		super(rdfService, createRepository());

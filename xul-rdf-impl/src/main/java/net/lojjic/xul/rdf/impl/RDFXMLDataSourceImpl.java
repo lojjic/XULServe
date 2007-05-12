@@ -19,7 +19,20 @@ public class RDFXMLDataSourceImpl extends RDFMemoryDataSourceImpl implements RDF
 	private boolean loaded = false;
 
 	/**
-	 * Constructor.
+	 * Default constructor; useful for configuration via bean setter injection. 
+	 * <p>
+	 * Be sure to set the {@link net.lojjic.xul.rdf.RDFService}
+	 * by calling {@link #setRdfService(net.lojjic.xul.rdf.RDFService)}, and the
+	 * datasource URI by calling {@link #setURI(String)}.
+	 */
+	public RDFXMLDataSourceImpl() {
+		super();
+	}
+
+	/**
+	 * Constructor passing in the {@link net.lojjic.xul.rdf.RDFService}
+	 *
+	 * @param rdfService
 	 * @param uri: The URI of the RDF-XML file holding the graph data.
 	 */
 	public RDFXMLDataSourceImpl(RDFService rdfService, String uri) {
@@ -33,6 +46,14 @@ public class RDFXMLDataSourceImpl extends RDFMemoryDataSourceImpl implements RDF
 	 */
 	public String getURI() {
 		return uri;
+	}
+
+	/**
+	 * Set the URI of the data source.
+	 * @param uri
+	 */
+	public void setURI(String uri) {
+		init(uri);
 	}
 
 	/**

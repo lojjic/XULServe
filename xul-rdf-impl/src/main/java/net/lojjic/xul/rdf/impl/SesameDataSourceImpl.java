@@ -24,12 +24,32 @@ public class SesameDataSourceImpl extends AbstractDataSourceImpl {
 	private Repository repository;
 
 	/**
-	 * Constructor
+	 * Default constructor; useful for configuration via bean setter injection.
+	 * <p>
+	 * Be sure to set the {@link net.lojjic.xul.rdf.RDFService}
+	 * by calling {@link #setRdfService(net.lojjic.xul.rdf.RDFService)}.
+	 */
+	public SesameDataSourceImpl() {
+		super();
+	}
+
+	/**
+	 * Constructor passing in the {@link net.lojjic.xul.rdf.RDFService} and
+	 * {@link org.openrdf.repository.Repository}.
+	 * 
 	 * @param rdfService
 	 * @param repository
 	 */
 	public SesameDataSourceImpl(RDFService rdfService, Repository repository) {
 		super(rdfService);
+		this.repository = repository;
+	}
+
+	/**
+	 * Set the Sesame {@link org.openrdf.repository.Repository} for this instance. 
+	 * @param repository
+	 */
+	public void setRepository(Repository repository) {
 		this.repository = repository;
 	}
 

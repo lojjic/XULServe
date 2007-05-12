@@ -13,9 +13,27 @@ public abstract class AbstractDataSourceImpl implements RDFDataSource {
 	protected ArrayList<RDFObserver> observers = new ArrayList<RDFObserver>();
 
 	/**
-	 * Base constructor
+	 * Default constructor; useful for configuration via bean setter injection.
+	 * <p>
+	 * Be sure to set the {@link net.lojjic.xul.rdf.RDFService}
+	 * by calling {@link #setRdfService(net.lojjic.xul.rdf.RDFService)}.
+	 */
+	protected AbstractDataSourceImpl() {
+	}
+
+	/**
+	 * Constructor passing in the {@link net.lojjic.xul.rdf.RDFService}
+	 * @param rdfService
 	 */
 	public AbstractDataSourceImpl(RDFService rdfService) {
+		setRdfService(rdfService);
+	}
+
+	/**
+	 * Set the {@link net.lojjic.xul.rdf.RDFService} for this instance
+	 * @param rdfService
+	 */
+	public void setRdfService(RDFService rdfService) {
 		this.rdfService = rdfService;
 	}
 

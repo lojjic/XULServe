@@ -16,7 +16,17 @@ public class RDFCompositeDataSourceImpl extends AbstractDataSourceImpl implement
 	private List<RDFDataSource> dataSources = new ArrayList<RDFDataSource>();
 
 	/**
-	 * Constructor.
+	 * Default constructor. Be sure to set the {@link net.lojjic.xul.rdf.RDFService}
+	 * by calling {@link #setRdfService(net.lojjic.xul.rdf.RDFService)}.
+	 */
+	public RDFCompositeDataSourceImpl() {
+		super();
+	}
+
+	/**
+	 * Constructor passing in the {@link net.lojjic.xul.rdf.RDFService}
+	 *
+	 * @param rdfService
 	 */
 	public RDFCompositeDataSourceImpl(RDFService rdfService) {
 		super(rdfService);
