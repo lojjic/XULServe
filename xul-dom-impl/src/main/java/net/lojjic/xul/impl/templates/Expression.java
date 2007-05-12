@@ -137,7 +137,7 @@ public class Expression {
 					return ((RDFResource)var).getValue();
 				}
 			}
-			return name;
+			return "";
 		}
 	}
 }
