@@ -68,6 +68,9 @@ public class RDFContainerUtilsImpl implements RDFContainerUtils {
 	 * Return 'true' if the specified resource is a container and it is empty
 	 */
 	public boolean isEmpty(RDFDataSource dataSource, RDFResource resource) {
+		if(!isContainer(dataSource, resource)) {
+			return false;
+		}
 		RDFResource arc = rdfService.getResource(RDFConstants.RDF_NAMESPACE + "_1");
 		return !dataSource.hasArcOut(resource, arc);
 	}

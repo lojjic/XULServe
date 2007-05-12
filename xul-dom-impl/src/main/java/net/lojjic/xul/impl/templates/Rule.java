@@ -17,6 +17,7 @@ import java.util.Map;
 public class Rule {
 
 	private RDFService rdfService;
+	private Template template;
 	private Element element;
 	private List<Condition> conditions;
 	private Action action;
@@ -26,8 +27,9 @@ public class Rule {
 	 * @param rdfService
 	 * @param element
 	 */
-	public Rule(RDFService rdfService, Element element) {
+	public Rule(RDFService rdfService, Template template, Element element) {
 		this.rdfService = rdfService;
+		this.template = template;
 		this.element = element;
 		parseConditions();
 		parseAction();
@@ -47,11 +49,20 @@ public class Rule {
 	}
 
 	private void parseSimpleConditions(Element ruleElement) {
+		String startVarName = template.getContainerVarName();
 		conditions.add(new ContentCondition(rdfService, "?1"));
 		NamedNodeMap attrs = ruleElement.getAttributes();
-		for(int i = 0, j = 2; i < attrs.getLength(); i++) {
+		for(int i = 0; i < attrs.getLength(); i++) {
 			Attr attr = (Attr)attrs.item(i);
-			conditions.add(new TripleCondition(rdfService, "?1", attr.getNamespaceURI() + attr.getLocalName(), "?" + j++));
+			if("iscontainer".equals(attr.getLocalName())) {
+				conditions.add(new MemberCondition(rdfService, startVarName, template.getMemberVarName()));
+			}
+			else if("isempty".equals(attr.getLocalName())) {
+				conditions.add(new IsEmptyCondition(rdfService, startVarName, Boolean.valueOf(attr.getNodeValue())));
+			}
+			else {
+				conditions.add(new TripleCondition(rdfService, startVarName, attr.getNamespaceURI() + attr.getLocalName(), "?" + (++i)));
+			}
 		}
 	}
 

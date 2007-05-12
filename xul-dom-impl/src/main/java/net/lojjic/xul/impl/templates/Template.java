@@ -20,6 +20,8 @@ public class Template {
 	private RDFService rdfService;
 	private Element element;
 	private List<Rule> rules;
+	private String containerVarName;
+	private String memberVarName;
 
 	public Template(RDFService rdfService, Element element) {
 		this.rdfService = rdfService;
@@ -43,13 +45,17 @@ public class Template {
 
 		// If no <rule/>s are present, treat the <template/> as the rule (shorthand form):
 		if(ruleElements.size() == 0) {
-			rules.add(new Rule(rdfService, this.element));
+			rules.add(new Rule(rdfService, this, this.element));
 			return;
 		}
 
+		// Look for custom container/member variable names:
+		containerVarName = element.getAttribute("container");
+		memberVarName = element.getAttribute("member");
+
 		// Compile all rules:
 		for(Element ruleElement : ruleElements) {
-			rules.add(new Rule(rdfService, ruleElement));
+			rules.add(new Rule(rdfService, this, ruleElement));
 		}
 	}
 
@@ -63,4 +69,11 @@ public class Template {
 		return null;
 	}
 
+	public String getContainerVarName() {
+		return (containerVarName == null) ? "?start" : containerVarName;
+	}
+
+	public String getMemberVarName() {
+		return (memberVarName == null) ? "?member" : memberVarName;
+	}
 }

@@ -11,6 +11,7 @@ import java.util.*;
  */
 public class MemberCondition extends Condition {
 
+	private RDFContainerUtils containerUtils;
 	private ConditionAttr containerAttr;
 	private ConditionAttr childAttr;
 
@@ -21,10 +22,10 @@ public class MemberCondition extends Condition {
 		if(!containerAttr.isVariable() && !childAttr.isVariable()) {
 			throw new RuntimeException("Either the 'condition' or 'child' attribute of the <member /> must be a variable reference.");
 		}
+		containerUtils = new RDFContainerUtilsImpl(rdfService);
 	}
 
 	public void applyToVariablesList(RDFDataSource dataSource, List<Map<String, RDFNode>> varsList, RDFResource start) {
-		RDFContainerUtils containerUtils = new RDFContainerUtilsImpl(rdfService);
 		for(Map<String, RDFNode> vars : new ArrayList<Map<String, RDFNode>>(varsList)) {
 			if(containerAttr.isVariable() && vars.containsKey(containerAttr.getVarName())) {
 				RDFNode varValue = vars.get(containerAttr.getVarName());
