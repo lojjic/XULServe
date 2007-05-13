@@ -34,7 +34,7 @@ public class IsContainerConditionTest extends TestCase {
 		containerUtils.makeSeq(dataSource, container);
 	}
 
-	public void testEmpty() throws Exception {
+	public void testIsContainer() throws Exception {
 		List<Map<String, RDFNode>> varsList = new ArrayList<Map<String, RDFNode>>();
 		Map<String, RDFNode> varsMap = new HashMap<String, RDFNode>();
 		varsMap.put("?start", container);
@@ -49,7 +49,7 @@ public class IsContainerConditionTest extends TestCase {
 		assertEquals(0, varsList.size());
 	}
 
-	public void testNotEmpty() throws Exception {
+	public void testIsNotContainer() throws Exception {
 		List<Map<String, RDFNode>> varsList = new ArrayList<Map<String, RDFNode>>();
 		Map<String, RDFNode> varsMap = new HashMap<String, RDFNode>();
 		varsMap.put("?start", nonContainer);
