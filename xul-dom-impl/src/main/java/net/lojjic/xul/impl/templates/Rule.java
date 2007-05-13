@@ -55,7 +55,7 @@ public class Rule {
 		for(int i = 0; i < attrs.getLength(); i++) {
 			Attr attr = (Attr)attrs.item(i);
 			if("iscontainer".equals(attr.getLocalName())) {
-				conditions.add(new MemberCondition(rdfService, startVarName, template.getMemberVarName()));
+				conditions.add(new IsContainerCondition(rdfService, startVarName, Boolean.valueOf(attr.getNodeValue())));
 			}
 			else if("isempty".equals(attr.getLocalName())) {
 				conditions.add(new IsEmptyCondition(rdfService, startVarName, Boolean.valueOf(attr.getNodeValue())));

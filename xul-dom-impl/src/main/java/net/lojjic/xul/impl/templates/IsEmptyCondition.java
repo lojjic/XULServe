@@ -34,7 +34,7 @@ public class IsEmptyCondition extends Condition {
 			RDFNode container = vars.get(containerVarName);
 			boolean isEmpty = (container != null && container instanceof RDFResource &&
 					containerUtils.isEmpty(dataSource, (RDFResource)container));
-			if((requireEmpty && !isEmpty) || (!requireEmpty && isEmpty)) {
+			if(requireEmpty != isEmpty) {
 				varsList.remove(vars);
 			}
 		}
