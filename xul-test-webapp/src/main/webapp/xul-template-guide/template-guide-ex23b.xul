@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?> 
+
+<window xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+<hbox id="photosList" datasources="template-guide-photos3.rdf"
+      ref="http://www.xulplanet.com/rdf/myphotos"
+      xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <template dc:title="Canal">
+    <button uri="rdf:*" image="rdf:*" label="View" orient="vertical"/>
+  </template>
+</hbox>
+
+</window>

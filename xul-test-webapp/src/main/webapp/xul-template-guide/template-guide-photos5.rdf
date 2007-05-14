@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:dc="http://purl.org/dc/elements/1.1/"
+         xmlns:r="http://www.xulplanet.com/rdf/"
+         xmlns:nso="http://www.daml.org/2001/09/countries/country-ont#">
+
+  <rdf:Seq rdf:about="http://www.xulplanet.com/rdf/myphotos">
+    <rdf:li rdf:resource="http://www.xulplanet.com/ndeakin/images/t/palace.jpg"/>
+    <rdf:li rdf:resource="http://www.xulplanet.com/ndeakin/images/t/canal.jpg"/>
+    <rdf:li rdf:resource="http://www.xulplanet.com/ndeakin/images/t/obelisk.jpg"/>
+  </rdf:Seq>
+
+  <rdf:Description rdf:about="http://www.xulplanet.com/ndeakin/images/t/palace.jpg"
+                   dc:title="Palace from Above"
+                   dc:date="2005-04-30T14:55:00+01.00"
+                   dc:description="View from the top of the tower looking east of the Doges Palace">
+    <r:country resource="http://www.daml.org/2001/09/countries/iso#IT"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.xulplanet.com/ndeakin/images/t/canal.jpg"
+                   dc:title="Canal"
+                   dc:date="2005-05-06T10:15:00+01.00">
+    <r:country resource="http://www.daml.org/2001/09/countries/iso#NL"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.xulplanet.com/ndeakin/images/t/obelisk.jpg"
+                   dc:title="Obelisk">
+    <r:country resource="http://www.daml.org/2001/09/countries/iso#IT"/>
+  </rdf:Description>
+
+  <nso:Country about="http://www.daml.org/2001/09/countries/iso#IT"
+               dc:title="Italy"/>
+
+  <nso:Country about="http://www.daml.org/2001/09/countries/iso#NL"
+               dc:title="Netherlands"/>
+</rdf:RDF>

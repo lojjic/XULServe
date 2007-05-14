@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?> 
+
+<window xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" width="500" height="500">
+
+<label value=""/>
+
+<hbox datasources="template-guide-photos5.rdf"
+      ref="http://www.xulplanet.com/rdf/myphotos">
+  <template container="?first" member="?photo">
+    <rule>
+      <image uri="?photo" src="?photo"/>
+    </rule>
+  </template>
+</hbox>
+
+</window>

@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:rel="http://www.xulplanet.com/rdf/">
+
+  <rdf:Seq rdf:about="http://www.xulplanet.com/rdf/A">
+    <rdf:li rdf:resource="http://www.xulplanet.com/rdf/E"/>
+    <rdf:li rdf:resource="http://www.xulplanet.com/rdf/F"/>
+  </rdf:Seq>
+
+  <rdf:Description rdf:about="http://www.xulplanet.com/rdf/A">
+    <rel:relatedItem rdf:resource="http://www.xulplanet.com/rdf/B"/>
+    <rel:relatedItem rdf:resource="http://www.xulplanet.com/rdf/C"/>
+    <rel:relatedItem rdf:resource="http://www.xulplanet.com/rdf/D"/>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://www.xulplanet.com/rdf/C">
+    <rel:relatedItem rdf:resource="http://www.xulplanet.com/rdf/D"/>
+  </rdf:Description>
+
+</rdf:RDF>

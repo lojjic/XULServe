@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  xmlns:dc="http://purl.org/dc/elements/1.1/">
+
+  <rdf:Seq rdf:about="http://www.xulplanet.com/rdf/myphotos">
+    <rdf:li rdf:resource="http://www.xulplanet.com/ndeakin/images/t/palace.jpg"/>
+    <rdf:li rdf:resource="http://www.xulplanet.com/ndeakin/images/t/canal.jpg"/>
+    <rdf:li rdf:resource="http://www.xulplanet.com/ndeakin/images/t/obelisk.jpg"/>
+  </rdf:Seq>
+
+  <rdf:Description rdf:about="http://www.xulplanet.com/ndeakin/images/t/palace.jpg"
+                   dc:title="Palace from Above"
+                   dc:description="View from the top of the tower looking east of the Doges Palace"/>
+  <rdf:Description rdf:about="http://www.xulplanet.com/ndeakin/images/t/canal.jpg"
+                   dc:title="Canal"/>
+  <rdf:Description rdf:about="http://www.xulplanet.com/ndeakin/images/t/obelisk.jpg"
+                   dc:title="Obelisk"/>
+
+</rdf:RDF>

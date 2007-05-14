@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?> 
+
+<window xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+<script>
+function applyFilter(country)
+{
+  var rule = document.getElementById("filterRule");
+  if (country){
+    rule.setAttributeNS("http://www.xulplanet.com/rdf/", "country", country);
+  }
+  else {
+    rule.removeAttributeNS("http://www.xulplanet.com/rdf/", "country");
+  }
+
+  document.getElementById("photosList").builder.rebuild();
+}
+</script>
+
+<hbox align="center">
+  <label value="Country:"/>
+  <menulist datasources="template-guide-photos4.rdf"
+            ref="http://www.daml.org/2001/09/countries/country-ont#Country"
+            oncommand="applyFilter(event.target.value);">
+    <menupopup>
+       <menuitem label="All"/>
+    </menupopup>
+    <template>
+      <rule>
+        <conditions>
+          <content uri="?start"/>
+          <triple subject="?country"
+                  predicate="http://www.w3.org/1999/02/22-rdf-syntax-ns#type"
+                  object="?start"/>
+          <triple subject="?country"
+                  predicate="http://purl.org/dc/elements/1.1/title"
+                  object="?countrytitle"/>
+        </conditions>
+        <action>
+          <menupopup>
+            <menuitem uri="?country" label="?countrytitle" value="?country"/>
+          </menupopup>
+        </action>
+      </rule>
+    </template>
+  </menulist>
+</hbox>
+
+<hbox id="photosList" datasources="template-guide-photos4.rdf"
+      ref="http://www.xulplanet.com/rdf/myphotos"
+      xmlns:r="http://www.xulplanet.com/rdf/">
+  <template>
+    <rule id="filterRule">
+      <vbox class="box-padded" uri="rdf:*">
+        <image src="rdf:*"/>
+        <label value="rdf:http://purl.org/dc/elements/1.1/title"/>
+      </vbox>
+    </rule>
+  </template>
+</hbox>
+
+</window>

@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?> 
+
+<window xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+<tree id="photosList" flex="1" datasources="template-guide-photos5.rdf"
+      ref="http://www.xulplanet.com/rdf/myphotos" flags="dont-build-content">
+  <treecols>
+    <treecol id="name" label="Name" flex="1"/>
+    <treecol id="date" label="Date" flex="1"/>
+  </treecols>
+  <template>
+    <treechildren>
+      <treeitem uri="rdf:*">
+        <treerow>
+          <treecell label="rdf:http://purl.org/dc/elements/1.1/title"/>
+          <treecell label="rdf:http://purl.org/dc/elements/1.1/date"/>
+        </treerow>
+      </treeitem>
+    </treechildren>
+  </template>
+</tree>
+
+</window>

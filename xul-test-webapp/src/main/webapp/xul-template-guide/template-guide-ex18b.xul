@@ -1,0 +1,77 @@
+<?xml version="1.0"?>
+
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?> 
+
+<window orient="horizontal" align="start"
+        xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+<script>
+function applyFilter(country)
+{
+  var cond = document.getElementById("cond");
+  var triple = document.getElementById("filterTriple");
+  if (country) {
+    if (!triple) {
+      triple = document.createElement("triple");
+      triple.id = "filterTriple";
+      triple.setAttribute("subject", "?photo");
+      triple.setAttribute("predicate", "http://www.xulplanet.com/rdf/country");
+    }
+    triple.setAttribute("object", country);
+    cond.appendChild(triple);
+  }
+  else if (triple) {
+    cond.removeChild(triple);
+  }
+
+  document.getElementById("photosList").builder.rebuild();
+}
+</script>
+
+<groupbox align="start">
+  <caption label="Country:"/>
+  <radiogroup datasources="template-guide-photos4.rdf"
+              ref="http://www.daml.org/2001/09/countries/country-ont#Country"
+              onselect="applyFilter(event.target.value);">
+    <radio label="All" selected="true"/>
+    <template>
+      <rule>
+        <conditions>
+          <content uri="?start"/>
+          <triple subject="?country"
+                  predicate="http://www.w3.org/1999/02/22-rdf-syntax-ns#type"
+                  object="?start"/>
+          <triple subject="?country"
+                  predicate="http://purl.org/dc/elements/1.1/title"
+                  object="?countrytitle"/>
+        </conditions>
+        <action>
+          <radio uri="?country" label="?countrytitle" value="?country"/>
+        </action>
+      </rule>
+    </template>
+  </radiogroup>
+</groupbox>
+
+<hbox id="photosList" datasources="template-guide-photos4.rdf"
+      ref="http://www.xulplanet.com/rdf/myphotos">
+  <template>
+    <rule>
+      <conditions id="cond">
+        <content uri="?start"/>
+        <member container="?start" child="?photo"/>
+        <triple subject="?photo"
+                predicate="http://purl.org/dc/elements/1.1/title"
+                object="?title"/>
+      </conditions>
+      <action>
+        <vbox class="box-padded" uri="?photo">
+          <image src="?photo"/>
+          <label value="?title"/>
+        </vbox>
+      </action>
+    </rule>
+  </template>
+</hbox>
+
+</window>

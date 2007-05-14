@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?> 
+
+<window xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+<tree id="photosList" flex="1" datasources="template-guide-photos5.rdf"
+      ref="http://www.xulplanet.com/rdf/myphotos" flags="dont-build-content">
+  <treecols>
+    <treecol label="Title" sort="?title" sortActive="true" sortDirection="ascending" flex="1"/>
+    <treecol label="Date" sort="?date" flex="1"/>
+  </treecols>
+  <template>
+    <rule>
+      <conditions>
+        <content uri="?start"/>
+        <member container="?start" child="?photo"/>
+        <triple subject="?photo"
+                predicate="http://purl.org/dc/elements/1.1/title"
+                object="?title"/>
+      </conditions>
+      <bindings>
+        <binding subject="?photo"
+                 predicate="http://purl.org/dc/elements/1.1/date"
+                 object="?date"/>
+      </bindings>
+      <action>
+        <treechildren>
+          <treeitem uri="?photo">
+            <treerow>
+              <treecell label="?title"/>
+              <treecell label="?date"/>
+            </treerow>
+          </treeitem>
+        </treechildren>
+      </action>
+    </rule>
+  </template>
+</tree>
+
+</window>

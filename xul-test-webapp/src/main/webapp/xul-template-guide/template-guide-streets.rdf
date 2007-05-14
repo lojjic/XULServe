@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:dc="http://purl.org/dc/elements/1.1/"
+         xmlns:r="http://www.xulplanet.com/rdf/"
+         xmlns:nso="http://www.daml.org/2001/09/countries/country-ont#">
+
+  <rdf:Bag rdf:about="http://www.xulplanet.com/rdf/myneighbourhood">
+    <rdf:li>
+      <rdf:Seq rdf:about="http://www.xulplanet.com/rdf/marion"
+               dc:title="Marion Street">
+        <rdf:li rdf:resource="http://www.xulplanet.com/rdf/marion/16"/>
+        <rdf:li rdf:resource="http://www.xulplanet.com/rdf/marion/18"/>
+      </rdf:Seq>
+    </rdf:li>
+
+    <rdf:li>
+      <rdf:Seq rdf:about="http://www.xulplanet.com/rdf/garden"
+               dc:title="Garden Avenue">
+        <rdf:li rdf:resource="http://www.xulplanet.com/rdf/garden/25"/>
+        <rdf:li rdf:resource="http://www.xulplanet.com/rdf/garden/37"/>
+      </rdf:Seq>
+    </rdf:li>
+  </rdf:Bag>
+
+  <r:House rdf:about="http://www.xulplanet.com/rdf/marion/16"
+           r:floors="2"
+           r:address="16"/>
+
+  <r:House rdf:about="http://www.xulplanet.com/rdf/marion/18"
+           r:floors="2"
+           r:address="18"/>
+
+  <r:House rdf:about="http://www.xulplanet.com/rdf/garden/25"
+           r:floors="1"
+           r:address="25"/>
+
+  <r:House rdf:about="http://www.xulplanet.com/rdf/garden/37"
+           r:floors="4"
+           r:address="37"/>
+</rdf:RDF>

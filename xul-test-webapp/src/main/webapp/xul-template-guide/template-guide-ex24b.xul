@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?> 
+
+<window xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+<vbox id="photosList" align="start" datasources="template-guide-photos5.rdf"
+      ref="http://www.xulplanet.com/rdf/myphotos">
+  <template>
+    <rule>
+      <conditions>
+        <content uri="?start"/>
+        <member container="?start" child="?photo"/>
+        <triple subject="?photo"
+                predicate="http://purl.org/dc/elements/1.1/title"
+                object="?phototitle"/>
+      </conditions>
+      <action>
+        <vbox uri="?photo" class="box-padded">
+          <label value="?phototitle"/>
+          <image src="?photo"/>
+        </vbox>
+      </action>
+    </rule>
+    <rule>
+      <conditions>
+        <content uri="?start"/>
+        <member container="?start" child="?photo"/>
+        <triple subject="?photo"
+                predicate="http://purl.org/dc/elements/1.1/title"
+                object="?title"/>
+        <triple subject="?photo"
+                predicate="http://purl.org/dc/elements/1.1/description"
+                object="?description"/>
+        <triple subject="?photo"
+                predicate="http://purl.org/dc/elements/1.1/date"
+                object="?date"/>
+      </conditions>
+      <action>
+        <hbox uri="?photo" class="box-padded">
+          <vbox>
+            <label value="?title"/>
+            <image src="?photo"/>
+          </vbox>
+          <groupbox>
+            <caption label="Image Details"/>
+            <label value="?description"/>
+            <label value="Date: ?date"/>
+          </groupbox>
+        </hbox>
+      </action>
+    </rule>
+  </template>
+</vbox>
+
+</window>

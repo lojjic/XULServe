@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?> 
+
+<window onload="init();"
+        xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+<script>
+function init()
+{
+  var someListener = {
+    item: null,
+    willRebuild : function(builder) {
+      this.item = builder.getResourceAtIndex(builder.root.currentIndex);
+    },
+    didRebuild : function(builder) {
+      if (this.item) {
+        var idx = builder.getIndexOfResource(this.item)
+       if (idx != -1) builder.root.view.selection.select(idx);
+      }
+    }
+  };
+
+  var tree = document.getElementById("photosList1");
+  tree.builder.addListener(someListener);
+}
+
+function rebuild()
+{
+  document.getElementById("photosList1").builder.rebuild();
+  document.getElementById("photosList2").builder.rebuild();
+}
+
+</script>
+
+<button label="Rebuild" oncommand="rebuild();"/>
+
+<tree id="photosList1" flex="1" datasources="template-guide-photos5.rdf"
+      ref="http://www.xulplanet.com/rdf/myphotos" flags="dont-build-content">
+  <treecols>
+    <treecol id="name" label="Name" flex="1"/>
+    <treecol id="date" label="Date" flex="1"/>
+  </treecols>
+  <template>
+    <treechildren>
+      <treeitem uri="rdf:*">
+        <treerow>
+          <treecell label="rdf:http://purl.org/dc/elements/1.1/title"/>
+          <treecell label="rdf:http://purl.org/dc/elements/1.1/date"/>
+        </treerow>
+      </treeitem>
+    </treechildren>
+  </template>
+</tree>
+
+<tree id="photosList2" flex="1" datasources="template-guide-photos5.rdf"
+      ref="http://www.xulplanet.com/rdf/myphotos" flags="dont-build-content">
+  <treecols>
+    <treecol id="name" label="Name" flex="1"/>
+    <treecol id="date" label="Date" flex="1"/>
+  </treecols>
+  <template>
+    <treechildren>
+      <treeitem uri="rdf:*">
+        <treerow>
+          <treecell label="rdf:http://purl.org/dc/elements/1.1/title"/>
+          <treecell label="rdf:http://purl.org/dc/elements/1.1/date"/>
+        </treerow>
+      </treeitem>
+    </treechildren>
+  </template>
+</tree>
+
+</window>

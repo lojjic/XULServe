@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?> 
+<?xml-stylesheet href="template-guide-ex31.css" type="text/css"?> 
+
+<window xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+<tree id="photosList" flex="1" datasources="template-guide-photos5.rdf"
+      ref="http://www.xulplanet.com/rdf/myphotos" flags="dont-build-content">
+  <treecols>
+    <treecol id="photo" label="Photo" flex="1"/>
+  </treecols>
+  <template>
+    <rule>
+      <conditions>
+        <content uri="?start"/>
+        <member container="?start" child="?photo"/>
+        <triple subject="?photo"
+                predicate="http://www.xulplanet.com/rdf/country"
+                object="?country"/>
+        <triple subject="?country"
+                predicate="http://purl.org/dc/elements/1.1/title"
+                object="?countrytitle"/>
+      </conditions>
+      <action>
+        <treechildren>
+          <treeitem uri="?photo">
+            <treerow properties="?countrytitle">
+              <treecell src="?photo" label="Cat"/>
+            </treerow>
+          </treeitem>
+        </treechildren>
+      </action>
+    </rule>
+  </template>
+</tree>
+
+</window>

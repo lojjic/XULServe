@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?> 
+
+<window xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+<script>
+function applyFilter(country)
+{
+  var cond = document.getElementById("cond");
+  var triple = document.getElementById("filterTriple");
+  if (country) {
+    if (!triple) {
+      triple = document.createElement("triple");
+      triple.id = "filterTriple";
+      triple.setAttribute("subject", "?photo");
+      triple.setAttribute("predicate", "http://www.daml.org/2001/09/countries/iso-3166-ont#Country");
+    }
+    triple.setAttribute("object", country);
+    cond.appendChild(triple);
+  }
+  else if (triple) {
+    cond.removeChild(triple);
+  }
+
+  document.getElementById("photosList").builder.rebuild();
+}
+</script>
+
+<hbox align="center">
+  <label value="Country:"/>
+  <menulist oncommand="applyFilter(event.target.value);">
+    <menupopup>
+      <menuitem label="All"/>
+      <menuitem value="http://www.daml.org/2001/09/countries/iso#IT" label="Italy"/>
+      <menuitem value="http://www.daml.org/2001/09/countries/iso#NL" label="Netherlands"/>
+    </menupopup>
+  </menulist>
+</hbox>
+
+<hbox id="photosList" datasources="template-guide-photos3.rdf"
+      ref="http://www.xulplanet.com/rdf/myphotos">
+  <template>
+    <rule>
+      <conditions id="cond">
+        <content uri="?start"/>
+        <member container="?start" child="?photo"/>
+        <triple subject="?photo"
+                predicate="http://purl.org/dc/elements/1.1/title"
+                object="?title"/>
+      </conditions>
+      <action>
+        <vbox class="box-padded" uri="?photo">
+          <image src="?photo"/>
+          <label value="?title"/>
+        </vbox>
+      </action>
+    </rule>
+  </template>
+</hbox>
+
+</window>

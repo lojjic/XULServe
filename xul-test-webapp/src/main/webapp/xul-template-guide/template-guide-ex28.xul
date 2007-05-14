@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?> 
+
+<window align="start" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+<vbox datasources="template-guide-streets.rdf"
+            ref="http://www.xulplanet.com/rdf/myneighbourhood">
+  <template>
+    <rule parent="vbox">
+      <groupbox uri="rdf:*">
+        <caption label="rdf:http://purl.org/dc/elements/1.1/title"/>
+      </groupbox>
+    </rule>
+    <rule>
+      <label uri="rdf:*" value="rdf:http://www.xulplanet.com/rdf/address"/>
+    </rule>
+  </template>
+</vbox>
+
+</window>

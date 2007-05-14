@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?> 
+
+<window xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+<vbox datasources="template-guide-ex1.rdf"
+      ref="http://www.xulplanet.com/rdf/A">
+  <template>
+    <rule>
+      <conditions>
+        <content uri="?start"/>
+        <triple subject="?start"
+                predicate="http://www.xulplanet.com/rdf/relatedItem"
+                object="?relateditem"/>
+      </conditions>
+      <action>
+        <button uri="?relateditem" label="?relateditem"/>
+      </action>
+    </rule>
+  </template>
+</vbox>
+
+</window>
