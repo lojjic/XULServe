@@ -59,9 +59,9 @@ public class Template {
 		}
 	}
 
-	public DocumentFragment generateContent(RDFDataSource dataSource, RDFResource start) {
+	public DocumentFragment generateContent(RDFDataSource dataSource, RDFResource start, Element containerElement) {
 		for(Rule rule : rules) {
-			DocumentFragment result = rule.applyRule(dataSource, start);
+			DocumentFragment result = rule.applyRule(dataSource, start, containerElement);
 			if(result != null) {
 				return result;
 			}

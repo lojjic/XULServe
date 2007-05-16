@@ -21,6 +21,7 @@ public class Rule {
 	private Element element;
 	private List<Condition> conditions;
 	private Action action;
+	private String parentTagName;
 
 	/**
 	 * Constructor
@@ -54,7 +55,10 @@ public class Rule {
 		NamedNodeMap attrs = ruleElement.getAttributes();
 		for(int i = 0; i < attrs.getLength(); i++) {
 			Attr attr = (Attr)attrs.item(i);
-			if("iscontainer".equals(attr.getLocalName())) {
+			if("parent".equals(attr.getLocalName())) {
+				parentTagName = attr.getNodeValue();
+			}
+			else if("iscontainer".equals(attr.getLocalName())) {
 				conditions.add(new IsContainerCondition(rdfService, startVarName, Boolean.valueOf(attr.getNodeValue())));
 			}
 			else if("isempty".equals(attr.getLocalName())) {
@@ -78,6 +82,13 @@ public class Rule {
 							throw new RuntimeException("Missing 'uri' attribute on <content/> condition.");
 						}
 						conditions.add(new ContentCondition(rdfService, uri));
+
+						// Parent tag condition:
+						String tag = ((Element)node).getAttribute("tag");
+						if(tag != null) {
+							parentTagName = tag;
+						}
+
 						continue;
 					}
 
@@ -118,11 +129,19 @@ public class Rule {
 		}
 	}
 
-	public DocumentFragment applyRule(RDFDataSource dataSource, RDFResource start) {
+	public DocumentFragment applyRule(RDFDataSource dataSource, RDFResource start, Element containerElement) {
+		// Check parent tag if condition specified:
+		if(parentTagName != null && !parentTagName.equals(containerElement.getNodeName())) {
+			return null;
+		}
+
+		// Check conditions:
 		List<Map<String, RDFNode>> varsList = new ArrayList<Map<String, RDFNode>>();
 		for(Condition condition : conditions) {
 			condition.applyToVariablesList(dataSource, varsList, start);
 		}
+
+		// Generate result:
 		return action.generateResult(varsList);
 	}
 
