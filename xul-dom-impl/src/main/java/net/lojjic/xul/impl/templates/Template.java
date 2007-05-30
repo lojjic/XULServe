@@ -45,7 +45,7 @@ public class Template {
 
 		// If no <rule/>s are present, treat the <template/> as the rule (shorthand form):
 		if(ruleElements.size() == 0) {
-			rules.add(new Rule(rdfService, this, this.element));
+			rules.add(Rule.createRule(rdfService, this, this.element));
 			return;
 		}
 
@@ -55,7 +55,7 @@ public class Template {
 
 		// Compile all rules:
 		for(Element ruleElement : ruleElements) {
-			rules.add(new Rule(rdfService, this, ruleElement));
+			rules.add(Rule.createRule(rdfService, this, ruleElement));
 		}
 	}
 
