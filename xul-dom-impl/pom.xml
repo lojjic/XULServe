@@ -22,7 +22,7 @@
 		</dependency>
 		<dependency>
 			<groupId>net.lojjic.xul</groupId>
-			<artifactId>xul-rdf-impl</artifactId>
+			<artifactId>xul-template-impl</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>

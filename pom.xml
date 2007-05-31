@@ -40,13 +40,15 @@
 		<module>xbl-javascript</module>
 		<module>xul-rdf-api</module>
 		<module>xul-rdf-impl</module>
+		<module>xul-template-api</module>
+		<module>xul-template-impl</module>
 		<module>xul-dom-api</module>
 		<module>xul-dom-impl</module>
 		<module>xul-dom-javascript</module>
 		<module>xul-display</module>
 		<module>xul-cocoon-block</module>
 		<module>xul-test-webapp</module>
-	</modules>
+  </modules>
 
 	<build>
 		<plugins>

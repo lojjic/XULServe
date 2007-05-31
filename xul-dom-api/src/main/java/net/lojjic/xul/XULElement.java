@@ -6,6 +6,7 @@ import org.w3c.dom.css.CSSStyleDeclaration;
 import org.w3c.dom.events.EventTarget;
 import net.lojjic.xul.rdf.RDFCompositeDataSource;
 import net.lojjic.xul.rdf.RDFResource;
+import net.lojjic.xul.templates.XULTemplateBuilder;
 
 public interface XULElement extends Element, EventTarget {
 	

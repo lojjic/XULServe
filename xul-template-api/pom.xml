@@ -2,10 +2,10 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.lojjic.xul</groupId>
-	<artifactId>xul-dom-api</artifactId>
+	<artifactId>xul-template-api</artifactId>
 	<packaging>jar</packaging>
-	<name>XUL DOM Interfaces</name>
-	<description>Interfaces for the XUL DOM</description>
+	<name>XUL Template API Interfaces</name>
+	<description>Interfaces for the XUL Template API</description>
 	<version>1.0-SNAPSHOT</version>
 
 	<parent>
@@ -17,7 +17,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>net.lojjic.xul</groupId>
-			<artifactId>xul-template-api</artifactId>
+			<artifactId>xul-rdf-api</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 	</dependencies>
