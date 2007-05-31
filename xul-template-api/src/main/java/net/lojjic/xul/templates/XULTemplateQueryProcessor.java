@@ -13,8 +13,8 @@ import java.util.Iterator;
  * A template query is the contents inside a &lt;query> element within the
  * template. The actual syntax is opaque to the template builder and defined
  * by a query processor. The query is expected to consist of either text or
- * DOM nodes that, when executed by a call to the generateResults method, will
- * allow the generation of a list of results.
+ * DOM nodes that, when executed by a call to the <code>generateResults</code>
+ * method, will allow the generation of a list of results.
  * <p/>
  * The template builder will supply two variables, the reference variable and
  * the member variable to further indicate what part of the datasource is to
@@ -51,20 +51,23 @@ import java.util.Iterator;
  * The variable ?start would be the reference variable, while the variable ?id
  * would be the member variable, since it is the unique value that identifies
  * a result. Each result will have the four variables referred to defined for
- * it and the values may be retrieved using the result's getBindingFor and
- * getBindingObjectFor methods.
+ * it and the values may be retrieved using the result's
+ * {@link XULTemplateResult#getBindingFor(String)} and
+ * {@link XULTemplateResult#getBindingObjectFor(String)} methods.
  * <p/>
- * The template builder must call initializeForBuilding before the other
- * methods, except for translateRef. The builder will then call compileQuery
- * for each query in the template to compile the queries. When results need
- * to be generated, the builder will call generateResults. The
- * initializeForBuilding, compileQuery and addBinding methods may not be
- * called after generateResults has been called until the builder indicates
- * that the generated output is being removed by calling the done method.
+ * The template builder must call <code>initializeForBuilding</code> before the
+ * other methods, except for <code>translateRef</code>. The builder will then call
+ * <code>compileQuery</code> for each query in the template to compile the queries.
+ * When results need to be generated, the builder will call <code>generateResults</code>.
+ * The <code>initializeForBuilding</code>, <code>compileQuery</code> and
+ * <code>addBinding</code> methods may not be called after <code>generateResults</code>
+ * has been called until the builder indicates that the generated output is being removed by
+ * calling the <code>done</code> method.
  * <p/>
  * Currently, the datasource supplied to the methods will always be an
- * nsIRDFDataSource or a DOM node, and will always be the same one in between
- * calls to initializeForBuilding and done.
+ * {@link net.lojjic.xul.rdf.RDFDataSource} or a DOM node, and will always
+ * be the same one in between calls to <code>initializeForBuilding</code> and
+ * <code>done</code>.
  */
 public interface XULTemplateQueryProcessor {
 
@@ -95,13 +98,14 @@ public interface XULTemplateQueryProcessor {
 
 	/**
 	 * Compile a query from a node. The result of this function will later be
-	 * passed to generateResults for result generation. If null is returned,
-	 * the query will be ignored.
+	 * passed to <code>generateResults</code> for result generation. If
+	 * null is returned, the query will be ignored.
 	 * <p/>
 	 * The template builder will call this method once for each query within
-	 * the template, before any results can be generated using generateResults,
-	 * but after initializeForBuilding has been called. This method should not
-	 * be called again for the same query unless the template is rebuilt.
+	 * the template, before any results can be generated using
+	 * <code>generateResults</code>, but after <code>initializeForBuilding</code>
+	 * has been called. This method should not be called again for the same query
+	 * unless the template is rebuilt.
 	 * <p/>
 	 * The reference variable may be used by the query processor as a
 	 * placeholder for the reference point, or starting point in the query.
@@ -112,7 +116,7 @@ public interface XULTemplateQueryProcessor {
 	 * indicate what variable is expected to contain the results.
 	 *
 	 * @param aBuilder        the template builder
-	 * @param aQuery          <query> node to compile
+	 * @param aQuery          &lt;query> node to compile
 	 * @param aRefVariable    the reference variable
 	 * @param aMemberVariable the member variable
 	 * @returns a compiled query object
@@ -124,16 +128,16 @@ public interface XULTemplateQueryProcessor {
 
 	/**
 	 * Generate the results of a query and return them in an enumerator. The
-	 * enumerator must contain nsIXULTemplateResult objects. If there are no
+	 * enumerator must contain {@link XULTemplateResult} objects. If there are no
 	 * results, an empty enumerator must be returned.
 	 * <p/>
 	 * The datasource will be the same as the one passed to the earlier
 	 * initializeForBuilding method. The context reference (aRef) is a reference
 	 * point used when calculating results.
 	 * <p/>
-	 * The value of aQuery must be the result of a previous call to compileQuery
-	 * from this query processor. This method may be called multiple times,
-	 * typically with different values for aRef.
+	 * The value of aQuery must be the result of a previous call to
+	 * <code>compileQuery</code> from this query processor. This method
+	 * may be called multiple times, typically with different values for aRef.
 	 *
 	 * @param aDatasource datasource for the data
 	 * @param aRef        context reference value used as a starting point
@@ -152,10 +156,11 @@ public interface XULTemplateQueryProcessor {
 	 * within the query. These bindings are always optional, in that they will
 	 * never affect the results generated.
 	 * <p/>
-	 * This function will never be called after generateResults. Any bindings
+	 * This function will never be called after
+	 * <code>generateResults</code>. Any bindings
 	 * that were added should be applied to each result when the result's
-	 * ruleMatched method is called, since the bindings are different for each
-	 * rule.
+	 * {@link XULTemplateResult#ruleMatched(Object, org.w3c.dom.Node)} method is
+	 * called, since the bindings are different for each rule.
 	 * <p/>
 	 * The reference aRef may be used to determine the reference when
 	 * calculating the value for the binding, for example when a value should
@@ -163,7 +168,7 @@ public interface XULTemplateQueryProcessor {
 	 * <p/>
 	 * The syntax of the expression aExpr is defined by the query processor. If
 	 * the syntax is invalid, the binding should be ignored. Only fatal errors
-	 * should be thrown, or NS_ERROR_UNEXPECTED if generateResults has already
+	 * should be thrown, or IllegalStateException if generateResults has already
 	 * been called.
 	 * <p/>
 	 * As an example, if the reference aRef is the variable '?count' which
@@ -187,10 +192,10 @@ public interface XULTemplateQueryProcessor {
 	 * of content. For recursive generation, the result from the parent
 	 * generation phase will be used directly as the reference so a translation
 	 * is not needed. This allows all levels to be generated using objects that
-	 * all implement the nsIXULTemplateResult interface.
+	 * all implement the {@link XULTemplateResult} interface.
 	 * <p/>
-	 * This method may be called before initializeForBuilding, so the
-	 * implementation may use the supplied datasource if it is needed to
+	 * This method may be called before <code>initializeForBuilding</code>,
+	 * so the implementation may use the supplied datasource if it is needed to
 	 * translate the reference.
 	 *
 	 * @param aDatasource datasource for the data

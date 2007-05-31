@@ -7,13 +7,13 @@ import org.w3c.dom.Node;
  * A single result generated from a template query. Each result is identified
  * by an id, which must be unique within the set of results produced from a
  * query. The result may optionally be identified by an RDF resource.
- *
+ * <p/>
  * Generally, the result and its id will be able to uniquely identify a node
  * in the source data, such as an RDF or XML node. In other contexts, such as
  * a database query, a result would represent a particular record.
- *
+ * <p/>
  * A result is expected to only be created by a query processor.
- *
+ * <p/>
  * Each result also contains a set of variable bindings. The value for a
  * particular variable may be retrieved using the getBindingFor and
  * getBindingObjectFor methods.
@@ -70,20 +70,18 @@ public interface XULTemplateResult {
 	 * name, thus aVar should be ?name and not simply name.
 	 *
 	 * @param aVar the variable to look up
-	 *
 	 * @return the value for the variable or a null string if it has no value
 	 */
 	String getBindingFor(String aVar);
 
 	/**
 	 * Get an object value for a variable such as ?name for this result.
-	 *
+	 * <p/>
 	 * This method may return null for a variable, even if getBindingFor returns
 	 * a non-null value for the same variable. This method is provided as a
 	 * convenience when sorting results.
 	 *
 	 * @param aVar the variable to look up
-	 *
 	 * @return the value for the variable or null if it has no value
 	 */
 	Object getBindingObjectFor(String aVar);
@@ -96,7 +94,7 @@ public interface XULTemplateResult {
 	 * that created this result. The &lt;rule> element must always be a child of
 	 * the &lt;query> element that was used to compile the query.
 	 *
-	 * @param aQuery the query that matched
+	 * @param aQuery    the query that matched
 	 * @param aRuleNode the rule node that matched
 	 */
 	void ruleMatched(Object aQuery, Node aRuleNode);

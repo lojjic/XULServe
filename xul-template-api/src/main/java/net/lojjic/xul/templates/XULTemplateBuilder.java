@@ -15,13 +15,11 @@ import org.w3c.dom.Node;
  * template might generate a list of all child nodes. For the next iteration,
  * those children would be used to generate output for their child nodes and
  * so forth.</p>
- *
  * <p>A template builder is attached to a single DOM node; this node is called
  * the root node and is expected to contain a XUL template element as a direct
  * child. Different template builders may be specialized in the manner in
  * which they generate and display the resulting content from the template.</p>
- *
- * <p>The structure of a template is as follows:
+ * <p>The structure of a template is as follows:</p>
  * <pre><code>
  * &lt;rootnode datasources="" ref="">
  *   &lt;template>
@@ -37,41 +35,34 @@ import org.w3c.dom.Node;
  *   &lt;/template>
  * &lt;/rootnode>
  * </code></pre>
- *
  * <p>The datasources attribute on the root node is used to identify the source
  * of data to be used. The ref attribute is used to specify the reference
  * point for the query. Currently, the datasource will either be an
  * nsIRDFDataSource or a DOM node. In the future, other datasource types may
  * be used.</p>
- *
  * <p>The &lt;queryset> element contains a single query and one or more &lt;rule>
  * elements. There may be more than one &lt;queryset> if multiple queries are
  * desired, and this element is optional if only one query is needed -- in
  * that case the &lt;query> and &lt;rule>s are allowed to be children of the
  * &lt;template> node</p>
- *
  * <p>The contents of the query are processed by a separate component called a
  * query processor. This query processor is expected to use this query to
  * generate results when asked by the template builder. The template builder
  * then generates output for each result based on the &lt;rule> elements.</p>
- *
  * <p>This allows the query processor to be specific to a particular kind of
  * input data or query syntax, while the template builder remains independent
  * of the kind of data being used. Due to this, the query processor will be
  * supplied with the datasource and query which the template builder handles
  * in an opaque way, while the query processor handles these more
  * specifically.</p>
- *
  * <p>Results implement the nsIXULTemplateResult interface and may be identified
  * by an id which must be unique within a given set of query results.</p>
- *
  * <p>Each query may be accompanied by one or more &lt;rule> elements. These rules
  * are evaluated by the template builder for each result produced by the
  * query. A rule consists of conditions that cause a rule to be either
  * accepted or rejected. The condition syntax allows for common conditional
  * handling; additional filtering may be applied by adding a custom filter
  * to a rule with the builder's addRuleFilter method.</p>
- *
  * <p>If a result passes a rule's conditions, this is considered a match, and the
  * content within the rule's &lt;action> body is inserted as a sibling of the
  * &lt;template>, assuming the template builder creates real DOM content. Only
@@ -79,26 +70,21 @@ import org.w3c.dom.Node;
  * within the action body is used to create the tree rows instead. A matching
  * result must have its ruleMatched method called. When a result no longer
  * matches, the result's hasBeenRemoved method must be called.</p>
- *
  * <p>Optionally, the rule may have a &lt;bindings> section which may be used to
  * define additional variables to be used within an action body. Each of these
  * declared bindings must be supplied to the query processor via its
  * addBinding method. The bindings are evaluated after a rule has matched.</p>
- *
  * <p>Templates may generate content recursively, using the previous iteration's
  * results as reference point to invoke the same queries. Since the reference
  * point is different, different output will typically be generated.</p>
- *
  * <p>The reference point nsIXULTemplateResult object for the first iteration is
  * determined by calling the query processor's translateRef method using the
  * value of the root node's ref attribute. This object may be retrieved later
  * via the builder's rootResult property.</p>
- *
  * <p>For convenience, each reference point as well as all results implement the
  * nsIXULTemplateResult interface, allowing the result objects from each
  * iteration to be used directly as the reference points for the next
  * iteration.</p>
- *
  * <p>When using multiple queries, each may generate results with the same id.
  * More than one of these results may match one of the rules in their
  * respective queries, however only the result for the earliest matching query
@@ -159,7 +145,7 @@ public interface XULTemplateBuilder {
 	 * Inform the template builder that a new result is available. The builder
 	 * will add this result to the set of results. The query node that the
 	 * new result applies to must be specified using the aQueryNode parameter.
-	 *
+	 * <p/>
 	 * The builder will apply the rules associated with the query to the new
 	 * result, unless a result with the same id from an earlier query
 	 * supersedes it, and the result's RuleMatched method will be called if it
@@ -190,7 +176,7 @@ public interface XULTemplateBuilder {
 	 * another. Both the old result (aOldResult) and the new result
 	 * (aNewResult) must have the same id. The query node that the new result
 	 * applies to must be specified using the aQueryNode parameter.
-	 *
+	 * <p/>
 	 * This method is expected to have the same effect as calling both
 	 * removeResult for the old result and addResult for the new result.
 	 *

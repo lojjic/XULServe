@@ -8,7 +8,7 @@ import org.w3c.dom.Node;
  * rules, beyond what the template syntax can do itself, thus allowing for
  * more complex result filtering. The rule filter is applied after the rule
  * syntax within the template.
- *
+ * <p/>
  * Only one filter may apply to each rule within the template and may be
  * assigned using the template builder's addRuleFilter method.
  */
@@ -20,9 +20,8 @@ public interface XULTemplateRuleFilter {
 	 * generated for them for the rule. Rejected results will not, but they
 	 * may still match another rule.
 	 *
-	 * @param aRef the result to examine
+	 * @param aRef  the result to examine
 	 * @param aRule the rule node
-	 *
 	 * @return true if the rule matches
 	 */
 	boolean match(XULTemplateResult aRef, Node aRule);
