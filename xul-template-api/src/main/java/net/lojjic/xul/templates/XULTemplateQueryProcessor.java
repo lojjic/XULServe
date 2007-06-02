@@ -77,15 +77,13 @@ public interface XULTemplateQueryProcessor {
 	 * called once before any of the other query processor methods except for
 	 * translateRef.
 	 *
-	 * @param aDatasource datasource for the data
-	 * @param aBuilder    the template builder
-	 * @param aRootNode   the root node the builder is attached to
+	 * @param datasource datasource for the data
+	 * @param builder    the template builder
+	 * @param rootNode   the root node the builder is attached to
 	 * @throws IllegalArgumentException if the datasource is not supported
 	 * @throws IllegalStateException    if generateResults has already been called.
 	 */
-	void initializeForBuilding(Object aDatasource,
-	                           XULTemplateBuilder aBuilder,
-	                           Node aRootNode)
+	void initializeForBuilding(Object datasource, XULTemplateBuilder builder, Node rootNode)
 			throws IllegalArgumentException, IllegalStateException;
 
 	/**
@@ -115,16 +113,13 @@ public interface XULTemplateQueryProcessor {
 	 * not present. A rule processor may use the member variable as a hint to
 	 * indicate what variable is expected to contain the results.
 	 *
-	 * @param aBuilder        the template builder
-	 * @param aQuery          &lt;query> node to compile
-	 * @param aRefVariable    the reference variable
-	 * @param aMemberVariable the member variable
+	 * @param builder        the template builder
+	 * @param query          &lt;query> node to compile
+	 * @param refVariable    the reference variable
+	 * @param memberVariable the member variable
 	 * @returns a compiled query object
 	 */
-	Object compileQuery(XULTemplateBuilder aBuilder,
-	                    Node aQuery,
-	                    String aRefVariable,
-	                    String aMemberVariable);
+	Object compileQuery(XULTemplateBuilder builder, Node query, String refVariable, String memberVariable);
 
 	/**
 	 * Generate the results of a query and return them in an enumerator. The
@@ -132,22 +127,20 @@ public interface XULTemplateQueryProcessor {
 	 * results, an empty enumerator must be returned.
 	 * <p/>
 	 * The datasource will be the same as the one passed to the earlier
-	 * initializeForBuilding method. The context reference (aRef) is a reference
-	 * point used when calculating results.
+	 * <code>initializeForBuilding</code> method. The context reference (<code>ref</code>)
+	 * is a reference point used when calculating results.
 	 * <p/>
-	 * The value of aQuery must be the result of a previous call to
+	 * The value of <code>query</code> must be the result of a previous call to
 	 * <code>compileQuery</code> from this query processor. This method
-	 * may be called multiple times, typically with different values for aRef.
+	 * may be called multiple times, typically with different values for <code>ref</code>.
 	 *
-	 * @param aDatasource datasource for the data
-	 * @param aRef        context reference value used as a starting point
-	 * @param aQuery      the compiled query returned from query compilation
-	 * @throws IllegalArgumentException if aQuery is invalid
-	 * @returns an enumerator of nsIXULTemplateResult objects as the results
+	 * @param datasource datasource for the data
+	 * @param ref        context reference value used as a starting point
+	 * @param query      the compiled query returned from query compilation
+	 * @throws IllegalArgumentException if query is invalid
+	 * @return an enumerator of {@link XULTemplateResult} objects as the results
 	 */
-	Iterator generateResults(Object aDatasource,
-	                         XULTemplateResult aRef,
-	                         Object aQuery)
+	Iterator generateResults(Object datasource, XULTemplateResult ref, Object query)
 			throws IllegalArgumentException;
 
 	/**
@@ -156,35 +149,31 @@ public interface XULTemplateQueryProcessor {
 	 * within the query. These bindings are always optional, in that they will
 	 * never affect the results generated.
 	 * <p/>
-	 * This function will never be called after
-	 * <code>generateResults</code>. Any bindings
-	 * that were added should be applied to each result when the result's
+	 * This function will never be called after <code>generateResults</code>. Any
+	 * bindings that were added should be applied to each result when the result's
 	 * {@link XULTemplateResult#ruleMatched(Object, org.w3c.dom.Node)} method is
 	 * called, since the bindings are different for each rule.
 	 * <p/>
-	 * The reference aRef may be used to determine the reference when
+	 * The reference <code>ref</code> may be used to determine the reference when
 	 * calculating the value for the binding, for example when a value should
 	 * depend on the value of another variable.
 	 * <p/>
-	 * The syntax of the expression aExpr is defined by the query processor. If
+	 * The syntax of the expression <code>expr</code> is defined by the query processor. If
 	 * the syntax is invalid, the binding should be ignored. Only fatal errors
 	 * should be thrown, or IllegalStateException if generateResults has already
 	 * been called.
 	 * <p/>
-	 * As an example, if the reference aRef is the variable '?count' which
-	 * holds the value 5, and the expression aExpr is the string '+2', the value
-	 * of the variable aVar would be 7, assuming the query processor considers
+	 * As an example, if the reference <code>ref</code> is the variable '?count' which
+	 * holds the value 5, and the expression <code>expr</code> is the string '+2', the value
+	 * of the variable <code>var</code> would be 7, assuming the query processor considers
 	 * the syntax '+2' to mean add two to the reference.
 	 *
-	 * @param aRuleNode rule to add the binding to
-	 * @param aVar      variable that will be bound
-	 * @param aRef      variable that holds reference value
-	 * @param aExpr     expression used to compute the value to assign
+	 * @param ruleNode rule to add the binding to
+	 * @param var      variable that will be bound
+	 * @param ref      variable that holds reference value
+	 * @param expr     expression used to compute the value to assign
 	 */
-	void addBinding(Node aRuleNode,
-	                String aVar,
-	                String aRef,
-	                String aExpr);
+	void addBinding(Node ruleNode, String var, String ref, String expr);
 
 	/**
 	 * Translate a ref attribute string into a result. This is used as the
@@ -198,12 +187,11 @@ public interface XULTemplateQueryProcessor {
 	 * so the implementation may use the supplied datasource if it is needed to
 	 * translate the reference.
 	 *
-	 * @param aDatasource datasource for the data
-	 * @param aRefString  the ref attribute string
+	 * @param datasource datasource for the data
+	 * @param refString  the ref attribute string
 	 * @return the translated ref
 	 */
-	XULTemplateResult translateRef(Object aDatasource,
-	                               String aRefString);
+	XULTemplateResult translateRef(Object datasource, String refString);
 
 	/**
 	 * Compare two results to determine their order, used when sorting results.
@@ -219,13 +207,11 @@ public interface XULTemplateQueryProcessor {
 	 * This method must only be called with results that were created by this
 	 * query processor.
 	 *
-	 * @param aLeft  the left result to compare
-	 * @param aRight the right result to compare
-	 * @param aVar   variable to compare
+	 * @param left  the left result to compare
+	 * @param right the right result to compare
+	 * @param var   variable to compare
 	 * @return -1 if less, 0 if equal, or 1 if greater
 	 */
-	int compareResults(XULTemplateResult aLeft,
-	                   XULTemplateResult aRight,
-	                   String aVar);
+	int compareResults(XULTemplateResult left, XULTemplateResult right, String var);
 
 }

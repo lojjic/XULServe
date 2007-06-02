@@ -20,10 +20,10 @@ public interface XULTemplateRuleFilter {
 	 * generated for them for the rule. Rejected results will not, but they
 	 * may still match another rule.
 	 *
-	 * @param aRef  the result to examine
-	 * @param aRule the rule node
+	 * @param ref  the result to examine
+	 * @param rule the rule node
 	 * @return true if the rule matches
 	 */
-	boolean match(XULTemplateResult aRef, Node aRule);
+	boolean match(XULTemplateResult ref, Node rule);
 
 }

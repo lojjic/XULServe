@@ -69,10 +69,10 @@ public interface XULTemplateResult {
 	 * of this method. The question mark is considered part of the variable
 	 * name, thus aVar should be ?name and not simply name.
 	 *
-	 * @param aVar the variable to look up
+	 * @param var the variable to look up
 	 * @return the value for the variable or a null string if it has no value
 	 */
-	String getBindingFor(String aVar);
+	String getBindingFor(String var);
 
 	/**
 	 * Get an object value for a variable such as ?name for this result.
@@ -81,10 +81,10 @@ public interface XULTemplateResult {
 	 * a non-null value for the same variable. This method is provided as a
 	 * convenience when sorting results.
 	 *
-	 * @param aVar the variable to look up
+	 * @param var the variable to look up
 	 * @return the value for the variable or null if it has no value
 	 */
-	Object getBindingObjectFor(String aVar);
+	Object getBindingObjectFor(String var);
 
 	/**
 	 * Indicate that a particular rule of a query has matched and that output
@@ -94,10 +94,10 @@ public interface XULTemplateResult {
 	 * that created this result. The &lt;rule> element must always be a child of
 	 * the &lt;query> element that was used to compile the query.
 	 *
-	 * @param aQuery    the query that matched
-	 * @param aRuleNode the rule node that matched
+	 * @param query    the query that matched
+	 * @param ruleNode the rule node that matched
 	 */
-	void ruleMatched(Object aQuery, Node aRuleNode);
+	void ruleMatched(Object query, Node ruleNode);
 
 	/**
 	 * Indicate that the output for a result has beeen removed and that the

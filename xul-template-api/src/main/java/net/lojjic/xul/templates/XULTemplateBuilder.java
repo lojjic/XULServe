@@ -38,8 +38,8 @@ import org.w3c.dom.Node;
  * <p>The datasources attribute on the root node is used to identify the source
  * of data to be used. The ref attribute is used to specify the reference
  * point for the query. Currently, the datasource will either be an
- * nsIRDFDataSource or a DOM node. In the future, other datasource types may
- * be used.</p>
+ * {@link net.lojjic.xul.rdf.RDFDataSource} or a DOM node. In the future, other
+ * datasource types may be used.</p>
  * <p>The &lt;queryset> element contains a single query and one or more &lt;rule>
  * elements. There may be more than one &lt;queryset> if multiple queries are
  * desired, and this element is optional if only one query is needed -- in
@@ -55,7 +55,7 @@ import org.w3c.dom.Node;
  * supplied with the datasource and query which the template builder handles
  * in an opaque way, while the query processor handles these more
  * specifically.</p>
- * <p>Results implement the nsIXULTemplateResult interface and may be identified
+ * <p>Results implement the {@link XULTemplateResult} interface and may be identified
  * by an id which must be unique within a given set of query results.</p>
  * <p>Each query may be accompanied by one or more &lt;rule> elements. These rules
  * are evaluated by the template builder for each result produced by the
@@ -77,12 +77,12 @@ import org.w3c.dom.Node;
  * <p>Templates may generate content recursively, using the previous iteration's
  * results as reference point to invoke the same queries. Since the reference
  * point is different, different output will typically be generated.</p>
- * <p>The reference point nsIXULTemplateResult object for the first iteration is
+ * <p>The reference point {@link XULTemplateResult} object for the first iteration is
  * determined by calling the query processor's translateRef method using the
  * value of the root node's ref attribute. This object may be retrieved later
  * via the builder's rootResult property.</p>
  * <p>For convenience, each reference point as well as all results implement the
- * nsIXULTemplateResult interface, allowing the result objects from each
+ * {@link XULTemplateResult} interface, allowing the result objects from each
  * iteration to be used directly as the reference points for the next
  * iteration.</p>
  * <p>When using multiple queries, each may generate results with the same id.
