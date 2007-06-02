@@ -13,7 +13,7 @@ public class WhereBefore extends Where {
 	 *
 	 * @param element - the &lt;where/> element from which this condition is being built
 	 */
-	protected WhereBefore(Element element) {
+	public WhereBefore(Element element) {
 		super(element);
 	}
 

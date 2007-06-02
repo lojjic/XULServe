@@ -13,7 +13,7 @@ public class WhereEquals extends Where {
 	 *
 	 * @param element - the &lt;where/> element from which this condition is being built
 	 */
-	protected WhereEquals(Element element) {
+	public WhereEquals(Element element) {
 		super(element);
 	}
 

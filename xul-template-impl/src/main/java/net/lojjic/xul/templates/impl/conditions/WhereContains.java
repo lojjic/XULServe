@@ -13,7 +13,7 @@ public class WhereContains extends Where {
 	 *
 	 * @param element - the &lt;where/> element from which this condition is being built
 	 */
-	protected WhereContains(Element element) {
+	public WhereContains(Element element) {
 		super(element);
 	}
 

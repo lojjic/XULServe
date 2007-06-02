@@ -13,7 +13,7 @@ public class WhereEndsWith extends Where {
 	 *
 	 * @param element - the &lt;where/> element from which this condition is being built
 	 */
-	protected WhereEndsWith(Element element) {
+	public WhereEndsWith(Element element) {
 		super(element);
 	}
 

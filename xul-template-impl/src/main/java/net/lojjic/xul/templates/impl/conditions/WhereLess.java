@@ -13,7 +13,7 @@ public class WhereLess extends Where {
 	 *
 	 * @param element - the &lt;where/> element from which this condition is being built
 	 */
-	protected WhereLess(Element element) {
+	public WhereLess(Element element) {
 		super(element);
 	}
 

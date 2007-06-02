@@ -40,7 +40,7 @@ public abstract class Where {
 	 * use the {@link #newInstance(org.w3c.dom.Element)} factory method.
 	 * @param element - the &lt;where/> element from which this condition is being built
 	 */
-	protected Where(Element element) {
+	public Where(Element element) {
 		this.subject = element.getAttribute(SUBJECT_ATTR);
 		this.value = element.getAttribute(VALUE_ATTR);
 		this.negate = Boolean.parseBoolean(element.getAttribute(NEGATE_ATTR));

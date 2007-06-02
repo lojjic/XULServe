@@ -13,7 +13,7 @@ public class WhereGreater extends Where {
 	 *
 	 * @param element - the &lt;where/> element from which this condition is being built
 	 */
-	protected WhereGreater(Element element) {
+	public WhereGreater(Element element) {
 		super(element);
 	}
 

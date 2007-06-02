@@ -13,7 +13,7 @@ public class WhereAfter extends Where {
 	 *
 	 * @param element - the &lt;where/> element from which this condition is being built
 	 */
-	protected WhereAfter(Element element) {
+	public WhereAfter(Element element) {
 		super(element);
 	}
 
