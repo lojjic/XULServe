@@ -1,7 +1,9 @@
 package net.lojjic.xul.templates.impl.conditions;
 
-import org.w3c.dom.Element;
 import net.lojjic.xul.templates.XULTemplateResult;
+import org.w3c.dom.Element;
+
+import java.util.HashMap;
 
 /**
  * Base class for &lt;where/> template rule conditions
@@ -15,6 +17,18 @@ public abstract class Where {
 	public static final String IGNORECASE_ATTR = "ignorecase";
 	public static final String MULTIPLE_ATTR = "multiple";
 
+	private static HashMap<String, Class<? extends Where>> relMapping = new HashMap<String, Class<? extends Where>>();
+	static {
+		relMapping.put("after", WhereAfter.class);
+		relMapping.put("before", WhereBefore.class);
+		relMapping.put("contains", WhereContains.class);
+		relMapping.put("endswith", WhereEndsWith.class);
+		relMapping.put("equals", WhereEquals.class);
+		relMapping.put("greater", WhereGreater.class);
+		relMapping.put("less", WhereLess.class);
+		relMapping.put("startswith", WhereStartsWith.class);
+	}
+
 	private String subject;
 	private String value;
 	private boolean negate;
@@ -22,7 +36,8 @@ public abstract class Where {
 	private boolean multiple;
 
 	/**
-	 * Constructor
+	 * Constructor - this should never be called directly by external classes; they should
+	 * use the {@link #newInstance(org.w3c.dom.Element)} factory method.
 	 * @param element - the &lt;where/> element from which this condition is being built
 	 */
 	protected Where(Element element) {
@@ -31,6 +46,24 @@ public abstract class Where {
 		this.negate = Boolean.parseBoolean(element.getAttribute(NEGATE_ATTR));
 		this.ignoreCase = Boolean.parseBoolean(element.getAttribute(IGNORECASE_ATTR));
 		this.multiple = Boolean.parseBoolean(element.getAttribute(MULTIPLE_ATTR));
+	}
+
+	/**
+	 * Factory method to build a Where instance of the appropriate type for the
+	 * given Element based on its rel attribute.
+	 */
+	public static Where newInstance(Element element) {
+		String rel = element.getAttribute(REL_ATTR);
+		Class<? extends Where> cls = relMapping.get(rel);
+		if(cls == null) {
+			throw new IllegalArgumentException("The rel attribute was either null or not recognized.");
+		}
+		try {
+			return cls.getConstructor(Element.class).newInstance(element);
+		}
+		catch (Exception e) {
+			throw new RuntimeException("Could not instantiate class " + cls.getName(), e);
+		}
 	}
 
 	/**
