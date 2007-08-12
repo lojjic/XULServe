@@ -9,7 +9,7 @@ import org.openrdf.repository.RepositoryConnection;
  * to execute Sesame repository operations without having to worry about connection
  * setup and cleanup.
  */
-interface SesameConnectionCallback<T> {
+public interface SesameConnectionCallback<T> {
 
 	T doInConnection(RepositoryConnection conn) throws Exception;
 
