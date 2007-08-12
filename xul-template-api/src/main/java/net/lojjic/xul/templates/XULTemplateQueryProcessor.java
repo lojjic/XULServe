@@ -140,7 +140,7 @@ public interface XULTemplateQueryProcessor {
 	 * @throws IllegalArgumentException if query is invalid
 	 * @return an enumerator of {@link XULTemplateResult} objects as the results
 	 */
-	Iterator generateResults(Object datasource, XULTemplateResult ref, Object query)
+	Iterator<XULTemplateResult> generateResults(Object datasource, XULTemplateResult ref, Object query)
 			throws IllegalArgumentException;
 
 	/**

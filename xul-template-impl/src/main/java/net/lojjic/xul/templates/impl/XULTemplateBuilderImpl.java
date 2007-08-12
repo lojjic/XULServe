@@ -20,6 +20,7 @@ public class XULTemplateBuilderImpl implements XULTemplateBuilder, RDFObserver, 
 	protected Template template;
 	protected RDFCompositeDataSource database;
 	protected RDFService rdfService;
+	protected XULTemplateQueryProcessor queryProcessor;
 	private boolean datasourceChanged = false;
 	private boolean datasourceInBatchUpdate = false;
 
@@ -34,8 +35,7 @@ public class XULTemplateBuilderImpl implements XULTemplateBuilder, RDFObserver, 
 	}
 
 	/**
-	 * Called to initialize a XUL content builder on a particular root element. This element presumably
-	 * has a "datasources" attribute, which the builder will parse to set up the template builder's datasources.
+	 * {@inheritDoc}
 	 */
 	public void init(Element element) {
 		// Set the root element, adding a mutation event listener to trigger
@@ -54,6 +54,9 @@ public class XULTemplateBuilderImpl implements XULTemplateBuilder, RDFObserver, 
 			this.database.addDataSource(rdfService.getDataSource(uri));
 		}
 
+		// Initialize the query processor:
+		initQueryProcessor();
+
 		// Add observer to rebuild when datasource changes:
 		this.database.addObserver(this);
 
@@ -62,53 +65,57 @@ public class XULTemplateBuilderImpl implements XULTemplateBuilder, RDFObserver, 
 	}
 
 	/**
-	 * Invoked lazily by a XUL element that needs its child content built.
+	 * Initialize the {@link net.lojjic.xul.templates.XULTemplateQueryProcessor} instance
+	 */
+	private void initQueryProcessor() {
+		// TODO allow looking up other implementions based on the querytype attribute
+		this.queryProcessor = new XULTemplateQueryProcessorRDFImpl();
+	}
+
+	/**
+	 * {@inheritDoc}
 	 */
 	public void createContents(Element element) {
 		// TODO
 	}
 
 	/**
-	 * Add a listener to this template builder. The template builder holds a strong reference to the listener.
+	 * {@inheritDoc}
 	 */
 	public void addListener(XULBuilderListener listener) {
 		listeners.add(listener);
 	}
 
 	/**
-	 * The composite datasource that the template builder observes and uses to create content
+	 * {@inheritDoc}
 	 */
 	public RDFCompositeDataSource getDatabase() {
 		return database;
 	}
 
 	/**
-	 * The virtual result representing the starting reference point,
-	 * determined by calling the query processor's translateRef method
-	 * with the root node's ref attribute as an argument.
+	 * {@inheritDoc}
 	 */
 	public XULTemplateResult getRootResult() {
 		return null;  //To change body of implemented methods use File | Settings | File Templates.
 	}
 
 	/**
-	 * The query processor used to generate results.
-	 * <p/>
-	 * Not scriptable.
+	 * {@inheritDoc}
 	 */
 	public XULTemplateQueryProcessor getQueryProcessor() {
 		return null;  //To change body of implemented methods use File | Settings | File Templates.
 	}
 
 	/**
-	 * The "root" node in the DOM to which this builder is attached
+	 * {@inheritDoc}
 	 */
 	public Element getRoot() {
 		return rootElement;
 	}
 
 	/**
-	 * Force the template builder to rebuild its content.
+	 * {@inheritDoc}
 	 */
 	public void rebuild() {
 		notifyWillRebuild();
@@ -162,7 +169,7 @@ public class XULTemplateBuilderImpl implements XULTemplateBuilder, RDFObserver, 
 	}
 
 	/**
-	 * Reload any of our RDF datasources that support RDFRemoteDatasource.
+	 * {@inheritDoc}
 	 */
 	public void refresh() {
 		Iterator<RDFDataSource> dataSources = database.getDataSources();
@@ -175,133 +182,77 @@ public class XULTemplateBuilderImpl implements XULTemplateBuilder, RDFObserver, 
 	}
 
 	/**
-	 * Inform the template builder that a new result is available. The builder
-	 * will add this result to the set of results. The query node that the
-	 * new result applies to must be specified using the aQueryNode parameter.
-	 * <p/>
-	 * The builder will apply the rules associated with the query to the new
-	 * result, unless a result with the same id from an earlier query
-	 * supersedes it, and the result's RuleMatched method will be called if it
-	 * matches.
-	 *
-	 * @param aResult    the result to add
-	 * @param aQueryNode the query that the result applies to
-	 * @throws NullPointerException if aResult or aQueryNode are null
+	 * {@inheritDoc}
 	 */
 	public void addResult(XULTemplateResult aResult, Node aQueryNode) throws NullPointerException {
 		//To change body of implemented methods use File | Settings | File Templates.
 	}
 
 	/**
-	 * Inform the template builder that a result no longer applies. The builder
-	 * will call the remove content generated for the result, if any. If a different
-	 * query would then match instead, it will become the active match. This
-	 * method will have no effect if the result isn't known to the builder.
-	 *
-	 * @param aResult the result to remove
-	 * @throws NullPointerException if aResult is null
+	 * {@inheritDoc}
 	 */
 	public void removeResult(XULTemplateResult aResult) throws NullPointerException {
 		//To change body of implemented methods use File | Settings | File Templates.
 	}
 
 	/**
-	 * Inform the template builder that one result should be replaced with
-	 * another. Both the old result (aOldResult) and the new result
-	 * (aNewResult) must have the same id. The query node that the new result
-	 * applies to must be specified using the aQueryNode parameter.
-	 * <p/>
-	 * This method is expected to have the same effect as calling both
-	 * removeResult for the old result and addResult for the new result.
-	 *
-	 * @param aOldResult the old result
-	 * @param aNewResult the new result
-	 * @param aQueryNode the query that the new result applies to
-	 * @throws NullPointerException     if either argument is null
-	 * @throws IllegalArgumentException if the ids don't match
+	 * {@inheritDoc}
 	 */
 	public void replaceResult(XULTemplateResult aOldResult, XULTemplateResult aNewResult, Node aQueryNode) throws NullPointerException, IllegalArgumentException {
 		//To change body of implemented methods use File | Settings | File Templates.
 	}
 
 	/**
-	 * Inform the template builder that one or more of the optional bindings
-	 * for a result has changed. In this case, the rules are not reapplied as
-	 * it is expected that the same rule will still apply. The builder will
-	 * resynchronize any variables that are referenced in the action body.
-	 *
-	 * @param aResult the result to change
-	 * @throws NullPointerException if aResult is null
+	 * {@inheritDoc}
 	 */
 	public void resultBindingChanged(XULTemplateResult aResult) throws NullPointerException {
 		//To change body of implemented methods use File | Settings | File Templates.
 	}
 
 	/**
-	 * Return the result for a given id. Only one such result is returned and
-	 * is always the result with that id associated with the active match.
-	 * This method will return null is there is no result for the id.
-	 *
-	 * @param aId the id to return the result for
+	 * {@inheritDoc}
 	 */
 	public XULTemplateResult getResultForId(String aId) {
 		return null;  //To change body of implemented methods use File | Settings | File Templates.
 	}
 
 	/**
-	 * Retrieve the result corresponding to a generated element, or null is
-	 * there isn't one.
-	 *
-	 * @param aElement element to result the result of
+	 * {@inheritDoc}
 	 */
 	public XULTemplateResult getResultForContent(Element aElement) {
 		return null;  //To change body of implemented methods use File | Settings | File Templates.
 	}
 
 	/**
-	 * Returns true if the node has content generated for it. This method is
-	 * intended to be called only by the RDF query processor. If aTag is set,
-	 * the content must have a tag name that matches aTag. aTag may be ignored
-	 * for builders that don't generate real DOM content.
-	 *
-	 * @param aNode node to check
-	 * @param aTag  tag that must match
+	 * {@inheritDoc}
 	 */
 	public boolean hasGeneratedContent(RDFResource aNode, String aTag) {
 		return false;  //To change body of implemented methods use File | Settings | File Templates.
 	}
 
 	/**
-	 * Adds a rule filter for a given rule, which may be used for specialized
-	 * rule filtering. Any existing filter on the rule is removed. The default
-	 * conditions specified inside the &lt;rule> tag are applied before the
-	 * rule filter is applied, meaning that the filter may be used to further
-	 * filter out results but not reaccept results that have already been
-	 * rejected.
-	 *
-	 * @param aRule   the rule to apply the filter to
-	 * @param aFilter the filter to add
+	 * {@inheritDoc}
 	 */
 	public void addRuleFilter(Node aRule, XULTemplateRuleFilter aFilter) {
 		//To change body of implemented methods use File | Settings | File Templates.
 	}
 
 	/**
-	 * Remove a listener from this template builder.
+	 * {@inheritDoc}
 	 */
 	public void removeListener(XULBuilderListener listener) {
 		listeners.remove(listener);
 	}
 
 	/**
-	 * @see net.lojjic.xul.rdf.RDFObserver#onBeginUpdateBatch(net.lojjic.xul.rdf.RDFDataSource)
+	 * {@inheritDoc}
 	 */
 	public void onBeginUpdateBatch(RDFDataSource dataSource) {
 		datasourceInBatchUpdate = true;
 	}
 
 	/**
-	 * @see net.lojjic.xul.rdf.RDFObserver#onEndUpdateBatch(net.lojjic.xul.rdf.RDFDataSource)
+	 * {@inheritDoc}
 	 */
 	public void onEndUpdateBatch(RDFDataSource dataSource) {
 		if(datasourceChanged) {
@@ -312,7 +263,7 @@ public class XULTemplateBuilderImpl implements XULTemplateBuilder, RDFObserver, 
 	}
 
 	/**
-	 * @see net.lojjic.xul.rdf.RDFObserver#onAssert(net.lojjic.xul.rdf.RDFDataSource, net.lojjic.xul.rdf.RDFResource, net.lojjic.xul.rdf.RDFResource, net.lojjic.xul.rdf.RDFNode)
+	 * {@inheritDoc}
 	 */
 	public void onAssert(RDFDataSource dataSource, RDFResource source, RDFResource property, RDFNode target) {
 		datasourceChanged = true;
@@ -323,7 +274,7 @@ public class XULTemplateBuilderImpl implements XULTemplateBuilder, RDFObserver, 
 	}
 
 	/**
-	 * @see net.lojjic.xul.rdf.RDFObserver#onChange(net.lojjic.xul.rdf.RDFDataSource, net.lojjic.xul.rdf.RDFResource, net.lojjic.xul.rdf.RDFResource, net.lojjic.xul.rdf.RDFNode, net.lojjic.xul.rdf.RDFNode)
+	 * {@inheritDoc}
 	 */
 	public void onChange(RDFDataSource dataSource, RDFResource source, RDFResource property, RDFNode oldTarget, RDFNode newTarget) {
 		datasourceChanged = true;
@@ -334,7 +285,7 @@ public class XULTemplateBuilderImpl implements XULTemplateBuilder, RDFObserver, 
 	}
 
 	/**
-	 * @see net.lojjic.xul.rdf.RDFObserver#onMove(net.lojjic.xul.rdf.RDFDataSource, net.lojjic.xul.rdf.RDFResource, net.lojjic.xul.rdf.RDFResource, net.lojjic.xul.rdf.RDFResource, net.lojjic.xul.rdf.RDFNode)
+	 * {@inheritDoc}
 	 */
 	public void onMove(RDFDataSource dataSource, RDFResource oldSource, RDFResource newSource, RDFResource property, RDFNode target) {
 		datasourceChanged = true;
@@ -345,7 +296,7 @@ public class XULTemplateBuilderImpl implements XULTemplateBuilder, RDFObserver, 
 	}
 
 	/**
-	 * @see net.lojjic.xul.rdf.RDFObserver#onUnassert(net.lojjic.xul.rdf.RDFDataSource, net.lojjic.xul.rdf.RDFResource, net.lojjic.xul.rdf.RDFResource, net.lojjic.xul.rdf.RDFNode)  
+	 * {@inheritDoc}
 	 */
 	public void onUnassert(RDFDataSource dataSource, RDFResource source, RDFResource property, RDFNode target) {
 		datasourceChanged = true;
