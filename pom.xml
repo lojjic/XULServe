@@ -48,7 +48,7 @@
 		<module>xul-display</module>
 		<module>xul-cocoon-block</module>
 		<module>xul-test-webapp</module>
-  </modules>
+	</modules>
 
 	<build>
 		<plugins>
@@ -104,6 +104,15 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
+				<configuration>
+					<links>
+						<link>http://java.sun.com/j2se/1.5.0/docs/api</link>
+						<link>http://www.mozilla.org/rhino/apidocs</link>
+						<link>http://openrdf.org/doc/sesame2/api</link>
+						<link>http://static.springframework.org/spring/docs/2.0.x/api</link>
+					</links>
+					<aggregate>true</aggregate>
+				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
