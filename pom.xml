@@ -35,6 +35,7 @@
 		<module>rhino-annotations</module>
 		<module>xml-dom-javascript</module>
 		<module>xpcom</module>
+		<module>xul-css</module>
 		<module>xbl-api</module>
 		<module>xbl-impl</module>
 		<module>xbl-javascript</module>

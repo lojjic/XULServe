@@ -22,8 +22,9 @@
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>xerces</groupId>
-			<artifactId>xercesImpl</artifactId>
+			<groupId>net.lojjic.xul</groupId>
+			<artifactId>xul-css</artifactId>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>xalan</groupId>

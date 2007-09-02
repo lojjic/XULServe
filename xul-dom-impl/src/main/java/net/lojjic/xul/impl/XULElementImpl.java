@@ -3,12 +3,12 @@ package net.lojjic.xul.impl;
 import net.lojjic.xul.XULCommandEvent;
 import net.lojjic.xul.XULConstants;
 import net.lojjic.xul.XULElement;
-import net.lojjic.xul.templates.XULTemplateBuilder;
-import net.lojjic.xul.templates.impl.XULTemplateBuilderImpl;
 import net.lojjic.xul.rdf.RDFCompositeDataSource;
 import net.lojjic.xul.rdf.RDFResource;
 import net.lojjic.xul.rdf.RDFService;
 import net.lojjic.xul.rdf.impl.RDFCompositeDataSourceImpl;
+import net.lojjic.xul.templates.XULTemplateBuilder;
+import net.lojjic.xul.templates.impl.XULTemplateBuilderImpl;
 import net.lojjic.xul.xbl.impl.ElementXBLImpl;
 import org.apache.commons.lang.StringUtils;
 import org.w3c.dom.Element;
@@ -343,6 +343,21 @@ public class XULElementImpl extends ElementXBLImpl implements XULElement, Elemen
 		};
 	}
 
+	/**
+	 * @see org.apache.batik.css.engine.CSSStylableElement#getXMLId()
+	 */
+	@Override
+	public String getXMLId() {
+		return getId();
+	}
+
+	/**
+	 * @see org.apache.batik.css.engine.CSSStylableElement#getCSSClass()
+	 */
+	@Override
+	public String getCSSClass() {
+		return getClassName();
+	}
 
 
 	/**

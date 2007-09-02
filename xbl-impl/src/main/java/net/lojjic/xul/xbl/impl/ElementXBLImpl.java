@@ -1,22 +1,22 @@
 package net.lojjic.xul.xbl.impl;
 
+import net.lojjic.xul.css.CSSStylableElementImpl;
 import net.lojjic.xul.xbl.ElementXBL;
-import org.w3c.dom.NodeList;
-import org.w3c.dom.Element;
 import org.w3c.dom.DOMException;
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import org.w3c.dom.events.Event;
-import org.apache.xerces.dom.ElementNSImpl;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
  * {@link net.lojjic.xul.xbl.ElementXBL} implementation
  */
-public class ElementXBLImpl extends ElementNSImpl implements ElementXBL {
+public class ElementXBLImpl extends CSSStylableElementImpl implements ElementXBL {
 
 	protected DocumentXBLImpl ownerDocumentXBL;
 	protected ElementXBLImpl bindingOwner;
