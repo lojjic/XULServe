@@ -21,6 +21,16 @@
 			<name>xulserve.lojjic.net</name>
 			<url>dav:http://xulserve.lojjic.net</url>
 		</site>
+		<repository>
+			<id>repository.lojjic.net</id>
+			<name>repository.lojjic.net</name>
+			<url>http://repository.lojjic.net/releases</url>
+		</repository>
+		<snapshotRepository>
+			<id>repository.lojjic.net</id>
+			<name>repository.lojjic.net</name>
+			<url>http://repository.lojjic.net/snapshots</url>
+		</snapshotRepository>
 	</distributionManagement>
 
 	<developers>
@@ -95,7 +105,6 @@
 			<extension>
 				<groupId>org.apache.maven.wagon</groupId>
 				<artifactId>wagon-webdav</artifactId>
-				<version>1.0-beta-2</version>
 			</extension>
 		</extensions>
 	</build>
@@ -126,7 +135,6 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-changelog-plugin</artifactId>
-				<version>2.0-SNAPSHOT</version>
 				<configuration>
 					<basedir>${project.basedir}</basedir>
 				</configuration>
