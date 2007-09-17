@@ -15,28 +15,8 @@ public class XULDisplayManager extends DisplayManager {
 	/**
 	 * The identifier values.
 	 */
-	protected final static StringMap values = new StringMap();
+	protected final static StringMap values = new StringMap(DisplayManager.values);
 	static {
-		// CSS2 display values:
-		values.put(CSSConstants.CSS_BLOCK_VALUE, ValueConstants.BLOCK_VALUE);
-		values.put(CSSConstants.CSS_COMPACT_VALUE, ValueConstants.COMPACT_VALUE);
-		values.put(CSSConstants.CSS_INLINE_VALUE, ValueConstants.INLINE_VALUE);
-		values.put(CSSConstants.CSS_INLINE_TABLE_VALUE, ValueConstants.INLINE_TABLE_VALUE);
-		values.put(CSSConstants.CSS_LIST_ITEM_VALUE, ValueConstants.LIST_ITEM_VALUE);
-		values.put(CSSConstants.CSS_MARKER_VALUE, ValueConstants.MARKER_VALUE);
-		values.put(CSSConstants.CSS_NONE_VALUE, ValueConstants.NONE_VALUE);
-		values.put(CSSConstants.CSS_RUN_IN_VALUE, ValueConstants.RUN_IN_VALUE);
-		values.put(CSSConstants.CSS_TABLE_VALUE, ValueConstants.TABLE_VALUE);
-		values.put(CSSConstants.CSS_TABLE_CAPTION_VALUE, ValueConstants.TABLE_CAPTION_VALUE);
-		values.put(CSSConstants.CSS_TABLE_CELL_VALUE, ValueConstants.TABLE_CELL_VALUE);
-		values.put(CSSConstants.CSS_TABLE_COLUMN_VALUE, ValueConstants.TABLE_COLUMN_VALUE);
-		values.put(CSSConstants.CSS_TABLE_COLUMN_GROUP_VALUE, ValueConstants.TABLE_COLUMN_GROUP_VALUE);
-		values.put(CSSConstants.CSS_TABLE_FOOTER_GROUP_VALUE, ValueConstants.TABLE_FOOTER_GROUP_VALUE);
-		values.put(CSSConstants.CSS_TABLE_HEADER_GROUP_VALUE, ValueConstants.TABLE_HEADER_GROUP_VALUE);
-		values.put(CSSConstants.CSS_TABLE_ROW_VALUE, ValueConstants.TABLE_ROW_VALUE);
-		values.put(CSSConstants.CSS_TABLE_ROW_GROUP_VALUE, ValueConstants.TABLE_ROW_GROUP_VALUE);
-
-		// XUL display values:
 		values.put(XULCSSConstants.CSS_MOZ_BOX_VALUE, XULValueConstants.MOZ_BOX_VALUE);
 		values.put(XULCSSConstants.CSS_MOZ_DECK_VALUE, XULValueConstants.MOZ_DECK_VALUE);
 		values.put(XULCSSConstants.CSS_MOZ_GRID_GROUP_VALUE, XULValueConstants.MOZ_GRID_GROUP_VALUE);

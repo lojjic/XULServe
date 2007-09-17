@@ -36,7 +36,7 @@ public class BorderWidthManager extends LengthManager {
 				return CSS2ValueConstants.INHERIT_VALUE;
 
 			case LexicalUnit.SAC_IDENT:
-				Value val = (Value)idents.get(lu.getStringValue());
+				Value val = (Value)idents.get(lu.getStringValue().toLowerCase().intern());
 				if(val == null) {
 					throw createInvalidIdentifierDOMException(lu.getStringValue());
 				}

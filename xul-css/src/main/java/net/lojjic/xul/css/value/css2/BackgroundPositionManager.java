@@ -4,7 +4,6 @@ import net.lojjic.xul.css.CSS2Constants;
 import org.apache.batik.css.engine.CSSEngine;
 import org.apache.batik.css.engine.CSSStylableElement;
 import org.apache.batik.css.engine.StyleMap;
-import org.apache.batik.css.engine.CSSContext;
 import org.apache.batik.css.engine.value.*;
 import org.w3c.css.sac.LexicalUnit;
 import org.w3c.dom.DOMException;
@@ -63,7 +62,7 @@ public class BackgroundPositionManager extends LengthManager {
 
 			// top/right/bottom/left/center identifiers:
 			case LexicalUnit.SAC_IDENT:
-				firstValue = (Value)idents.get(lexicalUnit.getStringValue());
+				firstValue = (Value)idents.get(lexicalUnit.getStringValue().toLowerCase().intern());
 				if(firstValue == null) {
 					throw createInvalidIdentifierDOMException(lexicalUnit.getStringValue());
 				}
@@ -75,7 +74,7 @@ public class BackgroundPositionManager extends LengthManager {
 					if(lexicalUnit.getLexicalUnitType() != LexicalUnit.SAC_IDENT) {
 						throw createInvalidLexicalUnitDOMException(lexicalUnit.getLexicalUnitType());
 					}
-					secondValue = (Value)idents.get(lexicalUnit.getStringValue());
+					secondValue = (Value)idents.get(lexicalUnit.getStringValue().toLowerCase().intern());
 					if(secondValue == null ||
 							(horizontalValues.containsKey(firstValue) && !verticalValues.containsKey(secondValue)) ||
 							(verticalValues.containsKey(firstValue) && !horizontalValues.containsKey(secondValue))

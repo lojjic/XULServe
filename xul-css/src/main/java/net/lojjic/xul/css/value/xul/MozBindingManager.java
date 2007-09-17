@@ -24,7 +24,7 @@ public class MozBindingManager extends AbstractValueManager {
 				return new URIValue(lu.getStringValue(), resolveURI(engine.getCSSBaseURI(), lu.getStringValue()));
 
 			case LexicalUnit.SAC_IDENT:
-				Value val = (Value)values.get(lu.getStringValue());
+				Value val = (Value)values.get(lu.getStringValue().toLowerCase().intern());
 				if(val == null) {
 					throw createInvalidIdentifierDOMException(lu.getStringValue());
 				}

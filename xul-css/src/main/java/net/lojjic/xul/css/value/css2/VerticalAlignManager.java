@@ -39,7 +39,7 @@ public class VerticalAlignManager extends LengthManager {
 				return CSS2ValueConstants.INHERIT_VALUE;
 
 			case LexicalUnit.SAC_IDENT:
-				Value val = (Value)identValues.get(lu.getStringValue());
+				Value val = (Value)identValues.get(lu.getStringValue().toLowerCase().intern());
 				if(val == null) {
 					throw createInvalidIdentifierDOMException(lu.getStringValue());
 				}

@@ -43,7 +43,7 @@ public class MinWidthManager extends LengthManager {
 				return CSS2ValueConstants.INHERIT_VALUE;
 
 			case LexicalUnit.SAC_IDENT:
-				Value value = (Value)identValues.get(lu.getStringValue());
+				Value value = (Value)identValues.get(lu.getStringValue().toLowerCase().intern());
 				if(value == null) {
 					throw createInvalidIdentifierDOMException(lu.getStringValue());
 				}

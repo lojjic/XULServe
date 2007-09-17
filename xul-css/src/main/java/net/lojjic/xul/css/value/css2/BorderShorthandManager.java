@@ -68,7 +68,7 @@ public class BorderShorthandManager extends AbstractValueFactory implements Shor
 					break;
 
 				case LexicalUnit.SAC_IDENT:
-					String ident = lu.getStringValue();
+					String ident = lu.getStringValue().toLowerCase().intern();
 					if(BorderWidthManager.idents.get(ident) != null) {
 						if(borderWidth != null) {
 							throw createInvalidIdentifierDOMException(ident);

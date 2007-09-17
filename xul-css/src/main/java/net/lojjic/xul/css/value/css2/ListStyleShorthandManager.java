@@ -47,7 +47,7 @@ public class ListStyleShorthandManager extends AbstractValueFactory implements S
 				while(lu != null) {
 					switch(unitType) {
 						case LexicalUnit.SAC_IDENT:
-							String ident = lu.getStringValue();
+							String ident = lu.getStringValue().toLowerCase().intern();
 							if(ListStyleTypeManager.values.get(ident) != null) {
 								if(lsType != null) {
 									throw createInvalidIdentifierDOMException(ident);

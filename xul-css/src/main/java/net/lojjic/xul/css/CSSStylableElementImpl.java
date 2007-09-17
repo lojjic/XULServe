@@ -17,9 +17,9 @@ public class CSSStylableElementImpl extends ElementNSImpl implements CSSStylable
 
 	protected HashMap<String,StyleMap> styleMaps;
 
-	public CSSStylableElementImpl(DocumentImpl documentXBL, String namespaceURI, String qualifiedName)
+	public CSSStylableElementImpl(DocumentImpl document, String namespaceURI, String qualifiedName)
 			throws DOMException {
-		super(documentXBL, namespaceURI, qualifiedName);
+		super(document, namespaceURI, qualifiedName);
 	}
 
 	/**

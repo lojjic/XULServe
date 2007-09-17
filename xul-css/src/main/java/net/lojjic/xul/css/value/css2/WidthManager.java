@@ -47,7 +47,7 @@ public class WidthManager extends LengthManager {
 				return CSS2ValueConstants.INHERIT_VALUE;
 
 			case LexicalUnit.SAC_IDENT:
-				Value value = (Value)identValues.get(lu.getStringValue());
+				Value value = (Value)identValues.get(lu.getStringValue().toLowerCase().intern());
 				if(value == null) {
 					throw createInvalidIdentifierDOMException(lu.getStringValue());
 				}
@@ -64,12 +64,18 @@ public class WidthManager extends LengthManager {
 	public Value computeValue(CSSStylableElement elt, String pseudo, CSSEngine engine, int idx, StyleMap sm, Value value) {
 		if(value == CSS2ValueConstants.AUTO_VALUE) {
 			float containerWidth = engine.getCSSContext().getBlockWidth(elt);
-			float marginLeft   = engine.getComputedStyle(elt, pseudo, engine.getPropertyIndex("margin-left")).getFloatValue();
-			float marginRight  = engine.getComputedStyle(elt, pseudo, engine.getPropertyIndex("margin-right")).getFloatValue();
-			float borderLeft   = engine.getComputedStyle(elt, pseudo, engine.getPropertyIndex("border-left-width")).getFloatValue();
-			float borderRight  = engine.getComputedStyle(elt, pseudo, engine.getPropertyIndex("border-right-width")).getFloatValue();
-			float paddingLeft  = engine.getComputedStyle(elt, pseudo, engine.getPropertyIndex("padding-left")).getFloatValue();
-			float paddingRight = engine.getComputedStyle(elt, pseudo, engine.getPropertyIndex("padding-right")).getFloatValue();
+			float marginLeft   = engine.getComputedStyle(elt, pseudo,
+					engine.getPropertyIndex(CSS2Constants.CSS_MARGIN_LEFT_PROPERTY)).getFloatValue();
+			float marginRight  = engine.getComputedStyle(elt, pseudo,
+					engine.getPropertyIndex(CSS2Constants.CSS_MARGIN_RIGHT_PROPERTY)).getFloatValue();
+			float borderLeft   = engine.getComputedStyle(elt, pseudo,
+					engine.getPropertyIndex(CSS2Constants.CSS_BORDER_LEFT_WIDTH_PROPERTY)).getFloatValue();
+			float borderRight  = engine.getComputedStyle(elt, pseudo,
+					engine.getPropertyIndex(CSS2Constants.CSS_BORDER_RIGHT_WIDTH_PROPERTY)).getFloatValue();
+			float paddingLeft  = engine.getComputedStyle(elt, pseudo,
+					engine.getPropertyIndex(CSS2Constants.CSS_PADDING_LEFT_PROPERTY)).getFloatValue();
+			float paddingRight = engine.getComputedStyle(elt, pseudo,
+					engine.getPropertyIndex(CSS2Constants.CSS_PADDING_RIGHT_PROPERTY)).getFloatValue();
 			return new FloatValue(CSSPrimitiveValue.CSS_NUMBER,
 					containerWidth - marginLeft - marginRight - borderLeft - borderRight - paddingLeft - paddingRight);
 		}

@@ -18,14 +18,10 @@ import java.lang.reflect.Array;
 import java.net.URL;
 
 /**
- *
+ * CSSEngine implementation for CSS Level 2
  */
 public class CSS2Engine extends CSSEngine {
 
-
-	/**
-	 *
-	 */
 	protected CSS2Engine(Document doc, URL uri, ExtendedParser p, ValueManager[] vm, ShorthandManager[] sm,
 	                        String[] pe, String sns, String sln, String cns, String cln, boolean hints,
 	                        String hintsNS, CSSContext ctx) {
@@ -33,15 +29,10 @@ public class CSS2Engine extends CSSEngine {
 				mergeArrays(css2PseudoElements, pe), sns, sln, cns, cln, hints, hintsNS, ctx);
 	}
 
-	/**
-	 *
-	 */
-	protected CSS2Engine(Document doc, URL uri, ExtendedParser p, CSSContext ctx) {
+	public CSS2Engine(Document doc, URL uri, ExtendedParser p, CSSContext ctx) {
 		super(doc, uri, p, css2ValueManagers, css2ShorthandManagers, css2PseudoElements,
 				null, "style", null, "class", false, null, ctx);
 	}
-
-
 
 
 	/**

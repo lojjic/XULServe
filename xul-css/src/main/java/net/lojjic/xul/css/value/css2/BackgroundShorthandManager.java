@@ -79,7 +79,7 @@ public class BackgroundShorthandManager extends AbstractValueFactory implements 
 
 				// identifiers --> any one of the background properties
 				case LexicalUnit.SAC_IDENT:
-					String ident = lu.getStringValue();
+					String ident = lu.getStringValue().toLowerCase().intern();
 					if(BackgroundAttachmentManager.values.get(ident) != null) {
 						if(bgAttach != null) {
 							throw createInvalidIdentifierDOMException(ident);
@@ -106,7 +106,8 @@ public class BackgroundShorthandManager extends AbstractValueFactory implements 
 						// check the next unit to see if it's also a background-position ident:
 						luNext = lu.getNextLexicalUnit();
 						if(luNext != null && luNext.getLexicalUnitType() == LexicalUnit.SAC_IDENT &&
-								BackgroundPositionManager.idents.get(luNext.getStringValue()) != null) {
+								BackgroundPositionManager.idents.get(luNext.getStringValue().toLowerCase().intern())
+										!= null) {
 							new LexicalUnitProxy(luNext, bgPosition);
 							lu = luNext;
 						}
