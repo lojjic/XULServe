@@ -5,20 +5,18 @@ package net.lojjic.xul.css.value.css2;
  */
 public class BackgroundAttachmentManagerTest extends CSS2ValueManagerTestBase {
 
-	private static String xml = "<root><test>content</test></root>";
-	private static String xpath = "/root/test";
 	private static String prop = "background-attachment";
 
 	public void testDefault() throws Exception {
-		assertEquals("scroll", parseAndComputeStyle(xml, "test {}", xpath, prop).getStringValue());
+		assertEquals("scroll", parseAndComputeStyle(prop, null).getStringValue());
 	}
 
 	public void testScroll() throws Exception {
-		assertEquals("scroll", parseAndComputeStyle(xml, "test {background-attachment: scroll;}", xpath, prop).getStringValue());
+		assertEquals("scroll", parseAndComputeStyle(prop, "scroll").getStringValue());
 	}
 
 	public void testFixed() throws Exception {
-		assertEquals("fixed", parseAndComputeStyle(xml, "test {background-attachment: fixed;}", xpath, prop).getStringValue());
+		assertEquals("fixed", parseAndComputeStyle(prop, "fixed").getStringValue());
 	}
 
 }

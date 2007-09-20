@@ -86,7 +86,7 @@ public class BackgroundShorthandManager extends AbstractValueFactory implements 
 						}
 						bgAttach = lu;
 					}
-					else if(BackgroundColorManager.getValues().get(ident) != null) {
+					else if(BackgroundColorManager.values.get(ident) != null) {
 						if(bgColor != null) {
 							throw createInvalidIdentifierDOMException(ident);
 						}

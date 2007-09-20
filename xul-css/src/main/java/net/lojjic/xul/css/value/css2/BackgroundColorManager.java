@@ -4,11 +4,19 @@ import net.lojjic.xul.css.CSS2Constants;
 import org.apache.batik.css.engine.value.AbstractColorManager;
 import org.apache.batik.css.engine.value.StringMap;
 import org.apache.batik.css.engine.value.Value;
+import org.apache.batik.css.engine.CSSStylableElement;
+import org.apache.batik.css.engine.CSSEngine;
+import org.apache.batik.css.engine.StyleMap;
 
 /**
  * Manager for CSS2 'background-color' property
  */
 public class BackgroundColorManager extends AbstractColorManager {
+
+	protected static final StringMap values = new StringMap(AbstractColorManager.values);
+	static {
+		values.put(CSS2Constants.CSS_TRANSPARENT_VALUE, CSS2ValueConstants.TRANSPARENT_VALUE);
+	}
 
 	public Value getDefaultValue() {
 		return CSS2ValueConstants.TRANSPARENT_VALUE;
@@ -25,10 +33,18 @@ public class BackgroundColorManager extends AbstractColorManager {
 		return CSS2Constants.CSS_BACKGROUND_COLOR_PROPERTY;
 	}
 
+	public StringMap getIdentifiers() {
+	    return values;
+	}
+
 	/**
-	 * expose inherited color identifiers
+	 * Override computeValue to handle 'transparent' ident
 	 */
-	public static StringMap getValues() {
-		return values;
+	@Override
+	public Value computeValue(CSSStylableElement elt, String pseudo, CSSEngine engine, int idx, StyleMap sm, Value value) {
+		if(value == CSS2ValueConstants.TRANSPARENT_VALUE) {
+			return value;
+		}
+		return super.computeValue(elt, pseudo, engine, idx, sm, value);
 	}
 }

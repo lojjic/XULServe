@@ -50,6 +50,9 @@ public class BorderColorManager extends AbstractColorManager {
 		if(value == defaultValue) {
 			return engine.getComputedStyle(elt, pseudo, engine.getPropertyIndex(CSS2Constants.CSS_COLOR_PROPERTY));
 		}
+		if(value == CSS2ValueConstants.TRANSPARENT_VALUE) {
+			return value;
+		}
 		return super.computeValue(elt, pseudo, engine, idx, sm, value);
 	}
 
