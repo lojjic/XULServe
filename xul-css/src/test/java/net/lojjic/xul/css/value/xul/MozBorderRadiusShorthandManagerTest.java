@@ -5,7 +5,7 @@ import net.lojjic.xul.css.XULCSSConstants;
 /**
  * Unit tests for -moz-border-radius shorthand property
  */
-public class MozBorderRadiusShorthandTest extends XULValueManagerTestBase {
+public class MozBorderRadiusShorthandManagerTest extends XULValueManagerTestBase {
 
 	private static String xml = "<root><test>content</test></root>";
 	private static String xpath = "/root/test";
@@ -22,7 +22,7 @@ public class MozBorderRadiusShorthandTest extends XULValueManagerTestBase {
 				XULCSSConstants.CSS_MOZ_BORDER_RADIUS_BOTTOMLEFT_PROPERTY).getFloatValue());
 	}
 
-	public void testOneValue() throws Exception {
+	public void testOneValuePixels() throws Exception {
 		String css = "test {-moz-border-radius:123px;}";
 		assertEquals(123f, parseAndComputeStyle(xml, css, xpath,
 				XULCSSConstants.CSS_MOZ_BORDER_RADIUS_TOPLEFT_PROPERTY).getFloatValue());
@@ -34,7 +34,7 @@ public class MozBorderRadiusShorthandTest extends XULValueManagerTestBase {
 				XULCSSConstants.CSS_MOZ_BORDER_RADIUS_BOTTOMLEFT_PROPERTY).getFloatValue());
 	}
 
-	public void testTwoValues() throws Exception {
+	public void testTwoValuesPixels() throws Exception {
 		String css = "test {-moz-border-radius:123px 321px;}";
 		assertEquals(123f, parseAndComputeStyle(xml, css, xpath,
 				XULCSSConstants.CSS_MOZ_BORDER_RADIUS_TOPLEFT_PROPERTY).getFloatValue());
@@ -46,7 +46,7 @@ public class MozBorderRadiusShorthandTest extends XULValueManagerTestBase {
 				XULCSSConstants.CSS_MOZ_BORDER_RADIUS_BOTTOMLEFT_PROPERTY).getFloatValue());
 	}
 
-	public void testThreeValues() throws Exception {
+	public void testThreeValuesPixels() throws Exception {
 		String css = "test {-moz-border-radius:123px 321px 456px;}";
 		assertEquals(123f, parseAndComputeStyle(xml, css, xpath,
 				XULCSSConstants.CSS_MOZ_BORDER_RADIUS_TOPLEFT_PROPERTY).getFloatValue());
@@ -58,7 +58,7 @@ public class MozBorderRadiusShorthandTest extends XULValueManagerTestBase {
 				XULCSSConstants.CSS_MOZ_BORDER_RADIUS_BOTTOMLEFT_PROPERTY).getFloatValue());
 	}
 
-	public void testFourValues() throws Exception {
+	public void testFourValuesPixels() throws Exception {
 		String css = "test {-moz-border-radius:123px 321px 456px 654px;}";
 		assertEquals(123f, parseAndComputeStyle(xml, css, xpath,
 				XULCSSConstants.CSS_MOZ_BORDER_RADIUS_TOPLEFT_PROPERTY).getFloatValue());
@@ -67,6 +67,54 @@ public class MozBorderRadiusShorthandTest extends XULValueManagerTestBase {
 		assertEquals(456f, parseAndComputeStyle(xml, css, xpath,
 				XULCSSConstants.CSS_MOZ_BORDER_RADIUS_BOTTOMRIGHT_PROPERTY).getFloatValue());
 		assertEquals(654f, parseAndComputeStyle(xml, css, xpath,
+				XULCSSConstants.CSS_MOZ_BORDER_RADIUS_BOTTOMLEFT_PROPERTY).getFloatValue());
+	}
+
+	public void testOneValuePercentage() throws Exception {
+		String css = "test {-moz-border-radius:15%;}";
+		assertEquals(150f, parseAndComputeStyle(xml, css, xpath,
+				XULCSSConstants.CSS_MOZ_BORDER_RADIUS_TOPLEFT_PROPERTY).getFloatValue());
+		assertEquals(150f, parseAndComputeStyle(xml, css, xpath,
+				XULCSSConstants.CSS_MOZ_BORDER_RADIUS_TOPRIGHT_PROPERTY).getFloatValue());
+		assertEquals(150f, parseAndComputeStyle(xml, css, xpath,
+				XULCSSConstants.CSS_MOZ_BORDER_RADIUS_BOTTOMRIGHT_PROPERTY).getFloatValue());
+		assertEquals(150f, parseAndComputeStyle(xml, css, xpath,
+				XULCSSConstants.CSS_MOZ_BORDER_RADIUS_BOTTOMLEFT_PROPERTY).getFloatValue());
+	}
+
+	public void testTwoValuesPercentage() throws Exception {
+		String css = "test {-moz-border-radius:15% 35%;}";
+		assertEquals(150f, parseAndComputeStyle(xml, css, xpath,
+				XULCSSConstants.CSS_MOZ_BORDER_RADIUS_TOPLEFT_PROPERTY).getFloatValue());
+		assertEquals(350f, parseAndComputeStyle(xml, css, xpath,
+				XULCSSConstants.CSS_MOZ_BORDER_RADIUS_TOPRIGHT_PROPERTY).getFloatValue());
+		assertEquals(150f, parseAndComputeStyle(xml, css, xpath,
+				XULCSSConstants.CSS_MOZ_BORDER_RADIUS_BOTTOMRIGHT_PROPERTY).getFloatValue());
+		assertEquals(350f, parseAndComputeStyle(xml, css, xpath,
+				XULCSSConstants.CSS_MOZ_BORDER_RADIUS_BOTTOMLEFT_PROPERTY).getFloatValue());
+	}
+
+	public void testThreeValuesPercentage() throws Exception {
+		String css = "test {-moz-border-radius:15% 35% 57%;}";
+		assertEquals(150f, parseAndComputeStyle(xml, css, xpath,
+				XULCSSConstants.CSS_MOZ_BORDER_RADIUS_TOPLEFT_PROPERTY).getFloatValue());
+		assertEquals(350f, parseAndComputeStyle(xml, css, xpath,
+				XULCSSConstants.CSS_MOZ_BORDER_RADIUS_TOPRIGHT_PROPERTY).getFloatValue());
+		assertEquals(570f, parseAndComputeStyle(xml, css, xpath,
+				XULCSSConstants.CSS_MOZ_BORDER_RADIUS_BOTTOMRIGHT_PROPERTY).getFloatValue());
+		assertEquals(350f, parseAndComputeStyle(xml, css, xpath,
+				XULCSSConstants.CSS_MOZ_BORDER_RADIUS_BOTTOMLEFT_PROPERTY).getFloatValue());
+	}
+
+	public void testFourValuesPercentage() throws Exception {
+		String css = "test {-moz-border-radius:15% 35% 57% 91%;}";
+		assertEquals(150f, parseAndComputeStyle(xml, css, xpath,
+				XULCSSConstants.CSS_MOZ_BORDER_RADIUS_TOPLEFT_PROPERTY).getFloatValue());
+		assertEquals(350f, parseAndComputeStyle(xml, css, xpath,
+				XULCSSConstants.CSS_MOZ_BORDER_RADIUS_TOPRIGHT_PROPERTY).getFloatValue());
+		assertEquals(570f, parseAndComputeStyle(xml, css, xpath,
+				XULCSSConstants.CSS_MOZ_BORDER_RADIUS_BOTTOMRIGHT_PROPERTY).getFloatValue());
+		assertEquals(910f, parseAndComputeStyle(xml, css, xpath,
 				XULCSSConstants.CSS_MOZ_BORDER_RADIUS_BOTTOMLEFT_PROPERTY).getFloatValue());
 	}
 

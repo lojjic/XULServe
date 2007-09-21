@@ -1,13 +1,13 @@
 package net.lojjic.xul.css.value.xul;
 
-import net.lojjic.xul.css.value.css2.CSS2ValueManagerTestBase;
+import net.lojjic.xul.css.XULCSSConstants;
 
 /**
- * Unit tests for {@link MozBindingManager}
+ * Unit tests for {@link net.lojjic.xul.css.value.xul.MozBoxOrientManager}
  */
 public class MozBoxOrientManagerTest extends XULValueManagerTestBase {
 
-	private static String prop = "-moz-box-orient";
+	private static String prop = XULCSSConstants.CSS_MOZ_BOX_ORIENT_PROPERTY;
 
 	public void testDefault() throws Exception {
 		assertEquals("horizontal", parseAndComputeStyle(prop, null).getStringValue());

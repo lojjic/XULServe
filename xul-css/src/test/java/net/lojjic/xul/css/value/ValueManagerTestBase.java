@@ -50,9 +50,16 @@ public abstract class ValueManagerTestBase extends TestCase {
 	protected abstract CSSEngine getCSSEngine(Document doc, URL uri, ExtendedParser parser, CSSContext context);
 
 	protected Value parseAndComputeStyle(String propertyName, String propertyValue) throws Exception {
+		return parseAndComputeStyle(propertyName, propertyValue, null);
+	}
+
+	protected Value parseAndComputeStyle(String propertyName, String propertyValue, String extraCss) throws Exception {
 		String xml = "<root><test>content</test></root>";
 		String xpath = "/root/test";
-		String css = "test { " + (propertyValue == null ? "" : propertyName + " : " + propertyValue) + ";}";
+		String css = "test { " +
+				(propertyValue == null ? "" : propertyName + " : " + propertyValue) + "; " +
+				(extraCss == null ? "" : extraCss) +
+				";}";
 		return parseAndComputeStyle(xml, css, xpath, propertyName);
 	}
 

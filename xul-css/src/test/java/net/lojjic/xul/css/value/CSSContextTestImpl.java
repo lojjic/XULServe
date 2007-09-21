@@ -74,7 +74,7 @@ public class CSSContextTestImpl implements CSSContext {
 	 * given element.
 	 */
 	public float getBlockWidth(Element elt) {
-		return 800f;
+		return 1000f;
 	}
 
 	/**
@@ -82,7 +82,7 @@ public class CSSContextTestImpl implements CSSContext {
 	 * given element.
 	 */
 	public float getBlockHeight(Element elt) {
-		return 600f;
+		return 500f;
 	}
 
 	/**
