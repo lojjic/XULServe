@@ -51,7 +51,7 @@ public class XULElementImpl extends ElementXBLImpl implements XULElement, Elemen
 
 	public void setId(String id) {
 		setAttribute("id", id);
-		ownerXULDocument.putIdentifier(id, this);
+		setIdAttribute("id", true);
 	}
 	
 	public String getClassName() {
