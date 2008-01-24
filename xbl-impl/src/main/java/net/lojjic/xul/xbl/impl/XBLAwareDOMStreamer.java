@@ -1,16 +1,17 @@
 package net.lojjic.xul.xbl.impl;
 
-import org.xml.sax.ContentHandler;
-import org.xml.sax.SAXException;
+import net.lojjic.xul.css.CSSDOMStreamer;
 import org.apache.xml.utils.TreeWalker;
 import org.w3c.dom.Node;
+import org.xml.sax.ContentHandler;
+import org.xml.sax.SAXException;
 
 /**
- * Specialization of Xalan's {@link TreeWalker} that is aware of the XBL
+ * Specialization of {@link net.lojjic.xul.css.CSSDOMStreamer} that is aware of the XBL
  * anonymous content model.  Walks the XBL DOM tree complete with anonymous
  * nodes, producing SAX events along the way.
  */
-public class XBLAwareDOMStreamer extends TreeWalker {
+public class XBLAwareDOMStreamer extends CSSDOMStreamer {
 
 	public XBLAwareDOMStreamer(ContentHandler contentHandler) {
 		super(contentHandler);

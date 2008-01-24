@@ -12,7 +12,12 @@ import org.apache.batik.css.engine.value.svg12.MarginLengthManager;
 import org.apache.batik.css.engine.value.svg12.MarginShorthandManager;
 import org.apache.batik.css.parser.ExtendedParser;
 import org.apache.batik.util.SVG12CSSConstants;
+import org.apache.batik.util.ParsedURL;
+import org.apache.batik.dom.util.HashTable;
+import org.apache.batik.dom.util.DOMUtilities;
 import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.ProcessingInstruction;
 
 import java.lang.reflect.Array;
 import java.net.URL;
@@ -22,14 +27,14 @@ import java.net.URL;
  */
 public class CSS2Engine extends CSSEngine {
 
-	protected CSS2Engine(Document doc, URL uri, ExtendedParser p, ValueManager[] vm, ShorthandManager[] sm,
+	protected CSS2Engine(Document doc, ParsedURL uri, ExtendedParser p, ValueManager[] vm, ShorthandManager[] sm,
 	                        String[] pe, String sns, String sln, String cns, String cln, boolean hints,
 	                        String hintsNS, CSSContext ctx) {
 		super(doc, uri, p, mergeArrays(css2ValueManagers, vm), mergeArrays(css2ShorthandManagers, sm),
 				mergeArrays(css2PseudoElements, pe), sns, sln, cns, cln, hints, hintsNS, ctx);
 	}
 
-	public CSS2Engine(Document doc, URL uri, ExtendedParser p, CSSContext ctx) {
+	public CSS2Engine(Document doc, ParsedURL uri, ExtendedParser p, CSSContext ctx) {
 		super(doc, uri, p, css2ValueManagers, css2ShorthandManagers, css2PseudoElements,
 				null, "style", null, "class", false, null, ctx);
 	}
@@ -143,4 +148,40 @@ public class CSS2Engine extends CSSEngine {
 	private static final String[] css2PseudoElements = {
 
 	};
+
+
+	/**
+	 * Override base behavior to also look for xml-stylesheet processing instructions
+	 */
+	@Override
+	protected void findStyleSheetNodes(Node node) {
+		if(node.getNodeType() == Node.DOCUMENT_NODE) {
+			findStyleSheetProcessingInstructions((Document)node);
+		}
+		super.findStyleSheetNodes(node);
+	}
+
+
+	/**
+	 * Look for any xml-stylesheet processing instructions at the given Document's
+	 * top level, and add them to the styleSheetNodes list.
+	 *
+	 * @param document - the Document
+	 */
+	protected void findStyleSheetProcessingInstructions(Document document) {
+		for(Node node = document.getFirstChild(); node != null; node = node.getNextSibling()) {
+			if(node.getNodeType() == Node.PROCESSING_INSTRUCTION_NODE) {
+				ProcessingInstruction pi = (ProcessingInstruction)node;
+				HashTable hashTable = new HashTable();
+				DOMUtilities.parseStyleSheetPIData(pi.getData(), hashTable);
+				if("text/css".equals(hashTable.get("type"))) {
+					String href = (String)hashTable.get("href");
+					if (href != null) {
+						styleSheetNodes.add(new PIStyleSheetNode());
+					}
+				}
+			}
+		}
+	}
+
 }

@@ -27,10 +27,6 @@
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>xalan</groupId>
-			<artifactId>xalan</artifactId>
-		</dependency>
-		<dependency>
 			<groupId>rhino</groupId>
 			<artifactId>js</artifactId>
 		</dependency>

@@ -1,7 +1,9 @@
 package net.lojjic.xul.css;
 
 import org.apache.batik.css.engine.CSSStylableElement;
+import org.apache.batik.css.engine.StyleDeclarationProvider;
 import org.apache.batik.css.engine.StyleMap;
+import org.apache.batik.util.ParsedURL;
 import org.apache.xerces.dom.DocumentImpl;
 import org.apache.xerces.dom.ElementNSImpl;
 import org.w3c.dom.DOMException;
@@ -58,9 +60,9 @@ public class CSSStylableElementImpl extends ElementNSImpl implements CSSStylable
 	/**
 	 * Returns the CSS base URL of this element.
 	 */
-	public URL getCSSBase() {
+	public ParsedURL getCSSBase() {
 		try {
-			return new URL(getBaseURI());
+			return new ParsedURL(new URL(getBaseURI()));
 		} catch (MalformedURLException e) {
 			throw new DOMException(DOMException.SYNTAX_ERR, "Malformed URL: " + getBaseURI());
 		}
@@ -72,5 +74,9 @@ public class CSSStylableElementImpl extends ElementNSImpl implements CSSStylable
 	 */
 	public boolean isPseudoInstanceOf(String pseudoClass) {
 		return false;
+	}
+
+	public StyleDeclarationProvider getOverrideStyleDeclarationProvider() {
+		return null;  //To change body of implemented methods use File | Settings | File Templates.
 	}
 }

@@ -16,9 +16,14 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>batik</groupId>
+			<groupId>org.apache.xmlgraphics</groupId>
 			<artifactId>batik-css</artifactId>
-			<version>1.6-1</version>
+			<version>1.7</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.xmlgraphics</groupId>
+			<artifactId>batik-dom</artifactId>
+			<version>1.7</version>
 		</dependency>
 		<dependency>
 			<groupId>cssparser</groupId>
@@ -29,6 +34,17 @@
 			<groupId>xerces</groupId>
 			<artifactId>xercesImpl</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>xalan</groupId>
+			<artifactId>xalan</artifactId>
+		</dependency>
 	</dependencies>
+
+	<repositories>
+		<repository>
+			<id>batik-staging</id>
+			<url>http://people.apache.org/~cam/b17/maven/</url>
+		</repository>
+	</repositories>
 
 </project>
