@@ -26,7 +26,7 @@
 			<version>1.7</version>
 		</dependency>
 		<dependency>
-			<groupId>cssparser</groupId>
+			<groupId>net.sourceforge.cssparser</groupId>
 			<artifactId>cssparser</artifactId>
 			<version>0.9.5-SNAPSHOT</version>
 		</dependency>
