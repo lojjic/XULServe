@@ -15,8 +15,14 @@ import org.springframework.beans.BeansException;
  * <p>This class implements {@link BeanFactoryAware} so it can lookup beans
  * registered in the Spring application context.  Custom built-in RDF datasources
  * can be registered by defining Spring-managed beans with the special name
- * prefix "@mozilla.org/rdf/datasource;1?name=".  For instance:</p>
- * <pre><code>&lt;bean name="@mozilla.org/rdf/datasource;1?name=my-datasource" /></code></pre>
+ * prefix "@mozilla.org/rdf/datasource;1?name=".  Note that because this string
+ * contains a semicolon, it can be used in neither the <code>id</code> nor <code>name</code>
+ * attributes of the <code>&lt;bean/></code> element; it must therefore be defined as an alias
+ * using the <code>&lt;alias/></code> element.  For instance:</p>
+ * <pre> <code>&lt;bean id="customDataSource" class="MyCustomDataSource">
+ *     &lt;constructor-arg ref="rdfService" />
+ * &lt;/bean>
+ * &lt;alias name="customDataSource" alias="@mozilla.org/rdf/datasource;1?name=my-datasource" /></code></pre>
  * <p>That bean can then be used by referring to it with the URI "rdf:my-datasource".</p>
  */
 public class RDFServiceImpl implements RDFService, BeanFactoryAware {

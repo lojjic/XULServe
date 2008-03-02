@@ -8,9 +8,13 @@
 	<bean id="rdfService" class="net.lojjic.xul.rdf.impl.RDFServiceImpl" />
 
 	<!-- The custom datasource implementation: -->
-	<bean name="net.lojjic.xul.rdf.RDFDataSource/my-kickass-custom-datasource"
+	<bean id="myKickassCustomDatasource"
 	      class="net.lojjic.xul.rdf.impl.CustomDataSourceTest$CustomDataSource">
 		<constructor-arg ref="rdfService" />
 	</bean>
+
+	<!-- Alias to the custom datasource using the XPCOM contract ID to it
+	     can be referenced by "rdf:my-kickass-custom-datasource": -->
+	<alias name="myKickassCustomDatasource" alias="@mozilla.org/rdf/datasource;1?name=my-kickass-custom-datasource" />
 
 </beans>
