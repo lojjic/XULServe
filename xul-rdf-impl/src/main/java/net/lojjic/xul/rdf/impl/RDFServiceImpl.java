@@ -15,8 +15,8 @@ import org.springframework.beans.BeansException;
  * <p>This class implements {@link BeanFactoryAware} so it can lookup beans
  * registered in the Spring application context.  Custom built-in RDF datasources
  * can be registered by defining Spring-managed beans with the special name
- * prefix "net.lojjic.xul.rdf.RDFDataSource/".  For instance:</p>
- * <pre><code>&lt;bean name="net.lojjic.xul.rdf.RDFDataSource/my-datasource" /></code></pre>
+ * prefix "@mozilla.org/rdf/datasource;1?name=".  For instance:</p>
+ * <pre><code>&lt;bean name="@mozilla.org/rdf/datasource;1?name=my-datasource" /></code></pre>
  * <p>That bean can then be used by referring to it with the URI "rdf:my-datasource".</p>
  */
 public class RDFServiceImpl implements RDFService, BeanFactoryAware {
@@ -31,8 +31,7 @@ public class RDFServiceImpl implements RDFService, BeanFactoryAware {
 	/**
 	 * The common prefix for bean names registered in the Spring application context.
 	 */
-	public static final String BEAN_NAME_PREFIX = "net.lojjic.xul.rdf.RDFDataSource/";
-
+	public static final String CONTRACT_ID_PREFIX = "@mozilla.org/rdf/datasource;1?name=";
 
 	private Map<String, RDFDataSource> registeredDataSources = new HashMap<String, RDFDataSource>();
 
@@ -131,7 +130,7 @@ public class RDFServiceImpl implements RDFService, BeanFactoryAware {
 	 */
 	private RDFDataSource resolveDataSource(String uri) throws RDFException {
 		if(uri.startsWith(CUSTOM_DATASOURCE_URI_PREFIX)) {
-			String beanName = BEAN_NAME_PREFIX + uri.replaceFirst(CUSTOM_DATASOURCE_URI_PREFIX, "");
+			String beanName = CONTRACT_ID_PREFIX + uri.replaceFirst(CUSTOM_DATASOURCE_URI_PREFIX, "");
 			if(!beanFactory.containsBean(beanName)) {
 				throw new RDFException("Could not find bean with name " + beanName);
 			}
