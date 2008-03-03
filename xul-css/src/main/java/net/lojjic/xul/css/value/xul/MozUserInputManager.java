@@ -3,6 +3,7 @@ package net.lojjic.xul.css.value.xul;
 import org.apache.batik.css.engine.value.IdentifierManager;
 import org.apache.batik.css.engine.value.StringMap;
 import org.apache.batik.css.engine.value.Value;
+import org.apache.batik.util.SVGTypes;
 import net.lojjic.xul.css.XULCSSConstants;
 import net.lojjic.xul.css.value.XULValueConstants;
 
@@ -31,6 +32,18 @@ public class MozUserInputManager extends IdentifierManager {
 
 	public boolean isInheritedProperty() {
 		return false;
+	}
+
+	public boolean isAnimatableProperty() {
+		return false;
+	}
+
+	public boolean isAdditiveProperty() {
+		return false;
+	}
+
+	public int getPropertyType() {
+		return SVGTypes.TYPE_IDENT;
 	}
 
 	/**

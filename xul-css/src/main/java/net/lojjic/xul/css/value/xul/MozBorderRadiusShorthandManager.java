@@ -19,6 +19,14 @@ public class MozBorderRadiusShorthandManager extends AbstractValueFactory implem
 		return XULCSSConstants.CSS_MOZ_BORDER_RADIUS_PROPERTY;
 	}
 
+	public boolean isAnimatableProperty() {
+		return false;
+	}
+
+	public boolean isAdditiveProperty() {
+		return false;
+	}
+
 	/**
 	 * Sets the properties which are affected by this shorthand
 	 * property.

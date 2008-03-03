@@ -5,6 +5,7 @@ import net.lojjic.xul.css.value.ValueManagerTestBase;
 import org.apache.batik.css.engine.CSSContext;
 import org.apache.batik.css.engine.CSSEngine;
 import org.apache.batik.css.parser.ExtendedParser;
+import org.apache.batik.util.ParsedURL;
 import org.w3c.dom.Document;
 
 import java.net.URL;
@@ -14,8 +15,8 @@ import java.net.URL;
  */
 public abstract class CSS2ValueManagerTestBase extends ValueManagerTestBase {
 
-	protected CSSEngine getCSSEngine(Document doc, URL uri, ExtendedParser parser, CSSContext context) {
-		return new CSS2Engine(doc, uri, parser, context);
+	protected CSSEngine getCSSEngine(Document doc, ParsedURL url, ExtendedParser parser, CSSContext context) {
+		return new CSS2Engine(doc, url, parser, context);
 	}
 
 }

@@ -7,6 +7,7 @@ import org.apache.batik.css.engine.value.Value;
 import org.apache.batik.css.engine.CSSStylableElement;
 import org.apache.batik.css.engine.CSSEngine;
 import org.apache.batik.css.engine.StyleMap;
+import org.apache.batik.util.SVGTypes;
 
 /**
  * Manager for CSS2 'background-color' property
@@ -24,6 +25,18 @@ public class BackgroundColorManager extends AbstractColorManager {
 
 	public boolean isInheritedProperty() {
 		return false;
+	}
+
+	public boolean isAnimatableProperty() {
+		return false;
+	}
+
+	public boolean isAdditiveProperty() {
+		return false;
+	}
+
+	public int getPropertyType() {
+		return SVGTypes.TYPE_COLOR;
 	}
 
 	/**

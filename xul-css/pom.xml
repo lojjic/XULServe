@@ -40,11 +40,4 @@
 		</dependency>
 	</dependencies>
 
-	<repositories>
-		<repository>
-			<id>batik-staging</id>
-			<url>http://people.apache.org/~cam/b17/maven/</url>
-		</repository>
-	</repositories>
-
 </project>

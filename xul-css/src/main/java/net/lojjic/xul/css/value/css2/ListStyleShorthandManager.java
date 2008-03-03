@@ -19,6 +19,14 @@ public class ListStyleShorthandManager extends AbstractValueFactory implements S
 		return CSS2Constants.CSS_LIST_STYLE_PROPERTY;
 	}
 
+	public boolean isAnimatableProperty() {
+		return false;
+	}
+
+	public boolean isAdditiveProperty() {
+		return false;
+	}
+
 	/**
 	 * Sets the properties which are affected by this shorthand
 	 * property.

@@ -19,6 +19,14 @@ public class BorderShorthandManager extends AbstractValueFactory implements Shor
 		return CSS2Constants.CSS_BORDER_PROPERTY;
 	}
 
+	public boolean isAnimatableProperty() {
+		return false;
+	}
+
+	public boolean isAdditiveProperty() {
+		return false;
+	}
+
 	/**
 	 * Sets the properties which are affected by this shorthand
 	 * property.

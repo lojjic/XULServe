@@ -19,6 +19,14 @@ public class BorderWidthShorthandManager extends AbstractValueFactory implements
 		return CSS2Constants.CSS_BORDER_WIDTH_PROPERTY;
 	}
 
+	public boolean isAnimatableProperty() {
+		return false;
+	}
+
+	public boolean isAdditiveProperty() {
+		return false;
+	}
+
 	/**
 	 * Sets the properties which are affected by this shorthand
 	 * property.

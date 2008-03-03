@@ -3,6 +3,7 @@ package net.lojjic.xul.css.value.xul;
 import org.apache.batik.css.engine.value.LengthManager;
 import org.apache.batik.css.engine.value.Value;
 import org.apache.batik.css.engine.value.ValueConstants;
+import org.apache.batik.util.SVGTypes;
 
 /**
  * Manager for XUL '-moz-border-radius-*' properties
@@ -30,6 +31,18 @@ public class MozBorderRadiusLengthManager extends LengthManager {
 
 	public boolean isInheritedProperty() {
 		return false;
+	}
+
+	public boolean isAnimatableProperty() {
+		return false;
+	}
+
+	public boolean isAdditiveProperty() {
+		return false;
+	}
+
+	public int getPropertyType() {
+		return SVGTypes.TYPE_LENGTH;
 	}
 
 	/**

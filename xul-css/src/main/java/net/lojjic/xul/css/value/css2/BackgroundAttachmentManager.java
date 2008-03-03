@@ -39,7 +39,7 @@ public class BackgroundAttachmentManager extends IdentifierManager {
 	}
 
 	public int getPropertyType() {
-		return SVGTypes.TYPE_
+		return SVGTypes.TYPE_IDENT;
 	}
 
 	public String getPropertyName() {

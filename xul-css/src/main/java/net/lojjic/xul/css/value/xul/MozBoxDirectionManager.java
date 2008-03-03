@@ -5,6 +5,7 @@ import net.lojjic.xul.css.value.XULValueConstants;
 import org.apache.batik.css.engine.value.IdentifierManager;
 import org.apache.batik.css.engine.value.StringMap;
 import org.apache.batik.css.engine.value.Value;
+import org.apache.batik.util.SVGTypes;
 
 /**
  * Manager for XUL '-moz-box-direction' property
@@ -31,6 +32,18 @@ public class MozBoxDirectionManager extends IdentifierManager {
 
 	public boolean isInheritedProperty() {
 		return false;
+	}
+
+	public boolean isAnimatableProperty() {
+		return false;
+	}
+
+	public boolean isAdditiveProperty() {
+		return false;
+	}
+
+	public int getPropertyType() {
+		return SVGTypes.TYPE_IDENT;
 	}
 
 	/**

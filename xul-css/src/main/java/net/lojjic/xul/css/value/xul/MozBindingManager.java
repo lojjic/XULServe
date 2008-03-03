@@ -4,6 +4,7 @@ import net.lojjic.xul.css.XULCSSConstants;
 import org.apache.batik.css.engine.CSSEngine;
 import org.apache.batik.css.engine.value.*;
 import org.apache.batik.util.CSSConstants;
+import org.apache.batik.util.SVGTypes;
 import org.w3c.css.sac.LexicalUnit;
 import org.w3c.dom.DOMException;
 
@@ -41,6 +42,18 @@ public class MozBindingManager extends AbstractValueManager {
 
 	public boolean isInheritedProperty() {
 		return false;
+	}
+
+	public boolean isAnimatableProperty() {
+		return false;
+	}
+
+	public boolean isAdditiveProperty() {
+		return false;
+	}
+
+	public int getPropertyType() {
+		return SVGTypes.TYPE_URI_OR_IDENT;
 	}
 
 	/**

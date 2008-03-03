@@ -19,6 +19,14 @@ public class PaddingShorthandManager extends AbstractValueFactory implements Sho
 		return CSS2Constants.CSS_PADDING_PROPERTY;
 	}
 
+	public boolean isAnimatableProperty() {
+		return false;
+	}
+
+	public boolean isAdditiveProperty() {
+		return false;
+	}
+
 	/**
 	 * Sets the properties which are affected by this shorthand
 	 * property.

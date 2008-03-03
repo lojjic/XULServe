@@ -4,6 +4,7 @@ import net.lojjic.xul.css.CSS2Constants;
 import org.apache.batik.css.engine.value.IdentifierManager;
 import org.apache.batik.css.engine.value.StringMap;
 import org.apache.batik.css.engine.value.Value;
+import org.apache.batik.util.SVGTypes;
 
 /**
  * Manager for CSS2 'position' property
@@ -34,6 +35,18 @@ public class PositionManager extends IdentifierManager {
 		return false;
 	}
 
+	public boolean isAnimatableProperty() {
+		return false;
+	}
+
+	public boolean isAdditiveProperty() {
+		return false;
+	}
+
+	public int getPropertyType() {
+		return SVGTypes.TYPE_IDENT;
+	}
+	
 	/**
 	 * Returns the name of the property handled.
 	 */

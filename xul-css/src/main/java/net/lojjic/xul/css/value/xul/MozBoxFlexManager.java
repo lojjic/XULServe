@@ -5,6 +5,7 @@ import org.apache.batik.css.engine.CSSEngine;
 import org.apache.batik.css.engine.value.AbstractValueManager;
 import org.apache.batik.css.engine.value.FloatValue;
 import org.apache.batik.css.engine.value.Value;
+import org.apache.batik.util.SVGTypes;
 import org.w3c.css.sac.LexicalUnit;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.css.CSSPrimitiveValue;
@@ -41,6 +42,18 @@ public class MozBoxFlexManager extends AbstractValueManager {
 
 	public boolean isInheritedProperty() {
 		return false;
+	}
+
+	public boolean isAnimatableProperty() {
+		return false;
+	}
+
+	public boolean isAdditiveProperty() {
+		return false;
+	}
+
+	public int getPropertyType() {
+		return SVGTypes.TYPE_NUMBER;
 	}
 
 	/**

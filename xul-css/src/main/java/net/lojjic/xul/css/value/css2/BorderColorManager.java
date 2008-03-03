@@ -8,6 +8,7 @@ import org.apache.batik.css.engine.value.AbstractColorManager;
 import org.apache.batik.css.engine.value.StringMap;
 import org.apache.batik.css.engine.value.StringValue;
 import org.apache.batik.css.engine.value.Value;
+import org.apache.batik.util.SVGTypes;
 import org.w3c.dom.css.CSSPrimitiveValue;
 
 /**
@@ -39,6 +40,18 @@ public class BorderColorManager extends AbstractColorManager {
 
 	public boolean isInheritedProperty() {
 		return false;
+	}
+
+	public boolean isAnimatableProperty() {
+		return false;
+	}
+
+	public boolean isAdditiveProperty() {
+		return false;
+	}
+
+	public int getPropertyType() {
+		return SVGTypes.TYPE_COLOR;
 	}
 
 	/**

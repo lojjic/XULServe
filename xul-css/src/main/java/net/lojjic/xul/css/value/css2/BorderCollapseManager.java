@@ -3,6 +3,7 @@ package net.lojjic.xul.css.value.css2;
 import org.apache.batik.css.engine.value.IdentifierManager;
 import org.apache.batik.css.engine.value.StringMap;
 import org.apache.batik.css.engine.value.Value;
+import org.apache.batik.util.SVGTypes;
 import net.lojjic.xul.css.CSS2Constants;
 
 /**
@@ -30,6 +31,18 @@ public class BorderCollapseManager extends IdentifierManager {
 
 	public boolean isInheritedProperty() {
 		return true;
+	}
+
+	public boolean isAnimatableProperty() {
+		return false;
+	}
+
+	public boolean isAdditiveProperty() {
+		return false;
+	}
+
+	public int getPropertyType() {
+		return SVGTypes.TYPE_IDENT;
 	}
 
 	/**

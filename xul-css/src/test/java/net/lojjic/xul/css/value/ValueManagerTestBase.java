@@ -10,6 +10,7 @@ import org.apache.batik.css.engine.StyleSheet;
 import org.apache.batik.css.engine.value.Value;
 import org.apache.batik.css.parser.ExtendedParser;
 import org.apache.batik.css.parser.ExtendedParserWrapper;
+import org.apache.batik.util.ParsedURL;
 import org.w3c.dom.Document;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -34,20 +35,20 @@ public abstract class ValueManagerTestBase extends TestCase {
 	 * @return Computed CSS value
 	 */
 	protected Value parseAndComputeStyle(String xml, String css, String xpath, String prop) throws Exception {
-		URL uri = new URL("http://domain.com/test");
+		ParsedURL url = new ParsedURL("http://domain.com/test");
 
 		Document doc = parseXML(xml);
 		CSSStylableElement elt = (CSSStylableElement) XPathFactory.newInstance().newXPath().evaluate(xpath, doc, XPathConstants.NODE);
 
 		CSSContextTestImpl context = new CSSContextTestImpl();
-		CSSEngine engine = getCSSEngine(doc, uri, new ExtendedParserWrapper(new SACParserCSS21()), context);
+		CSSEngine engine = getCSSEngine(doc, url, new ExtendedParserWrapper(new SACParserCSS21()), context);
 		context.setEngine(engine);
-		StyleSheet styleSheet = engine.parseStyleSheet(css, uri, "all");
+		StyleSheet styleSheet = engine.parseStyleSheet(css, url, "all");
 		engine.setUserAgentStyleSheet(styleSheet);
 		return engine.getComputedStyle(elt, null, engine.getPropertyIndex(prop));
 	}
 
-	protected abstract CSSEngine getCSSEngine(Document doc, URL uri, ExtendedParser parser, CSSContext context);
+	protected abstract CSSEngine getCSSEngine(Document doc, ParsedURL url, ExtendedParser parser, CSSContext context);
 
 	protected Value parseAndComputeStyle(String propertyName, String propertyValue) throws Exception {
 		return parseAndComputeStyle(propertyName, propertyValue, null);
@@ -57,9 +58,9 @@ public abstract class ValueManagerTestBase extends TestCase {
 		String xml = "<root><test>content</test></root>";
 		String xpath = "/root/test";
 		String css = "test { " +
-				(propertyValue == null ? "" : propertyName + " : " + propertyValue) + "; " +
-				(extraCss == null ? "" : extraCss) +
-				";}";
+				(propertyValue == null ? "" : propertyName + " : " + propertyValue + "; ") +
+				(extraCss == null ? "" : extraCss + "; ") +
+				"}";
 		return parseAndComputeStyle(xml, css, xpath, propertyName);
 	}
 
